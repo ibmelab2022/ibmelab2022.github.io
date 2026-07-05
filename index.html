@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBME Lab — Intelligent Bio-Medical Engineering Laboratory</title>
+<meta name="description" content="Intelligent Bio-Medical Engineering Laboratory (IBME Lab.), Kangnam University. AI, ultrasound imaging, and IoT for healthcare.">
+
+<!-- ════════════════════════════════════════════════════════════════
+     ★ 교수님께: 이 파일(index.html)은 홈페이지의 '디자인/틀'입니다.
+       내용을 바꾸려면 이 파일이 아니라 data.js 파일을 수정하세요.
+     ════════════════════════════════════════════════════════════════ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  /* ── 팔레트: 초음파 파형/음향장을 연상시키는 딥 슬레이트 + 청록(cyan) 신호색 ── */
+  --ink:        #0b1622;   /* 거의 검정에 가까운 딥 네이비 (배경 대비 텍스트) */
+  --slate-900:  #0f1e2e;
+  --slate-800:  #14283c;
+  --slate-700:  #1d3a52;
+  --paper:      #f5f7f9;   /* 본문 배경 (아주 옅은 청회색) */
+  --paper-2:    #ffffff;
+  --line:       #d9e0e7;   /* 옅은 경계선 */
+  --muted:      #5b6b7b;   /* 보조 텍스트 */
+  --signal:     #17c0c9;   /* 시그니처 청록 (음향 신호색) */
+  --signal-deep:#0e8f97;
+  --signal-soft:#e2f7f8;
+  --amber:      #f0a500;   /* 강조/수상 등 포인트 */
+  --maxw: 1120px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Spline Sans","Noto Sans KR",system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.mono{font-family:"Spline Sans Mono","Spline Sans",monospace}
+
+/* ───────────────────────── NAV ───────────────────────── */
+header.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(11,22,34,.82);
+  backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.nav-inner{
+  max-width:var(--maxw);margin:0 auto;padding:0 24px;
+  height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.brand{display:flex;align-items:center;gap:11px;color:#fff;font-weight:700;letter-spacing:.02em}
+.brand .glyph{
+  width:30px;height:30px;flex:none;border-radius:7px;
+  background:linear-gradient(135deg,var(--signal),var(--signal-deep));
+  display:grid;place-items:center;position:relative;overflow:hidden;
+}
+.brand .glyph::before{
+  /* 미니 음향 파형 */
+  content:"";position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(90deg,transparent 0 3px,rgba(255,255,255,.55) 3px 4px);
+  -webkit-mask:radial-gradient(circle at 50% 50%, #000 0 55%, transparent 58%);
+          mask:radial-gradient(circle at 50% 50%, #000 0 55%, transparent 58%);
+  opacity:.9;
+}
+.brand small{display:block;font-weight:400;font-size:10.5px;color:#9fb2c2;letter-spacing:.14em}
+nav.links{display:flex;gap:2px;align-items:center}
+nav.links a{
+  color:#c4d2df;font-size:14px;font-weight:500;padding:8px 13px;border-radius:8px;
+  transition:.18s;white-space:nowrap;
+}
+nav.links a:hover{color:#fff;background:rgba(255,255,255,.08)}
+nav.links a.active{color:var(--ink);background:var(--signal)}
+.nav-toggle{display:none;background:none;border:0;color:#fff;cursor:pointer;padding:8px}
+.nav-toggle svg{width:26px;height:26px}
+
+/* ───────────────────────── HERO ───────────────────────── */
+.hero{
+  position:relative;
+  background:
+    radial-gradient(1200px 500px at 78% -10%, rgba(23,192,201,.16), transparent 60%),
+    linear-gradient(180deg,var(--ink) 0%, var(--slate-900) 100%);
+  color:#eaf1f7;overflow:hidden;
+  padding:96px 24px 108px;
+}
+/* 배경 음향 파형 애니메이션 */
+.hero .waves{position:absolute;inset:0;z-index:0;opacity:.5;pointer-events:none}
+.hero-inner{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto}
+.eyebrow{
+  font-family:"Spline Sans Mono",monospace;font-size:12px;letter-spacing:.22em;
+  color:var(--signal);margin-bottom:22px;display:flex;align-items:center;gap:12px;
+}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--signal);display:inline-block}
+.hero h1{
+  font-size:clamp(48px,9vw,104px);line-height:.94;font-weight:700;letter-spacing:-.03em;
+  margin-bottom:20px;
+}
+.hero h1 .accent{color:var(--signal)}
+.hero .sub{font-size:clamp(17px,2.4vw,23px);font-weight:500;color:#cde0ec;max-width:640px}
+.hero .tagline{margin-top:14px;color:#8ba6ba;font-size:15px}
+.hero .lab-meta{
+  margin-top:40px;display:flex;flex-wrap:wrap;gap:10px 26px;
+  font-family:"Spline Sans Mono",monospace;font-size:12.5px;color:#7f9bb0;letter-spacing:.03em;
+}
+.hero .lab-meta span{display:flex;align-items:center;gap:8px}
+.hero .lab-meta span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--signal)}
+
+/* ───────────────────────── SECTION SHELL ───────────────────────── */
+main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.page{display:none;padding:64px 0 40px;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.sec-head{margin-bottom:38px}
+.sec-kicker{
+  font-family:"Spline Sans Mono",monospace;font-size:12px;letter-spacing:.2em;
+  color:var(--signal-deep);text-transform:uppercase;
+}
+.sec-title{
+  font-size:clamp(30px,5vw,44px);font-weight:700;letter-spacing:-.02em;margin-top:8px;line-height:1.08;
+}
+.sec-title::after{
+  content:"";display:block;width:52px;height:3px;margin-top:16px;border-radius:2px;
+  background:linear-gradient(90deg,var(--signal),transparent);
+}
+
+/* prose */
+.prose{font-size:16.5px;color:#26374a;max-width:760px}
+.prose p{margin-bottom:1.05em}
+.prose p:last-child{margin-bottom:0}
+
+/* ───────────────────────── ABOUT + RECRUIT ───────────────────────── */
+.about-grid{display:grid;grid-template-columns:1.4fr .9fr;gap:32px;align-items:start}
+.recruit-card{
+  background:linear-gradient(160deg,var(--slate-900),var(--slate-800));
+  color:#eaf1f7;border-radius:18px;padding:30px 28px;position:relative;overflow:hidden;
+  box-shadow:0 18px 40px -22px rgba(11,22,34,.6);
+}
+.recruit-card::before{
+  content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(23,192,201,.28),transparent 70%);
+}
+.recruit-card .tag{
+  display:inline-block;font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.18em;
+  color:var(--ink);background:var(--signal);padding:4px 10px;border-radius:6px;margin-bottom:16px;font-weight:600;
+}
+.recruit-card h3{font-size:20px;line-height:1.35;margin-bottom:14px;position:relative}
+.recruit-card .rc-body{font-size:14.5px;color:#c3d4e1;white-space:pre-line;position:relative}
+.recruit-card .rc-btn{
+  margin-top:20px;display:inline-flex;align-items:center;gap:8px;
+  background:var(--signal);color:var(--ink);font-weight:600;font-size:14px;
+  padding:11px 18px;border-radius:10px;transition:.18s;position:relative;
+}
+.recruit-card .rc-btn:hover{background:#fff;transform:translateY(-1px)}
+
+/* ───────────────────────── MEMBERS ───────────────────────── */
+.prof-card{
+  display:grid;grid-template-columns:180px 1fr;gap:32px;align-items:start;
+  background:var(--paper-2);border:1px solid var(--line);border-radius:20px;padding:32px;
+  box-shadow:0 12px 30px -24px rgba(11,22,34,.4);margin-bottom:46px;
+}
+.prof-photo{
+  width:180px;height:216px;border-radius:14px;object-fit:cover;
+  background:linear-gradient(135deg,var(--slate-800),var(--signal-deep));
+}
+.avatar-fallback{
+  display:grid;place-items:center;color:#fff;font-weight:700;font-size:52px;
+  font-family:"Spline Sans",sans-serif;letter-spacing:-.02em;
+}
+.prof-name{font-size:26px;font-weight:700;letter-spacing:-.01em}
+.prof-role{color:var(--signal-deep);font-weight:600;margin-top:2px;font-size:15px}
+.prof-affil{color:var(--muted);font-size:14.5px;margin-top:6px;line-height:1.5}
+.prof-contact{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:14px;font-size:13.5px;color:#33475c}
+.prof-contact a,.prof-contact span{display:flex;align-items:center;gap:7px}
+.prof-contact svg{width:15px;height:15px;color:var(--signal-deep);flex:none}
+.cv-block{margin-top:22px}
+.cv-block h4{
+  font-family:"Spline Sans Mono",monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid var(--line);
+}
+.cv-block ul{list-style:none}
+.cv-block li{position:relative;padding-left:18px;margin-bottom:6px;font-size:14.5px;color:#2b3d50}
+.cv-block li::before{content:"";position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:var(--signal)}
+
+.subhead{font-size:14px;font-weight:700;letter-spacing:.02em;color:var(--ink);margin:0 0 18px;
+  display:flex;align-items:center;gap:12px}
+.subhead::after{content:"";flex:1;height:1px;background:var(--line)}
+.member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px;margin-bottom:40px}
+.mcard{
+  background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center;
+  transition:.2s;
+}
+.mcard:hover{transform:translateY(-3px);box-shadow:0 16px 30px -20px rgba(11,22,34,.35);border-color:#c2d6e4}
+.mphoto{width:96px;height:96px;border-radius:50%;object-fit:cover;margin:0 auto 12px;
+  background:linear-gradient(135deg,var(--slate-800),var(--signal-deep))}
+.mphoto.avatar-fallback{font-size:34px}
+.mname{font-weight:600;font-size:15px}
+.mrole{color:var(--signal-deep);font-size:12.5px;margin-top:2px;font-weight:500}
+.memail{color:var(--muted);font-size:12px;margin-top:6px;word-break:break-all}
+
+/* alumni table */
+.alumni-wrap{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:26px}
+.alumni-wrap table{width:100%;border-collapse:collapse;font-size:14.5px}
+.alumni-wrap th{
+  text-align:left;font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);padding:13px 20px;background:#eef3f7;font-weight:600;
+}
+.alumni-wrap td{padding:13px 20px;border-top:1px solid var(--line);color:#2b3d50}
+.alumni-wrap tr:hover td{background:#f7fafb}
+.alumni-wrap td.nm{font-weight:600;color:var(--ink)}
+.alumni-wrap td.note{color:var(--signal-deep);font-size:13.5px}
+
+/* ───────────────────────── RESEARCH ───────────────────────── */
+.research-list{display:flex;flex-direction:column;gap:26px}
+.rcard{
+  display:grid;grid-template-columns:1fr;gap:0;
+  background:var(--paper-2);border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  transition:.2s;
+}
+.rcard.has-img{grid-template-columns:1.15fr .85fr}
+.rcard:hover{box-shadow:0 20px 40px -26px rgba(11,22,34,.4);border-color:#c2d6e4}
+.rcard .rbody{padding:30px 32px}
+.rcard .rtag{
+  font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.16em;color:var(--signal-deep);
+  text-transform:uppercase;
+}
+.rcard h3{font-size:22px;font-weight:700;letter-spacing:-.01em;margin:9px 0 12px;line-height:1.25}
+.rcard .rtext{color:#33475c;font-size:15px;white-space:pre-line}
+.rcard .rimg{background:#0d1b29;position:relative;min-height:220px}
+.rcard .rimg img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.rcard .rimg .noimg{
+  position:absolute;inset:0;display:grid;place-items:center;color:#3a5570;
+  background:
+    repeating-linear-gradient(90deg,transparent 0 6px,rgba(23,192,201,.10) 6px 7px),
+    linear-gradient(180deg,#0f1e2e,#14283c);
+}
+.rcard .rimg .noimg span{font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.16em;color:#5b7f95}
+
+/* ───────────────────────── PUBLICATIONS ───────────────────────── */
+.pub-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.pub-tab{
+  font-size:13.5px;font-weight:500;padding:8px 15px;border-radius:20px;cursor:pointer;
+  border:1px solid var(--line);background:var(--paper-2);color:#48607a;transition:.18s;user-select:none;
+}
+.pub-tab:hover{border-color:var(--signal);color:var(--signal-deep)}
+.pub-tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pub-group{display:none}
+.pub-group.active{display:block;animation:fade .3s ease}
+.pub-item{
+  display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:baseline;
+  padding:16px 4px;border-bottom:1px solid var(--line);
+}
+.pub-item:last-child{border-bottom:0}
+.pub-num{
+  font-family:"Spline Sans Mono",monospace;font-size:12px;color:var(--signal-deep);font-weight:600;
+  min-width:26px;
+}
+.pub-text{font-size:15px;color:#2b3d50;line-height:1.6}
+.pub-text a{color:var(--ink);border-bottom:1.5px solid var(--signal);transition:.15s;font-weight:500}
+.pub-text a:hover{color:var(--signal-deep);background:var(--signal-soft)}
+.doi-badge{
+  font-family:"Spline Sans Mono",monospace;font-size:10.5px;letter-spacing:.05em;
+  color:var(--signal-deep);border:1px solid var(--signal-soft);background:var(--signal-soft);
+  padding:1px 7px;border-radius:5px;margin-left:8px;white-space:nowrap;
+}
+
+/* ───────────────────────── TEACHING ───────────────────────── */
+.teach-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.teach-col{background:var(--paper-2);border:1px solid var(--line);border-radius:18px;padding:28px}
+.teach-col h3{
+  font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:20px;
+}
+.teach-col h3 .ic{
+  width:34px;height:34px;border-radius:9px;display:grid;place-items:center;flex:none;
+  background:var(--signal-soft);color:var(--signal-deep);
+}
+.teach-col h3 .ic svg{width:19px;height:19px}
+.sem-label{
+  font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.12em;color:var(--muted);
+  text-transform:uppercase;margin:16px 0 8px;
+}
+.course{
+  display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px dashed var(--line);
+  font-size:14.5px;color:#2b3d50;
+}
+.course:first-of-type{border-top:0}
+.course::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--signal);flex:none}
+
+/* ───────────────────────── Q&A ───────────────────────── */
+.qa-list{display:flex;flex-direction:column;gap:12px;max-width:820px}
+.qa{
+  background:var(--paper-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:.2s;
+}
+.qa.open{border-color:var(--signal);box-shadow:0 12px 26px -22px rgba(11,22,34,.4)}
+.qa-q{
+  display:flex;align-items:center;gap:14px;padding:19px 22px;cursor:pointer;font-weight:600;font-size:16px;
+  color:var(--ink);user-select:none;
+}
+.qa-q .qmark{
+  font-family:"Spline Sans Mono",monospace;color:var(--signal-deep);font-weight:700;flex:none;font-size:16px;
+}
+.qa-q .chev{margin-left:auto;transition:.25s;color:var(--muted);flex:none}
+.qa.open .qa-q .chev{transform:rotate(180deg);color:var(--signal-deep)}
+.qa-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.qa-a .inner{padding:0 22px 20px 52px;color:#33475c;font-size:15px;white-space:pre-line}
+
+/* ───────────────────────── ANNOUNCEMENT ───────────────────────── */
+.timeline{position:relative;padding-left:30px;max-width:840px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding-bottom:34px}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{
+  position:absolute;left:-30px;top:4px;width:16px;height:16px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--signal);box-shadow:0 0 0 4px var(--paper);
+}
+.tl-date{
+  font-family:"Spline Sans Mono",monospace;font-size:12.5px;letter-spacing:.04em;color:var(--signal-deep);
+  font-weight:600;margin-bottom:7px;
+}
+.tl-text{font-size:15.5px;color:#26374a;white-space:pre-line;line-height:1.6}
+.tl-imgs{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.tl-imgs img{
+  width:170px;height:120px;object-fit:cover;border-radius:10px;border:1px solid var(--line);
+  cursor:zoom-in;transition:.2s;
+}
+.tl-imgs img:hover{transform:scale(1.03);box-shadow:0 12px 24px -16px rgba(11,22,34,.5)}
+
+/* strong emphasis inside dynamic text */
+.tl-text strong,.rc-body strong,.qa-a strong,.pub-text strong{color:var(--ink);font-weight:700}
+.tl-text strong{color:var(--signal-deep)}
+
+/* ───────────────────────── CONTACT / FOOTER ───────────────────────── */
+footer{background:var(--ink);color:#c4d2df;margin-top:70px}
+.foot-inner{max-width:var(--maxw);margin:0 auto;padding:56px 24px 40px;
+  display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:36px}
+.foot-brand .fb-name{color:#fff;font-weight:700;font-size:19px;display:flex;align-items:center;gap:10px}
+.foot-brand p{font-size:13.5px;color:#8ba6ba;margin-top:12px;line-height:1.6;max-width:320px}
+.foot-col h5{
+  font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:#6d8aa0;margin-bottom:14px;
+}
+.foot-col a,.foot-col p{color:#c4d2df;font-size:14px;margin-bottom:9px;transition:.15s;display:flex;gap:9px;align-items:flex-start}
+.foot-col a:hover{color:var(--signal)}
+.foot-col svg{width:15px;height:15px;color:var(--signal);flex:none;margin-top:3px}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.09);padding:20px 24px;text-align:center;
+  font-size:12.5px;color:#5f7c92;max-width:var(--maxw);margin:0 auto}
+
+/* lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(6,12,20,.9);display:none;place-items:center;z-index:200;padding:24px;cursor:zoom-out}
+.lightbox.show{display:grid}
+.lightbox img{max-width:92vw;max-height:88vh;border-radius:12px;box-shadow:0 30px 80px -20px #000}
+
+/* ───────────────────────── RESPONSIVE ───────────────────────── */
+@media(max-width:860px){
+  nav.links{
+    position:fixed;top:64px;left:0;right:0;flex-direction:column;gap:0;align-items:stretch;
+    background:rgba(11,22,34,.98);backdrop-filter:blur(14px);padding:8px;
+    border-bottom:1px solid rgba(255,255,255,.1);transform:translateY(-140%);transition:.3s;
+    max-height:calc(100vh - 64px);overflow:auto;
+  }
+  nav.links.open{transform:translateY(0)}
+  nav.links a{padding:14px 16px;border-radius:10px}
+  .nav-toggle{display:block}
+  .about-grid{grid-template-columns:1fr}
+  .prof-card{grid-template-columns:1fr;justify-items:center;text-align:center;gap:20px}
+  .prof-contact,.prof-affil{justify-content:center}
+  .subhead::after{display:none}
+  .rcard.has-img{grid-template-columns:1fr}
+  .rcard .rimg{min-height:180px;order:-1}
+  .teach-grid{grid-template-columns:1fr}
+  .foot-inner{grid-template-columns:1fr;gap:28px}
+  .cv-block li,.prof-contact{text-align:left}
+}
+@media(max-width:480px){
+  .hero{padding:70px 20px 80px}
+  main{padding:0 18px}
+  .prof-card{padding:24px 18px}
+  .tl-imgs img{width:calc(50% - 5px);height:100px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#" class="brand" data-go="about">
+      <span class="glyph"></span>
+      <span>IBME Lab<small id="brandSub">KANGNAM UNIVERSITY</small></span>
+    </a>
+    <nav class="links" id="navLinks">
+      <a data-go="about" class="active">About</a>
+      <a data-go="members">Members</a>
+      <a data-go="research">Research</a>
+      <a data-go="publications">Publications</a>
+      <a data-go="teaching">Teaching</a>
+      <a data-go="qa">Lab Q&amp;A</a>
+      <a data-go="news">Announcement</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ══════════ HERO (About 페이지에서만 표시) ══════════ -->
+<section class="hero" id="hero">
+  <canvas class="waves" id="waveCanvas"></canvas>
+  <div class="hero-inner">
+    <div class="eyebrow" id="heroEyebrow"></div>
+    <h1 id="heroTitle"></h1>
+    <div class="sub" id="heroSub"></div>
+    <div class="tagline" id="heroTagline"></div>
+    <div class="lab-meta" id="heroMeta"></div>
+  </div>
+</section>
+
+<!-- ══════════ MAIN ══════════ -->
+<main>
+
+  <!-- ABOUT -->
+  <section class="page active" id="page-about">
+    <div class="about-grid">
+      <div>
+        <div class="sec-head">
+          <div class="sec-kicker">01 — Overview</div>
+          <h2 class="sec-title" id="aboutHeading"></h2>
+        </div>
+        <div class="prose" id="aboutBody"></div>
+      </div>
+      <aside id="recruitSlot"></aside>
+    </div>
+  </section>
+
+  <!-- MEMBERS -->
+  <section class="page" id="page-members">
+    <div class="sec-head">
+      <div class="sec-kicker">02 — People</div>
+      <h2 class="sec-title">Members</h2>
+    </div>
+    <div id="profSlot"></div>
+    <h3 class="subhead">Graduate &amp; Undergraduate Researchers</h3>
+    <div class="member-grid" id="studentGrid"></div>
+    <div id="alumniSlot"></div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="page" id="page-research">
+    <div class="sec-head">
+      <div class="sec-kicker">03 — Research</div>
+      <h2 class="sec-title">Research Areas</h2>
+    </div>
+    <div class="research-list" id="researchList"></div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section class="page" id="page-publications">
+    <div class="sec-head">
+      <div class="sec-kicker">04 — Publications</div>
+      <h2 class="sec-title">Publications</h2>
+    </div>
+    <div class="pub-tabs" id="pubTabs"></div>
+    <div id="pubGroups"></div>
+  </section>
+
+  <!-- TEACHING -->
+  <section class="page" id="page-teaching">
+    <div class="sec-head">
+      <div class="sec-kicker">05 — Teaching</div>
+      <h2 class="sec-title">Courses</h2>
+    </div>
+    <div class="teach-grid" id="teachGrid"></div>
+  </section>
+
+  <!-- Q&A -->
+  <section class="page" id="page-qa">
+    <div class="sec-head">
+      <div class="sec-kicker">06 — Lab Q&amp;A</div>
+      <h2 class="sec-title">Frequently Asked</h2>
+    </div>
+    <div class="qa-list" id="qaList"></div>
+  </section>
+
+  <!-- NEWS -->
+  <section class="page" id="page-news">
+    <div class="sec-head">
+      <div class="sec-kicker">07 — Announcement</div>
+      <h2 class="sec-title">Lab News</h2>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="foot-inner" id="footInner"></div>
+  <div class="foot-bottom" id="footBottom"></div>
+</footer>
+
+<div class="lightbox" id="lightbox"><img id="lightboxImg" alt=""></div>
+
+<!-- 콘텐츠 파일 -->
+<script src="data.js"></script>
+
+<!-- 렌더링 엔진 (수정 불필요) -->
+<script>
+/* ---------- 유틸 ---------- */
+const $  = (s,el=document)=>el.querySelector(s);
+const $$ = (s,el=document)=>[...el.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// **굵게** 및 줄바꿈을 안전하게 HTML로
+function rich(s){
+  return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+}
+function initials(name){
+  const kr = name.match(/[가-힣]/g);
+  if(kr) return kr.slice(-2).join('');
+  const parts = name.replace(/\(.*?\)/g,'').trim().split(/\s+/);
+  return parts.map(p=>p[0]).join('').slice(0,2).toUpperCase();
+}
+function avatarHTML(photo,name,cls){
+  if(photo && photo.trim())
+    return `<img class="${cls}" src="${esc(photo)}" alt="${esc(name)}" loading="lazy" onerror="this.outerHTML='<div class=\\'${cls} avatar-fallback\\'>${initials(name)}</div>'">`;
+  return `<div class="${cls} avatar-fallback">${initials(name)}</div>`;
+}
+const mailSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
+const telSVG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.5-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z"/></svg>';
+const pinSVG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>';
+
+/* ---------- HERO ---------- */
+(function(){
+  $('#heroEyebrow').textContent = SITE.hero.eyebrow;
+  $('#heroTitle').innerHTML = `<span class="accent">${esc(SITE.hero.title)}</span>`;
+  $('#heroSub').textContent = SITE.hero.subtitle;
+  $('#heroTagline').textContent = SITE.hero.tagline || '';
+  const m = SITE.meta;
+  $('#heroMeta').innerHTML =
+    [m.university, m.division, m.since].filter(Boolean)
+    .map(x=>`<span>${esc(x)}</span>`).join('');
+  $('#brandSub').textContent = (m.university||'').toUpperCase();
+})();
+
+/* ---------- ABOUT ---------- */
+$('#aboutHeading').textContent = SITE.about.heading;
+$('#aboutBody').innerHTML = SITE.about.body.split(/\n\s*\n/).map(p=>`<p>${rich(p)}</p>`).join('');
+
+/* ---------- RECRUIT ---------- */
+(function(){
+  const r = SITE.recruit;
+  if(!r || r.show===false){ $('#recruitSlot').remove(); return; }
+  $('#recruitSlot').innerHTML = `
+    <div class="recruit-card">
+      <div class="tag">${esc(r.tag||'RECRUITMENT')}</div>
+      <h3>${rich(r.title)}</h3>
+      <div class="rc-body">${rich(r.body)}</div>
+      ${r.email?`<a class="rc-btn" href="mailto:${esc(r.email)}">${mailSVG}지원 문의하기</a>`:''}
+    </div>`;
+})();
+
+/* ---------- MEMBERS: professor ---------- */
+(function(){
+  const p = SITE.professor;
+  const line = (label,arr)=> (arr&&arr.length)?`
+    <div class="cv-block"><h4>${label}</h4><ul>${arr.map(x=>`<li>${rich(x)}</li>`).join('')}</ul></div>`:'';
+  const contact = [];
+  if(p.office) contact.push(`<span>${pinSVG}${esc(p.office)}</span>`);
+  if(p.email)  contact.push(`<a href="mailto:${esc(p.email)}">${mailSVG}${esc(p.email)}</a>`);
+  if(p.tel)    contact.push(`<a href="tel:${esc(p.tel)}">${telSVG}${esc(p.tel)}</a>`);
+  $('#profSlot').innerHTML = `
+    <div class="prof-card">
+      ${avatarHTML(p.photo,p.nameKr,'prof-photo')}
+      <div>
+        <div class="prof-name">${esc(p.nameKr)}</div>
+        <div class="prof-role">${esc(p.role||'')}</div>
+        <div class="prof-affil">${esc(p.affiliation||'')}</div>
+        <div class="prof-contact">${contact.join('')}</div>
+        ${line('Education',p.education)}
+        ${line('Experience',p.experience)}
+        ${line('Professional Activities',p.activities)}
+      </div>
+    </div>`;
+})();
+
+/* ---------- MEMBERS: students ---------- */
+(function(){
+  const g = $('#studentGrid');
+  if(!SITE.students || !SITE.students.length){ g.innerHTML='<p class="prose">등록된 멤버가 없습니다.</p>'; return; }
+  g.innerHTML = SITE.students.map(s=>`
+    <div class="mcard">
+      ${avatarHTML(s.photo,s.name,'mphoto')}
+      <div class="mname">${esc(s.name)}</div>
+      <div class="mrole">${esc(s.role||'')}</div>
+      ${s.email?`<a class="memail" href="mailto:${esc(s.email)}">${esc(s.email)}</a>`:''}
+    </div>`).join('');
+})();
+
+/* ---------- MEMBERS: alumni ---------- */
+(function(){
+  const a = SITE.alumni; if(!a){ $('#alumniSlot').remove(); return; }
+  function tbl(title,rows){
+    if(!rows||!rows.length) return '';
+    return `<h3 class="subhead">${title}</h3>
+      <div class="alumni-wrap"><table>
+        <thead><tr><th>이름</th><th>기간</th><th>진로 / 비고</th></tr></thead>
+        <tbody>${rows.map(r=>`<tr>
+          <td class="nm">${esc(r.name)}</td>
+          <td class="mono">${esc(r.period||'')}</td>
+          <td class="note">${esc(r.note||'')}</td></tr>`).join('')}</tbody>
+      </table></div>`;
+  }
+  const html = tbl('Alumni — Graduate',a.graduate)+tbl('Alumni — Undergraduate',a.undergraduate);
+  if(!html){ $('#alumniSlot').remove(); return; }
+  $('#alumniSlot').innerHTML = html;
+})();
+
+/* ---------- RESEARCH ---------- */
+(function(){
+  $('#researchList').innerHTML = SITE.research.map(r=>{
+    const hasImg = r.image && r.image.trim();
+    const imgCell = `<div class="rimg">${hasImg
+        ? `<img src="${esc(r.image)}" alt="${esc(r.title)}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=&quot;noimg&quot;><span>IBME · RESEARCH</span></div>'">`
+        : `<div class="noimg"><span>IBME · RESEARCH</span></div>`}</div>`;
+    return `<article class="rcard ${'has-img'}">
+      <div class="rbody">
+        <div class="rtag">${esc(r.tag||'RESEARCH')}</div>
+        <h3>${esc(r.title)}</h3>
+        <div class="rtext">${rich(r.body)}</div>
+      </div>
+      ${imgCell}
+    </article>`;
+  }).join('');
+})();
+
+/* ---------- PUBLICATIONS ---------- */
+(function(){
+  const P = SITE.publications;
+  const groups = [
+    {key:'journalIntl',     label:'International Journals'},
+    {key:'journalDomestic', label:'Domestic Journals'},
+    {key:'patentsIntl',     label:'Intl. Patents'},
+    {key:'patentsDomestic', label:'Domestic Patents'},
+    {key:'conferencesIntl', label:'Conferences'},
+    {key:'books',           label:'Book Chapters'},
+  ].filter(g => Array.isArray(P[g.key]) && P[g.key].length);
+
+  const tabsEl = $('#pubTabs'), groupsEl = $('#pubGroups');
+  tabsEl.innerHTML = groups.map((g,i)=>
+    `<div class="pub-tab ${i===0?'active':''}" data-pub="${g.key}">${g.label} <span class="mono" style="opacity:.6">${P[g.key].length}</span></div>`).join('');
+
+  groupsEl.innerHTML = groups.map((g,i)=>{
+    const items = P[g.key].map((it,idx)=>{
+      const isObj = typeof it === 'object';
+      const text  = isObj ? it.c : it;
+      const doi   = isObj ? (it.doi||'') : '';
+      let body = rich(text);
+      // DOI가 있으면 배지 링크 추가
+      const badge = doi ? ` <a class="doi-badge" href="https://doi.org/${esc(doi)}" target="_blank" rel="noopener">DOI ↗</a>` : '';
+      return `<div class="pub-item">
+        <div class="pub-num">${String(idx+1).padStart(2,'0')}</div>
+        <div class="pub-text">${body}${badge}</div>
+      </div>`;
+    }).join('');
+    return `<div class="pub-group ${i===0?'active':''}" data-group="${g.key}">${items}</div>`;
+  }).join('');
+
+  tabsEl.addEventListener('click',e=>{
+    const t = e.target.closest('.pub-tab'); if(!t) return;
+    $$('.pub-tab',tabsEl).forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const key = t.dataset.pub;
+    $$('.pub-group',groupsEl).forEach(x=>x.classList.toggle('active',x.dataset.group===key));
+  });
+})();
+
+/* ---------- TEACHING ---------- */
+(function(){
+  const T = SITE.teaching;
+  const capSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></svg>';
+  const gradSVG= '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></svg>';
+  function col(title,icon,data){
+    const sem = (label,arr)=> (arr&&arr.length)?`
+      <div class="sem-label">${label}</div>
+      ${arr.map(c=>`<div class="course">${esc(c)}</div>`).join('')}`:'';
+    return `<div class="teach-col">
+      <h3><span class="ic">${icon}</span>${title}</h3>
+      ${sem('1st Semester',data.semester1)}
+      ${sem('2nd Semester',data.semester2)}
+    </div>`;
+  }
+  $('#teachGrid').innerHTML =
+    col('Undergraduate',capSVG,T.undergraduate) +
+    col('Graduate',gradSVG,T.graduate);
+})();
+
+/* ---------- Q&A ---------- */
+(function(){
+  const chev='<svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>';
+  $('#qaList').innerHTML = SITE.qna.map(item=>`
+    <div class="qa">
+      <div class="qa-q"><span class="qmark">Q</span><span>${esc(item.q)}</span>${chev}</div>
+      <div class="qa-a"><div class="inner">${rich(item.a)}</div></div>
+    </div>`).join('');
+  $('#qaList').addEventListener('click',e=>{
+    const q = e.target.closest('.qa-q'); if(!q) return;
+    const qa = q.parentNode, a = $('.qa-a',qa), open = qa.classList.contains('open');
+    qa.classList.toggle('open');
+    a.style.maxHeight = open ? '0' : a.scrollHeight+'px';
+  });
+})();
+
+/* ---------- ANNOUNCEMENT ---------- */
+(function(){
+  $('#timeline').innerHTML = SITE.news.map(n=>{
+    const imgs = (n.images&&n.images.length)
+      ? `<div class="tl-imgs">${n.images.map(src=>`<img src="${esc(src)}" alt="news" loading="lazy" data-full="${esc(src)}" onerror="this.remove()">`).join('')}</div>`
+      : '';
+    return `<div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">${esc(n.date)}</div>
+      <div class="tl-text">${rich(n.text)}</div>
+      ${imgs}
+    </div>`;
+  }).join('');
+})();
+
+/* ---------- FOOTER ---------- */
+(function(){
+  const c = SITE.contact || SITE.professor, m = SITE.meta;
+  // contact 블록이 data.js에 따로 없을 수 있으니 professor에서 보완
+  const name = (SITE.contact&&SITE.contact.name)||SITE.professor.nameKr;
+  const email= (SITE.contact&&SITE.contact.email)||SITE.professor.email;
+  const tel  = (SITE.contact&&SITE.contact.tel)||SITE.professor.tel;
+  const addr = (SITE.contact&&(SITE.contact.addressKr||SITE.contact.addressEn));
+  const office = SITE.professor.office;
+  $('#footInner').innerHTML = `
+    <div class="foot-brand">
+      <div class="fb-name"><span class="glyph" style="width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,var(--signal),var(--signal-deep))"></span>${esc(m.labShort)}</div>
+      <p>${esc(m.labFull)}<br>${esc(m.division)}, ${esc(m.university)}.</p>
+    </div>
+    <div class="foot-col">
+      <h5>Contact</h5>
+      ${email?`<a href="mailto:${esc(email)}">${mailSVG}${esc(email)}</a>`:''}
+      ${tel?`<a href="tel:${esc(tel)}">${telSVG}${esc(tel)}</a>`:''}
+    </div>
+    <div class="foot-col">
+      <h5>Visit</h5>
+      <p>${pinSVG}<span>${esc(addr||office||'')}</span></p>
+    </div>`;
+  $('#footBottom').innerHTML =
+    `© ${new Date().getFullYear()} ${esc(m.labShort)} · ${esc(m.university)}. All rights reserved.`;
+})();
+
+/* ---------- ROUTER (페이지 전환) ---------- */
+(function(){
+  const pages = $$('.page'), links = $$('nav.links a[data-go]');
+  const hero = $('#hero');
+  function go(id){
+    pages.forEach(p=>p.classList.toggle('active', p.id==='page-'+id));
+    links.forEach(a=>a.classList.toggle('active', a.dataset.go===id));
+    hero.style.display = (id==='about') ? '' : 'none';
+    $('#navLinks').classList.remove('open');
+    window.scrollTo({top:0,behavior:'instant' in window ? 'instant':'auto'});
+    history.replaceState(null,'',id==='about'?'#':'#'+id);
+  }
+  document.body.addEventListener('click',e=>{
+    const t = e.target.closest('[data-go]'); if(!t) return;
+    e.preventDefault(); go(t.dataset.go);
+  });
+  // 시작 시 해시로 진입
+  const start = (location.hash||'#about').replace('#','')||'about';
+  go(pages.some(p=>p.id==='page-'+start)?start:'about');
+
+  // 모바일 메뉴
+  $('#navToggle').addEventListener('click',()=>$('#navLinks').classList.toggle('open'));
+})();
+
+/* ---------- LIGHTBOX (사진 클릭 확대) ---------- */
+(function(){
+  const lb=$('#lightbox'), img=$('#lightboxImg');
+  document.body.addEventListener('click',e=>{
+    const t=e.target.closest('[data-full]');
+    if(t){ img.src=t.dataset.full; lb.classList.add('show'); }
+    else if(e.target.closest('#lightbox')){ lb.classList.remove('show'); }
+  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('show')});
+})();
+
+/* ---------- HERO 배경 음향 파형 애니메이션 ---------- */
+(function(){
+  const cv=$('#waveCanvas'); if(!cv) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ctx=cv.getContext('2d'); let w,h,t=0,raf;
+  function size(){ const r=cv.parentNode.getBoundingClientRect(); w=cv.width=r.width; h=cv.height=r.height; }
+  size(); window.addEventListener('resize',size);
+  const lines=[{a:22,f:.008,s:.018,y:.42,o:.30},{a:30,f:.006,s:.013,y:.55,o:.20},{a:16,f:.011,s:.024,y:.68,o:.16}];
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    lines.forEach(L=>{
+      ctx.beginPath();
+      for(let x=0;x<=w;x+=6){
+        const y=L.y*h + Math.sin(x*L.f + t*L.s)*L.a + Math.sin(x*L.f*2.3 + t*L.s*1.5)*L.a*.35;
+        x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      ctx.strokeStyle=`rgba(23,192,201,${L.o})`; ctx.lineWidth=1.5; ctx.stroke();
+    });
+    t+=1; raf=requestAnimationFrame(draw);
+  }
+  if(reduce){ // 정적 1프레임만
+    lines.forEach(L=>{ctx.beginPath();for(let x=0;x<=w;x+=6){const y=L.y*h+Math.sin(x*L.f)*L.a;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}ctx.strokeStyle=`rgba(23,192,201,${L.o})`;ctx.lineWidth=1.5;ctx.stroke();});
+  } else draw();
+})();
+</script>
+</body>
+</html>
