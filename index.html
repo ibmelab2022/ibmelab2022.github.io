@@ -970,25 +970,42 @@ $('#aboutHeading').textContent = SITE.about.heading;
     `© ${new Date().getFullYear()} ${esc(m.labShort)} · ${esc(m.university)}. All rights reserved.`;
 })();
 
-/* ---------- ROUTER (페이지 전환) ---------- */
+/* ---------- ROUTER (페이지 전환 + 뒤로가기 지원) ---------- */
 (function(){
   const pages = $$('.page'), links = $$('nav.links a[data-go]');
   const hero = $('#hero');
-  function go(id){
+  const valid = id => pages.some(p=>p.id==='page-'+id);
+  const hashId = () => (location.hash||'#about').replace(/^#/,'') || 'about';
+
+  // 화면만 전환 (방문 기록은 건드리지 않음)
+  function show(id){
+    if(!valid(id)) id = 'about';
     pages.forEach(p=>p.classList.toggle('active', p.id==='page-'+id));
     links.forEach(a=>a.classList.toggle('active', a.dataset.go===id));
     hero.style.display = (id==='about') ? '' : 'none';
     $('#navLinks').classList.remove('open');
-    window.scrollTo({top:0,behavior:'instant' in window ? 'instant':'auto'});
-    history.replaceState(null,'',id==='about'?'#':'#'+id);
+    window.scrollTo({top:0,behavior:'instant'});
+    return id;
   }
+
+  // 메뉴 클릭 등으로 이동: 화면 전환 + 방문 기록에 추가 (→ 뒤로가기 가능)
+  function go(id){
+    const before = hashId();
+    id = show(id);
+    if(before !== id) history.pushState(null,'','#'+id);
+  }
+
   document.body.addEventListener('click',e=>{
     const t = e.target.closest('[data-go]'); if(!t) return;
     e.preventDefault(); go(t.dataset.go);
   });
-  // 시작 시 해시로 진입
-  const start = (location.hash||'#about').replace('#','')||'about';
-  go(pages.some(p=>p.id==='page-'+start)?start:'about');
+
+  // 브라우저 뒤로가기/앞으로가기 → 해당 시점의 페이지를 다시 표시
+  window.addEventListener('popstate', ()=>{ show(hashId()); });
+
+  // 시작 시: 주소의 해시에 맞는 페이지 표시 (기록은 추가하지 않고 현재 항목만 정리)
+  const initial = show(hashId());
+  if(location.hash) history.replaceState(null,'','#'+initial);
 
   // 모바일 메뉴
   $('#navToggle').addEventListener('click',()=>$('#navLinks').classList.toggle('open'));
