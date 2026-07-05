@@ -183,8 +183,8 @@ IBME Lab.은 4차 산업혁명의 트렌드에 대응하기 위한 다양한 의
       tag:      "ULTRASOUND LOCALIZATION MICROSCOPY (ULM)",
       title:    "Ultrasound Localization Microscopy (ULM)",
       subtitle: "Super-Resolution Ultrasound Imaging Beyond the Diffraction Limit",
-      bodyEn:   `We develop next-generation ultrasound localization microscopy (ULM) techniques that visualize microvascular networks beyond the diffraction limit. Our research spans ultrafast imaging, advanced beamforming, AI-assisted super-resolution reconstruction, motion compensation, and quantitative microvascular imaging for a wide range of biomedical applications.`,
-      bodyKr:   `초음파 회절 한계를 극복하여 미세 혈관 구조를 영상화하는 초음파 국소화 현미경(Ultrasound Localization Microscopy, ULM) 기술을 연구합니다. 초고속 초음파 영상, 고급 빔포밍, AI 기반 초해상도 영상 복원, 움직임 보정, 정량적 혈관 영상 기술을 개발하여 차세대 초음파 의료영상 기술을 구현합니다.`,
+      bodyEn:   `We develop next-generation ultrasound localization microscopy (ULM) techniques to visualize microvascular networks beyond the diffraction limit. Our research focuses on ultrafast ultrasound imaging, advanced beamforming, novel microbubble localization and tracking algorithms, motion correction, and quantitative vascular imaging to advance next-generation biomedical ultrasound.`,
+      bodyKr:   `초음파 회절 한계를 극복하여 미세 혈관 구조를 영상화하는 초음파 국소화 현미경(Ultrasound Localization Microscopy, ULM) 기술을 연구합니다. 초고속 초음파 영상(Ultrafast Ultrasound Imaging), 고급 빔포밍(Advanced Beamforming), 새로운 미세기포 위치 추정 및 추적 알고리즘(Novel Microbubble Localization & Tracking Algorithms), 움직임 보정(Motion Correction), 정량적 혈관 영상(Quantitative Vascular Imaging) 기술을 개발하여 차세대 초음파 의료영상 기술을 구현합니다.`,
       image:    "",
     },
     {
