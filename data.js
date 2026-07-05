@@ -306,10 +306,10 @@ IBME Lab.은 4차 산업혁명의 트렌드에 대응하기 위한 다양한 의
     graduate: {
       semester1: [
         "디지털신호처리 (Digital Signal Processing)",
-        "AI기반영상처리 (AI-based Image Processing)",
+        "컴퓨터비전 (Computer Vision)",
       ],
       semester2: [
-        "컴퓨터비전 (Computer Vision)",
+        "첨단이미징시스템 (Advanced Imaging Systems)",
         "인공지능특론 (Special Topics in Artificial Intelligence)",
       ],
     },
