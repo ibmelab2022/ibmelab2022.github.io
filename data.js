@@ -200,11 +200,11 @@ IBME Lab.은 4차 산업혁명의 트렌드에 대응하기 위한 다양한 의
       image:    "",
     },
     {
-      tag:      "COMPUTATIONAL IMAGING & CODED EXCITATION",
-      title:    "Computational Imaging & Coded Excitation",
+      tag:      "COMPUTATIONAL IMAGING",
+      title:    "Computational Imaging",
       subtitle: "Computational Imaging for Next-Generation Ultrasound Systems",
-      bodyEn:   `We investigate computational imaging techniques that enhance image quality while reducing acquisition time and hardware complexity. Our research includes coded excitation, coded-mask imaging, compressed sensing, sparse reconstruction, inverse imaging, and advanced beamforming algorithms.`,
-      bodyKr:   `영상 품질 향상과 데이터 획득 시간 단축을 동시에 달성하기 위한 계산영상(Computational Imaging) 기술을 연구합니다. Coded Excitation, Coded-Mask Imaging, Compressed Sensing, Sparse Reconstruction, 역문제 기반 영상 복원, 고급 빔포밍 알고리즘을 통해 차세대 초음파·음향 영상 시스템을 개발합니다.`,
+      bodyEn:   `We investigate computational imaging techniques that enhance image quality while reducing acquisition time and hardware complexity. Our research includes coded-mask imaging, compressed sensing, sparse reconstruction, inverse imaging, and advanced beamforming algorithms.`,
+      bodyKr:   `영상 품질 향상과 데이터 획득 시간 단축을 동시에 달성하기 위한 계산영상(Computational Imaging) 기술을 연구합니다. Coded-Mask Imaging, Compressed Sensing, Sparse Reconstruction, 역문제 기반 영상 복원, 고급 빔포밍 알고리즘을 통해 차세대 초음파·음향 영상 시스템을 개발합니다.`,
       image:    "",
     },
     {
