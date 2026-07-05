@@ -192,11 +192,11 @@ IBME Lab.은 4차 산업혁명의 트렌드에 대응하기 위한 다양한 의
       image:    "",
     },
     {
-      tag:      "SCANNING ACOUSTIC MICROSCOPY (SAM)",
-      title:    "Scanning Acoustic Microscopy (SAM)",
-      subtitle: "High-Frequency Acoustic Imaging for Semiconductor Inspection",
-      bodyEn:   `We develop high-frequency scanning acoustic microscopy (SAM) systems for the nondestructive evaluation of semiconductor devices and advanced electronic packages. By integrating acoustic imaging, signal processing, AI-based image enhancement, and automated defect analysis, we aim to improve the reliability and throughput of semiconductor inspection.`,
-      bodyKr:   `반도체 소자 및 첨단 전자 패키지의 비파괴 검사를 위한 고주파 Scanning Acoustic Microscopy(SAM) 시스템을 개발합니다. 음향 영상 기술에 신호처리, AI 기반 영상 향상, 자동 결함 분석 기술을 융합하여 반도체 검사의 신뢰성과 효율을 높이는 차세대 검사 시스템을 연구합니다.`,
+      tag:      "SCANNING ACOUSTIC MICROSCOPY (SAM) & UBM",
+      title:    "Scanning Acoustic Microscopy (SAM) & Ultrasound Biomicroscopy (UBM)",
+      subtitle: "High-Frequency Acoustic Imaging for Biomedical & Semiconductor Applications",
+      bodyEn:   `We develop high-frequency acoustic imaging systems based on scanning acoustic microscopy (SAM) and ultrasound biomicroscopy (UBM), which share the same underlying principle of high-frequency ultrasound. The same core technology extends across two domains: biomedical imaging of tissues and small biological structures, and nondestructive evaluation of semiconductor devices and advanced electronic packages. By integrating acoustic imaging, signal processing, AI-based image enhancement, and automated analysis, we aim to advance both diagnostic imaging and industrial inspection.`,
+      bodyKr:   `동일한 고주파 초음파 원리를 공유하는 Scanning Acoustic Microscopy(SAM)와 Ultrasound Biomicroscopy(UBM) 기반의 고주파 음향 영상 시스템을 개발합니다. 이 핵심 기술은 조직 및 미세 생체 구조의 바이오 영상과, 반도체 소자 및 첨단 전자 패키지의 비파괴 검사라는 두 분야에 모두 적용됩니다. 음향 영상 기술에 신호처리, AI 기반 영상 향상, 자동 분석 기술을 융합하여 진단 영상과 산업 검사 양쪽의 발전을 목표로 합니다.`,
       image:    "",
     },
     {
