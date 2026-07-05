@@ -40,21 +40,17 @@ const SITE = {
   },
 
   /* ───────── ③ About Us (연구실 소개) ───────── */
-  about: {
+   about: {
     heading: "About Us",
-    // 문단을 나누려면 그냥 빈 줄(엔터 두 번)을 넣으세요.
-    body: `The Intelligent Bio-Medical Engineering Laboratory (IBME Lab) was founded in April 2022 as part of the Division of Electronic & Semiconductor Engineering at Kangnam University. Our team is committed to advancing the field of AI-driven biomedical systems, with a focus on ultrasound and IoT technologies, to enhance human welfare and healthcare services.
+    body: `The Intelligent Bio-Medical Engineering Laboratory (IBME Lab) was founded in April 2022 as part of the Division of Electronic & Semiconductor Engineering at Kangnam University. Our team develops high-frequency ultrasound and acoustic imaging technologies — including super-resolution ultrasound, scanning acoustic microscopy, computational imaging, and real-time hardware systems — with applications spanning both biomedical diagnostics and semiconductor inspection.
 
 For detailed information on our specific research areas, please refer to the button below.`,
-    // 위 영문 소개의 한글 번역 (없으면 지워도 됩니다)
-    bodyKr: `지능형 의공학 연구실(IBME Lab)은 2022년 4월 강남대학교 전자반도체공학부 소속으로 설립되었습니다. 저희 연구팀은 초음파 및 IoT 기술을 중심으로 AI 기반 의공학 시스템 분야를 발전시켜, 인류의 복지와 헬스케어 서비스 향상에 기여하는 것을 목표로 하고 있습니다.
+    bodyKr: `지능형 의공학 연구실(IBME Lab)은 2022년 4월 강남대학교 전자반도체공학부 소속으로 설립되었습니다. 저희 연구팀은 초해상도 초음파 영상, 음향 현미경(SAM/UBM), 계산영상, 실시간 하드웨어 시스템 등 고주파 초음파·음향 영상 기술을 개발하며, 이를 바이오 의료 진단과 반도체 검사 양쪽에 적용하고 있습니다.
 
 구체적인 연구 분야에 대한 자세한 내용은 아래 버튼을 참고해 주세요.`,
-    // 소개 아래 'Learn More' 버튼 표시 여부 (누르면 Research 페이지로 이동)
     learnMore: true,
     learnMoreLabel: "Learn More",
   },
-
   /* ───────── ④ 모집 공고 박스 (메인에 눈에 띄게 표시됨) ─────────
      당장 모집 공고가 없으면 show: false 로 바꾸면 박스가 사라집니다. */
   recruit: {
