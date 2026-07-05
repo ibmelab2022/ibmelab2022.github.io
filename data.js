@@ -36,7 +36,7 @@ const SITE = {
     eyebrow:  "INTELLIGENT BIO-MEDICAL ENGINEERING LABORATORY",
     title:    "IBME Lab",
     subtitle: "AI · Ultrasound Imaging · IoT for Healthcare",
-    tagline:  "강남대학교 전자반도체공학부 지능형 의공학 연구실",
+    tagline:  "강남대학교 전자반도체공학부 지능형의공학 연구실",
   },
 
   /* ───────── ③ About Us (연구실 소개) ───────── */
