@@ -149,15 +149,35 @@ Ultrasound localization microscopy (ULM) 등 회절 한계를 넘어서는 초�
      · doi 를 넣으면 제목이 자동으로 원문 링크가 됩니다. */
   publications: {
 
-    // 국제 저널 (SCI 등)
+    // 국제 저널 (Peer-Reviewed) — 최신 논문을 맨 위에 추가하세요.
+    //   형식: { c: "저자, (연도). 제목. 저널명, 권(호).", doi: "10.xxxx/xxxxx" },
+    //   · doi 를 넣으면 제목이 자동으로 원문 링크가 됩니다. doi 가 없으면 doi: "" 로 두세요.
     journalIntl: [
-      { c: "Author, A., Kim, J. (2025). Paper title goes here. Journal Name, 00(0).", doi: "10.0000/example" },
-      { c: "Author, B., Kim, J. (2024). Another paper title. Journal Name, 00(0).", doi: "" },
+      { c: "Kim, S., Noh, S., Jseong, S., Kim, C., Lee, H.†, Kim, J.†, (2026). Enhancing Trajectory Estimation with Convolutional IMU Transformer. IEEE Sensors Journal, 26(9). (†: co-corresponding authors)", doi: "10.1109/JSEN.2026.3673719" },
+      { c: "Lee, H., Lee, K., Kim, J., (2025). Few-Shot Anomaly Detection for Medical Ultrasound Images Using Metric Learning and Multimodal BiomedCLIP Embeddings. The Journal of Korean Institute of Communication and Information Sciences, 51(10). [SCOPUS]", doi: "10.7840/kics.2025.50.10.1505" },
+      { c: "Lee, H., Lee, K., Yoon, J.P., Kim, J.† and Kim, J.Y.†, (2025). Real-Time Self-Supervised Ultrasound Image Enhancement Using Test-Time Adaptation for Sophisticated Rotator Cuff Tear Diagnosis. IEEE Signal Processing Letters. (†: co-corresponding authors)", doi: "10.1109/LSP.2025.3557754" },
+      { c: "Choi, H., Yu, J. and Kim, J., (2024). Improving lateral resolution in ultrasound imaging through structured illumination techniques. The Journal of the Acoustical Society of Korea, 43(6), pp.663–670. [SCOPUS]", doi: "10.7776/ASK.2024.43.6.663" },
+      { c: "Lee, M., Park, H.Y., Lee, K., Kim, S., Kim, J., Hwang, J.Y. (2023). Ultrasound-optical imaging-based multimodal imaging technology for biomedical applications. The Journal of the Acoustical Society of Korea. [SCOPUS]", doi: "10.7776/ASK.2023.42.5.429" },
+      { c: "Kim, S.H., Lee, K., Lee, S.W., Chang, J.H., Hwang, J.Y., Kim, J. (2023). Comparative study on keypoint detection for developmental dysplasia of hip diagnosis using deep learning models in X-ray and ultrasound images. The Journal of the Acoustical Society of Korea. [SCOPUS]", doi: "10.7776/ASK.2023.42.5.460" },
+      { c: "Kou, Z., You, Q., Kim, J., Dong, Z., Lowerison, M.R., Sekaran, N.V.C., … & Oelze, M.L. (2023). High-level synthesis design of scalable ultrafast ultrasound beamformer with single FPGA. IEEE Transactions on Biomedical Circuits and Systems.", doi: "10.1109/TBCAS.2023.3267614" },
+      { c: "Kim, J., Lowerison, M.R., Sekaran, N.V.C., Kou, Z., Dong, Z., Oelze, M., Llano, D.A., & Song, P. (2022). Improved Ultrasound Localization Microscopy Based on Microbubble Uncoupling via Transmit Excitation. IEEE Transactions on Ultrasonics, Ferroelectrics, and Frequency Control, 69(3), 1041–1052.", doi: "10.1109/TUFFC.2022.3143864" },
+      { c: "Dong, Z., Kim, J., Huang, C., Lowerison, M.R., Lok, U.W., Chen, S., & Song, P. (2022). Three-dimensional Shear Wave Elastography Using a 2D Row Column Addressing (RCA) Array. BME Frontiers, 2022.", doi: "10.34133/2022/9879632" },
+      { c: "Kim, J., Wang, Q., Zhang, S., & Yoon, S. (2021). Compressed sensing-based super-resolution ultrasound imaging for faster acquisition and high quality images. IEEE Transactions on Biomedical Engineering, 68(11), 3317–3326.", doi: "10.1109/TBME.2021.3070487" },
+      { c: "Kim, J., Lew, H.M., Kim, J.H., Youn, S., Al Faruque, H., Seo, A.N., … & Hwang, J.Y. (2020). Forward-Looking Multimodal Endoscopic System Based on Optical Multispectral and High-Frequency Ultrasound Imaging Techniques for Tumor Detection. IEEE Transactions on Medical Imaging, 40(2), 594–606.", doi: "10.1109/TMI.2020.3032275" },
+      { c: "Kim, E., Anguluan, E., Youn, S., Kim, J., Hwang, J.Y., & Kim, J.G. (2019). Non-invasive measurement of hemodynamic change during 8 MHz transcranial focused ultrasound stimulation using near-infrared spectroscopy. BMC Neuroscience, 20(1), 1–7.", doi: "10.1186/s12868-019-0493-9" },
+      { c: "Kim, S., Kim, J., Hwang, M., Kim, M., Jo, S.J., Je, M., … & Hwang, J.Y. (2019). Smartphone-based multispectral imaging and machine-learning based analysis for discrimination between seborrheic dermatitis and psoriasis on the scalp. Biomedical Optics Express, 10(2), 879–891.", doi: "10.1364/BOE.10.000879" },
+      { c: "Youn, S., Choi, J.W., Lee, J.S., Kim, J., Yang, I.H., Chang, J.H., … & Hwang, J.Y. (2019). Acoustic trapping technique for studying calcium response of a suspended breast cancer cell: Determination of its invasion potentials. IEEE Transactions on Ultrasonics, Ferroelectrics, and Frequency Control, 66(4), 737–746.", doi: "10.1109/TUFFC.2019.2894662" },
+      { c: "Kim, J., Al Faruque, H., Kim, S., Kim, E., & Hwang, J.Y. (2019). Multimodal endoscopic system based on multispectral and photometric stereo imaging and analysis. Biomedical Optics Express, 10(5), 2289–2302.", doi: "10.1364/BOE.10.002289" },
+      { c: "Kim, J.†, Shin, T.J.†, Kong, H.J., Hwang, J.Y., & Hyun, H.K. (2019). High-frequency ultrasound imaging for examination of early dental caries. Journal of Dental Research, 98(3), 363–367. (†: co-first authors)", doi: "10.1177/0022034518811642" },
+      { c: "Kim, J., Seo, A., Kim, J.Y., Choi, S.H., Yoon, H.J., Kim, E., & Hwang, J.Y. (2017). A multimodal biomicroscopic system based on high-frequency acoustic radiation force impulse and multispectral imaging techniques for tumor characterization ex vivo. Scientific Reports, 7(1), 1–12.", doi: "10.1038/s41598-017-17367-1" },
+      { c: "Choi, J.†, Kim, J.†, Hwang, J.Y., Je, M., Kim, J.Y., & Kim, S.Y. (2017). A novel smart navigation system for intramedullary nailing in orthopedic surgery. PLoS ONE, 12(4), e0174407. (†: co-first authors)", doi: "10.1371/journal.pone.0174407" },
+      { c: "Kim, S., Cho, D., Kim, J., Kim, M., Youn, S., Jang, J.E., … & Hwang, J.Y. (2016). Smartphone-based multispectral imaging: system development and potential for mobile skin diagnosis. Biomedical Optics Express, 7(12), 5294–5307.", doi: "10.1364/BOE.7.005294" },
+      { c: "Hwang, J.Y., Kim, J., Park, J.M., Lee, C., Jung, H., Lee, J., & Shung, K.K. (2016). Cell deformation by single-beam acoustic trapping: a promising tool for measurements of cell mechanics. Scientific Reports, 6(1), 1–8.", doi: "10.1038/srep27238" },
     ],
 
-    // 국내 저널 (KCI 등) — 없으면 [] 로 비워도 됩니다
+    // 국내 저널 (Peer-Reviewed) — 없으면 [] 로 비워도 됩니다
     journalDomestic: [
-      { c: "저자, (2023). 국내 논문 제목. 학회지명. [KCI 등재]", doi: "" },
+      { c: "최현수, 이주영, 김지훈. (2023). IoT 기반 반려동물 추적 시스템 설계. 대한전기학회 논문지 P권. [KCI 등재]", doi: "10.5370/KIEEP.2023.72.1.70" },
     ],
 
     // 국제 특허
