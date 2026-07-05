@@ -163,6 +163,38 @@ main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 }
 .recruit-card .rc-btn:hover{background:#fff;transform:translateY(-1px)}
 
+/* ── 메인 '최신 소식' 블록 ── */
+.home-news{margin-top:54px;padding-top:40px;border-top:1px solid var(--line)}
+.home-news-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.home-news-head .hn-title{display:flex;align-items:baseline;gap:12px}
+.home-news-head .hn-kicker{
+  font-family:"Spline Sans Mono",monospace;font-size:12px;letter-spacing:.2em;color:var(--signal-deep);text-transform:uppercase;
+}
+.home-news-head h2{font-size:clamp(24px,3.5vw,32px);font-weight:700;letter-spacing:-.02em}
+.hn-all{
+  display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:var(--signal-deep);
+  border:1px solid var(--signal-soft);background:var(--signal-soft);padding:8px 14px;border-radius:20px;transition:.18s;cursor:pointer;
+}
+.hn-all:hover{background:var(--signal);color:var(--ink);border-color:var(--signal)}
+.hn-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.hn-card{
+  display:flex;flex-direction:column;background:var(--paper-2);border:1px solid var(--line);border-radius:16px;
+  overflow:hidden;transition:.2s;cursor:pointer;
+}
+.hn-card:hover{transform:translateY(-3px);box-shadow:0 18px 36px -24px rgba(11,22,34,.4);border-color:#c2d6e4}
+.hn-thumb{height:150px;background:#0d1b29;position:relative;overflow:hidden}
+.hn-thumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.hn-thumb .hn-noimg{
+  position:absolute;inset:0;display:grid;place-items:center;
+  background:repeating-linear-gradient(90deg,transparent 0 6px,rgba(23,192,201,.10) 6px 7px),linear-gradient(180deg,#0f1e2e,#14283c);
+}
+.hn-thumb .hn-noimg span{font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.16em;color:#5b7f95}
+.hn-body{padding:18px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.hn-date{font-family:"Spline Sans Mono",monospace;font-size:12px;color:var(--signal-deep);font-weight:600}
+.hn-text{font-size:14.5px;color:#26374a;line-height:1.55;
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.hn-text strong{color:var(--signal-deep);font-weight:700}
+
 /* ───────────────────────── MEMBERS ───────────────────────── */
 .prof-card{
   display:grid;grid-template-columns:180px 1fr;gap:32px;align-items:start;
@@ -372,6 +404,7 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
   nav.links a{padding:14px 16px;border-radius:10px}
   .nav-toggle{display:block}
   .about-grid{grid-template-columns:1fr}
+  .hn-grid{grid-template-columns:1fr}
   .prof-card{grid-template-columns:1fr;justify-items:center;text-align:center;gap:20px}
   .prof-contact,.prof-affil{justify-content:center}
   .subhead::after{display:none}
@@ -443,6 +476,9 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
       </div>
       <aside id="recruitSlot"></aside>
     </div>
+
+    <!-- 메인에 표시되는 '최신 소식' (data.js의 news 맨 위 2개를 자동 표시) -->
+    <div class="home-news" id="homeNews"></div>
   </section>
 
   <!-- MEMBERS -->
@@ -649,8 +685,8 @@ $('#aboutBody').innerHTML = SITE.about.body.split(/\n\s*\n/).map(p=>`<p>${rich(p
 (function(){
   const P = SITE.publications;
   const groups = [
-    {key:'journalIntl',     label:'Intl. Journals'},
-    {key:'journalDomestic', label:'Domestic Journals'},
+    {key:'journalIntl',     label:'Intl. Journals (Peer-Reviewed)'},
+    {key:'journalDomestic', label:'Domestic Journals (Peer-Reviewed)'},
     {key:'patentsIntl',     label:'Intl. Patents'},
     {key:'patentsDomestic', label:'Domestic Patents'},
     {key:'conferencesIntl', label:'Conferences'},
@@ -662,6 +698,7 @@ $('#aboutBody').innerHTML = SITE.about.body.split(/\n\s*\n/).map(p=>`<p>${rich(p
     `<div class="pub-tab ${i===0?'active':''}" data-pub="${g.key}">${g.label} <span class="mono" style="opacity:.6">${P[g.key].length}</span></div>`).join('');
 
   groupsEl.innerHTML = groups.map((g,i)=>{
+    const total = P[g.key].length;
     const items = P[g.key].map((it,idx)=>{
       const isObj = typeof it === 'object';
       const text  = isObj ? it.c : it;
@@ -669,8 +706,10 @@ $('#aboutBody').innerHTML = SITE.about.body.split(/\n\s*\n/).map(p=>`<p>${rich(p
       let body = rich(text);
       // DOI가 있으면 배지 링크 추가
       const badge = doi ? ` <a class="doi-badge" href="https://doi.org/${esc(doi)}" target="_blank" rel="noopener">DOI ↗</a>` : '';
+      // 번호는 내림차순: 맨 위(최신)가 가장 큰 번호, 첫 논문이 1번
+      const num = total - idx;
       return `<div class="pub-item">
-        <div class="pub-num">${String(idx+1).padStart(2,'0')}</div>
+        <div class="pub-num">${String(num).padStart(2,'0')}</div>
         <div class="pub-text">${body}${badge}</div>
       </div>`;
     }).join('');
@@ -735,6 +774,36 @@ $('#aboutBody').innerHTML = SITE.about.body.split(/\n\s*\n/).map(p=>`<p>${rich(p
       ${imgs}
     </div>`;
   }).join('');
+})();
+
+/* ---------- 메인 '최신 소식' (news 맨 위 2개 자동 표시) ---------- */
+(function(){
+  const box = $('#homeNews');
+  if(!box) return;
+  const latest = (SITE.news||[]).slice(0,2);   // 맨 위 2개 = 최신 2개
+  if(!latest.length){ box.remove(); return; }
+  const cards = latest.map(n=>{
+    const firstImg = (n.images&&n.images.length) ? n.images[0] : '';
+    const thumb = firstImg
+      ? `<div class="hn-thumb"><img src="${esc(firstImg)}" alt="news" loading="lazy" onerror="this.parentNode.innerHTML='<div class=&quot;hn-noimg&quot;><span>IBME · NEWS</span></div>'"></div>`
+      : `<div class="hn-thumb"><div class="hn-noimg"><span>IBME · NEWS</span></div></div>`;
+    return `<div class="hn-card" data-go="news">
+      ${thumb}
+      <div class="hn-body">
+        <div class="hn-date">${esc(n.date)}</div>
+        <div class="hn-text">${rich(n.text)}</div>
+      </div>
+    </div>`;
+  }).join('');
+  box.innerHTML = `
+    <div class="home-news-head">
+      <div class="hn-title">
+        <span class="hn-kicker">Latest</span>
+        <h2>Announcement</h2>
+      </div>
+      <span class="hn-all" data-go="news">전체 소식 보기 →</span>
+    </div>
+    <div class="hn-grid">${cards}</div>`;
 })();
 
 /* ---------- FOOTER ---------- */
