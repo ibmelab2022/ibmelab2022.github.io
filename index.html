@@ -311,6 +311,13 @@ main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 .pub-tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
 .pub-group{display:none}
 .pub-group.active{display:block;animation:fade .3s ease}
+.pub-subhead{
+  font-family:"Spline Sans Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--signal-deep);font-weight:600;margin:30px 0 6px;padding-bottom:9px;
+  border-bottom:2px solid var(--signal-soft);display:flex;align-items:center;gap:10px;
+}
+.pub-subhead::before{content:"";width:20px;height:2px;background:var(--signal);display:inline-block}
+.pub-group > .pub-subhead:first-child{margin-top:4px}
 .pub-item{
   display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:baseline;
   padding:16px 4px;border-bottom:1px solid var(--line);
@@ -734,36 +741,63 @@ $('#aboutHeading').textContent = SITE.about.heading;
 /* ---------- PUBLICATIONS ---------- */
 (function(){
   const P = SITE.publications;
-  const groups = [
-    {key:'journalIntl',     label:'International Journals'},
-    {key:'journalDomestic', label:'Domestic Journals'},
-    {key:'patentsIntl',     label:'Intl. Patents'},
-    {key:'patentsDomestic', label:'Domestic Patents'},
-    {key:'conferencesIntl', label:'Conferences'},
-    {key:'books',           label:'Book Chapters'},
-  ].filter(g => Array.isArray(P[g.key]) && P[g.key].length);
+
+  // 렌더 대상 탭 정의:
+  //  · 단일 목록 탭: { label, key }
+  //  · 통합 탭(여러 소제목): { label, sections:[{sub, key}, ...] }
+  const tabDefs = [
+    { label:'International Journals', key:'journalIntl' },
+    { label:'Domestic Journals',     key:'journalDomestic' },
+    { label:'Patents, Conferences & Others', sections:[
+        { sub:'International Patents', key:'patentsIntl' },
+        { sub:'Domestic Patents',     key:'patentsDomestic' },
+        { sub:'International Conference Proceedings', key:'conferencesIntl' },
+        { sub:'Book Chapters',        key:'books' },
+    ]},
+  ];
+
+  // 항목이 하나라도 있는 탭만 남김
+  const nonEmpty = k => Array.isArray(P[k]) && P[k].length;
+  const groups = tabDefs.filter(t => t.key ? nonEmpty(t.key) : t.sections.some(s=>nonEmpty(s.key)));
+
+  // 탭에 표시할 개수(통합 탭은 소제목 합계)
+  const tabCount = t => t.key ? P[t.key].length : t.sections.reduce((a,s)=> a + (nonEmpty(s.key)?P[s.key].length:0), 0);
+
+  // 한 항목을 pub-item HTML로
+  const renderItem = (it, num) => {
+    const isObj = typeof it === 'object';
+    const text  = isObj ? it.c : it;
+    const doi   = isObj ? (it.doi||'') : '';
+    const badge = doi ? ` <a class="doi-badge" href="https://doi.org/${esc(doi)}" target="_blank" rel="noopener">DOI ↗</a>` : '';
+    return `<div class="pub-item">
+      <div class="pub-num">${String(num).padStart(2,'0')}</div>
+      <div class="pub-text">${rich(text)}${badge}</div>
+    </div>`;
+  };
+  // 목록 하나를 내림차순 번호로 (맨 위=최신=가장 큰 번호)
+  const renderList = key => {
+    const arr = P[key], total = arr.length;
+    return arr.map((it,idx)=> renderItem(it, total-idx)).join('');
+  };
 
   const tabsEl = $('#pubTabs'), groupsEl = $('#pubGroups');
-  tabsEl.innerHTML = groups.map((g,i)=>
-    `<div class="pub-tab ${i===0?'active':''}" data-pub="${g.key}">${g.label} <span class="mono" style="opacity:.6">${P[g.key].length}</span></div>`).join('');
+  const idOf = (t,i) => t.key || ('group'+i);
 
-  groupsEl.innerHTML = groups.map((g,i)=>{
-    const total = P[g.key].length;
-    const items = P[g.key].map((it,idx)=>{
-      const isObj = typeof it === 'object';
-      const text  = isObj ? it.c : it;
-      const doi   = isObj ? (it.doi||'') : '';
-      let body = rich(text);
-      // DOI가 있으면 배지 링크 추가
-      const badge = doi ? ` <a class="doi-badge" href="https://doi.org/${esc(doi)}" target="_blank" rel="noopener">DOI ↗</a>` : '';
-      // 번호는 내림차순: 맨 위(최신)가 가장 큰 번호, 첫 논문이 1번
-      const num = total - idx;
-      return `<div class="pub-item">
-        <div class="pub-num">${String(num).padStart(2,'0')}</div>
-        <div class="pub-text">${body}${badge}</div>
-      </div>`;
-    }).join('');
-    return `<div class="pub-group ${i===0?'active':''}" data-group="${g.key}">${items}</div>`;
+  tabsEl.innerHTML = groups.map((t,i)=>
+    `<div class="pub-tab ${i===0?'active':''}" data-pub="${idOf(t,i)}">${esc(t.label)} <span class="mono" style="opacity:.6">${tabCount(t)}</span></div>`
+  ).join('');
+
+  groupsEl.innerHTML = groups.map((t,i)=>{
+    let inner;
+    if(t.key){
+      inner = renderList(t.key);
+    } else {
+      // 통합 탭: 소제목별로 렌더 (빈 소제목은 건너뜀)
+      inner = t.sections.filter(s=>nonEmpty(s.key)).map(s=>
+        `<div class="pub-subhead">${esc(s.sub)}</div>${renderList(s.key)}`
+      ).join('');
+    }
+    return `<div class="pub-group ${i===0?'active':''}" data-group="${idOf(t,i)}">${inner}</div>`;
   }).join('');
 
   tabsEl.addEventListener('click',e=>{

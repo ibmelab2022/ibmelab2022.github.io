@@ -254,22 +254,30 @@ IBME Lab.은 4차 산업혁명의 트렌드에 대응하기 위한 다양한 의
 
     // 국제 특허
     patentsIntl: [
-      "Inventor, **Kim, J.**, et al. (2021). U.S. Patent No. 00,000,000.",
+      "Hwang, J.Y., Kim, J.Y., **Kim, J.**, Je, M.K., & Choi, J.S. (2021). U.S. Patent No. 10,925,686. Washington, DC: U.S. Patent and Trademark Office.",
+      "Hwang, J.Y., **Kim, J.**, Shin, T.J., Hyun, H.K., & Kong, H.J. (2020). U.S. Patent Application No. 16/839,444.",
     ],
 
     // 국내 특허
     patentsDomestic: [
-      "발명자, **김지훈**, 외, \"특허 제목\", 대한민국 특허 등록번호 10-0000000 (2022.00.00)",
+      "Yoon, H.J., Ahn, J., Kim, S., Lee, S., **Kim, J.**, Hwang, J.Y. and Kwon, S.B., \"SHOES FOR ESTIMATING BIOLOGICAL INFORMATION AND SYSTEM COMPRISING THE SAME\", 대한민국 특허 등록번호 10-2029576 (2019)",
+      "Hwang, J.Y., Lee, J.H., Park, J.H., Oh, S., Kwon, B.S., **Kim, J.** and Kong, H.J., \"WEARABLE DEVICE MONITORING RESIDUAL URINE VOLUME IN BLADDER USING ULTRASONIC WAVE AND METHOD OF MONITORING RESIDUAL URINE VOLUME IN BLADDER USING ULTRASONIC WAVE\", 대한민국 특허 등록번호 10-1930883 (2018)",
+      "Hwang, J.Y., Choi, J., **Kim, J.**, Je, M. and Kim, J.Y., \"AN APPARATUS FIXING THE BONES AND A SYSTEM INCORPORATING THE SAME\", 대한민국 특허 등록번호 10-1800125 (2017)",
+      "Hwang, J.Y., Choi, J., **Kim, J.**, Kim, J.Y. and Je, M., \"AN APPARATUS FOR INDICATING A TARGET POSITION AND AN APPARATUS FOR FIXATION OF A FRACTURED BONE INCORPORATING THE SAME\", 대한민국 특허 등록번호 10-1800124 (2017)",
+      "Je, M., Hwang, J.Y., **Kim, J.**, Choi, J. and Kim, J.Y., \"Ultrasound surgery drill and drilling method thereby\", 대한민국 특허 등록번호 10-1795928 (2017)",
     ],
 
     // 국제 학회 발표
     conferencesIntl: [
-      "**Jihun Kim**, et al., \"Conference paper title\", 2024 IEEE IUS, City, Country (2024.09)",
+      { c: "Kim, J., Dong, Z., Lowerison, M.R., Sekaran, N.V.C., You, Q., Llano, D.A., & Song, P. (2022). Deep Learning-based 3D Beamforming on a 2D Row Column Addressing (RCA) Array for 3D Super-resolution Ultrasound Localization Microscopy. 2022 IEEE International Ultrasonics Symposium (IUS), pp.1–4.", doi: "10.1109/IUS54386.2022.9958375" },
+      { c: "Rho, S., Hwang, G., Kim, J., Moon, S., & Yoon, S. (2020). Visualization of intracellular calcium transport between cells using high frequency ultrasound and FRET live-cell imaging. 2020 IEEE International Ultrasonics Symposium (IUS), pp.1–4.", doi: "10.1109/IUS46767.2020.9251840" },
+      { c: "Kim, J., Hwang, G., Rho, S., & Yoon, S. (2020). Singular value decomposition and 2D cross-correlation based localization of gas vesicles for super-resolution ultrasound imaging. 2020 IEEE International Ultrasonics Symposium (IUS), pp.1–4.", doi: "10.1109/IUS46767.2020.9251651" },
+      { c: "Kim, M., Kim, S., Hwang, M., Kim, J., Je, M., Jang, J.E., … & Hwang, J.Y. (2017). Multispectral imaging based on a smartphone with an external C-MOS camera for detection of seborrheic dermatitis on the scalp. Imaging, Manipulation, and Analysis of Biomolecules, Cells, and Tissues XV (Vol. 10068, p.188). SPIE.", doi: "10.1117/12.2251707" },
     ],
 
     // 저서 / 북 챕터 — 없으면 [] 로 비워도 됩니다
     books: [
-      { c: "Kim, J., et al., \"Chapter title\" in Book Title, Publisher, pp.000–000, 2019.", doi: "" },
+      { c: "Kim, J., Youn, S. and Hwang, J.Y., \"Ch. 13 Ultrasound Imaging in Dermatology\" in Imaging Technologies and Transdermal Delivery in Skin Disorders, Wiley-VCH Verlag GmbH & Co. KGaA, pp.309–339, 2019.", doi: "10.1002/9783527814633.ch13" },
     ],
   },
 
