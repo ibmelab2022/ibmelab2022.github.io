@@ -45,7 +45,7 @@ const SITE = {
     body: `The Intelligent Bio-Medical Engineering Laboratory (IBME Lab) was founded in April 2022 as part of the Division of Electronic & Semiconductor Engineering at Kangnam University. Our team develops high-frequency ultrasound and acoustic imaging technologies — including super-resolution ultrasound, scanning acoustic microscopy, computational imaging, and real-time hardware systems — with applications spanning both biomedical diagnostics and semiconductor inspection.
 
 For detailed information on our specific research areas, please refer to the button below.`,
-    bodyKr: `지능형 의공학 연구실(IBME Lab)은 2022년 4월 강남대학교 전자반도체공학부 소속으로 설립되었습니다. 저희 연구팀은 초해상도 초음파 영상, 음향 현미경(SAM/UBM), 계산영상, 실시간 하드웨어 시스템 등 고주파 초음파·음향 영상 기술을 개발하며, 이를 바이오 의료 진단과 반도체 검사 양쪽에 적용하고 있습니다.
+    bodyKr: `지능형 의공학 연구실(IBME Lab)은 2022년 4월 강남대학교 전자반도체공학부 소속으로 설립되었습니다. 저희 연구팀은 초고해상도 초음파 영상, 음향 현미경(SAM/UBM), 계산영상, 실시간 하드웨어 시스템 등 고주파 초음파·음향 영상 기술을 개발하며, 이를 바이오 의료 진단과 반도체 검사 양쪽에 적용하고 있습니다.
 
 구체적인 연구 분야에 대한 자세한 내용은 아래 버튼을 참고해 주세요.`,
     learnMore: true,
@@ -53,29 +53,25 @@ For detailed information on our specific research areas, please refer to the but
   },
   /* ───────── ④ 모집 공고 박스 (메인에 눈에 띄게 표시됨) ─────────
      당장 모집 공고가 없으면 show: false 로 바꾸면 박스가 사라집니다. */
-  recruit: {
+recruit: {
     show:  true,
     tag:   "RECRUITMENT",
     title: "2026–27학년도 학부연구생 / 학·석사연계 / 석사과정 모집",
-    body: `강남대학교 IBME Lab.에서 학부연구생 / 학·석사연계 / 석사과정생을 모집합니다.
-
-IBME Lab.은 4차 산업혁명의 트렌드에 대응하기 위한 다양한 의공학 관련 연구를 진행하고 있습니다. 이 과정에서 인공지능 / 영상처리 / IoT 디바이스 설계의 최신 토픽을 연구하고 있으며, 이를 바탕으로 다양하고 흥미로운 분야로 연구를 확장해가고 있습니다.
-
-활발한 연구 활동을 통해 다양한 경험을 쌓고 싶은 학생, 성실함과 뚜렷한 목표 의식이 있는 학생들은 자기소개서(1장 이하)와 성적표를 첨부하여 아래 이메일로 연락 주시기 바랍니다.
+    body: `IBME Lab.은 초음파·음향 영상, 인공지능, 신호·영상처리 기반의 의료·헬스케어·반도체 연구를 함께할 학생을 모집합니다.
 
 **지원 자격**
-디지털시스템설계, 임베디드시스템, 디지털신호 및 영상처리, 인공지능을 기반으로 한 의료·헬스케어·복지 연구에 관심이 있는 학생
+디지털시스템설계, 임베디드시스템, 신호·영상처리, 인공지능에 관심 있는 학생
 
 **모집 인원**
 학부연구생 1명(3학년), 대학원생 1~2명
 
-**지원 사항**
-1. 산학연 연구 프로젝트 참여에 따른 장학금 지급
-2. 국내외 최우수 대학 및 다양한 연구기관과의 학술 교류 기회 제공
-3. 국내외 다양한 학회 참여 및 발표 기회 제공`,
+**지원 혜택**
+산학연 프로젝트 참여 장학금 · 국내외 연구기관 학술 교류 · 국내외 학회 발표 기회
+
+관심 있는 학생은 자기소개서(1장 이내)와 성적표를 첨부하여 아래 이메일로 연락 주세요.`,
     email: "jihunk@kangnam.ac.kr",
   },
-
+   
   /* ───────── ⑤ 지도교수 정보 (Members 페이지 상단) ───────── */
   professor: {
     nameKr:      "김지훈 (Jihun Kim), Ph.D.",
