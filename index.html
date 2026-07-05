@@ -152,77 +152,94 @@ main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 .learn-more svg{transition:transform .2s}
 .learn-more:hover svg{transform:translateX(3px)}
 
-/* ───────────────────────── ABOUT + RECRUIT ───────────────────────── */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch}
+/* ───────────────────────── ABOUT + RECRUIT + NEWS (3열) ───────────────────────── */
+.about-grid{display:grid;grid-template-columns:30fr 30fr 40fr;gap:24px;align-items:stretch}
 .about-card{
   background:var(--paper-2);border:1px solid var(--line);border-radius:18px;
-  padding:34px 34px 38px;display:flex;flex-direction:column;
+  padding:30px 28px 32px;display:flex;flex-direction:column;
   box-shadow:0 12px 30px -26px rgba(11,22,34,.35);
 }
-.about-card .sec-head{margin-bottom:24px}
-.about-card .prose{max-width:none}
+.about-card .sec-head{margin-bottom:20px}
+.about-card .prose{max-width:none;font-size:15px}
+.about-en p{margin-bottom:.9em}
+.about-kr{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line);
+  font-size:14px;color:#4a5e72}
+.about-kr p{margin-bottom:.8em}
+.about-kr p:last-child{margin-bottom:0}
 .recruit-card{
   background:
-    radial-gradient(680px 320px at 88% -10%, rgba(23,192,201,.20), transparent 62%),
+    radial-gradient(560px 300px at 90% -10%, rgba(23,192,201,.20), transparent 62%),
     linear-gradient(158deg,#123049 0%, var(--slate-900) 55%, #0c1c2b 100%);
-  color:#eaf1f7;border-radius:18px;padding:34px 34px 38px;position:relative;overflow:hidden;
+  color:#eaf1f7;border-radius:18px;padding:30px 28px 32px;position:relative;overflow:hidden;
   box-shadow:0 20px 44px -24px rgba(11,22,34,.55);display:flex;flex-direction:column;
 }
 .recruit-card::before{
-  content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;
+  content:"";position:absolute;right:-50px;top:-50px;width:200px;height:200px;border-radius:50%;
   background:radial-gradient(circle,rgba(23,192,201,.30),transparent 70%);pointer-events:none;
 }
 .recruit-card .tag{
   display:inline-block;font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.18em;
-  color:var(--ink);background:var(--signal);padding:5px 11px;border-radius:6px;margin-bottom:18px;font-weight:600;
+  color:var(--ink);background:var(--signal);padding:5px 11px;border-radius:6px;margin-bottom:16px;font-weight:600;
   position:relative;align-self:flex-start;
 }
-.recruit-card h3{font-size:22px;line-height:1.35;margin-bottom:16px;position:relative}
-.recruit-card .rc-body{font-size:14.5px;color:#cbdae6;white-space:pre-line;position:relative;line-height:1.7;flex:1}
+.recruit-card h3{font-size:20px;line-height:1.35;margin-bottom:14px;position:relative}
+.recruit-card .rc-body{font-size:14px;color:#cbdae6;white-space:pre-line;position:relative;line-height:1.65;flex:1}
 .recruit-card .rc-body strong{color:#fff;font-weight:700}
+.recruit-card .rc-email{
+  margin-top:20px;display:flex;align-items:center;gap:9px;position:relative;
+  font-family:"Spline Sans Mono",monospace;font-size:13.5px;
+  background:rgba(23,192,201,.12);border:1px solid rgba(23,192,201,.35);
+  padding:11px 14px;border-radius:10px;
+}
+.recruit-card .rc-email svg{width:16px;height:16px;color:var(--signal);flex:none}
+.recruit-card .rc-email a{color:#eaf7f8;font-weight:500;word-break:break-all}
+.recruit-card .rc-email a:hover{color:#fff;text-decoration:underline}
+.recruit-card .rc-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;position:relative}
 .recruit-card .rc-btn{
-  margin-top:20px;display:inline-flex;align-items:center;gap:8px;
+  display:inline-flex;align-items:center;gap:8px;
   background:var(--signal);color:var(--ink);font-weight:600;font-size:14px;
-  padding:11px 18px;border-radius:10px;transition:.18s;position:relative;
+  padding:11px 18px;border-radius:10px;transition:.18s;
 }
 .recruit-card .rc-btn:hover{background:#fff;transform:translateY(-1px)}
-.recruit-card .rc-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;position:relative}
-.recruit-card .rc-actions .rc-btn{margin-top:0}
 .recruit-card .rc-btn-ghost{
   background:transparent;color:#cfe9eb;border:1px solid rgba(23,192,201,.5);cursor:pointer;
 }
 .recruit-card .rc-btn-ghost:hover{background:rgba(23,192,201,.14);color:#fff;border-color:var(--signal)}
 
-/* ── 메인 '최신 소식' 블록 ── */
-.home-news{margin-top:54px;padding-top:40px;border-top:1px solid var(--line)}
-.home-news-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
-.home-news-head .hn-title{display:flex;align-items:baseline;gap:12px}
-.home-news-head .hn-kicker{
-  font-family:"Spline Sans Mono",monospace;font-size:12px;letter-spacing:.2em;color:var(--signal-deep);text-transform:uppercase;
+/* ── 메인 '최신 News' 블록 (3번째 열, 세로 스택) ── */
+.home-news{
+  background:var(--paper-2);border:1px solid var(--line);border-radius:18px;
+  padding:26px 26px 28px;display:flex;flex-direction:column;
+  box-shadow:0 12px 30px -26px rgba(11,22,34,.35);
 }
-.home-news-head h2{font-size:clamp(24px,3.5vw,32px);font-weight:700;letter-spacing:-.02em}
+.home-news-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.home-news-head .hn-title{display:flex;align-items:baseline;gap:10px}
+.home-news-head .hn-kicker{
+  font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.2em;color:var(--signal-deep);text-transform:uppercase;
+}
+.home-news-head h2{font-size:22px;font-weight:700;letter-spacing:-.02em}
 .hn-all{
-  display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:var(--signal-deep);
-  border:1px solid var(--signal-soft);background:var(--signal-soft);padding:8px 14px;border-radius:20px;transition:.18s;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--signal-deep);
+  border:1px solid var(--signal-soft);background:var(--signal-soft);padding:7px 12px;border-radius:20px;transition:.18s;cursor:pointer;white-space:nowrap;
 }
 .hn-all:hover{background:var(--signal);color:var(--ink);border-color:var(--signal)}
-.hn-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.hn-grid{display:flex;flex-direction:column;gap:14px;flex:1}
 .hn-card{
-  display:flex;flex-direction:column;background:var(--paper-2);border:1px solid var(--line);border-radius:16px;
-  overflow:hidden;transition:.2s;cursor:pointer;
+  display:flex;gap:14px;background:var(--paper);border:1px solid var(--line);border-radius:14px;
+  overflow:hidden;transition:.2s;cursor:pointer;padding:10px;
 }
-.hn-card:hover{transform:translateY(-3px);box-shadow:0 18px 36px -24px rgba(11,22,34,.4);border-color:#c2d6e4}
-.hn-thumb{height:150px;background:#0d1b29;position:relative;overflow:hidden}
+.hn-card:hover{transform:translateY(-2px);box-shadow:0 14px 28px -22px rgba(11,22,34,.4);border-color:#c2d6e4}
+.hn-thumb{width:110px;height:88px;flex:none;border-radius:10px;background:#0d1b29;position:relative;overflow:hidden}
 .hn-thumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 .hn-thumb .hn-noimg{
   position:absolute;inset:0;display:grid;place-items:center;
   background:repeating-linear-gradient(90deg,transparent 0 6px,rgba(23,192,201,.10) 6px 7px),linear-gradient(180deg,#0f1e2e,#14283c);
 }
-.hn-thumb .hn-noimg span{font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.16em;color:#5b7f95}
-.hn-body{padding:18px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
-.hn-date{font-family:"Spline Sans Mono",monospace;font-size:12px;color:var(--signal-deep);font-weight:600}
-.hn-text{font-size:14.5px;color:#26374a;line-height:1.55;
-  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.hn-thumb .hn-noimg span{font-family:"Spline Sans Mono",monospace;font-size:9px;letter-spacing:.14em;color:#5b7f95}
+.hn-body{padding:2px 4px 2px 0;display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
+.hn-date{font-family:"Spline Sans Mono",monospace;font-size:11.5px;color:var(--signal-deep);font-weight:600}
+.hn-text{font-size:13px;color:#26374a;line-height:1.5;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .hn-text strong{color:var(--signal-deep);font-weight:700}
 
 /* ───────────────────────── MEMBERS ───────────────────────── */
@@ -442,6 +459,13 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
 .lightbox img{max-width:92vw;max-height:88vh;border-radius:12px;box-shadow:0 30px 80px -20px #000}
 
 /* ───────────────────────── RESPONSIVE ───────────────────────── */
+@media(max-width:1080px) and (min-width:861px){
+  /* 태블릿: 3열이 좁으므로 About+Recruit 위, News 아래 전체폭 */
+  .about-grid{grid-template-columns:1fr 1fr}
+  .home-news{grid-column:1 / -1}
+  .hn-grid{flex-direction:row;flex-wrap:wrap}
+  .hn-card{flex:1 1 300px}
+}
 @media(max-width:860px){
   nav.links{
     position:fixed;top:64px;left:0;right:0;flex-direction:column;gap:0;align-items:stretch;
@@ -453,7 +477,7 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
   nav.links a{padding:14px 16px;border-radius:10px}
   .nav-toggle{display:block}
   .about-grid{grid-template-columns:1fr}
-  .hn-grid{grid-template-columns:1fr}
+  .hn-grid{gap:12px}
   .prof-card{grid-template-columns:1fr;justify-items:center;text-align:center;gap:20px}
   .prof-contact,.prof-affil{justify-content:center}
   .subhead::after{display:none}
@@ -505,7 +529,6 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
 <section class="hero" id="hero">
   <canvas class="waves" id="waveCanvas"></canvas>
   <div class="hero-inner">
-    <img class="hero-logo" src="images/lab_logo.png" alt="IBME Lab" onerror="this.remove()">
     <div class="hero-text">
       <div class="eyebrow" id="heroEyebrow"></div>
       <h1 id="heroTitle"></h1>
@@ -530,10 +553,9 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
         <div class="prose" id="aboutBody"></div>
       </div>
       <aside id="recruitSlot"></aside>
+      <!-- 메인에 표시되는 '최신 News' (data.js의 news 맨 위 항목을 자동 표시) -->
+      <div class="home-news" id="homeNews"></div>
     </div>
-
-    <!-- 메인에 표시되는 '최신 소식' (data.js의 news 맨 위 2개를 자동 표시) -->
-    <div class="home-news" id="homeNews"></div>
   </section>
 
   <!-- MEMBERS -->
@@ -650,7 +672,10 @@ const pinSVG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 $('#aboutHeading').textContent = SITE.about.heading;
 (function(){
   const a = SITE.about;
-  let html = a.body.split(/\n\s*\n/).map(p=>`<p>${rich(p)}</p>`).join('');
+  let html = `<div class="about-en">${a.body.split(/\n\s*\n/).map(p=>`<p>${rich(p)}</p>`).join('')}</div>`;
+  if(a.bodyKr && a.bodyKr.trim()){
+    html += `<div class="about-kr">${a.bodyKr.split(/\n\s*\n/).map(p=>`<p>${rich(p)}</p>`).join('')}</div>`;
+  }
   if(a.learnMore){
     const label = a.learnMoreLabel || 'Learn More';
     html += `<a class="learn-more" data-go="research">${esc(label)}
@@ -668,8 +693,8 @@ $('#aboutHeading').textContent = SITE.about.heading;
       <div class="tag">${esc(r.tag||'RECRUITMENT')}</div>
       <h3>${rich(r.title)}</h3>
       <div class="rc-body">${rich(r.body)}</div>
+      ${r.email?`<div class="rc-email">${mailSVG}<a href="mailto:${esc(r.email)}">${esc(r.email)}</a></div>`:''}
       <div class="rc-actions">
-        ${r.email?`<a class="rc-btn" href="mailto:${esc(r.email)}">${mailSVG}지원 문의하기</a>`:''}
         <span class="rc-btn rc-btn-ghost" data-go="qa">Lab Q&amp;A →</span>
       </div>
     </div>`;
@@ -892,7 +917,7 @@ $('#aboutHeading').textContent = SITE.about.heading;
 (function(){
   const box = $('#homeNews');
   if(!box) return;
-  const latest = (SITE.news||[]).slice(0,2);   // 맨 위 2개 = 최신 2개
+  const latest = (SITE.news||[]).slice(0,3);   // 맨 위 3개 = 최신 3개
   if(!latest.length){ box.remove(); return; }
   const cards = latest.map(n=>{
     const firstImg = (n.images&&n.images.length) ? n.images[0] : '';

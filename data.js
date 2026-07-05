@@ -46,6 +46,10 @@ const SITE = {
     body: `The Intelligent Bio-Medical Engineering Laboratory (IBME Lab) was founded in April 2022 as part of the Division of Electronic & Semiconductor Engineering at Kangnam University. Our team is committed to advancing the field of AI-driven biomedical systems, with a focus on ultrasound and IoT technologies, to enhance human welfare and healthcare services.
 
 For detailed information on our specific research areas, please refer to the button below.`,
+    // 위 영문 소개의 한글 번역 (없으면 지워도 됩니다)
+    bodyKr: `지능형 의공학 연구실(IBME Lab)은 2022년 4월 강남대학교 전자반도체공학부 소속으로 설립되었습니다. 저희 연구팀은 초음파 및 IoT 기술을 중심으로 AI 기반 의공학 시스템 분야를 발전시켜, 인류의 복지와 헬스케어 서비스 향상에 기여하는 것을 목표로 하고 있습니다.
+
+구체적인 연구 분야에 대한 자세한 내용은 아래 버튼을 참고해 주세요.`,
     // 소개 아래 'Learn More' 버튼 표시 여부 (누르면 Research 페이지로 이동)
     learnMore: true,
     learnMoreLabel: "Learn More",
@@ -546,6 +550,7 @@ Choi, H., Yu, J., Kim, J. (2024). "Improving lateral resolution in ultrasound im
 
 [Poster] **[우수 포스터 논문상]** "구조화된 초음파 전송을 통한 새로운 초고해상도 초음파 이미징 기법" — 최현수, 유재석, 김지훈`,
       images: [
+        "images/News/20240509_1.png",
         "images/News/20240509_2.png",
       ],
     },
