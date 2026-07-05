@@ -171,21 +171,45 @@ IBME Lab.은 4차 산업혁명의 트렌드에 대응하기 위한 다양한 의
   },
 
   /* ───────── ⑧ Research (연구 분야) ─────────
-     연구 주제 추가:  { } 덩어리 복사 → 내용 수정. image 는 비워도 됩니다. */
+     연구 주제 추가:  { } 덩어리 복사 → 내용 수정. image 는 비워도 됩니다.
+       · tag      : 상단 작은 분류 라벨 (영문 대문자 권장)
+       · title    : 연구 분야 제목
+       · subtitle : 영문 한 줄 부제 (없으면 지워도 됨)
+       · bodyEn   : 영문 설명
+       · bodyKr   : 국문 설명
+       · image    : 대표 이미지 주소 (비우면 IBME 패턴이 표시됨) */
   research: [
     {
-      tag:   "ULTRASOUND IMAGING",
-      title: "초해상도 초음파 영상 (Super-Resolution Ultrasound Imaging)",
-      body:  `(연구 주제에 대한 설명을 여기에 적으세요.)
-
-Ultrasound localization microscopy (ULM) 등 회절 한계를 넘어서는 초해상도 영상 기법과, 딥러닝 기반 영상 복원 기술을 연구합니다.`,
-      image: "",
+      tag:      "ULTRASOUND LOCALIZATION MICROSCOPY (ULM)",
+      title:    "Ultrasound Localization Microscopy (ULM)",
+      subtitle: "Super-Resolution Ultrasound Imaging Beyond the Diffraction Limit",
+      bodyEn:   `We develop next-generation ultrasound localization microscopy (ULM) techniques that visualize microvascular networks beyond the diffraction limit. Our research spans ultrafast imaging, advanced beamforming, AI-assisted super-resolution reconstruction, motion compensation, and quantitative microvascular imaging for a wide range of biomedical applications.`,
+      bodyKr:   `초음파 회절 한계를 극복하여 미세 혈관 구조를 영상화하는 초음파 국소화 현미경(Ultrasound Localization Microscopy, ULM) 기술을 연구합니다. 초고속 초음파 영상, 고급 빔포밍, AI 기반 초해상도 영상 복원, 움직임 보정, 정량적 혈관 영상 기술을 개발하여 차세대 초음파 의료영상 기술을 구현합니다.`,
+      image:    "",
     },
     {
-      tag:   "MEDICAL AI",
-      title: "딥러닝 기반 의료영상 분석",
-      body:  `(연구 주제에 대한 설명을 여기에 적으세요.)`,
-      image: "",
+      tag:      "SCANNING ACOUSTIC MICROSCOPY (SAM)",
+      title:    "Scanning Acoustic Microscopy (SAM)",
+      subtitle: "High-Frequency Acoustic Imaging for Semiconductor Inspection",
+      bodyEn:   `We develop high-frequency scanning acoustic microscopy (SAM) systems for the nondestructive evaluation of semiconductor devices and advanced electronic packages. By integrating acoustic imaging, signal processing, AI-based image enhancement, and automated defect analysis, we aim to improve the reliability and throughput of semiconductor inspection.`,
+      bodyKr:   `반도체 소자 및 첨단 전자 패키지의 비파괴 검사를 위한 고주파 Scanning Acoustic Microscopy(SAM) 시스템을 개발합니다. 음향 영상 기술에 신호처리, AI 기반 영상 향상, 자동 결함 분석 기술을 융합하여 반도체 검사의 신뢰성과 효율을 높이는 차세대 검사 시스템을 연구합니다.`,
+      image:    "",
+    },
+    {
+      tag:      "COMPUTATIONAL IMAGING & CODED EXCITATION",
+      title:    "Computational Imaging & Coded Excitation",
+      subtitle: "Computational Imaging for Next-Generation Ultrasound Systems",
+      bodyEn:   `We investigate computational imaging techniques that enhance image quality while reducing acquisition time and hardware complexity. Our research includes coded excitation, coded-mask imaging, compressed sensing, sparse reconstruction, inverse imaging, and advanced beamforming algorithms.`,
+      bodyKr:   `영상 품질 향상과 데이터 획득 시간 단축을 동시에 달성하기 위한 계산영상(Computational Imaging) 기술을 연구합니다. Coded Excitation, Coded-Mask Imaging, Compressed Sensing, Sparse Reconstruction, 역문제 기반 영상 복원, 고급 빔포밍 알고리즘을 통해 차세대 초음파·음향 영상 시스템을 개발합니다.`,
+      image:    "",
+    },
+    {
+      tag:      "FPGA-BASED IMAGING SYSTEMS",
+      title:    "FPGA-Based Imaging Systems",
+      subtitle: "Real-Time Hardware Acceleration for Imaging Applications",
+      bodyEn:   `We design high-performance imaging systems on FPGA and embedded hardware platforms for real-time ultrasound and acoustic imaging. Our research focuses on high-speed data acquisition, real-time beamforming, hardware acceleration, and scalable imaging architectures.`,
+      bodyKr:   `실시간 초음파 및 음향 영상 시스템을 위한 FPGA 기반 고성능 이미징 플랫폼을 개발합니다. 고속 데이터 획득, 실시간 빔포밍, 하드웨어 가속, 확장 가능한 이미징 아키텍처를 설계하여 차세대 의료·산업용 영상 시스템을 구현합니다.`,
+      image:    "",
     },
     // ↑ 복사해서 연구 주제를 계속 추가하세요.
   ],

@@ -278,10 +278,19 @@ main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 .rcard .rbody{padding:30px 32px}
 .rcard .rtag{
   font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.16em;color:var(--signal-deep);
-  text-transform:uppercase;
+  text-transform:uppercase;display:flex;align-items:center;gap:10px;
 }
-.rcard h3{font-size:22px;font-weight:700;letter-spacing:-.01em;margin:9px 0 12px;line-height:1.25}
+.rcard .rtag .rnum{
+  font-weight:700;color:var(--ink);background:var(--signal-soft);
+  padding:2px 8px;border-radius:5px;letter-spacing:.05em;
+}
+.rcard h3{font-size:22px;font-weight:700;letter-spacing:-.01em;margin:11px 0 6px;line-height:1.25}
+.rcard .rsub{font-size:14.5px;font-weight:600;color:var(--signal-deep);margin-bottom:14px;line-height:1.4}
 .rcard .rtext{color:#33475c;font-size:15px;white-space:pre-line}
+.rcard .rtext-en{margin-bottom:14px}
+.rcard .rtext-kr{
+  font-size:14.5px;color:#4a5e72;padding-top:14px;border-top:1px dashed var(--line);
+}
 .rcard .rimg{background:#0d1b29;position:relative;min-height:220px}
 .rcard .rimg img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 .rcard .rimg .noimg{
@@ -695,16 +704,27 @@ $('#aboutHeading').textContent = SITE.about.heading;
 
 /* ---------- RESEARCH ---------- */
 (function(){
-  $('#researchList').innerHTML = SITE.research.map(r=>{
+  $('#researchList').innerHTML = SITE.research.map((r,i)=>{
     const hasImg = r.image && r.image.trim();
     const imgCell = `<div class="rimg">${hasImg
         ? `<img src="${esc(r.image)}" alt="${esc(r.title)}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=&quot;noimg&quot;><span>IBME · RESEARCH</span></div>'">`
         : `<div class="noimg"><span>IBME · RESEARCH</span></div>`}</div>`;
-    return `<article class="rcard ${'has-img'}">
+    // 영문 부제 + 영문/국문 본문 (없으면 기존 body 사용)
+    const subtitle = r.subtitle ? `<div class="rsub">${esc(r.subtitle)}</div>` : '';
+    let bodyBlocks = '';
+    if(r.bodyEn || r.bodyKr){
+      if(r.bodyEn) bodyBlocks += `<div class="rtext rtext-en">${rich(r.bodyEn)}</div>`;
+      if(r.bodyKr) bodyBlocks += `<div class="rtext rtext-kr">${rich(r.bodyKr)}</div>`;
+    } else {
+      bodyBlocks = `<div class="rtext">${rich(r.body||'')}</div>`;
+    }
+    const num = String(i+1).padStart(2,'0');
+    return `<article class="rcard has-img">
       <div class="rbody">
-        <div class="rtag">${esc(r.tag||'RESEARCH')}</div>
+        <div class="rtag"><span class="rnum">${num}</span>${esc(r.tag||'RESEARCH')}</div>
         <h3>${esc(r.title)}</h3>
-        <div class="rtext">${rich(r.body)}</div>
+        ${subtitle}
+        ${bodyBlocks}
       </div>
       ${imgCell}
     </article>`;
