@@ -43,11 +43,12 @@ const SITE = {
   about: {
     heading: "About Us",
     // 문단을 나누려면 그냥 빈 줄(엔터 두 번)을 넣으세요.
-    body: `The Intelligent Bio-Medical Engineering Laboratory (IBME Lab.) was established in April 2022 and belongs to the Division of Electronic & Semiconductor Engineering at Kangnam University.
+    body: `The Intelligent Bio-Medical Engineering Laboratory (IBME Lab) was founded in April 2022 as part of the Division of Electronic & Semiconductor Engineering at Kangnam University. Our team is committed to advancing the field of AI-driven biomedical systems, with a focus on ultrasound and IoT technologies, to enhance human welfare and healthcare services.
 
-Our laboratory focuses on developing AI-driven intelligent biomedical systems for improving human healthcare. To this end, we are researching various fields such as artificial intelligence, biomedical ultrasound imaging systems, IoT device design, deep learning, image processing, digital signal processing, and embedded systems.
-
-(← 이 부분을 실제 연구실 소개 문구로 바꾸세요. 원하는 만큼 문단을 추가해도 됩니다.)`,
+For detailed information on our specific research areas, please refer to the button below.`,
+    // 소개 아래 'Learn More' 버튼 표시 여부 (누르면 Research 페이지로 이동)
+    learnMore: true,
+    learnMoreLabel: "Learn More",
   },
 
   /* ───────── ④ 모집 공고 박스 (메인에 눈에 띄게 표시됨) ─────────
@@ -55,12 +56,23 @@ Our laboratory focuses on developing AI-driven intelligent biomedical systems fo
   recruit: {
     show:  true,
     tag:   "RECRUITMENT",
-    title: "2026학년도 학부연구생 / 대학원생 모집",
-    body: `IBME Lab.에서 함께 연구할 학부연구생과 대학원생을 모집합니다.
+    title: "2026–27학년도 학부연구생 / 학·석사연계 / 석사과정 모집",
+    body: `강남대학교 IBME Lab.에서 학부연구생 / 학·석사연계 / 석사과정생을 모집합니다.
 
-관심 있는 학생은 자기소개서(1장 이내)와 성적표를 첨부하여 아래 이메일로 연락 주세요.
+IBME Lab.은 4차 산업혁명의 트렌드에 대응하기 위한 다양한 의공학 관련 연구를 진행하고 있습니다. 이 과정에서 인공지능 / 영상처리 / IoT 디바이스 설계의 최신 토픽을 연구하고 있으며, 이를 바탕으로 다양하고 흥미로운 분야로 연구를 확장해가고 있습니다.
 
-(← 실제 모집 내용으로 바꾸세요.)`,
+활발한 연구 활동을 통해 다양한 경험을 쌓고 싶은 학생, 성실함과 뚜렷한 목표 의식이 있는 학생들은 자기소개서(1장 이하)와 성적표를 첨부하여 아래 이메일로 연락 주시기 바랍니다.
+
+**지원 자격**
+디지털시스템설계, 임베디드시스템, 디지털신호 및 영상처리, 인공지능을 기반으로 한 의료·헬스케어·복지 연구에 관심이 있는 학생
+
+**모집 인원**
+학부연구생 1명(3학년), 대학원생 1~2명
+
+**지원 사항**
+1. 산학연 연구 프로젝트 참여에 따른 장학금 지급
+2. 국내외 최우수 대학 및 다양한 연구기관과의 학술 교류 기회 제공
+3. 국내외 다양한 학회 참여 및 발표 기회 제공`,
     email: "jihunk@kangnam.ac.kr",
   },
 

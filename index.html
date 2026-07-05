@@ -138,6 +138,14 @@ main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 .prose{font-size:16.5px;color:#26374a;max-width:760px}
 .prose p{margin-bottom:1.05em}
 .prose p:last-child{margin-bottom:0}
+.learn-more{
+  display:inline-flex;align-items:center;gap:9px;margin-top:22px;cursor:pointer;
+  background:var(--ink);color:#fff;font-weight:600;font-size:15px;
+  padding:12px 22px;border-radius:11px;transition:.2s;
+}
+.learn-more:hover{background:var(--signal-deep);transform:translateY(-2px);box-shadow:0 14px 28px -16px rgba(14,143,151,.6)}
+.learn-more svg{transition:transform .2s}
+.learn-more:hover svg{transform:translateX(3px)}
 
 /* ───────────────────────── ABOUT + RECRUIT ───────────────────────── */
 .about-grid{display:grid;grid-template-columns:1.4fr .9fr;gap:32px;align-items:start}
@@ -162,6 +170,12 @@ main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
   padding:11px 18px;border-radius:10px;transition:.18s;position:relative;
 }
 .recruit-card .rc-btn:hover{background:#fff;transform:translateY(-1px)}
+.recruit-card .rc-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;position:relative}
+.recruit-card .rc-actions .rc-btn{margin-top:0}
+.recruit-card .rc-btn-ghost{
+  background:transparent;color:#cfe9eb;border:1px solid rgba(23,192,201,.5);cursor:pointer;
+}
+.recruit-card .rc-btn-ghost:hover{background:rgba(23,192,201,.14);color:#fff;border-color:var(--signal)}
 
 /* ── 메인 '최신 소식' 블록 ── */
 .home-news{margin-top:54px;padding-top:40px;border-top:1px solid var(--line)}
@@ -596,7 +610,16 @@ const pinSVG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 
 /* ---------- ABOUT ---------- */
 $('#aboutHeading').textContent = SITE.about.heading;
-$('#aboutBody').innerHTML = SITE.about.body.split(/\n\s*\n/).map(p=>`<p>${rich(p)}</p>`).join('');
+(function(){
+  const a = SITE.about;
+  let html = a.body.split(/\n\s*\n/).map(p=>`<p>${rich(p)}</p>`).join('');
+  if(a.learnMore){
+    const label = a.learnMoreLabel || 'Learn More';
+    html += `<a class="learn-more" data-go="research">${esc(label)}
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`;
+  }
+  $('#aboutBody').innerHTML = html;
+})();
 
 /* ---------- RECRUIT ---------- */
 (function(){
@@ -607,7 +630,10 @@ $('#aboutBody').innerHTML = SITE.about.body.split(/\n\s*\n/).map(p=>`<p>${rich(p
       <div class="tag">${esc(r.tag||'RECRUITMENT')}</div>
       <h3>${rich(r.title)}</h3>
       <div class="rc-body">${rich(r.body)}</div>
-      ${r.email?`<a class="rc-btn" href="mailto:${esc(r.email)}">${mailSVG}지원 문의하기</a>`:''}
+      <div class="rc-actions">
+        ${r.email?`<a class="rc-btn" href="mailto:${esc(r.email)}">${mailSVG}지원 문의하기</a>`:''}
+        <span class="rc-btn rc-btn-ghost" data-go="qa">Lab Q&amp;A →</span>
+      </div>
     </div>`;
 })();
 
