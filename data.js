@@ -84,7 +84,7 @@ IBME Lab.은 4차 산업혁명의 트렌드에 대응하기 위한 다양한 의
     office:      "이공관 516호 (Room 516, Science & Engineering Building at KNU)",
     email:       "jihunk@kangnam.ac.kr",
     tel:         "+82-31-280-3805",
-    photo:       "",   // ← 교수님 사진 주소를 넣으세요. 비워두면 이니셜만 표시됩니다.
+    photo:       "https://lh3.googleusercontent.com/sitesv/AA5AbUC3Zgn3FLkleIewoYobjDGpkfAmvQ1c13Chz1MWhb9ZdkTAaT6BCEXjxTUV14K2Mmi6rzvEGc0tgdy1QOCvJ7pB9wrZd3o1UhnwxWzjWwonePqzs4yTLwMw1bSA78GoixhFneiKf_kFVM9ebMPpu7rE2bcLQpY__UBb3Z5Ia-qkljPiFd3MhxkE12D1CJLl2OgizSYdxv5P46M30qB8QajUkPTFZUqbOQmMGGqr6ZU=w1280",   // ← 교수님 사진 주소를 넣으세요. 비워두면 이니셜만 표시됩니다.
 
     // 학력 — 한 줄에 하나씩. 새 줄 추가는 기존 줄 복사 후 수정.
     education: [
@@ -114,43 +114,43 @@ IBME Lab.은 4차 산업혁명의 트렌드에 대응하기 위한 다양한 의
       name:  "송덕미 (Deokmi Song)",
       role:  "Graduate Student (M.S. course)",
       email: "dmdm9@kangnam.ac.kr",
-      photo: "",
+      photo: "https://lh3.googleusercontent.com/sitesv/AA5AbUC9eieB3WPuoEeOV147hvTRNLGW6BcVAdN_X-rp2tv1bAy0-P7iMRO6v8TksERMTqeG_QxaAXlqR1zv67YurEtP_gZ50cJmRffO9B8QTm1A6kb-2KUO3Xj1EvZA0JieUbJ2wpv-NxfvnaBPwYVRU-qRUJYzDfEsCtieJkCcSQmkwOPKxBnxKYmb3EATyGGiX7a3hGjaMCWi8aFWGmgEWvOjptcXABUjVTQC2Bne=w1280",
     },
     {
       name:  "문성빈 (Sungbin Moon)",
       role:  "Graduate Student (M.S. course)",
       email: "plazma740@kangnam.ac.kr",
-      photo: "",
+      photo: "https://lh3.googleusercontent.com/sitesv/AA5AbUCmh9825ebCy1BVYgyUxKBamEEbuD48NC19xEx81ytl3SvFtHqYZl4KXIbyqGhBvRuX_f70gGNLAvpOeM5ze_5Bla_eq2UxyOUShNIJOOae8-yKZyj8KLSdZGIkJTQeMbBkREa6mEnLqPLNelesuLxYxd6iESh-SlYywLwYeHwMcYVp8SdoNVaMvpkwDglBdk2gnXwl0T478iUuFkbI4cJCspuibAzaW9RKWIKM=w1280",
     },
     {
       name:  "조원빈 (Wonbeen Cho)",
       role:  "Graduate Student (M.S. course)",
       email: "wb010626@kangnam.ac.kr",
-      photo: "",
+      photo: "https://lh3.googleusercontent.com/sitesv/AA5AbUComnVEjeg9_9AQQSZCNguqqVoy_M_LTvuoALnub-Z0lYv9cQHGtR_WKSNQ_Qx91AtSLIZEPMlnyLdEZYHY2HL5DWd_TV0MQUOy38ApcbJ_S8JNOliwvsKy9N_716NUwxB6vpnlc8pOHJepjm9AJuaJd7HGfqF-sMjJSrG-E_1qtlxXVU0DeoN8Q1-18x8B6Cb2_5Rx1xzPSDg0rtPu-SrymkUJQ0v3-nNSyTlU=w1280",
     },
     {
       name:  "서정배 (Jungbae Seo)",
       role:  "Graduate Student (M.S. course)",
       email: "dreamhigh61109@gmail.com",
-      photo: "",
+      photo: "https://lh3.googleusercontent.com/sitesv/AA5AbUDi3pzWqK0smoM8XrbY3Jk_w78JFfRS2Y2UoocjxvFaW6T6w-2KsZ_JSpAbJUqlFRm3TM9o4non7hZNxiSd1QsJKl2S7KVxRZZSNNYpJ369PzWxROfrJqyTS8JXBK8SrBdx28nfA_AD2zWSYVP44TpXeVxD1mRba9J0U78zoCaq15hh2KioQYpzeECDUWbN7nFZRwrBzSa7Lo4z7meOZV8e2CF_r_lc801BxQaPCEk=w1280",
     },
     {
       name:  "이서용 (SeoYong Lee)",
       role:  "Undergraduate Student",
       email: "ibluesky304@gmail.com",
-      photo: "",
+      photo: "https://lh3.googleusercontent.com/sitesv/AA5AbUCUD8KdSbq9IEhnZSeZif9kPD37fBgKIgtbx1PdvpuBffSYoT6m72hHsxM5iQo1NZc6NxL1Lf29AP4S6NVQKWh7vJMEmNQxL3tuNiU5ExzclIyAsv7snT09kDSryPyj_GyQBTJbDHqb41AmAHDob4NVNszX1EWRcmiBc6nu_-HMWO9K1SBdJz-gm93GQjr9rIgC1j0amEAoHWOpeVeW19lfA3lKWj3K5h_PHCZWUGY=w1280",
     },
     {
       name:  "이근영 (Geunyoung Lee)",
       role:  "Undergraduate Student",
       email: "qjvdls@kangnam.ac.kr",
-      photo: "",
+      photo: "https://lh3.googleusercontent.com/sitesv/AA5AbUBUUd8DmFiGDvk69o8-BQK21s7up8wH2I7UMP_hAbQmMWbzZ0-eqMFbts5GwNyUZ5wmVElbiIhwGJajRxcxL4peq79Bbes-nlEb6cK7q-Rr_85sIGCnilAa8OYTk-QsvZNIL4-x8EjqLcl3gSk_7iDTJJ9iytsQZ2cINC7Zl4ZC-xmgSuylYYmFKZCML2VLyux76_N4ccls_Q_vIB14Y3887TDd8DTkXw4EA0Q5jio=w1280",
     },
     {
       name:  "서동훈 (Dong Hun Seo)",
       role:  "Undergraduate Student",
       email: "sdhboseok123@gmail.com",
-      photo: "",
+      photo: "https://lh3.googleusercontent.com/sitesv/AA5AbUCGtFIdOSRlAg1ms2RlladGQWPHc8nXC2jWP2echM624OUwtoBdzOQZ2oRtt7twfLmuGWsaxuxsI4NL1rR5iMzKlaG-3IFunIM2o6qktCFUuaAa0YYlRfcfqMR8aBvm_PPuMIvVsXdURjxZF10dz3867RplfsuMA75F9wKY-mX_f9-p_CYBUJVDWx6Bjp9VxXksufCS_eYoAIynEsy3OScSuDdDgN5Y2oDznYlr=w1280",
     },
     // ↑ 위 { … }, 를 복사해서 멤버를 계속 추가하세요.
   ],
@@ -380,14 +380,19 @@ IBME Lab.은 4차 산업혁명의 트렌드에 대응하기 위한 다양한 의
 
 [Poster] **[우수 포스터상]** "압축 센싱 기반 초음파 국소화 현미경 기법: 미세기포 주입률 변화에 따른 in situ microvessel phantom 실험" — 문성빈, 조원빈, 김지훈
 [Poster] "High Resolution Ultrasound Biomicroscopy of Ex-Vivo Bovine Eye based on IQ-domain 3D VSSA-CFW Beamforming" — 송덕미, 서정배, 이승엽, 황재윤, 김지훈`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUB6Jh49U8eo8-JKMZ8As3g7nhKVWNRVy5Fq6j1N8a3d4iI5ierKKwDrb9uW6HhEUTvf-guXA6zIpM_C1L16nOTHQbFtF4BfpTGbp-lZ8zSgsI5VI9bG8l25Ro0UVRdq9vAwV6V2VRkQBN5zcYlp3TVqc8Jh_B9ducvchQTMfoH5-4ISEDVHwVh5CA-uwLZJxQLWNmlscLFU7vCaxi9vcTTpBLalb8Fnu7NtkcufZQk=w1280",
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUBNBgWrEUHuCMCKMqgM1AcH6SdY9QmjSsV32erSytZKmWdkCEhcO2jF77QYpkDwDyLiCQ9KMkjNKxArd88sfTZ-JPS_ahM9RJJUcP5KsT9rqIs82OIMpr6dVwq1mqTyUad4wkuDc8rRF_a7FZaRdP9Qi7YRELk-UF3oXD9H1ZNf7JA8vzNqNsO86B1B7QBx7IRFBkAM7PTMgEbJRy35qy2qbJBzaqt52h8WV20X-qY=w1280",
+      ],
     },
     {
       date: "2026.05.01",
       text: `우리 연구실에서 2024년에 졸업한 김성현 학생(학부연구생 시절 수행)의 연구 논문이 SCIE 저널인 IEEE Sensors Journal에 최종 게재되었습니다. 본 논문은 약 2년간의 리비전 과정을 거쳐 게재가 확정되었으며, IMU 기반 궤적 추정 성능 향상을 위한 Transformer 기반 모델을 제안한 연구입니다. 긴 시간 동안 성실히 연구를 수행하여 훌륭한 성과를 이룬 것을 진심으로 축하합니다!
 
 Kim, S., Noh, S., Jeong, S., Kim, C., Lee, H.†, Kim, J.†, (2026). Enhancing Trajectory Estimation with Convolutional IMU Transformer. IEEE Sensors Journal, 26(9).`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUADJrgOAC7C90R_np5aSk53yiluU4BxjzHkYME0dBm-f_xNHybAaLalh2KDtNwCo9Z0x38VVbauhG4rUl2r_MSXYTsXxCjJ7jzaqt0kgt-EMSi0SbYX-RIe80RQAFLziQNaf7vUKWH-lRfF46doHsmhEoqaecYn0reLKoWQMl8TiXE9cU9WU4G7zLqxZSycIvVqpAK7xy5eZkK9TMI4NApVCUKrRUqi7LdmyfuXS9I=w1280",
+      ],
     },
     {
       date: "2026.03.27",
@@ -415,7 +420,10 @@ Kim, S., Noh, S., Jeong, S., Kim, C., Lee, H.†, Kim, J.†, (2026). Enhancing 
 
 [Poster] "Evaluation of Hybrid Synthetic Aperture and Coherence-Enhanced Beamforming Methods in Scanning Acoustic Microscopy" — 송덕미, 최호진, 이승엽, 황재윤, 김지훈
 [Poster] "Ultrasound Localization Microscopy Enhanced through Compressed sensing in Frequency Domain" — 문성빈, 김지훈`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUBbgHSxu08qIwwUCyH5gnz0O1iSHSasQFKHeDKSzGRY3FwXcMK1oHMb49lfoYT9Ivk7T30-o09WVrV3j7dDvMt8fP7Uh13wtD0ynb-gwSBvV39ghNQ3c1j2lxL9dVgkXmra1HR_7gejloU5RRl-6RtkoQ7Cs_ICFSWw0nsmNy4k4eGjttcp76XNawzVusDBgg74vKtQaIvSUMPtf132cj1ajK9jq_z4Ik_sxNsJ=w1280",
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUAPJl0sPARhMTw-TY9lKlZZhN27Ps3MZ28ra5PJFxBco9GGa1mKsvc4YHco77fGbB93ImynoVcV4Ge0SjurYKNpns7uQ3YR_aHc8ASjW0nH1rZsruX-bfdAJtb9L2cpDRUyCrTf5SMwkG56DuKBcZWBSoFIDehBqkWUBPSSeYtSzW1QMqdR_t5qxUKPRBnzZfK6S6a-qbmkorzfwiZow4YIW46OSUKIxS6BhSeSy-k=w1280",
+      ],
     },
     {
       date: "2025.10.22 – 2025.10.25",
@@ -424,7 +432,9 @@ Kim, S., Noh, S., Jeong, S., Kim, C., Lee, H.†, Kim, J.†, (2026). Enhancing 
 [Oral] **[신진연구자상]** "From Scanning Acoustic Microscopy to Coded Mask: Advanced NDT of Semiconductor Packages with Single-element Ultrasound" — 김지훈
 [Poster] "Computation Ultrasound Imaging with a Single-element Transducer and Coded Mask" — 문성빈, 조원빈, 최호진, 김지훈
 [Poster] "Performance Evaluation of Advanced Beamforming Algorithms for 3D Scanning Acoustic Microscopy" — 송덕미, 최호진, 김지훈`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUCNEr4n7gItzpZ9CULqRrjoOOk5bK-tpBwrmJYgQFHaw6_x3dvmtEZ4j9KLR10u03jvi9fh4Rj3B2IEdl8vx0vwQm0O4VT35jCyGGKejoMkRWcpnRyabLfvZO68wb6KBlfr0IBuHi-KfGEfJYNi35Sj0wgjfPN-irOV21CUdO4IZiQwxzqavxi0BFZMYHfvFNyJ3fBwpH9lBXL1T-xpr-wyUidutU-NLveWcq71=w1280",
+      ],
     },
     {
       date: "2025.09.23",
@@ -443,7 +453,9 @@ Kim, S., Noh, S., Jeong, S., Kim, C., Lee, H.†, Kim, J.†, (2026). Enhancing 
 [Poster] "Enhanced 3D Ultrasound Biomicroscopic System with Virtual-Source Synthetic Aperture with Coherence Factor Weighting" — 송덕미, 김지훈
 [Poster] "Performance Benchmarking of Compressed-sensing based Microbubble-Localization for Ultrasound Localization Microscopy" — 문성빈, 최호진, 김지훈
 [Poster] "Ultrasound Holographic Illumination for Improved Spatial Resolution in Endoscopic Ultrasound Imaging" — 최현수, 이문환, 황재윤, 김지훈`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUAX-OcSILTTsXPVwcqJV96rlnhtvLpWGKPQoxeCSHQSrqLdTvsSnpm80Ap7tIBqIQwMPTZSsxjFZ4HhimlURRaUHzpWQzSOkwYTGgT9QeWhUiYIyPWF8qC5yeYIBE0WR-hYKLc95KJc-v0a2K_u_o4X_LQxvUXLrW99oDUEYjObfER6TfCVPMFkVRGT70HhBt5un49D2ywimQ0UKkcErneQXIe5mAJiuCdnGdA8=w1280",
+      ],
     },
     {
       date: "2025.06.12 – 2025.06.13",
@@ -452,7 +464,9 @@ Kim, S., Noh, S., Jeong, S., Kim, C., Lee, H.†, Kim, J.†, (2026). Enhancing 
 [Invited Talk] "Introduction to Advanced Super-resolution Ultrasound Imaging Technique" — 김지훈
 [대학생논문경진대회] **[우수 논문상·은상]** "다양한 환경 조건 하에서의 YOLOv8-OBB를 활용한 SAR 선박 탐지 성능 평가" — 조원빈, 김지훈
 [대학생논문경진대회] **[우수 논문상·동상]** "4차원 블록 매칭 필터링을 이용한 반도체 웨이퍼 결함 검출용 고주파 초음파 영상 향상 기법" — 문성빈, 조원빈, 최호진, 김지훈`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUAzYPz7WNlxq-4cCevTQJl14Keup0km2sjysngA_VDxDd6yJZdf6a-lmkG39uw8NhVBvs_GdTdVcYZx7vDxlqIPaGtQxz27S23DA5D7BVoIvffeg5rx6sbRHtL-GD-dhfcBNykVnmR_-r0IUY-cS_I5k-GNY_G9FWTp2LzH-vW_AWs04tKNaHFdonDKsZHzYh-WjdgCpEUF_JWbu35zLGHs7LskQHh-reuw8A=w1280",
+      ],
     },
     {
       date: "2025.05.08 – 2025.05.10",
@@ -461,12 +475,17 @@ Kim, S., Noh, S., Jeong, S., Kim, C., Lee, H.†, Kim, J.†, (2026). Enhancing 
 [Invited Talk] "Advanced Technique for Super-Resolution Ultrasound Imaging" — 김지훈
 [Poster] "Improving Spatial Resolution Beyond the Focal Zone in Ultrasound Biomicroscopy via 3D VSSA-CFW and Real-ESRGAN" — 송덕미, 조원빈, 이문환, 황재윤, 김지훈
 [Poster] "Performance Benchmarking of Compressed Sensing based Localization Technique for Ultrasound Localization Microscopy" — 문성빈, 최호진, 김지훈`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUBOrzCQdhavB6R30XOoo0SL8rFjFp2thyCcPLSXJGycmKQPPoinbXbg3OvTZtzuOIwboluYKz3w4RaCfSfydqhrft6XSiKVZYKCOWkPq_wAWlLsB7wfIsrrQZCyzv5F-F8mRqu-qKTZN10f1bDIiAK5ImV2U6aHA0mzV_sn7Xjs0RUrT_-LT_M5LIO03AYLjh_mNgjNsGbs7GPq1Ip9P1qrxs3Sus16pU4DbTYV=w1280",
+      ],
     },
     {
       date: "2025.04.18",
       text: `김지훈 교수는 2025년 4월 18일에 개최된 강남대학교 개교 79주년 기념식에서 **"교육 부문 공로상"** 과 **"우수연구자상"** 을 수상하였습니다.`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUAb3bSl3EvOu56Ea13a4ioE4iiZj2lB3qrk96rov99L_fvmmbu1lFnuy7PXpx4q9hRAROHzmEXcr6-G9SJpLqHQs63wK2m34rG-itUZ8hsmwxpZKtClq9SqwGgF0oaOCEArY3DilK8hWwkTPxUrGETzrP28G76XdPLSs6Yw1jpxIg77501OYw9lDF4IcIBiXc2ECJ710K5nFz6n2ZA_tGl7tPmPoE0HRlGQ7gf-cZo=w1280",
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUCAamTl9AZQQGkuTdqfDv6jxQEB9pOBVd_N7p8cYD_hOzSUEbK9_cRly6TRhDWsFk6BPBgESMjxPoTDQwiowtKE2DMepoZzVnGFruAFWf3HMWmBv4zZI46LAyriyfXi1eUd-IbEUEVLSjAM4FjKxpenBmU9XZ65mUjDaYHIIEsh9idKElRuEOp2MFVCeGxbSdr5VKAOmQu3l_x9FkfGg1CacFIvbjOHiC_R_adP=w1280",
+      ],
     },
     {
       date: "2025.03.01",
@@ -478,7 +497,9 @@ Kim, S., Noh, S., Jeong, S., Kim, C., Lee, H.†, Kim, J.†, (2026). Enhancing 
       text: `최현수 석사연구생, 남택우, 안정기 학부연구생의 졸업을 축하합니다! 최현수 석사는 지난 2년 동안의 뛰어난 연구 성과를 인정받아 **우수논문상**과 **공로상**을 수상하며 석사학위를 수여받았습니다.
 
 최현수 석사 학위논문명: "구조 조명 현미경 기법과 딥러닝을 결합한 초음파 이미지 고해상도 복원"`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUBRY19A771T8ugCY1OV-wI7-6OJ05XOLcwTCPDAlTXDkqIWQfXkgyWaXDWNjVCZz_yfNUrRUVv9fX7W5bhm_IRbWzIXE65XLLfsS4V1PRQrIzYYXwMcdln0aoagH8MBIIGSLPCUVYbbVNDFlmiUoMsoUzp2YcEw_Q0aqqXtpiaQZ3XyPQPAC2D0kR-lxSm6rNBw2IoG3C6Wu5OdUlLJU1UrYKm_ldI8MQFCJa2t=w1280",
+      ],
     },
     {
       date: "2024.11.30",
@@ -492,14 +513,19 @@ Choi, H., Yu, J., Kim, J. (2024). "Improving lateral resolution in ultrasound im
       text: `서울 스위스그랜드호텔에서 개최된 2024년도 대한의용생체공학회 추계학술대회에 참여해 수행 중인 연구를 발표하였습니다.
 
 [Poster] **[우수 포스터 논문상]** "VSSA-CFW 기법을 적용한 고해상도 UBM 이미징" — 송덕미, 김명서, 최현수, 황재윤, 김지훈`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUAZI1xwjf1zLr64bWvkkvPus8o5l3DLmdMedT_9t1llG_9nwkHUX-BhkolwlUVUCckS1MUuSR1dbWOV6-6NdMIJOl5lbkaYCAUvyKmKYE0y9Qo728pwisJLViXjbW-HZdYxLbVMKtmv6XIEC7CFQnatV6_hnKK7wEDgRjHmkl203tezqc8GTSpH0R7Gv_AdYWIccdcv2bd0rPX7ypprlAEK1rpSDkYrQVwUMPBk=w1280",
+      ],
     },
     {
       date: "2024.09.22 – 2024.09.26",
       text: `최현수 석사과정(2년차)이 IEEE UFFC-JS (IUS) 2024 (Taipei, Taiwan)에 참가하여 포스터 발표를 진행하였습니다.
 
 [Poster] "A Novel Approach to Ultrasound Super-Resolution via Deep Learning and Structured Illumination Sequences" — Hyeonsu Choi, Qi You, Yike Wang, Jaesok Yu, Pengfei Song, Jihun Kim`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUA2y9H52AeqAnUs__vkjUhhfS4tc-vEuEdibCU5t_xtYb57i5-44eYgfigcBV8IyCKYM298H1NwNUX0Nprmbiam-bJdfR3d64_S8R4ueOdXpbvabCB1Qpqr-5blDdcQFQzkuu9_xO2iEYZa7BhtvW9fIPYYmPO0VdcgWiqFp7FKMrsGwa48Wf-_1wnAN9_o-4_lIwNvVypHlvbxkweXQaYeJBwwCSs_RVvekzgPUbw=w1280",
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUBurf4N1qFmbXQpWzepCQswKw7AfOtmXyF65eq40un0j4HnjENRk6_WkSWUfxRJBCDexktU7Wa2Sw4jvejkpjTLKhNzqLOFsZvwU0E8ZiDqJM4lgeo9JpC_5MQEAvTE0XXUebjNos_yBSJj-A8nfrTJvs2_DXoGBpQLOn2tHcHbQgHo1buKCPQBcZUWAOtfttFDqzAVxbMcEXOB_zNaP9YZazlvSYi2PS893vEb=w1280",
+      ],
     },
     {
       date: "2024.09.09",
@@ -511,28 +537,38 @@ Choi, H., Yu, J., Kim, J. (2024). "Improving lateral resolution in ultrasound im
       text: `IBME Lab. 남택우, 송덕미, 최호진 학생 3명이 독일 Fraunhofer IKTS에서 진행된 3주간의 국외 단기교육을 성공적으로 수행 후 귀국했으며, 수료증을 수여받아 글로벌 역량을 강화하는 기회를 가졌습니다.
 
 [강남대학교 차세대반도체시스템사업단 지원]`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUAR0W7tsCNt72EEReAnEhc9U42HZh5yxWHNXbXI0kIIHj2RALc2ruK5bB_3PDFPzSgT2m2oJDsMmn9xFuRieOWI-novWIeKoFMkXMW7MKlZo-JlGBPe6Y8Y7yysjW8DMIR_vbf7Eh4fTSU4wLd4JP7AphQDnaGqY9Wk5qhabRFl3INsqkA_CRIzd7dRte8UTyrLZVUPJsBzBh14G-qMazvrof0RDZG8FG-6OokLqAQ=w1280",
+      ],
     },
     {
       date: "2024.05.09 – 2024.05.11",
       text: `연세대학교 미래캠퍼스에서 개최된 2024년도 대한의용생체공학회 춘계학술대회에 참여해 수행 중인 연구를 발표하였습니다.
 
 [Poster] **[우수 포스터 논문상]** "구조화된 초음파 전송을 통한 새로운 초고해상도 초음파 이미징 기법" — 최현수, 유재석, 김지훈`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUD4GveWP_UK_NKsZ1gQA_lKuoAQCxFMF_xchexHOQW98G75lvBSQVoizkJ-PoyD-k4X5YpbqiIkDzAhEmmSBbxo9xJPYG95D-VvczZYUp_Jc5X_RSU4d2qBQ7ilXC_vTaatvuIw9wk58hc84fV-0AOJhsL8TbXFkPcGriSVk5mlZZm54RLtWmGlfIit2sM6k7SvmK06_QGmSiMqqC9vz_JIHJ9AakHfomY3o2j2=w1280",
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUDs4SmzaSh_gEjTt7WaHjnimB8Jk8J7RX7tN41D_HeVlJcNyDcHupElf5k8hHU43aH0Dl0znPw_pwqxRsctVreU9u6NYQoKGO5fz-2X8naaxcfjTOGNHzOav3z7fj_wmxhS4MXmUcdC83Oc4c8oVOAR9VmO6BDSOC-qrhz9Zuccrqom1VeEDMapCIOaXZcZa4RiVpk-_gCAFjUYLtU1Tu1ytbd002xMPfCrHKc-d0Y=w1280",
+      ],
     },
     {
       date: "2023.11.09 – 2023.11.11",
       text: `고려대학교 하나스퀘어에서 개최된 2023년도 대한의용생체공학회 추계학술대회 및 IBEC 2023에서 진행 중인 연구를 발표하였습니다.
 
 [Poster] "Comparative Study of Deep Learning Models Based on Ultrasound Images of Developmental Hip Dysplasia" — 김성현, 이경수, 이시욱, 장진호, 황재윤, 김지훈`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUBMcy4N6U7GeMV1avL8DHx_BC6G3H9eSIns2VgXBjNqIyEr-X_r67bjqg-HMRUFMuYWKrwf8kCptMer_Z4HB6DIgnzZ13JiJvgmyVnV7exp_2W-Ev65evdaSfikh3xcNBR9e9DNKCmnmRLxWAhCcOgEmdHZF-Bs69U7JesaVNYxB_E3jaKZBTtKEYxjCQi6qqq5tlG4EPE3RetH1bfqforxrV0k6nDsSLwxT4yrcwg=w1280",
+      ],
     },
     {
       date: "2023.11.02 – 2023.11.04",
       text: `부산시 한화해운대리조트에서 개최된 2023년도 한국음향학회 추계학술대회에 참가하여 진행 중인 연구를 발표하였습니다.
 
 [Poster] "초고해상도 이미징의 진보: 초음파 기반 구조화 조명 현미경 연구" — 최현수, 김지훈`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUBAOuiA_DfBmb_Q37QNX5Jaip4mRgw1WkK_zWjLpGROQJ94nrojUcwNTwUmRmbwy3d-jnf2rAtbFfvcJJpeUfZKJN_83vc9hREwOujxaq_CeftZ7aewXrAUjBPMhieCUCVkzrgS2gjGJbIe_jvH2eZxC2z6N_5QrGMSvC8nmqwHFSKm9XX5pdHsem6Xu0nNs9lUmzTI9PSV44Q3It6z5qps0ERvZnkhMb_qUKUz=w1280",
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUApixfHPeWg3rZOEV8grjViNeIeTTkHGuSmhr5Ed2RMvFvxBZ3CBj2FX5FyJ7B-U4EnT5G6upQJ-DwM0xHR4cg3_6wu-PLD2LXCaHHnU9PRK3mjTqLQqyuygWQcMaktuXzQi_nQiKnFBELAa2GQJ8dvOtJsBhXGlOAroQpsaNjfcHIXUPSUsjBZBEiQdcZGw_r-pr-qIUXb-YGxb85QfyNBN0IY148TZR5K1v3vtR8=w1280",
+      ],
     },
     {
       date: "2023.09.30",
@@ -544,7 +580,10 @@ Kim, S.H., Lee, K., Lee, S.W., Chang, J.H., Hwang, J.Y., Kim, J. (2023). "Compar
     {
       date: "2023.09.03 – 2023.09.08",
       text: `최현수 석사과정(1년차)이 IEEE IUS 2023 (Montreal, Canada)에 참가하였습니다. IEEE 주관으로 개최된 이번 학술대회에서는 초음파 분야의 학문과 기술 발전을 위하여 1,209편의 논문 발표와 초청 강연 등 다양한 프로그램이 진행되었습니다.`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUAFd6__H7TVNC2ZVoZF1vXAQVhjoPuFZjjvWcvYeyGJnEsL9DExm6XXpV_VyS-lUYGRIEANhvjODK-c0_A0mfuzwiukpac7Z9WkLdSqZXuWMMcetMsH-XH9FbyYsskbItLNIDIwEdm0JdTdEYLbb_eaYvYbGrXzyj4opF2zB_3qDdJ0SM4ar7oXWDIO5j7X-hgdmZ_9-9YJempfgHALoawXXXp0__C78nFpR_wU9lQ=w1280",
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUCuL1Q18q1Due-rNTDLypZTUFNrjQ2l3w83U0DTlWof_4x0YM6p275M2Op6KyfUrTIzB6gPxhurjIicNg1YbJE2v_v2JdAUItR3DNX3XOk0oYwO_5qsGfqVg9cmwWQmkW4XJEHdYEnqixZfJG_LsuTaBaCsRFWEAglGU5dE2VIFEHXO5f59-4Rh3HNFnBlYZnMGwP1PUUYthT3_KiMnXHiY8f7Ga1T9e0ml8Hf4HJI=w1280",
+      ],
     },
     {
       date: "2023.05.31 – 2023.06.02",
@@ -552,7 +591,9 @@ Kim, S.H., Lee, K., Lee, S.W., Chang, J.H., Hwang, J.Y., Kim, J. (2023). "Compar
 
 [Poster] **[우수발표상]** "해상도 개선을 위한 구조화된 초음파 여기 및 딥러닝을 이용한 향상된 초음파 이미징 기법" — 윤유진, 최현수, 김지훈
 [Oral] "초음파 및 X-선 이미지 기반 발달성 고관절 이형성증 진단에서의 키포인트 감지를 위한 딥러닝 네트워크 비교 연구" — 김성현, 이경수, 이시욱, 황재윤, 김지훈`,
-      images: [],
+      images: [
+        "https://lh3.googleusercontent.com/sitesv/AA5AbUCLj9q8hM3J5C-R6-ciyBydtANfwpq5bl6h6seWwu4OaOM3OyF7WIt7CVPeZZCmee5PYHowoqvN7hAgBFnt1T0keETZdkL_6Ij_OGqz2nXFtTOhn_9DRkg1jq6k77PGJgB298IIdIcGNSCFLuM-qFgZo0_kVKU1p0QFeSh62h5RiN9p9fjBfwXlPf0CuUb6OLPoistR0SQ2C_zp0UI5wSeVh6lS2FipmpR1Z_tE=w1280",
+      ],
     },
     {
       date: "2023.03",

@@ -89,31 +89,33 @@ nav.links a.active{color:var(--ink);background:var(--signal)}
 .hero{
   position:relative;
   background:
-    radial-gradient(1200px 500px at 78% -10%, rgba(23,192,201,.16), transparent 60%),
+    radial-gradient(900px 320px at 82% -20%, rgba(23,192,201,.16), transparent 60%),
     linear-gradient(180deg,var(--ink) 0%, var(--slate-900) 100%);
   color:#eaf1f7;overflow:hidden;
-  padding:96px 24px 108px;
+  padding:30px 24px 32px;
 }
 /* 배경 음향 파형 애니메이션 */
 .hero .waves{position:absolute;inset:0;z-index:0;opacity:.5;pointer-events:none}
-.hero-inner{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto}
-.hero-logo{height:88px;width:auto;margin-bottom:30px;object-fit:contain;
-  filter:drop-shadow(0 8px 24px rgba(0,0,0,.35))}
+.hero-inner{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;
+  display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.hero-logo{height:64px;width:auto;object-fit:contain;flex:none;
+  filter:drop-shadow(0 6px 18px rgba(0,0,0,.35))}
+.hero-text{flex:1;min-width:240px}
 .eyebrow{
-  font-family:"Spline Sans Mono",monospace;font-size:12px;letter-spacing:.22em;
-  color:var(--signal);margin-bottom:22px;display:flex;align-items:center;gap:12px;
+  font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.2em;
+  color:var(--signal);margin-bottom:8px;display:flex;align-items:center;gap:10px;
 }
-.eyebrow::before{content:"";width:34px;height:1px;background:var(--signal);display:inline-block}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--signal);display:inline-block}
 .hero h1{
-  font-size:clamp(48px,9vw,104px);line-height:.94;font-weight:700;letter-spacing:-.03em;
-  margin-bottom:20px;
+  font-size:clamp(30px,5vw,46px);line-height:1;font-weight:700;letter-spacing:-.02em;
+  margin-bottom:8px;
 }
 .hero h1 .accent{color:var(--signal)}
-.hero .sub{font-size:clamp(17px,2.4vw,23px);font-weight:500;color:#cde0ec;max-width:640px}
-.hero .tagline{margin-top:14px;color:#8ba6ba;font-size:15px}
+.hero .sub{font-size:clamp(14px,1.6vw,17px);font-weight:500;color:#cde0ec;max-width:none}
+.hero .tagline{margin-top:4px;color:#8ba6ba;font-size:13.5px}
 .hero .lab-meta{
-  margin-top:40px;display:flex;flex-wrap:wrap;gap:10px 26px;
-  font-family:"Spline Sans Mono",monospace;font-size:12.5px;color:#7f9bb0;letter-spacing:.03em;
+  margin-top:14px;display:flex;flex-wrap:wrap;gap:6px 22px;
+  font-family:"Spline Sans Mono",monospace;font-size:11.5px;color:#7f9bb0;letter-spacing:.03em;
 }
 .hero .lab-meta span{display:flex;align-items:center;gap:8px}
 .hero .lab-meta span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--signal)}
@@ -491,7 +493,7 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
       <a data-go="publications">Publications</a>
       <a data-go="teaching">Teaching</a>
       <a data-go="qa">Lab Q&amp;A</a>
-      <a data-go="news">Announcement</a>
+      <a data-go="news">News</a>
     </nav>
     <button class="nav-toggle" id="navToggle" aria-label="menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
@@ -504,11 +506,13 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
   <canvas class="waves" id="waveCanvas"></canvas>
   <div class="hero-inner">
     <img class="hero-logo" src="images/lab_logo.png" alt="IBME Lab" onerror="this.remove()">
-    <div class="eyebrow" id="heroEyebrow"></div>
-    <h1 id="heroTitle"></h1>
-    <div class="sub" id="heroSub"></div>
-    <div class="tagline" id="heroTagline"></div>
-    <div class="lab-meta" id="heroMeta"></div>
+    <div class="hero-text">
+      <div class="eyebrow" id="heroEyebrow"></div>
+      <h1 id="heroTitle"></h1>
+      <div class="sub" id="heroSub"></div>
+      <div class="tagline" id="heroTagline"></div>
+      <div class="lab-meta" id="heroMeta"></div>
+    </div>
   </div>
 </section>
 
@@ -585,7 +589,7 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
   <!-- NEWS -->
   <section class="page" id="page-news">
     <div class="sec-head">
-      <div class="sec-kicker">07 — Announcement</div>
+      <div class="sec-kicker">07 — News</div>
       <h2 class="sec-title">Lab News</h2>
     </div>
     <div class="timeline" id="timeline"></div>
@@ -907,9 +911,9 @@ $('#aboutHeading').textContent = SITE.about.heading;
     <div class="home-news-head">
       <div class="hn-title">
         <span class="hn-kicker">Latest</span>
-        <h2>Announcement</h2>
+        <h2>News</h2>
       </div>
-      <span class="hn-all" data-go="news">전체 소식 보기 →</span>
+      <span class="hn-all" data-go="news">전체 News 보기 →</span>
     </div>
     <div class="hn-grid">${cards}</div>`;
 })();
