@@ -522,8 +522,8 @@ Choi, H., Yu, J., Kim, J. (2024). "Improving lateral resolution in ultrasound im
 
 [Poster] "A Novel Approach to Ultrasound Super-Resolution via Deep Learning and Structured Illumination Sequences" — Hyeonsu Choi, Qi You, Yike Wang, Jaesok Yu, Pengfei Song, Jihun Kim`,
       images: [
-        "images/News/20240902_1.png",
-        "images/News/20240902_2.png",
+        "images/News/20240922_1.png",
+        "images/News/20240922_2.png",
       ],
     },
     {
