@@ -127,10 +127,6 @@ main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 .sec-head{margin-bottom:38px}
-.sec-kicker{
-  font-family:"Spline Sans Mono",monospace;font-size:12px;letter-spacing:.2em;
-  color:var(--signal-deep);text-transform:uppercase;
-}
 .sec-title{
   font-size:clamp(30px,5vw,44px);font-weight:700;letter-spacing:-.02em;margin-top:8px;line-height:1.08;
 }
@@ -167,7 +163,7 @@ main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 .about-kr{font-size:14.5px;color:#4a5e72;padding-left:40px;border-left:1px dashed var(--line)}
 .about-kr p{margin-bottom:.8em}
 .about-kr p:last-child{margin-bottom:0}
-.about-card .learn-more{margin-top:24px}
+.about-card .learn-more{margin-top:24px;margin-left:auto;display:flex;width:fit-content}
 
 .about-row2{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
 .recruit-card{
@@ -516,7 +512,7 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
       <a data-go="research">Research</a>
       <a data-go="publications">Publications</a>
       <a data-go="teaching">Teaching</a>
-      <a data-go="qa">Lab Q&amp;A</a>
+      <a data-go="qa">Lab FAQ</a>
       <a data-go="news">News</a>
     </nav>
     <button class="nav-toggle" id="navToggle" aria-label="menu">
@@ -547,7 +543,6 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
     <!-- 1행: About Us (전체 폭) -->
     <div class="about-card">
       <div class="sec-head">
-        <div class="sec-kicker">01 — Overview</div>
         <h2 class="sec-title" id="aboutHeading"></h2>
       </div>
       <div class="prose" id="aboutBody"></div>
@@ -563,7 +558,6 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
   <!-- MEMBERS -->
   <section class="page" id="page-members">
     <div class="sec-head">
-      <div class="sec-kicker">02 — People</div>
       <h2 class="sec-title">Members</h2>
     </div>
     <div id="profSlot"></div>
@@ -575,7 +569,6 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
   <!-- RESEARCH -->
   <section class="page" id="page-research">
     <div class="sec-head">
-      <div class="sec-kicker">03 — Research</div>
       <h2 class="sec-title">Research Areas</h2>
     </div>
     <div class="research-list" id="researchList"></div>
@@ -584,7 +577,6 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
   <!-- PUBLICATIONS -->
   <section class="page" id="page-publications">
     <div class="sec-head">
-      <div class="sec-kicker">04 — Publications</div>
       <h2 class="sec-title">Publications</h2>
     </div>
     <div class="pub-tabs" id="pubTabs"></div>
@@ -594,7 +586,6 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
   <!-- TEACHING -->
   <section class="page" id="page-teaching">
     <div class="sec-head">
-      <div class="sec-kicker">05 — Teaching</div>
       <h2 class="sec-title">Courses</h2>
     </div>
     <div class="teach-grid" id="teachGrid"></div>
@@ -603,8 +594,7 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
   <!-- Q&A -->
   <section class="page" id="page-qa">
     <div class="sec-head">
-      <div class="sec-kicker">06 — Lab Q&amp;A</div>
-      <h2 class="sec-title">Frequently Asked</h2>
+      <h2 class="sec-title">FAQ</h2>
     </div>
     <div class="prose qa-intro" id="qaIntro"></div>
     <div class="qa-list" id="qaList"></div>
@@ -613,8 +603,7 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
   <!-- NEWS -->
   <section class="page" id="page-news">
     <div class="sec-head">
-      <div class="sec-kicker">07 — News</div>
-      <h2 class="sec-title">Lab News</h2>
+      <h2 class="sec-title">News</h2>
     </div>
     <div class="timeline" id="timeline"></div>
   </section>
@@ -701,7 +690,7 @@ $('#aboutHeading').textContent = SITE.about.heading;
       <div class="rc-body">${rich(r.body)}</div>
       ${r.email?`<div class="rc-email">${mailSVG}<a href="mailto:${esc(r.email)}">${esc(r.email)}</a></div>`:''}
       <div class="rc-actions">
-        <span class="rc-btn rc-btn-ghost" data-go="qa">Lab Q&amp;A →</span>
+        <span class="rc-btn rc-btn-ghost" data-go="qa">Lab FAQ →</span>
       </div>
     </div>`;
 })();
