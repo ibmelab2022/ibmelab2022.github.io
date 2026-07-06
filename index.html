@@ -163,7 +163,7 @@ main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 .about-kr{font-size:14.5px;color:#4a5e72;padding-left:40px;border-left:1px dashed var(--line)}
 .about-kr p{margin-bottom:.8em}
 .about-kr p:last-child{margin-bottom:0}
-.about-card .learn-more{margin-top:24px;margin-left:auto;display:flex;width:fit-content}
+.about-card .learn-more{margin-top:18px;margin-left:auto;display:flex;width:fit-content}
 
 .about-row2{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
 .recruit-card{
@@ -663,18 +663,16 @@ const pinSVG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 $('#aboutHeading').textContent = SITE.about.heading;
 (function(){
   const a = SITE.about;
+  const btn = a.learnMore ? `<a class="learn-more" data-go="research">${esc(a.learnMoreLabel||'Learn More')}
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>` : '';
   const en = `<div class="about-en">${a.body.split(/\n\s*\n/).map(p=>`<p>${rich(p)}</p>`).join('')}</div>`;
   let html;
   if(a.bodyKr && a.bodyKr.trim()){
-    const kr = `<div class="about-kr">${a.bodyKr.split(/\n\s*\n/).map(p=>`<p>${rich(p)}</p>`).join('')}</div>`;
+    // 버튼을 한글 문단 바로 아래(오른쪽 열 안)에 배치
+    const kr = `<div class="about-kr">${a.bodyKr.split(/\n\s*\n/).map(p=>`<p>${rich(p)}</p>`).join('')}${btn}</div>`;
     html = `<div class="about-body-cols">${en}${kr}</div>`;   // 영문/국문 좌우 2단
   } else {
-    html = en;
-  }
-  if(a.learnMore){
-    const label = a.learnMoreLabel || 'Learn More';
-    html += `<a class="learn-more" data-go="research">${esc(label)}
-      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`;
+    html = en + btn;
   }
   $('#aboutBody').innerHTML = html;
 })();
@@ -912,7 +910,7 @@ $('#aboutHeading').textContent = SITE.about.heading;
 (function(){
   const box = $('#homeNews');
   if(!box) return;
-  const latest = (SITE.news||[]).slice(0,3);   // 맨 위 3개 = 최신 3개
+  const latest = (SITE.news||[]).slice(0,4);   // 맨 위 4개 = 최신 4개
   if(!latest.length){ box.remove(); return; }
   const cards = latest.map(n=>{
     const firstImg = (n.images&&n.images.length) ? n.images[0] : '';
