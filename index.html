@@ -152,25 +152,29 @@ main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 .learn-more svg{transition:transform .2s}
 .learn-more:hover svg{transform:translateX(3px)}
 
-/* ───────────────────────── ABOUT + RECRUIT + NEWS (3열) ───────────────────────── */
-.about-grid{display:grid;grid-template-columns:30fr 30fr 40fr;gap:24px;align-items:stretch}
+/* ───────────────────────── ABOUT (1행 전체폭) + RECRUIT·NEWS (2행 50:50) ───────────────────────── */
 .about-card{
   background:var(--paper-2);border:1px solid var(--line);border-radius:18px;
-  padding:30px 28px 32px;display:flex;flex-direction:column;
+  padding:32px 34px 36px;margin-bottom:24px;
   box-shadow:0 12px 30px -26px rgba(11,22,34,.35);
 }
-.about-card .sec-head{margin-bottom:20px}
+.about-card .sec-head{margin-bottom:22px}
 .about-card .prose{max-width:none;font-size:15px}
+/* 영문/국문 소개를 좌우 2단으로 (전체폭이라 가로 공간 활용) */
+.about-body-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px 40px;align-items:start}
 .about-en p{margin-bottom:.9em}
-.about-kr{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line);
-  font-size:14px;color:#4a5e72}
+.about-en p:last-child{margin-bottom:0}
+.about-kr{font-size:14.5px;color:#4a5e72;padding-left:40px;border-left:1px dashed var(--line)}
 .about-kr p{margin-bottom:.8em}
 .about-kr p:last-child{margin-bottom:0}
+.about-card .learn-more{margin-top:24px}
+
+.about-row2{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
 .recruit-card{
   background:
     radial-gradient(560px 300px at 90% -10%, rgba(23,192,201,.20), transparent 62%),
     linear-gradient(158deg,#123049 0%, var(--slate-900) 55%, #0c1c2b 100%);
-  color:#eaf1f7;border-radius:18px;padding:30px 28px 32px;position:relative;overflow:hidden;
+  color:#eaf1f7;border-radius:18px;padding:30px 30px 32px;position:relative;overflow:hidden;
   box-shadow:0 20px 44px -24px rgba(11,22,34,.55);display:flex;flex-direction:column;
 }
 .recruit-card::before{
@@ -459,13 +463,6 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
 .lightbox img{max-width:92vw;max-height:88vh;border-radius:12px;box-shadow:0 30px 80px -20px #000}
 
 /* ───────────────────────── RESPONSIVE ───────────────────────── */
-@media(max-width:1080px) and (min-width:861px){
-  /* 태블릿: 3열이 좁으므로 About+Recruit 위, News 아래 전체폭 */
-  .about-grid{grid-template-columns:1fr 1fr}
-  .home-news{grid-column:1 / -1}
-  .hn-grid{flex-direction:row;flex-wrap:wrap}
-  .hn-card{flex:1 1 300px}
-}
 @media(max-width:860px){
   nav.links{
     position:fixed;top:64px;left:0;right:0;flex-direction:column;gap:0;align-items:stretch;
@@ -476,7 +473,10 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
   nav.links.open{transform:translateY(0)}
   nav.links a{padding:14px 16px;border-radius:10px}
   .nav-toggle{display:block}
-  .about-grid{grid-template-columns:1fr}
+  /* About 영문/국문 2단 → 세로 스택, Recruitment/News 2열 → 세로 스택 */
+  .about-body-cols{grid-template-columns:1fr}
+  .about-kr{padding-left:0;border-left:0;padding-top:16px;border-top:1px dashed var(--line)}
+  .about-row2{grid-template-columns:1fr}
   .hn-grid{gap:12px}
   .prof-card{grid-template-columns:1fr;justify-items:center;text-align:center;gap:20px}
   .prof-contact,.prof-affil{justify-content:center}
@@ -544,14 +544,16 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
 
   <!-- ABOUT -->
   <section class="page active" id="page-about">
-    <div class="about-grid">
-      <div class="about-card">
-        <div class="sec-head">
-          <div class="sec-kicker">01 — Overview</div>
-          <h2 class="sec-title" id="aboutHeading"></h2>
-        </div>
-        <div class="prose" id="aboutBody"></div>
+    <!-- 1행: About Us (전체 폭) -->
+    <div class="about-card">
+      <div class="sec-head">
+        <div class="sec-kicker">01 — Overview</div>
+        <h2 class="sec-title" id="aboutHeading"></h2>
       </div>
+      <div class="prose" id="aboutBody"></div>
+    </div>
+    <!-- 2행: Recruitment 50 : News 50 -->
+    <div class="about-row2">
       <aside id="recruitSlot"></aside>
       <!-- 메인에 표시되는 '최신 News' (data.js의 news 맨 위 항목을 자동 표시) -->
       <div class="home-news" id="homeNews"></div>
@@ -672,9 +674,13 @@ const pinSVG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 $('#aboutHeading').textContent = SITE.about.heading;
 (function(){
   const a = SITE.about;
-  let html = `<div class="about-en">${a.body.split(/\n\s*\n/).map(p=>`<p>${rich(p)}</p>`).join('')}</div>`;
+  const en = `<div class="about-en">${a.body.split(/\n\s*\n/).map(p=>`<p>${rich(p)}</p>`).join('')}</div>`;
+  let html;
   if(a.bodyKr && a.bodyKr.trim()){
-    html += `<div class="about-kr">${a.bodyKr.split(/\n\s*\n/).map(p=>`<p>${rich(p)}</p>`).join('')}</div>`;
+    const kr = `<div class="about-kr">${a.bodyKr.split(/\n\s*\n/).map(p=>`<p>${rich(p)}</p>`).join('')}</div>`;
+    html = `<div class="about-body-cols">${en}${kr}</div>`;   // 영문/국문 좌우 2단
+  } else {
+    html = en;
   }
   if(a.learnMore){
     const label = a.learnMoreLabel || 'Learn More';
