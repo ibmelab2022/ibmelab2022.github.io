@@ -342,7 +342,7 @@ qnaIntro: `연구실 생활과 대학원 진학을 고민하는 학생들이 자
       images: [
          "images/News/20260709_1.jpeg",
          "images/News/20260709_2.jpeg",
-         "images/News/20260709_3.jpeg",
+         "images/News/20260709_3.png",
       ],
     },
     {
