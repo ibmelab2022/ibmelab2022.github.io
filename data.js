@@ -326,7 +326,7 @@ recruit: {
       title: "초음파 물리",
       en:    "Ultrasound Physics",
       meta:  "Interactive · 43 Chapters · Korean",
-      href:  "teaching/ultrasound/",
+      href:  "resources/ultrasound/",
       desc:  "진동과 파동에서 시작해 빔포밍 · 도플러 · 안전 지표까지, 본문 33장과 고급 기법 부록 10장. 모든 장이 **인터랙티브 애니메이션**과 **한 장 정리**로 구성됩니다.",
       cta:   "학습 시작하기",
     },
