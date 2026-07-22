@@ -335,17 +335,7 @@ recruit: {
   ],
 
   equipment: [
-    {
-               name:  "TEST",
-               ko:    "TEST",
-               image: "images/TEST.jpg",
-               specs: [
-                 "TEST",
-                 "TEST",
-                 "TEST",
-               ],
-               note:  "TEST",
-             },
+
   ],
 
   /* ───────── ⑫ Lab Q&A (자주 묻는 질문) ─────────
