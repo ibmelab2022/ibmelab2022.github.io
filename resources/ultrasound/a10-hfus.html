@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>고주파 단일소자 초음파 · High-Frequency Single-Element — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>부록 · Advanced Ultrasound Techniques · A10 / 10</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">부록 · Advanced Ultrasound Techniques · A10</div>
+    <h1>High-Frequency Single-Element Ultrasound<span class="sub">고주파 단일소자 — 음향현미경과 음향 집게</span></h1>
+    <p class="lede">이 책은 처음부터 끝까지 <strong>배열(전자 빔포밍)</strong> 이야기였습니다. 마지막으로 <strong>정반대</strong>를 봅니다 —
+      <strong>소자 하나</strong>를 <strong>세게 집속</strong>해 <strong>기계로 훑는</strong> 방식. 그 소자 하나로 세 가지를 합니다:
+      <strong>만들고</strong>(설계) · <strong>보고</strong>(음향현미경) · <strong>밉니다</strong>(음향 집게).</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>왜 다시 소자 하나인가<span class="sub">Why go back to one element</span></h2></div>
+  <p>17장에서 분해능은 <span class="num">λ</span> 에 달렸다고 했습니다. 그러니 <strong>주파수를 올리면</strong>(50~250 MHz)
+    <strong>수 µm</strong> 까지 갈 수 있죠 — 피부·눈·세포·재료를 봅니다. 그런데 그 주파수에서 <strong>배열</strong>을 만들려면
+    소자 간격이 <span class="num">λ/2 ≈ 수 µm</span> 로 작아져 <strong>배열 제작이 훨씬 까다로워집니다</strong>
+    (다만 최근엔 <strong>40 MHz대 배열 프로브</strong>도 나옵니다). 그래서 이 대역에선 흔히 <strong>소자 하나를 세게 집속</strong>해
+    <strong>작은 초점</strong>을 만드는 길을 씁니다 — 집속은 <strong>음향 렌즈</strong>나 소자 자체를 오목하게 누른
+    <strong>압착 집속</strong>(<span class="en">press-focus</span>)으로 얻습니다.</p>
+  <p>대가가 둘입니다. <strong>①</strong> 전자 조향이 없으니 <strong>기계로 움직여야</strong> 합니다(다음 절). <strong>②</strong>
+    감쇠는 <strong>주파수에 비례</strong>(7장, <span class="num">α ≈ q·f</span>)라, <strong>주파수를 올릴수록 침투가 얕아집니다</strong>.
+    <span class="t">분해능 ↔ 침투</span> 의 맞바꿈이 이 방식의 전부입니다 — 측방 <span class="num">δ = 1.02·c·F#/f<sub>c</sub></span>,
+    축방 <span class="num">δ = 2c·ln2/(π·Δf)</span>.</p>
+</div>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 렌즈(초점) ⟂ 주파수 — 무엇이 무엇을 바꾸나</span><span></span></div>
+    <canvas id="c1" height="400"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="fd">초점 깊이 z<sub>0</sub> (렌즈/press-focus) · <span class="num" id="fdv">4.0</span> mm</label>
+          <input type="range" id="fd" min="1.5" max="9" value="4" step="0.5"></div>
+        <div class="ctrl"><label for="fc">중심 주파수 f<sub>c</sub> · <span class="num" id="fcv">50</span> MHz</label>
+          <input type="range" id="fc" min="20" max="250" value="50" step="5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">측방 분해능</span><span class="v" id="rlat" style="color:var(--signal-deep)">—</span><span class="u">µm</span></div>
+        <div class="ro"><span class="k">축방 분해능</span><span class="v" id="rax" style="color:var(--signal-deep)">—</span><span class="u">µm</span></div>
+        <div class="ro"><span class="k">침투 깊이</span><span class="v" id="rpen" style="color:var(--amber-deep)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">F 수</span><span class="v" id="rfn">—</span></div>
+      </div>
+      <p class="cap">슬라이더가 <b>둘</b>입니다. <b style="color:var(--signal-deep)">초점 깊이(렌즈/press-focus)</b>가 <b>초점 위치와 빔 각도</b>를 정하고
+        (기하 <b>F#=z<sub>0</sub>/D</b> — 렌즈 곡률로 표시), <b style="color:var(--amber-deep)">주파수</b>는 <b>같은 기하에서</b> <b>빔폭(분해능)과 침투</b>를 정합니다.
+        둘은 <b>독립</b>이에요 — <b>주파수만 바꾸면 초점·각도는 그대로</b>이고 빔폭·침투만 변하며, <b>초점·각도를 바꾸려면 렌즈(z<sub>0</sub>)</b>를 바꿔야 합니다. (침투 한계는 <b>조직의 감쇠</b> 기준 — 결합 매질인 <b>물은 감쇠가 거의 없어</b> 사실상 제한이 없고, 한계는 <b>시료(조직)</b>가 정합니다.)</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>음향현미경 · 생체현미경<span class="sub">SAM &amp; UBM · 기계 주사</span></h2></div>
+  <p>이렇게 <strong>소자 하나를 집속해 기계로 훑는</strong> 방식이 곧 <span class="t">주사 음향현미경</span>
+    <span class="en">scanning acoustic microscopy, SAM</span>, 생체에 쓰면 <span class="t">초음파 생체현미경</span>
+    <span class="en">ultrasound biomicroscopy, UBM</span> 입니다.</p>
+  <p>배열이라면 <strong>전자적으로 빔을 옮겨</strong>(12~14장) 순식간에 한 프레임을 얻지만, 소자 하나는 그러기 어려우니
+    <strong>모터 스테이지가 소자를 물리적으로 훑습니다</strong> — 한 위치에서 한 번 쏘고(<span class="t">A-line</span> 하나),
+    옆으로 <span class="num">수십 µm</span> 옮기고 또 쏘고. <strong>화소 하나에 발사 한 번</strong>이라 <strong>초 단위</strong>가 걸립니다(대개 비실시간).</p>
+  <p>모은 A-line 으로 세 단면을 만듭니다 — 무엇을 읽어낼까요:</p>
+  <ul>
+    <li><b>A-scan → 음속·두께</b> · 위·아래 면 에코의 시간차로 <span class="num">C<sub>L</sub> = 2d / t<sub>L</sub></span> —
+      은화면 <span class="num">3,660 m/s</span>. 종파뿐 아니라 <strong>횡파 속도</strong>까지 얻어(고체라 횡파도 전파) 재료를 판별합니다.</li>
+    <li><b>B단면 (Z-X) → 세로 단면</b> · 층 구조·숨은 결함(내부 부식·박리) — 동전 진위 감정에도 씁니다.</li>
+    <li><b>C단면 (X-Y) → 정면 en-face</b> · 피부의 표피/진피, 눈의 <span class="en">Schlemm 관</span>·홍채, 세포 내부까지.</li>
+    <li><b>MIP → 커널 최대투영</b> · 깊이 구간에서 가장 밝은 값을 X-Y 로 — 얇게 흩어진 구조를 한 장에.</li>
+  </ul>
+  <div class="key"><div class="kh">배열이 닿기 어려운 곳으로</div>
+    <p>고주파·단일소자는 <strong>느리고 얕지만</strong>, 배열이 닿기 어려운 <strong>µm 분해능</strong>을 줍니다.
+      피부암·녹내장 진단, 소동물 심장 영상, 재료·문화재 비파괴 검사 — 실시간이 필요 없고 <strong>해상도가 중요한</strong> 곳이
+      이 방식의 무대입니다.</p></div>
+</div>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 획득 → 볼륨 → 단면 · B(Z-X)·C(X-Y)·MIP</span><span id="cstat">—</span></div>
+    <canvas id="c2" height="404"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:0 0 150px"><label>보기 · 재생</label>
+          <span style="display:flex;gap:6px"><button class="tg" id="mip" style="flex:1">MIP 보기</button><button class="tg" id="p2" style="flex:1">재생</button></span></div>
+        <div class="ctrl"><label for="cd">C 단면 깊이 · <span class="num" id="cdv">45</span> %</label>
+          <input type="range" id="cd" min="5" max="90" value="45" step="5"></div>
+        <div class="ctrl"><label for="kw">MIP 커널 두께 · <span class="num" id="kwv">25</span> %</label>
+          <input type="range" id="kw" min="10" max="50" value="25" step="5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">지금 모드</span><span class="v" id="rmode" style="font-size:13px;color:var(--signal-deep)">—</span></div>
+      </div>
+      <p class="cap"><b>①</b> 모터가 <b style="color:var(--amber-deep)">래스터로 훑어</b> 화소마다 A-line 을 얻고(<b>재생</b>), <b>②</b> 그게 쌓여 <b>3D 볼륨</b>이 됩니다.
+        볼륨 안에서 <b style="color:var(--amber-deep)">B단면 = Z-X</b>(깊이 세로), <b style="color:var(--signal-deep)">C단면 = X-Y</b>(한 깊이 정면) — 슬라이더로 C 깊이를 옮깁니다. <b>③</b>이 그 단면 영상.
+        <b>MIP 버튼</b>을 누르면 C단면 대신 <b style="color:var(--pos)">커널(깊이 구간)</b>에서 <b>가장 밝은 값</b>을 X-Y 로 끌어옵니다 — 얇게 흩어진 표적을 한 장에.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>밀지 않고 잡는다 — 음향 집게<span class="sub">Acoustic tweezers</span></h2></div>
+  <p>같은 <strong>세게 집속한 빔</strong>을, 이번엔 <strong>보는 게 아니라 미는 데</strong> 씁니다. A9 에서 <span class="num">F = q/c</span> —
+    <strong>흡수가 힘을 만든다</strong>고 했죠. 초점에 <strong>강한 방사력</strong>이 생겨 <strong>입자·세포 하나를 그 자리에 가둡니다</strong>
+    (<span class="t">단일빔 음향 포획</span> <span class="en">single-beam acoustic trapping</span>). 광집게처럼 <strong>레이블도 접촉도 없이</strong>,
+    광집게보다 <strong>수 nN 의 더 큰 힘</strong>으로요.</p>
+  <p>가둔 세포는 두 가지로 씁니다. <strong>① 역학</strong> — <strong>음압으로 눌러</strong> 얼마나 변형되는지 보면,
+    <strong>침습성이 높은 암세포일수록 더 부드러워</strong> 크게 변형되므로(그래서 조직을 잘 파고들죠) <strong>부드러움이 전이성의 지표가 될 수 있습니다</strong> (Hwang <span class="en">et al.</span>, <em>Sci. Rep.</em> 2016).
+    <strong>② 조작</strong> — 스캔에 쓰는 <strong>바로 그 모터 스테이지</strong>로 트랩을 <strong>µm 단위로 옮겨</strong> 세포를 <strong>정렬·분류</strong>하기도 합니다.
+    단, <strong>음압이 너무 높으면</strong> 흡수로 인한 <strong>발열</strong>이나 <strong>캐비테이션(진동)</strong>으로 세포가 <strong>손상(막돌기 blebbing)</strong>될 수 있어
+    (29~32장의 <span class="num">MI·TI</span> 한계), <strong>안전한 음압 창</strong> 안에서만 씁니다.</p>
+</div>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 잡고 · 누르고 (Hwang 2016)</span><span id="gstat">—</span></div>
+    <canvas id="c3" height="384"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="pr">음압(포획력) · <span class="num" id="prv">0.71</span> MPa</label>
+          <input type="range" id="pr" min="0" max="1.6" value="0.71" step="0.05"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">부피 변화</span><span class="v" id="rdef" style="color:var(--signal-deep)">—</span><span class="u">%</span></div>
+        <div class="ro"><span class="k">포획 상태</span><span class="v" id="rstate" style="font-size:14px">—</span></div>
+      </div>
+      <p class="cap">같은 <b>세게 집속한 빔</b>이 세포를 <b>초점에 가둡니다</b>(오른쪽). <b>음압↑</b> → 포획력↑ → 세포가 <b>눌리고</b>(좌상단) <b style="color:var(--signal-deep)">부피 변화</b>가 커집니다(좌하단 막대).
+        양 끝에 한계가 있습니다 — <b style="color:var(--pos)">임계(≈0.35 MPa) 아래면</b> 방사력 부족으로 <b>트랩이 풀리고</b>, <b style="color:var(--pos)">상한(≈1.3 MPa) 위면</b> <b>발열·캐비테이션(진동)</b>으로 세포가 <b>손상(막돌기)</b>됩니다(30~32장 MI·TI).
+        그 사이 <b style="color:var(--signal-deep)">안전 창</b>에서만 씁니다. 침습성↑일수록 크게 변형 — <b>전이성 지표</b> 가능성(연구 단계, Hwang et al. 2016). (30 MHz LiNbO₃ · F# 0.75)</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>배열이 아닌 하나 — 그리고 책을 닫으며<span class="sub">The one that isn't an array</span></h2></div>
+  <ul>
+    <li><b>17장 분해능 ∝ λ</b> · 그래서 초고주파 · <b>배열 제작은 까다로움</b>(λ/2 간격, 다만 40 MHz대 배열도 등장) → 흔히 소자 하나를 집속</li>
+    <li><b>7장 α ∝ f</b> · 분해능 ↔ 침투 맞바꿈 · 20 MHz 수 mm ↔ 200 MHz 1 mm</li>
+    <li><b>12~14장 전자 빔포밍 없음</b> · 모터 래스터 · 초 단위 · A/B/C-scan·MIP</li>
+    <li><b>A9 F = q/c 가 되돌아옴</b> · 같은 집속빔이 이번엔 <b>표적을 가두고 눌러</b> 부드러움까지</li>
+  </ul>
+  <div class="key"><div class="kh">한 권을 지나온 하나의 물리</div>
+    <p>배열이 이 책의 처음부터 끝이었습니다. 마지막 장은 <strong>배열이 아닌 하나</strong>였고, 그 하나가
+      <strong>보기도 하고 밀기도 했습니다.</strong> 17장의 <strong>분해능</strong>, 7장의 <strong>감쇠</strong>, A9 의 <strong>방사력</strong> —
+      전부 <strong>이미 배운 물리</strong>였죠. <strong>새 장치는 새 물리가 아닙니다.</strong> 앞에서 쌓은 것을 <strong>다른 각도로 다시 본 것</strong>입니다.
+      여기서 책을 닫습니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>초고주파(50~250 MHz)</b> · µm 분해능 · 배열 제작 까다로움(λ/2 간격) → 흔히 <b>단일 집속 소자</b>(렌즈·press-focus)</li>
+      <li><b>분해능 ↔ 침투 맞바꿈</b> · δ_lat=1.02cF/fc · δ_ax=2c·ln2/πΔf · 침투 ∝ 1/f</li>
+      <li><b>기계 래스터 주사</b> · 화소 = A-line 한 번 · 초 단위(비실시간) · 전자 조향 없음</li>
+      <li><b>A/B/C-scan · MIP</b> · A→음속(C_L=2d/t_L) · B단면(Z-X)→세로 · C단면(X-Y)→정면 · MIP→커널 최대투영</li>
+      <li><b>SAM / UBM</b> · 피부·눈·세포·재료(동전 감정) — 해상도가 전부인 곳</li>
+      <li><b>음향 집게(F=q/c)</b> · 같은 집속빔으로 세포 포획 · 무접촉 · 광집게보다 큰 힘</li>
+      <li><b>집게 = 포획 + 역학</b> · 최소 음압 이상서 포획(이하 풀림) · 압력↑ 변형↑(부피) · 변형도로 전이성 지표(가능성)</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 <b>부록 A10 / 10</b> — 부록 완결<br>
+    IBME Lab 교육용 원본 자료</p>
+  <div class="refs">
+    <div class="rh">주요 참고문헌 · References</div>
+    <p>C. Passmann, H. Ermert, "A 100-MHz ultrasound imaging system for dermatologic and ophthalmologic diagnostics," <i>IEEE Trans. Ultrason. Ferroelectr. Freq. Control</i>, vol. 43, no. 4, pp. 545–552, 1996.</p>
+    <p>Y. S. Petronyuk, S. A. Titov, V. M. Levin, "Application of acoustic microscopy for evaluation of numismatic material," <i>J. Phys.: Conf. Ser.</i>, vol. 2091, 012045, 2021.</p>
+    <p>J. Y. Hwang, J. Kim, J. M. Park, C. Lee, H. Jung, J. Lee, K. K. Shung, "Cell deformation by single-beam acoustic trapping: a promising tool for measurements of cell mechanics," <i>Sci. Rep.</i>, vol. 6, 27238, 2016.</p>
+    <p class="also">함께 보면 좋은 것: Foster et al., <i>Ultrasound Med. Biol.</i> 26, 1 (2000) — 고주파 초음파 영상 개관 ·
+    Shung, <i>Diagnostic Ultrasound: Imaging and Blood Flow Measurements</i> (2015) — 단일소자·집속·방사력</p>
+  </div>
+  <a class="next" href="index.html">처음으로 · 전체 목차 →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/a10.js"></script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>하모닉 영상 · Harmonic Imaging — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>부록 · Advanced Ultrasound Techniques · A4 / 10</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">부록 · Advanced Ultrasound Techniques · A4</div>
+    <h1>Harmonic Imaging<span class="sub">하모닉 영상</span></h1>
+    <p class="lede">01~08장은 내내 <strong>"조직은 선형"</strong>이라고 가정했습니다. 아닙니다.
+      <strong>압축부가 희박부보다 빨리 갑니다.</strong> 파형이 <strong>스스로 일그러지며</strong> 없던 주파수를 만들어내죠.
+      그런데 이 <strong>오차가 오히려 더 깨끗한 영상</strong>을 줍니다.</p>
+  </div>
+</header>
+
+<div class="wrap" style="padding-top:24px">
+  <h3 style="margin-top:0">먼저 — 하모닉 영상이 무엇인가</h3>
+  <p>보내는 건 <strong>f₀ 하나</strong>인데, 받는 신호에는 <strong>2f₀ 가 섞여 있습니다.</strong>
+    조직이 만들어낸 겁니다. 그 <strong>조직이 만든 주파수만</strong> 골라 영상을 만드는 게 하모닉 영상입니다.</p>
+  <ul>
+    <li><b>왜곡</b> · 압축부가 희박부보다 <strong>빨리</strong> 갑니다(c = c₀ + βu). 사인이 진행할수록 <strong>톱니</strong>로 기울죠.</li>
+    <li><b>하모닉 생성</b> · 톱니를 푸리에로 펴면 <strong>2f₀·3f₀</strong> 입니다 — 없던 주파수가 <strong>전파 도중에</strong> 생깁니다.</li>
+    <li><b>고대역 필터</b> <span class="en">high-pass / band-pass</span> · f₀ 를 잘라내고 <strong>2f₀ 만</strong> 남겨
+      그것으로 영상을 만듭니다. 조직이 <strong>스스로 만든 신호</strong>라 오히려 더 깨끗합니다.</li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 왜곡 → 하모닉 생성 → 필터로 추출</span><span id="fstat">—</span></div>
+
+    <div class="plabel"><span><b>인터랙티브</b> · 파형이 스스로 일그러진다 · Fubini 해</span><span id="fstat">—</span></div>
+    <canvas id="c1" height="430"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="pr">송신 음압 P₀ · <span class="num" id="prv">1.5</span> MPa</label>
+          <input type="range" id="pr" min="0.2" max="3" value="1.5" step="0.05"></div>
+        <div class="ctrl"><label for="dz">전파 거리 · <span class="num" id="dzv">10</span> mm</label>
+          <input type="range" id="dz" min="1" max="40" value="10" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">충격 거리 z<sub>s</sub></span><span class="v" id="rzs" style="color:var(--amber-deep)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">σ = z / z<sub>s</sub></span><span class="v" id="rsig">—</span></div>
+        <div class="ro"><span class="k">기본파</span><span class="v" id="rh1" style="color:var(--neg)">—</span></div>
+        <div class="ro"><span class="k">2차 하모닉</span><span class="v" id="rh2" style="color:var(--pos)">—</span></div>
+        <div class="ro"><span class="k">2차 / P₀²</span><span class="v" id="rq" style="font-size:14px">—</span></div>
+      </div>
+      <p class="cap">왼쪽이 <b>파형</b>, 오른쪽이 <b>스펙트럼</b>입니다. 진행할수록 사인이 <b>톱니</b>로 기울며
+        <b style="color:var(--pos)">2f₀</b>, 3f₀ 가 자랍니다.<br>
+        <b>음압을 반으로 줄여보세요</b> — 2차 하모닉은 <b>1/4</b>로 떨어집니다. <b>하모닉 ∝ p²</b> 입니다.
+        그래서 <b>세게 쏘는 곳(초점)에서만</b> 생깁니다.</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>음속이 압력에 의존한다<span class="sub">The nonlinearity parameter B/A</span></h2></div>
+  <p>02장의 <span class="num">c = √(K/ρ)</span> 는 <strong>작은 진폭</strong>에서만 맞습니다. 진폭이 커지면
+    <strong>매질이 눌린 곳에서 더 단단해지고</strong>, 게다가 매질 자체가 <strong>입자 속도만큼 실려 갑니다.</strong>
+    둘을 합치면 국소 음속이 이렇게 됩니다:</p>
+  <div class="eq"><span>c = c₀ + β u</span><span style="margin-left:20px">·</span>
+    <span>β = 1 +</span><span class="frac"><span>B</span><span>2A</span></span></div>
+  <div class="eqcap">u = 입자 속도 · <span class="t">비선형 파라미터</span> <span class="en">B/A</span> ·
+    간 6.8 → β = 4.4 · <strong>지방 10.0 → β = 6.0</strong></div>
+  <p><strong>압축부(u &gt; 0)는 빨리, 희박부(u &lt; 0)는 느리게</strong> 갑니다. 사인파가 <strong>앞으로 기울며 톱니</strong>가 되고,
+    톱니는 푸리에로 펴면 <strong>2f₀, 3f₀ …</strong> 입니다. 없던 주파수가 <strong>전파 도중에 생기는</strong> 것이죠.</p>
+  <div class="key"><div class="kh">숫자로 보면 아주 작은 효과입니다</div>
+    <p>1.5 MPa 면 입자 속도가 <span class="num">0.92 m/s</span>, 음속 변화는 <span class="num">4.0 m/s</span> —
+      1540 의 <strong>0.26%</strong> 입니다. 그런데 <strong>수 cm 를 누적</strong>하면 파형이 완전히 일그러집니다.
+      5 MHz·1.5 MPa 에서 <strong>충격이 서는 거리가 18.7 mm</strong> — 영상 깊이 한복판입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>왜 하모닉이 더 깨끗한가<span class="sub">Three gifts</span></h2></div>
+  <p>하모닉 <strong>음원의 세기가 국소 압력의 제곱</strong>에 비례한다는 사실 하나에서 세 가지가 한꺼번에 나옵니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 기본파 빔 vs 하모닉 빔</span><span id="bstat">—</span></div>
+    <canvas id="c2" height="330"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="fn">F 넘버 · <span class="num" id="fnv">2.0</span></label>
+          <input type="range" id="fn" min="1" max="4" value="2" step="0.1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">기본파 −6dB</span><span class="v" id="rw1" style="color:var(--neg)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">하모닉 −6dB</span><span class="v" id="rw2" style="color:var(--pos)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">빔 폭 비</span><span class="v" id="rr" style="color:var(--signal-deep)">—</span><span class="u">배</span></div>
+        <div class="ro"><span class="k">사이드로브 차</span><span class="v" id="rsl" style="color:var(--amber-deep)">—</span><span class="u">dB</span></div>
+      </div>
+      <p class="cap">하모닉 음원 ∝ p² 이므로 <b>빔이 기본파의 제곱</b>입니다 — dB 로는 <b>모든 값이 두 배</b>가 되죠.<br>
+        주엽은 <b style="color:var(--signal-deep)">0.73배로 좁아지고</b>, <b style="color:var(--amber-deep)">사이드로브는 −13 dB 에서 −27 dB 로</b> 주저앉습니다.
+        <b>클러터가 통째로 죽습니다.</b></p>
+    </div>
+  </div>
+  <ul>
+    <li><b>주엽이 좁다</b> · <span class="num">1.207 λ₀F# → 0.886 λ₀F#</span> (0.73배). 측방향이 좋아집니다.</li>
+    <li><b>사이드로브가 죽는다</b> · <span class="num">−13 dB → −27 dB</span>. 빔 옆에서 새어 들어오는 클러터가 사라집니다.</li>
+    <li><b>근거리장에 아예 없다</b> · 하모닉은 <strong>쌓여야</strong> 생깁니다(위 c1 의 σ). 그래서
+      <strong>지방층·복벽에서 생기는 수차와 다중반사</strong>가 하모닉 대역에는 <strong>실리지 않습니다.</strong>
+      비만 환자·어려운 창에서 <span class="t">조직 하모닉 영상</span> <span class="en">THI</span> 가 극적인 이유입니다.</li>
+  </ul>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>대가<span class="sub">What it costs</span></h2></div>
+  <div class="key warn"><div class="kh">주파수가 2배 → 감쇠가 2배 (7장)</div>
+    <p>깊이 5 cm 에서 기본파는 왕복 <span class="num">25.0 dB</span> 를 잃습니다. 하모닉은
+      <strong>갈 때 5 MHz(12.5) + 올 때 10 MHz(25.0) = 37.5 dB</strong> —
+      <strong>12.5 dB 더</strong> 손해입니다. <strong>하모닉은 깊이를 잃습니다.</strong></p></div>
+  <ul>
+    <li><b>대역폭을 크게 먹는다</b> · f₀ 와 2f₀ 를 <strong>둘 다</strong> 담으려면 탐촉자 비대역폭이 넓어야 합니다(10장).
+      좁으면 f₀ 를 낮춰야 하고, 그러면 분해능을 잃습니다.</li>
+    <li><b>필터가 겹친다</b> · f₀ 의 <strong>꼬리가 2f₀ 대역으로 새어 들어옵니다</strong>
+      (<span class="en">harmonic leakage</span>). 필터를 좁히면 축방향이 나빠지고, 넓히면 기본파가 섞입니다.
+      <strong>이 딜레마를 푸는 게 A5 입니다.</strong></li>
+  </ul>
+  <p>그래서 THI 는 <strong>얕고 어려운 창</strong>에서 이깁니다 — 복부·심장. 깊은 곳에서는 감쇠가 이득을 먹어치웁니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>조직은 선형이 아니다</b> · <b>c = c₀ + βu</b> · β = 1 + B/2A · 간 4.4 · <b>지방 6.0</b></li>
+      <li><b>압축부가 빨리 감 → 톱니 → 2f₀·3f₀</b> · 없던 주파수가 <b>전파 도중에</b> 생김</li>
+      <li><b>충격 거리 z<sub>s</sub> = ρc³/(βωP₀)</b> · 5MHz·1.5MPa → <b>18.7 mm</b> — 영상 한복판</li>
+      <li><b>하모닉 ∝ p²</b> · 음압 절반 → 하모닉 1/4 · <b>세게 쏘는 초점에서만</b> 생김</li>
+      <li><b>주엽 0.73배</b> (1.207 → 0.886 λ₀F#) · <b>사이드로브 −13 → −27 dB</b> — dB 가 두 배</li>
+      <li><b>근거리장에 없다</b> · 쌓여야 생기므로 <b>지방층 수차·다중반사가 안 실림</b> → THI 의 진짜 무기</li>
+      <li><b>대가: 감쇠 +12.5 dB</b>(5cm) · 대역폭 · <b>harmonic leakage</b> → A5 가 푼다</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 <b>부록 A4 / 10</b><br>
+    IBME Lab 교육용 원본 자료 · 파형은 무손실 비선형 전파의 정확해(Fubini 해)로 계산</p>
+  <div class="refs">
+    <div class="rh">주요 참고문헌 · References</div>
+    <p>M. A. Averkiou, D. N. Roundhill, J. E. Powers, "A new imaging technique based on the nonlinear properties of tissues," <i>Proc. IEEE Ultrasonics Symposium</i>, pp. 1561–1566, 1997.</p>
+    <p>B. Ward, A. C. Baker, V. F. Humphrey, "Nonlinear propagation applied to the improvement of resolution in diagnostic medical ultrasound," <i>J. Acoust. Soc. Am.</i>, vol. 101, no. 1, pp. 143–154, 1997.</p>
+  </div>
+  <a class="next" href="a5-pulse-inversion.html">다음 · 펄스 반전과 진폭 변조 Pulse Inversion →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/a4.js"></script>
+</body>
+</html>

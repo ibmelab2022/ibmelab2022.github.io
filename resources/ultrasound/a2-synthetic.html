@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>합성 개구 영상 · Synthetic Aperture Imaging — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>부록 · Advanced Ultrasound Techniques · A2 / 10</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">부록 · Advanced Ultrasound Techniques · A2</div>
+    <h1>Synthetic Aperture Imaging<span class="sub">합성 개구 영상</span></h1>
+    <p class="lede">13장에는 <strong>비대칭</strong>이 하나 남아 있습니다 — <strong>수신은 모든 깊이에 동적 집속</strong>인데
+      <strong>송신 초점은 딱 한 깊이</strong>뿐입니다. 그 좋은 구간이 <strong>9 mm</strong>인데 우리는 50 mm 를 봅니다.
+      합성 개구는 송신 초점을 <strong>아예 버리고</strong>, 소프트웨어로 <strong>모든 깊이에</strong> 다시 만듭니다.</p>
+  </div>
+</header>
+
+<div class="wrap" style="padding-top:24px">
+  <h3 style="margin-top:0">먼저 — 합성 개구가 무엇인가</h3>
+  <p>13장의 집속은 <strong>여러 소자를 한꺼번에</strong> 쏴서 한 점에 모으는 것이었습니다.
+    합성 개구는 정반대로 갑니다 — <strong>소자를 하나만</strong> 쏩니다.</p>
+  <ul>
+    <li>소자 하나가 쏘면 <strong>원통파</strong>가 퍼집니다. <strong>송신 집속은 0</strong>이지만 <strong>출처를 정확히 압니다.</strong></li>
+    <li>그 한 방을 <strong>모든 소자로 받아</strong> 저장하면 <span class="num">(송신 i, 수신 j)</span> 한 줄이 채워집니다.</li>
+    <li>소자를 바꿔 <span class="num">N<sub>e</sub></span> 번 반복하면 <strong>행렬 완성</strong> — <span class="en">full matrix</span>.</li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 소자 하나씩 쏘고 행렬을 채운다</span>
+      <span><button id="play" class="tg" style="width:auto;padding:5px 12px">재생</button></span></div>
+    <canvas id="c1" height="400"></canvas>
+    <div class="pbody">
+      <div class="readout">
+        <div class="ro"><span class="k">지금 송신 소자</span><span class="v" id="rtxi" style="color:var(--pos)">—</span></div>
+        <div class="ro"><span class="k">채운 칸</span><span class="v" id="rfill" style="color:var(--signal-deep)">—</span></div>
+        <div class="ro"><span class="k">전체 칸</span><span class="v" id="rtot">—</span></div>
+        <div class="ro"><span class="k">프레임당 송신</span><span class="v" id="rne" style="color:var(--amber-deep)">—</span><span class="u">회</span></div>
+      </div>
+      <p class="cap">왼쪽 위 — <b style="color:var(--pos)">빨간 소자 하나만</b> 쏘고 원통파가 퍼지면
+        <b style="color:var(--signal-deep)">16개 소자가 전부</b> 받습니다. 그 한 방이 오른쪽 행렬의 <b>한 줄</b>을 채우죠
+        (빨간 안내선).<br>
+        왼쪽 아래 — <b>칸 하나에 뭐가 들었나</b>: 소자 i 가 쏘고 소자 j 가 받은 <b>에코 한 줄</b>(깊이 방향 파형)입니다.
+        행렬 전체는 <b>16 × 16 = 256 줄</b>이죠.<br>
+        <b>16번 반복하면 완성.</b> 그 다음이 핵심 — <b style="color:var(--amber-deep)">점 P</b> 를 그리려면
+        <b style="color:var(--amber-deep)">256칸 전부에서 τ(i,j,P) 시각의 값을 하나씩 뽑아 더합니다.</b>
+        점이 바뀌면 <b>뽑는 시각만</b> 바뀌죠 — 그래서 <b>모든 깊이에 송신 집속</b>이 걸립니다.</p>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" style="padding-top:4px">
+  <div class="panel" style="margin-top:0">
+    <div class="plabel"><span><b>인터랙티브</b> · 깊이에 따른 왕복 측방향 분해능</span><span id="astat">—</span></div>
+    <canvas id="c2" height="360"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="zf">송신 초점 깊이 · <span class="num" id="zfv">40</span> mm</label>
+          <input type="range" id="zf" min="15" max="90" value="40" step="1"></div>
+        <div class="ctrl"><label for="ap">개구 폭 D · <span class="num" id="apv">20</span> mm</label>
+          <input type="range" id="ap" min="8" max="30" value="20" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">송신 F#</span><span class="v" id="rft">—</span></div>
+        <div class="ro"><span class="k">초점 심도 DOF</span><span class="v" id="rdof" style="color:var(--amber-deep)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">초점서 고정</span><span class="v" id="rcf" style="color:var(--pos)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">80mm 서 고정</span><span class="v" id="rc8" style="color:var(--pos)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">80mm 서 합성</span><span class="v" id="rs8" style="color:var(--signal-deep)">—</span><span class="u">mm</span></div>
+      </div>
+      <p class="cap"><b style="color:var(--pos)">빨간 곡선</b>이 기존 방식(고정 송신 초점 + 동적 수신)입니다 —
+        <b>초점에서만 바닥을 찍고 위아래로 급히 벌어집니다.</b>
+        <b style="color:var(--signal-deep)">청록 곡선</b>이 합성 개구입니다 — <b>깊이를 따라 매끈하게</b> F# 만 따라갑니다.<br>
+        <b>초점 깊이를 옮겨보세요.</b> 빨간 곡선의 골이 따라다닐 뿐, <b>골 밖은 늘 나쁩니다.</b>
+        두 곡선은 <b>초점에서만 만납니다.</b></p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>송신 초점은 한 깊이뿐<span class="sub">The unfinished business of Ch.13</span></h2></div>
+  <p>13장에서 <span class="t">동적 수신 집속</span> <span class="en">dynamic receive focusing</span> 을 배웠습니다 —
+    에코가 돌아오는 <strong>매 순간</strong> 지연을 다시 계산해 <strong>모든 깊이</strong>에 초점을 맞춥니다.
+    수신은 공짜입니다. 이미 돌아온 신호를 다루니까요.</p>
+  <p>그런데 <strong>송신은 그럴 수가 없습니다.</strong> 쏘기 전에 지연을 정해야 하고, 한 번 쏘면 초점은 <strong>한 곳에 박힙니다.</strong>
+    그 초점이 유효한 구간이 <span class="t">초점 심도</span> <span class="en">depth of field, DOF</span> 입니다.</p>
+  <div class="eq"><span>DOF ≈ 7.1 λ F#²</span></div>
+  <div class="eqcap">왕복 −6dB 기준 · 5 MHz · F#=2 → <strong>9 mm</strong> (수치해 9.0 mm 로 확인)</div>
+  <div class="key warn"><div class="kh">50 mm 를 보는데 송신이 좋은 구간은 9 mm</div>
+    <p>나머지 41 mm 에서는 <strong>수신만 집속</strong>돼 있습니다. 위 패널의 빨간 곡선이 초점 밖에서
+      <strong>1.5배 이상</strong> 벌어지는 게 그 대가입니다.
+      <span class="t">다중 초점</span> <span class="en">multi-focus</span> 로 초점을 여러 개 두면 되지만,
+      <strong>초점 수만큼 프레임률을 나눕니다</strong> — A1 의 각도 거래와 <strong>똑같은 구조</strong>죠.
+      초점을 4개 두면 프레임률이 1/4 입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>소자 하나씩 쏜다<span class="sub">The full round-trip matrix</span></h2></div>
+  <p><span class="t">합성 송신 개구</span> <span class="en">synthetic transmit aperture, STA</span> 의 발상은 극단적입니다 —
+    <strong>소자를 하나만</strong> 쏩니다. 원통파가 사방으로 퍼집니다. <strong>송신 집속은 0</strong>입니다.
+    대신 <strong>어디서 나왔는지 정확히 압니다.</strong></p>
+  <p>이제 영상의 <strong>아무 점 P</strong> 나 이 지연으로 되짚으면 됩니다:</p>
+  <div class="eq"><span>τ(i, j, P) =</span><span class="frac"><span>|r<sub>i</sub> − P| + |P − r<sub>j</sub>|</span><span>c</span></span></div>
+  <div class="eqcap">송신 소자 위치 r<sub>i</sub> → 점 P → 수신 소자 위치 r<sub>j</sub> · <strong>점마다 지연을 새로 계산</strong></div>
+  <div class="key"><div class="kh">송신도 수신처럼 동적이 됩니다 — 모든 깊이에</div>
+    <p>지연을 <strong>점마다</strong> 다시 계산하므로 송신 집속도 <strong>모든 점</strong>에 걸립니다.
+      송·수신이 <strong>둘 다</strong> 집속되면 왕복 빔은 편도의 제곱(<span class="num">sinc²</span>)이라
+      <span class="num">−6dB 폭 = 0.886 λF#</span> — 편도 <span class="num">1.207 λF#</span> 보다
+      <strong>27% 좁습니다</strong>(17장). 그리고 이게 <strong>깊이 전체에서</strong> 유지됩니다.</p></div>
+  <div class="key"><div class="kh">A1 과 같은 것을 다른 축으로 쪼갠 것</div>
+    <p>둘 다 <strong>송신 집속을 버리고 소프트웨어로 되찾습니다.</strong> 나누는 축만 달라요 —
+      <strong>A1 은 각도로</strong>, <strong>A2 는 공간으로</strong>. A1 의 격자엽이 <strong>각도 ↔ 공간</strong> 쌍대였던 것과 같은 구조입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>대가 — 소자 하나엔 에너지가 없다<span class="sub">The SNR problem</span></h2></div>
+  <p>소자 하나는 <strong>개구도 작고 보내는 에너지도 작습니다.</strong> 신호는 <span class="num">N<sub>e</sub>·N<sub>r</sub></span>
+    쌍을 결맞음으로 더해 커지지만, 잡음은 <span class="num">√(N<sub>e</sub>·N<sub>r</sub>)</span> 로만 커집니다.
+    집속 송신과 비교하면 <strong>SNR 이 <span class="num">1/√N<sub>e</sub></span> — 소자 100개면 −20 dB</strong> 입니다.
+    Jensen 등이 지적한 <strong>영상 깊이의 한계</strong>가 바로 이것입니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 가상 음원 — SNR 을 되사는 법</span><span id="vstat">—</span></div>
+    <canvas id="c3" height="360"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="ms">부개구 소자 수 M · <span class="num" id="msv">8</span></label>
+          <input type="range" id="ms" min="1" max="64" value="8" step="1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">가상음원 이득</span><span class="v" id="rvg" style="color:var(--signal-deep)">—</span><span class="u">dB</span></div>
+        <div class="ro"><span class="k">순 SNR (집속 대비)</span><span class="v" id="rnet">—</span><span class="u">dB</span></div>
+        <div class="ro"><span class="k">음원 span</span><span class="v" id="rsp" style="color:var(--amber-deep)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">합성 송신 F#</span><span class="v" id="rftx">—</span></div>
+        <div class="ro"><span class="k">왕복 −6dB</span><span class="v" id="rw2" style="color:var(--pos)">—</span><span class="u">mm</span></div>
+      </div>
+      <p class="cap"><b>부개구 M 소자를 발산 지연으로 쏘면</b> 배열 뒤에 <b style="color:var(--signal-deep)">가상 음원</b>이 생깁니다 —
+        구면파는 그대로인데 에너지가 <b>M 배</b>입니다.<br>
+        <b>대가는 개구각이 아닙니다</b>(M 이 커지면 오히려 넓어집니다). 진짜 대가는
+        <b style="color:var(--amber-deep)">음원 위치의 span 이 D − M·p 로 줄어드는 것</b> —
+        합성 <b>송신</b> 개구가 그만큼 좁아집니다. <b>M 을 끝까지 밀어보세요.</b></p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">M = 10 이면 집속 송신과 SNR 동점입니다</div>
+    <p>가상 음원의 이득은 <span class="num">20 log₁₀M</span>. 소자 100개 배열의 STA 손실 <span class="num">−20 dB</span> 를
+      <strong>M = 10 이면 정확히 상쇄</strong>합니다. 그런데 그때 음원 span 은 20 → 18 mm,
+      왕복 분해능은 <strong>4% 남짓</strong>만 나빠집니다. <strong>대단히 유리한 거래</strong>죠.</p>
+    <p style="margin-top:10px">밀어붙이면 손해로 돌아섭니다 — M=64 면 이득이 <span class="num">+36 dB</span> 지만
+      span 이 <span class="num">7.2 mm</span> 로 쪼그라들어 송신 F# 이 <strong>5.6</strong> 이 됩니다.
+      극단인 M = N<sub>e</sub> 에서는 음원이 <strong>하나뿐</strong>이라 합성 개구가 <strong>아예 사라집니다.</strong></p></div>
+  <div class="key"><div class="kh">되사는 법 ② — 부호화 여기 (→ A3)</div>
+    <p>긴 <span class="en">chirp</span> 을 쏘고 수신에서 압축하면 축방향 분해능을 <strong>지키면서</strong> SNR 만 올릴 수 있습니다.
+      32사이클 첩이면 <span class="num">+12 dB</span> 입니다 — <strong>TB = T·B ≈ 14</strong> 이지 사이클 수가 아닙니다(A3).
+      남는 <span class="num">−8 dB</span> 는 가상 음원이 마저 메웁니다.
+      <strong>합성 개구와 부호화 여기가 늘 붙어 다니는 이유</strong>입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>A1 은 속도를, A2 는 화질을 산다<span class="sub">Same sacrifice, different purchase</span></h2></div>
+  <p>둘 다 송신 집속을 버립니다. 그런데 <strong>받아오는 게 다릅니다.</strong> 깊이 5 cm 기준입니다.</p>
+  <div class="tw"><table class="props">
+    <thead><tr><th>방식</th><th>송신 횟수 / 프레임</th><th>프레임률</th><th>깊이 전체 화질</th></tr></thead>
+    <tbody>
+      <tr><td class="m">128 라인<span>기존 B-mode</span></td><td class="n">128</td><td class="n">120 fps</td><td class="n">초점서만 좋음</td></tr>
+      <tr class="hi"><td class="m">STA<span>전체 소자</span></td><td class="n">128</td><td class="n"><b>120 fps</b></td><td class="n"><b>모든 깊이 균일</b></td></tr>
+      <tr><td class="m">희소 STA<span>가상음원 16개</span></td><td class="n">16</td><td class="n"><b>963</b> fps</td><td class="n">모든 깊이 균일</td></tr>
+      <tr><td class="m">평면파 11각도<span>A1</span></td><td class="n">11</td><td class="n"><b>1,400</b> fps</td><td class="n">모든 깊이 균일</td></tr>
+    </tbody>
+  </table></div>
+  <div class="key"><div class="kh">전체 소자 STA 는 기존과 프레임률이 똑같습니다</div>
+    <p>128 소자를 하나씩 쏘면 송신 128 번 — <strong>128 라인 스캔과 같은 시간</strong>입니다.
+      <strong>A2 가 사는 건 속도가 아니라 화질</strong>이죠. 가상 음원을 <strong>희소하게</strong> 두면 속도도 삽니다(16개 → 963 fps) —
+      그 순간 <strong>A1 과 같은 거래</strong>로 옮겨갑니다. <strong>평면파 N 각도</strong>와 <strong>가상 음원 N 개</strong>는
+      같은 합성 송신 개구를 <strong>각도로 채우느냐 공간으로 채우느냐</strong>의 차이일 뿐입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>13장의 비대칭</b> · 수신은 모든 깊이 동적, <b>송신은 한 깊이 고정</b></li>
+      <li><b>DOF ≈ 7.1 λF#²</b> · 5MHz·F#2 → <b>9 mm</b> — 50mm 를 보는데 좋은 구간이 9mm</li>
+      <li><b>다중 초점은 프레임률을 나눔</b> · 초점 4개 = 1/4 — A1 의 각도 거래와 같은 구조</li>
+      <li><b>STA = 소자 하나씩</b> · 송신 집속 0, 대신 <b>출처를 정확히 앎</b> → <b>full matrix</b></li>
+      <li><b>τ(i,j,P) = (|r<sub>i</sub>−P| + |P−r<sub>j</sub>|)/c</b> · 점마다 재계산 → <b>송신도 동적</b></li>
+      <li><b>왕복 = sinc² → 0.886 λF#</b> · 편도 1.207 보다 <b>27% 좁고</b>, 깊이 전체에서 유지 (17장)</li>
+      <li><b>대가: SNR = 1/√N<sub>e</sub></b> · 소자 100개면 <b>−20 dB</b> (Jensen 2006)</li>
+      <li><b>가상 음원 +20log₁₀M</b> · <b>M=10 이면 동점</b> · 대가는 개구각이 아니라 <b>음원 span = D − M·p</b></li>
+      <li><b>A3 첩 +12 dB</b>(32사이클) 가 구멍의 대부분을 메움 — 그래서 둘이 붙어 다님</li>
+      <li><b>A1 은 속도를, A2 는 화질을 산다</b> · 각도로 쪼개나 공간으로 쪼개나 — 같은 합성 송신 개구</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 <b>부록 A2 / 10</b><br>
+    IBME Lab 교육용 원본 자료</p>
+  <div class="refs">
+    <div class="rh">주요 참고문헌 · References</div>
+    <p>J. A. Jensen, S. I. Nikolov, K. L. Gammelmark, M. H. Pedersen, "Synthetic aperture ultrasound imaging," <i>Ultrasonics</i>, vol. 44, pp. e5–e15, 2006.</p>
+    <p>M. Karaman, P.-C. Li, M. O'Donnell, "Synthetic aperture imaging for small scale systems," <i>IEEE Trans. Ultrason. Ferroelectr. Freq. Control</i>, vol. 42, no. 3, pp. 429–442, 1995.</p>
+  </div>
+  <a class="next" href="a3-coded.html">다음 · 부호화 여기와 펄스 압축 Coded Excitation →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/a2.js"></script>
+</body>
+</html>

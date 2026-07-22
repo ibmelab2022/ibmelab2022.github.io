@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>시스템과 펄서 · System & Pulser — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Signal and Circuit · 19 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Signal and Circuit · 19</div>
+    <h1>시스템과 펄서<span class="sub">System &amp; Pulser</span></h1>
+    <p class="lede">탐촉자 하나 뒤에는 <strong>사슬</strong>이 있습니다. FPGA 가 타이밍을 잡고, DAC·고전압 펄서가
+      <strong>±95 V</strong> 를 만들어 쏘면, 돌아오는 에코는 <strong>수십 µV</strong> — 백만 배, <strong>120 dB</strong> 차이입니다.
+      이 사슬 전체가 이 섹션(19~24장)의 주제입니다. 이 장은 먼저 그 <strong>지도</strong>를 펼쳐
+      <strong>아날로그 프런트엔드</strong>(19~22장)와 <strong>디지털 백엔드</strong>(23~24장)의 경계를 세우고,
+      사슬의 첫 블록 — <strong>펄서</strong> — 를 들여다봅니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>사슬 한눈에<span class="sub">The whole chain</span></h2></div>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 전체 신호 사슬 — 아날로그 │ 디지털 경계</span><span id="s1">—</span></div>
+    <canvas id="c1" height="440"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:0 0 150px"><label>&nbsp;</label><button class="go" id="p0">재생</button></div>
+      </div>
+      <p class="cap">패킷을 따라가 보세요. <b style="color:var(--pos)">송신</b>은 위 경로로 나가며 <b style="color:var(--pos)">±95 V</b> 까지 치솟고,
+        반사돼 돌아온 <b style="color:var(--signal-deep)">에코</b>는 아래 경로로 들어와 LNA·VCA·PGA 를 거쳐 ADC 풀스케일(~1 V)까지 되살아납니다.<br>
+        <b style="color:var(--amber-deep)">노란 점선</b>이 이 섹션의 뼈대입니다 — 오른쪽은 전압을 다루는 <b>아날로그 회로</b>(19~22장), 왼쪽 FPGA 는 데이터를 다루는
+        <b>디지털 처리</b>(23~24장). <b>ADC 가 경계</b>이고, 그 직후 첫 디지털 단계가 <b>① DAS(수신 빔포밍)</b>입니다.
+        각 블록 모서리의 <b>▸숫자</b>는 <b>그 블록을 자세히 다루는 장</b>입니다.</p>
+    </div>
+  </div>
+  <p>위 지도가 이 섹션의 <strong>지도</strong>입니다. 신호는 두 성격을 오갑니다 — <strong>전압</strong>으로서(아날로그, 펄서·T/R·LNA·필터·ADC)
+    나갔다 돌아오고, ADC 를 지나면 <strong>데이터</strong>가 되어(디지털, DAS·검파·주사 변환) 영상이 됩니다. 가장 중요한 이음매는
+    <span class="t">ADC</span> — 그 앞이 <strong>프런트엔드</strong>(19~22장), 뒤가 <strong>백엔드</strong>(23~24장)입니다.
+    ADC 직후 FPGA 가 가장 먼저 하는 일은 <strong>① DAS</strong>(채널을 위상 맞춰 합해 한 라인, 12~14장) —
+    <strong>검파보다 앞</strong>입니다. 위상을 살려 합해야 집속이 되니까요. 아래는 그 첫 블록, 펄서입니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>펄서 ① 스파이크 — 모아서 한 번에<span class="sub">The spike</span></h2></div>
+  <p>가장 단순한 펄서는 축전기를 R 로 <strong>천천히 충전</strong>했다가, 스위치로 탐촉자에 <strong>순간 쏟습니다</strong>(단극성).
+    나오는 것은 날카로운 <span class="t">스파이크</span> — 상승은 급하고 꼬리는 잔향으로 이어집니다. 스파이크는 짧아 축 분해능엔 좋지만,
+    문제는 주파수입니다: <strong>하나의 뾰족한 펄스에는 특정 주파수가 없습니다</strong> — 스펙트럼이 넓게 퍼진 <strong>광대역</strong>이죠(아래 왼쪽).
+    망치로 종을 치면 종의 소리가 나듯, 스파이크의 실제 주파수는 회로가 아니라 <strong>탐촉자의 공진</strong>(09장)이 정합니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>펄서 ② 회로가 주파수를 쥔다<span class="sub">The circuit owns the frequency</span></h2></div>
+  <p><span class="t">H-브리지</span>(스위치 4개)로 탐촉자를 <strong>밀고 당기면</strong>(양극성), 원하는 횟수만큼 정해진 주기의 파형을 만들 수 있습니다.
+    이제 <strong>주파수와 대역폭을 회로가 정합니다</strong> — 사이클 수 <span class="num">N</span> 을 늘리면 f₀ 에 몰리고 대역이 좁아집니다
+    (폭 ∝ 1/N, 아래 오른쪽). <strong>넓은 대역 = 짧은 펄스 = 분해능 이득</strong>, 좁은 대역 = 긴 펄스 = 분해능 손해 —
+    이 맞바꿈을 손잡이로 쥐는 것이 양극성의 값어치입니다.</p>
+  <div class="key"><div class="kh">익스팬더 — 펄서 출력의 문지기</div>
+    <p>펄서 출력의 <strong>교차 다이오드 쌍</strong>(익스팬더)은 큰 송신 펄스만 통과시키고, 송신이 끝나면
+      <strong>죽은 송신기를 회선에서 떼어냅니다</strong> — 아니면 그 낮은 임피던스가 µV 에코를 삼켜버리니까요.
+      이 문지기의 진짜 일은 다음 장 <strong>20장 T/R 스위치</strong>에서 리미터와 함께 다룹니다.</p></div>
+</div></section>
+
+<div class="wrap">
+  <div class="row2">
+    <div class="panel">
+      <div class="plabel"><span><b>인터랙티브</b> · 단극성 RC 펄서</span><span id="stR">—</span></div>
+      <canvas id="c3" height="452"></canvas>
+      <div class="pbody">
+        <div class="ctrls">
+          <div class="ctrl"><label for="tw">트리거 폭 · <span class="num" id="twv">150</span> ns</label>
+            <input type="range" id="tw" min="20" max="200" value="150" step="5"></div>
+          <div class="ctrl" style="flex:0 0 96px"><label>&nbsp;</label><button class="go" id="pR">재생</button></div>
+        </div>
+        <div class="readout">
+          <div class="ro"><span class="k">피크</span><span class="v" id="pkR" style="color:var(--pos)">—</span><span class="u">V</span></div>
+          <div class="ro"><span class="k">펄스 폭</span><span class="v" id="pwR">—</span><span class="u">ns</span></div>
+        </div>
+        <p class="cap">C 를 천천히 충전했다 M1 로 <b>순간 방전</b> → 날카로운 스파이크. 트리거를 <b>5τ 이상</b>으로 늘리면
+          폭은 <b style="color:var(--signal-deep)">부하 RC</b> 가, 그 아래면 <b style="color:var(--amber-deep)">트리거</b>가 정합니다.</p>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="plabel"><span><b>인터랙티브</b> · 양극성 H-브리지</span><span id="stH">—</span></div>
+      <canvas id="c4" height="452"></canvas>
+      <div class="pbody">
+        <div class="ctrls">
+          <div class="ctrl"><label for="cyc">사이클 수 · <span class="num" id="cycv">1</span></label>
+            <input type="range" id="cyc" min="1" max="5" value="1" step="1"></div>
+          <div class="ctrl" style="flex:0 0 96px"><label>&nbsp;</label><button class="go" id="pH">재생</button></div>
+        </div>
+        <div class="readout">
+          <div class="ro"><span class="k">피크</span><span class="v" id="pkH" style="color:var(--pos)">—</span><span class="u">V</span></div>
+          <div class="ro"><span class="k">펄스 길이</span><span class="v" id="plH">—</span><span class="u">mm</span></div>
+        </div>
+        <p class="cap">4개 스위치로 탐촉자를 <b>밀고(+) 당기며(−)</b> 정해진 주기의 파형을 만듭니다 —
+          <b>회로가 f₀·대역을 쥔다</b>. 사이클을 늘리면 펄스가 길어지고 대역이 좁아집니다.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 스파이크 vs 버스트 — 회로가 주파수를 쥔다</span><span></span></div>
+    <canvas id="c2" height="360"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="nc">양극성 사이클 수 N · <span class="num" id="ncv">3</span></label>
+          <input type="range" id="nc" min="1" max="6" value="3" step="1"></div>
+      </div>
+      <p class="cap">위 = 파형 · 아래 = 스펙트럼. <b style="color:var(--pos)">단극성 스파이크</b>는 하나의 뾰족한 펄스라
+        스펙트럼이 <b>넓게 퍼집니다</b> — 특정 주파수가 없죠. <b style="color:var(--signal-deep)">양극성 버스트</b>는 N 주기의 파형이라
+        <b style="color:var(--amber-deep)">f₀ 에 몰리고</b>, N 을 늘리면 대역이 <b>좁아집니다(폭 ∝ 1/N)</b>. 회로가 주파수·대역을 쥔다는 뜻입니다.</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>HV MUX — 어느 소자로 보낼까<span class="sub">High-voltage multiplexer</span></h2></div>
+  <p>펄서가 만든 <strong>±95 V 펄스</strong>를 <strong>어느 소자로 보낼지</strong> 고르는 것이 송신단의 마지막입니다.
+    배열은 소자가 <span class="num">128</span>개, 2D 배열이면 <strong>수천 개</strong>인데, 송수신 전자회로(펄서·T/R·LNA…)
+    한 벌은 <strong>비싸고 커서</strong> 시스템은 보통 소자보다 <strong>적은 채널</strong>(예: 64)만 갖습니다. 그래서
+    <span class="t">고전압 다중화기</span> <span class="en">HV MUX</span>가 <strong>지금 쓰는 활성 조리개</strong>(12·13장의 그 조리개)의
+    소자들만 채널에 <strong>골라 연결</strong>합니다. 빔이 옆으로 가면 <strong>조리개가 미끄러지고 MUX 가 다시 연결</strong>하죠.
+    <strong>소자 수 = 채널 수</strong>면 필요 없지만 <strong>소자가 더 많으면(특히 2D)</strong> 반드시 있어야 합니다 —
+    송신 펄스뿐 아니라 <strong>돌아오는 에코도 이 MUX 를 거쳐</strong> 채널로 갑니다(송·수신 공용). ±100 V 를 견뎌 <strong>고전압</strong> 소자죠.</p>
+</div></section>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 활성 조리개만 채널로 — MUX 라우팅</span><span></span></div>
+    <canvas id="c5" height="290"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="ap">활성 조리개 위치 · 소자 <span class="num" id="apv">0–63</span></label>
+          <input type="range" id="ap" min="0" max="100" value="0" step="2"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">배열 소자</span><span class="v" id="rne">—</span><span class="u">개</span></div>
+        <div class="ro"><span class="k">시스템 채널</span><span class="v" id="rnch" style="color:var(--signal-deep)">—</span><span class="u">개</span></div>
+      </div>
+      <p class="cap">위 = 배열 소자 128개(<b style="color:var(--amber-deep)">앰버</b> = 지금 연결된 활성 조리개 64개), 아래 = 시스템 채널 64개.
+        조리개를 옮기면 MUX 가 <b>다른 소자들을 채널에 연결</b>합니다 — 소자는 많아도 회로는 적게 쓰는 방법이죠.
+        2D 배열(수천 소자)에선 이 다중화가 <b>필수</b>입니다.</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>사슬의 뼈대</b> · 송신 kV → 반사 → 수신 µV → ADC → 디지털 (이 섹션 19~24장 전체의 지도)</li>
+      <li><b>아날로그 │ 디지털 경계 = ADC</b> · 프런트엔드 19~22장 / 백엔드 23~24장</li>
+      <li><b>① DAS = ADC 직후 첫 디지털 단계</b> · 수신 빔포밍(위상 합) — <b>검파보다 앞</b> (12~14장)</li>
+      <li><b>단극성 = 스파이크</b> · 광대역·특정 주파수 없음 · 실제 주파수는 탐촉자 공진(09장)이 정함</li>
+      <li><b>양극성 = H-브리지 버스트</b> · 회로가 f₀·대역을 쥔다 (대역폭 ∝ 1/N)</li>
+      <li><b>대역 ↔ 펄스 길이 ↔ 축 분해능</b> 맞바꿈 · 넓을수록 짧고 선명</li>
+      <li><b>HV MUX</b> · 소자 &gt; 채널이면 활성 조리개(12·13장)만 채널에 연결 · 송·수신 공용 · 2D 배열엔 필수 · 고전압</li>
+      <li><b>익스팬더 다이오드</b> · 죽은 송신기를 회선에서 분리 (상세는 20장)</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 19 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="20-transceiver.html">다음 · 송수신 스위치 T/R Switch →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/19.js"></script>
+</body>
+</html>

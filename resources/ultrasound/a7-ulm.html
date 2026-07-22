@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>초음파 국소화 현미경 · ULM — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>부록 · Advanced Ultrasound Techniques · A7 / 10</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">부록 · Advanced Ultrasound Techniques · A7</div>
+    <h1>Ultrasound Localization Microscopy<span class="sub">초음파 국소화 현미경</span></h1>
+    <p class="lede">17장의 <strong>회절 한계</strong>는 절대적으로 보였습니다 — <span class="num">1.207 λF#</span>.
+      그런데 그건 <strong>"두 점을 가르는" 한계</strong>이지 <strong>"한 점의 위치를 찍는" 한계가 아닙니다.</strong>
+      기포가 <strong>PSF 안에 하나뿐</strong>이라면 가를 이유가 없고, <strong>중심만 찍으면 됩니다.</strong>
+      ULM 은 회절 한계를 <strong>깨는 게 아니라 우회</strong>합니다.</p>
+  </div>
+</header>
+
+<div class="wrap" style="padding-top:24px">
+  <h3 style="margin-top:0">먼저 — 가르기와 찍기는 다른 문제다</h3>
+  <p>광학의 <span class="en">PALM/STORM</span>이 쓴 발상 그대로입니다 — <strong>한 번에 하나씩만 켜라.</strong>
+    초음파에서 그 "하나"가 <span class="t">미세기포</span> <span class="en">microbubble, MB</span> 입니다.</p>
+  <ul>
+    <li><b>가르기</b> <span class="en">resolving</span> · 두 산란체가 PSF 안에 같이 있으면 <strong>영원히 하나로 보입니다.</strong>
+      이게 회절 한계입니다 — 아무리 SNR 을 올려도 안 됩니다.</li>
+    <li><b>찍기</b> <span class="en">localizing</span> · 산란체가 <strong>하나뿐</strong>이면 이야기가 다릅니다.
+      PSF 는 넓어도 <strong>그 모양의 중심</strong>은 훨씬 정밀하게 추정됩니다 —
+      정밀도는 <strong>SNR 이 정합니다.</strong></li>
+    <li><b>그래서 조건이 하나</b> · <strong>PSF 하나에 기포 하나.</strong> 이 조건을 지키려면 농도를 낮춰야 하고,
+      낮추면 <strong>혈관을 다 채우는 데 오래 걸립니다.</strong> ULM 의 모든 고민이 여기서 나옵니다.</li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · ULM 파이프라인 — 여섯 단계</span>
+      <span><button id="step" class="tg" style="width:auto;padding:5px 12px">다음 단계</button>
+            <button id="play0" class="tg" style="width:auto;padding:5px 12px">재생</button></span></div>
+    <canvas id="c1" height="470"></canvas>
+    <div class="pbody">
+      <div class="readout">
+        <div class="ro"><span class="k">단계</span><span class="v" id="rstep" style="font-size:15px;color:var(--signal-deep)">—</span></div>
+        <div class="ro"><span class="k">이 단계가 하는 일</span><span class="v" id="rwhat" style="font-size:13px">—</span></div>
+        <div class="ro"><span class="k">어디서 왔나</span><span class="v" id="rfrom" style="font-size:13px;color:var(--amber-deep)">—</span></div>
+      </div>
+      <p class="cap"><b>다음 단계</b>로 여섯 단계를 넘기고, <b>재생</b>으로 기포가 흐르는 모습을 봅니다. 위 스테퍼는 <b>진행 단계</b>, 아래는 그 단계에서 실제로 일어나는 일입니다.<br>
+        <b style="color:var(--pos)">조직이 걷히고</b> → <b>기포 중심이 찍히고</b> → <b>프레임끼리 짝지어져</b> →
+        <b style="color:var(--signal-deep)">궤적이 되고</b> → 수십만 개가 쌓여 <b>미세혈관 지도</b>가 됩니다.
+        마지막 단계가 <b>ULM 이 내놓는 그림</b>입니다.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="plabel"><span><b>ULM vs 파워 도플러</b> · 같은 혈관망, 해상도 대비</span></div>
+    <canvas id="c5" height="360"></canvas>
+    <div class="pbody">
+      <p class="cap">누적이 끝나면 <b>ULM 이 내놓는 그림</b>(오른쪽)이 나옵니다. 같은 혈관망을 A6 의
+        <b style="color:var(--pos)">파워 도플러</b>(왼쪽)와 나란히 놓으면 차이가 분명합니다 —
+        파워 도플러는 <b>회절 한계</b>라 <b style="color:var(--pos)">큰 혈관은 흐릿하고 미세혈관은 뭉개져 안 갈리고</b>,
+        ULM 은 <b>기포 하나하나의 중심을 찍어 쌓은</b> 것이라
+        <b style="color:var(--signal-deep)">미세혈관까지 선명하게</b>(λ/10) 갈립니다.
+        <b>회절 한계를 깬 게 아니라 우회</b>한 결과입니다.</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>파이프라인<span class="sub">The ULM pipeline</span></h2></div>
+  <p>부록의 앞 장들이 여기서 전부 회수됩니다.</p>
+  <div class="tw"><table class="props">
+    <thead><tr><th>단계</th><th>하는 일</th><th>어디서 왔나</th></tr></thead>
+    <tbody>
+      <tr><td class="m">① 초고속 취득</td><td>평면파 N각도 결맞음 합성 · 500~1,000 fps</td><td class="n"><b>A1</b></td></tr>
+      <tr class="hi"><td class="m">② 클러터 제거</td><td>SVD 시공간 필터 · 앞 10~60개 특이벡터 버림</td><td class="n"><b>A6</b></td></tr>
+      <tr><td class="m">③ 검출</td><td>PSF 와 상관 &gt;0.7 인 국소 최대</td><td class="n">17장 PSF</td></tr>
+      <tr><td class="m">④ localization</td><td>5×5 이웃에 2차 다항식 맞춤 → 부화소 중심</td><td class="n">CRLB</td></tr>
+      <tr class="hi"><td class="m">⑤ pairing·추적</td><td><b>프레임 n 과 n+1 사이</b>를 잇는다 · 배정 알고리즘(최근접·Hungarian(Munkres)·확률적) · 5~10프레임 이상만 채택</td><td class="n">Kuhn 1955</td></tr>
+      <tr><td class="m">⑥ 누적</td><td>λ/16 격자에 수백만 개를 쌓음 → 지도</td><td class="n">—</td></tr>
+    </tbody>
+  </table></div>
+  <p>실제 수치를 붙이면 — Renaudin 등은 <strong>1,000 Hz</strong>(5각도, PRF 5 kHz)에 <strong>SVD 앞 10개 제거</strong>,
+    <strong>프레임당 ~30 기포</strong>, 최대 연결 <strong>100 mm/s</strong>. Errico 등은 <strong>500 Hz</strong>(3각도)에
+    <strong>150초 · 75,000장 → 100만 이벤트</strong>, <strong>5프레임(10 ms) 이상</strong>만 채택, 격자 <strong>8×10 µm = λ/10</strong>.
+    Song 등은 프레임 차분 + <span class="en">NLM</span> 잡음 제거 후 상관 <span class="num">&gt;0.6</span> 으로 검출하고
+    <strong>50 cm/s</strong> 상한으로 거리 행렬을 자릅니다.</p>
+  <p>추적된 궤적이 <strong>속도 벡터</strong>를 주므로 <strong>구조 지도와 속도 지도가 한꺼번에</strong> 나옵니다.</p>
+  <div class="key warn"><div class="kh">pairing는 <strong>프레임 사이</strong>의 일입니다 — 한 프레임 안이 아니라</div>
+    <p>흔한 오해입니다. <strong>한 장 안에서 기포끼리 잇는 게 아닙니다.</strong>
+      <strong>프레임 n 의 기포</strong>와 <strong>프레임 n+1 의 기포</strong>를 <strong>같은 기포끼리</strong> 잇는 것이죠.
+      그래서 판단 기준이 <strong>"얼마나 가까운가"</strong>입니다 — 한 프레임 사이에 기포가 멀리 못 가니까요
+      (그래서 <strong>유속 상한</strong>으로 거리 행렬을 미리 자릅니다).</p>
+    <p style="margin-top:10px"><strong>여기서 ULM 의 데이터 갈증이 나옵니다.</strong> 궤적 하나에 <strong>최소 5~10 프레임</strong>이 필요하고,
+      기포 하나는 <strong>점 하나</strong>만 남깁니다. 혈관을 다 채우려면 <strong>수십만~수백만 개</strong>가 지나가야 하고,
+      그러려면 <strong>수만~수십만 프레임</strong>이 있어야 합니다 —
+      Errico 등은 <strong>150초에 75,000장</strong>을 찍어 <strong>100만 이벤트</strong>를 모았습니다.
+      <strong>평면파(A1)가 없으면 애초에 불가능한 이야기</strong>죠.</p></div>
+  <div class="key"><div class="kh">추적이 공짜로 주는 것 — 방향과 속도</div>
+    <p>궤적의 <strong>방향</strong>으로 동맥(하행)과 정맥(상행)을 가르고, <strong>속도</strong>로 혈역학을 잽니다.
+      A6 의 파워 도플러가 <strong>버렸던 정보</strong>(속도·방향)를 ULM 은 <strong>궤적으로 되찾습니다.</strong>
+      게다가 <strong>기포 하나하나가 독립 표본</strong>이라, 수백만 개를 모으면 통계 오차가 아주 작아집니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>가를 수는 없어도 찍을 수는 있다<span class="sub">Resolving vs localizing</span></h2></div>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 가를 수는 없어도 찍을 수는 있다</span>
+      <span><button id="play" class="tg" style="width:auto;padding:5px 12px">재생</button></span></div>
+    <canvas id="c2" height="400"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="sep">두 기포 간격 · <span class="num" id="sepv">40</span> µm</label>
+          <input type="range" id="sep" min="0" max="200" value="40" step="2"></div>
+        <div class="ctrl"><label for="snr">SNR · <span class="num" id="snrv">20</span> dB</label>
+          <input type="range" id="snr" min="6" max="40" value="20" step="1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">PSF −6dB</span><span class="v" id="rpsf" style="color:var(--neg)">—</span><span class="u">µm</span></div>
+        <div class="ro"><span class="k">가르기</span><span class="v" id="rres" style="font-size:13px">—</span></div>
+        <div class="ro"><span class="k">localization σ<sub>loc</sub></span><span class="v" id="rloc" style="color:var(--signal-deep)">—</span><span class="u">µm</span></div>
+        <div class="ro"><span class="k">PSF / σ<sub>loc</sub></span><span class="v" id="rgain" style="color:var(--pos)">—</span><span class="u">배</span></div>
+        <div class="ro"><span class="k">6.5µm 격자</span><span class="v" id="rgrid" style="font-size:13px">—</span></div>
+      </div>
+      <p class="cap">왼쪽 — <b>두 기포</b>의 에코가 겹칩니다. <b>간격을 줄여보세요</b>: PSF 폭 아래로 들어가면
+        <b style="color:var(--neg)">봉우리가 하나로 뭉쳐</b> 영원히 갈라지지 않습니다(17장).<br>
+        오른쪽 — <b>기포가 하나뿐</b>일 때 중심을 반복 추정한 산포입니다.
+        <b>SNR 을 올려보세요</b> — 산포가 <b style="color:var(--signal-deep)">SNR 에 반비례해</b> 조여듭니다.
+        <b>PSF 는 그대로인데</b> 위치는 수십 배 정확해집니다.</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:26px">정밀도의 한계는 SNR 이 정한다 <span class="en" style="font-size:.7em">the Cramér–Rao bound</span></h3>
+  <p>백색잡음 속에서 신호 <span class="num">s(x − x₀)</span> 의 위치를 추정할 때, 어떤 추정기도
+    <span class="t">크라메르–라오 하한</span> <span class="en">CRLB</span> 아래로는 못 갑니다:</p>
+  <div class="eq"><span>var(x₀) ≥</span><span class="frac"><span>σ<sub>n</sub>²</span><span>Σ |s′(x<sub>i</sub>)|²</span></span>
+    <span style="margin-left:24px">→</span><span style="margin-left:12px">σ<sub>loc</sub> ≈</span>
+    <span class="frac"><span>σ<sub>PSF</sub></span><span>SNR</span></span></div>
+  <div class="eqcap">σ<sub>PSF</sub> = PSF 의 표준편차 (= FWHM / 2.355) · <strong>회절 한계는 여기 안 나옵니다</strong></div>
+  <div class="key"><div class="kh">숫자로 — Renaudin 등의 세팅</div>
+    <p>15 MHz · 128 소자 × 110 µm → 개구 <span class="num">14.1 mm</span> · λ = <span class="num">103 µm</span>.
+      깊이 10 mm 면 F# = 0.71 → 측방향 −6dB <span class="num">88 µm</span>, σ<sub>PSF</sub> = <span class="num">27.4 µm</span>.</p>
+    <p style="margin-top:10px">SNR 20 dB 면 σ<sub>loc</sub> ≈ <span class="num">3~4 µm</span>. 논문이 쓴 <strong>6.5 µm 격자</strong>
+      (= 초기 픽셀/16 ≈ λ/16) 에 맞추려면 <strong>SNR ≳ 13 dB</strong> 면 충분합니다.
+      <strong>회절 한계 88 µm 를 13배 넘어선 것</strong>이죠 — 한계를 깬 게 아니라 <strong>다른 문제를 푼 것</strong>입니다.</p></div>
+  <div class="key warn"><div class="kh">단, 자유롭게 좋아지지는 않습니다 — 대역제한 때문에</div>
+    <p>CRLB 의 <span class="num">Σ|s′|²</span> 는 <strong>독립 표본</strong>의 합입니다. 데이터가 대역제한이라
+      독립 표본 간격이 <span class="num">~λ/2 = 51 µm</span> — σ<sub>PSF</sub> 안에 <strong>0.5개</strong>뿐입니다.
+      표본을 아무리 촘촘히 보간해도 <strong>정보가 늘지는 않습니다.</strong>
+      "σ<sub>PSF</sub>/SNR" 은 그래서 <strong>자릿수 어림</strong>으로 봐야 합니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>왜 하필 미세기포인가<span class="sub">Why microbubbles</span></h2></div>
+  <ul>
+    <li><b>공명 크기가 맞다</b> · 32장에서 확인했죠 — 공명 반경 ≈ <span class="num">3.3/f[MHz] µm</span>.
+      진단 주파수에서 <strong>0.5~3 µm</strong>, 곧 조영제 미세기포 크기입니다.
+      <strong>파장의 1/100 인데 산란은 강합니다</strong> — 공명이니까요.</li>
+    <li><b>혈관 안에만 있다</b> · 적혈구보다 크지 않아 모세혈관까지 갑니다. 조직에는 없습니다.
+      <strong>SVD 로 조직을 걷어내면</strong>(A6) <strong>기포만 남습니다.</strong></li>
+    <li><b>깜빡인다</b> · 흐르면서 <strong>나타났다 사라집니다.</strong> 광학의 <span class="en">PALM/STORM</span>이
+      형광 분자를 <strong>확률적으로 점멸</strong>시킨 것과 같은 역할을 <strong>혈류가 공짜로</strong> 해 줍니다.</li>
+  </ul>
+  <div class="key warn"><div class="kh">그런데 기포를 터뜨리면 안 됩니다 — MI 를 아주 낮게</div>
+    <p>기포가 깨지면 궤적이 끊깁니다. Renaudin 등은 <strong>MI = 0.09</strong> 로 촬영했습니다 —
+      32장의 조영제 안전선 <span class="num">MI &lt; 0.3</span> 보다도 훨씬 낮죠(송신 전압 5 V, 2사이클).
+      <strong>SNR 이 아쉬운데 세게 쏠 수도 없는</strong> 이 상황이 A3(부호화 여기)가 매력적인 이유입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>중심 거래 — 농도<span class="sub">The concentration trade</span></h2></div>
+  <p>농도를 올리면 프레임당 수확이 늘지만, <strong>PSF 하나에 기포 하나</strong>라는 전제가 깨집니다.
+    두 기포가 겹치면 <strong>중심이 둘 사이 어딘가</strong>로 찍혀 <strong>있지도 않은 곳에 혈관이 그려집니다.</strong></p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 농도 ↑ → 수확 ↑, 그런데 mislocalization도 ↑</span><span id="cstat">—</span></div>
+    <canvas id="c3" height="360"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="nb">프레임당 기포 · <span class="num" id="nbv">30</span> 개</label>
+          <input type="range" id="nb" min="5" max="400" value="30" step="5"></div>
+        <div class="ctrl"><label for="vf">혈관 면적비 · <span class="num" id="vfv">3</span> %</label>
+          <input type="range" id="vf" min="1" max="15" value="3" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">PSF 칸 수</span><span class="v" id="rcell">—</span></div>
+        <div class="ro"><span class="k">PSF당 평균 λ</span><span class="v" id="rlam" style="color:var(--amber-deep)">—</span></div>
+        <div class="ro"><span class="k">겹칠 확률</span><span class="v" id="rov" style="color:var(--pos)">—</span><span class="u">%</span></div>
+        <div class="ro"><span class="k">쓸 수 있는 검출</span><span class="v" id="rgood" style="color:var(--signal-deep)">—</span><span class="u">개</span></div>
+      </div>
+      <p class="cap"><b>기포는 시야 전체가 아니라 혈관 안에만</b> 있습니다 — 그래서 유효 밀도가
+        <b style="color:var(--amber-deep)">면적비의 역수만큼</b> 올라갑니다(3%면 33배).<br>
+        <b>농도를 올려보세요</b>: 쓸 수 있는 검출은 <b style="color:var(--signal-deep)">천천히</b> 늘고
+        <b style="color:var(--pos)">겹침</b>은 <b>빠르게</b> 늘어납니다. Renaudin 등의 <b>프레임당 ~30개</b>는
+        겹침 <b>2% 대</b>의 안전한 자리입니다.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">05</div>
+    <h2>대가 — 시간<span class="sub">Acquisition time</span></h2></div>
+  <p>농도를 낮게 유지하면 <strong>혈관을 다 채우는 데 오래 걸립니다.</strong> 특히 미세혈관은 유량이 적어
+    기포가 <strong>드물게</strong> 지나갑니다. Hingot 등이 정식화한 <strong>ULM 의 근본 거래</strong>입니다 —
+    <strong>공간 분해능과 획득 시간</strong>.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 작은 혈관일수록 오래 걸린다</span><span id="tstat">—</span></div>
+    <canvas id="c4" height="340"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="dv">혈관 지름 · <span class="num" id="dvv">20</span> µm</label>
+          <input type="range" id="dv" min="6" max="200" value="20" step="2"></div>
+        <div class="ctrl"><label for="cc">기포 농도 · <span class="num" id="ccv">1.0</span> ×10⁵/mL</label>
+          <input type="range" id="cc" min="0.2" max="10" value="1" step="0.1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">추정 유속</span><span class="v" id="rvel">—</span><span class="u">mm/s</span></div>
+        <div class="ro"><span class="k">기포 통과율</span><span class="v" id="rrate" style="color:var(--amber-deep)">—</span><span class="u">개/s</span></div>
+        <div class="ro"><span class="k">1,000개 모으기</span><span class="v" id="rtime" style="color:var(--pos)">—</span></div>
+        <div class="ro"><span class="k">판정</span><span class="v" id="rv" style="font-size:13px">—</span></div>
+      </div>
+      <p class="cap">유량 ∝ 지름² × 유속이고, 미세혈관은 <b>둘 다 작습니다</b> — 그래서 통과율이
+        <b style="color:var(--pos)">지름의 네 제곱 가까이</b> 떨어집니다.<br>
+        100 µm 는 <b>2분</b>이면 되는데 <b>10 µm 는 35시간</b>입니다. <b>"모든 모세혈관을 다 그린다"는 현실적으로 불가능</b>합니다 —
+        논문이 말하는 <b>"5~10 µm 민감도는 분 단위 획득의 대가"</b>가 이것입니다.</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">우회로 — 시간을 벌지 말고 반복을 쌓는다</div>
+    <p>Renaudin 등의 해법은 영리합니다. <strong>자극을 20회 반복</strong>하고 <strong>같은 시점끼리</strong> 합칩니다
+      (5 s 창 × 20회 = 누적 100 s). 기능 영상이라 <strong>같은 자극에는 같은 반응</strong>이 온다는 걸 이용한 거죠.
+      그렇게 <strong>6.5 µm 공간 · 1 s 시간</strong> 분해능을 얻었습니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">06</div>
+    <h2>실전에서 무너지는 지점<span class="sub">Where it breaks</span></h2></div>
+  <ul>
+    <li><b>PSF 가 등방이 아니다</b> · 17장의 종횡비 <span class="num">1.207 F#</span> 가 여기서 되살아납니다 —
+      깊이 5 mm 면 0.69, 15 mm 면 <strong>2.06</strong>. <strong>localization 오차가 방향마다·깊이마다 다릅니다.</strong>
+      Heiles 등의 벤치마크가 <strong>PSF 비등방성이 localization에 미치는 영향</strong>을 따로 다룬 이유입니다.</li>
+    <li><b>격자 아티팩트</b> <span class="en">gridding</span> · 부화소 추정을 격자에 반올림하면
+      <strong>격자선 위에 기포가 몰립니다.</strong> Heiles 등이 <strong>gridding index</strong> 를 지표로 만든 게 이것입니다.</li>
+    <li><b>움직임</b> · Renaudin 등이 잰 조직 박동은 <strong>호흡 2.2 ± 1.4 µm · 심장 1.6 ± 1.3 µm</strong> —
+      <strong>화소 크기와 같은 자릿수</strong>입니다. 20분 넘는 획득에는 <strong>느린 드리프트</strong>까지 붙어
+      공간 정합이 필요합니다. (다만 초기 SVD 가 박동을 상당 부분 지웁니다.)</li>
+    <li><b>수차</b> · 두개골을 지나면 파면이 일그러져 PSF 가 뭉개집니다. 사람 경두개 ULM 에는 <strong>수차 보정</strong>이 필수입니다.</li>
+  </ul>
+  <div class="key"><div class="kh">알고리즘도 변수입니다 — 그래서 벤치마크가 필요했습니다</div>
+    <p>Heiles 등은 <strong>7가지 localization 알고리즘</strong>을 <strong>11개 지표</strong>로 견줘 하나의 점수(<span class="en">PALA</span>)로 묶었습니다.
+      알고리즘·지표·데이터를 <strong>전부 공개</strong>했고요.</p></div>
+  <div class="tw"><table class="props">
+    <thead><tr><th>알고리즘</th><th>PALA 점수</th><th>최대 분해능</th><th>격자 지수</th><th>처리 시간</th></tr></thead>
+    <tbody>
+      <tr class="hi"><td class="m">RS<span>radial symmetry</span></td><td class="n"><b>73.0</b></td><td class="n"><b>0.36 λ</b></td><td class="n">7.3</td><td class="n">1.27×</td></tr>
+      <tr><td class="m">Gauss-fit</td><td class="n">56.4</td><td class="n">0.46 λ</td><td class="n"><b>6.6</b></td><td class="n"><b>48.4×</b> (느림)</td></tr>
+      <tr><td class="m">WA<span>weighted average</span></td><td class="n">58.9</td><td class="n">0.50 λ</td><td class="n">12.2</td><td class="n"><b>1.02×</b> (빠름)</td></tr>
+      <tr><td class="m">보간 (Lz·Sp·Cub)</td><td class="n">45~58</td><td class="n">0.58~0.68 λ</td><td class="n">8.2~16.2</td><td class="n">3.5~5.4×</td></tr>
+      <tr><td class="m">No shift<span>부화소 없음</span></td><td class="n">38.0</td><td class="n">0.77 λ</td><td class="n"><b>21.7</b> (최악)</td><td class="n">1×</td></tr>
+    </tbody>
+  </table></div>
+  <div class="eqcap">Heiles 등의 PALA 점수 · 격자 지수는 <strong>작을수록</strong> 좋음 ·
+    쥐 뇌 실측 192,000 프레임 (1 kHz, SNR 29 dB)에서 <strong>RS 가 700만 이벤트</strong>를 찍음</div>
+  <div class="eqcap" style="text-align:right;margin-top:5px">출처 · B. Heiles <i>et al.</i>,
+    "Performance benchmarking of microbubble-localization algorithms for ultrasound localization microscopy,"
+    <i>Nat. Biomed. Eng.</i> <strong>6</strong>, 605–616 (2022) · PALA: github.com/AChavignon/PALA</div>
+  <div class="key"><div class="kh">"부화소 추정을 안 하면" 격자 지수가 최악입니다 — 인과가 뒤집혀 있죠</div>
+    <p><span class="en">No-shift</span>(중심을 화소 한가운데로 가정)의 격자 지수가 <span class="num">21.7</span> 로 가장 나쁩니다.
+      <strong>격자 아티팩트는 부화소 추정이 실패할 때 생긴다</strong>는 뜻입니다 —
+      <strong>SNR 이 낮은 곳에서</strong> 알고리즘이 중심을 <strong>원래 화소 쪽으로 끌어당기기</strong> 때문이죠.
+      그래서 <strong>가는 혈관(기포가 드문 곳)에서 특히</strong> 나타납니다.</p>
+    <p style="margin-top:10px">Heiles 등의 권고도 명확합니다 — <strong>화소를 무작정 잘게 나누지 말 것.</strong>
+      <strong>재구성 격자를 이론 분해능에 맞추라</strong>는 것이죠. 이게 <strong>"재현되지 않으면 주장이 아니다"</strong>를
+      ULM 에 적용한 결과입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>회절 한계는 "가르는" 한계지 "찍는" 한계가 아니다</b> · ULM 은 깨는 게 아니라 <b>우회</b>한다</li>
+      <li><b>전제 하나: PSF 하나에 기포 하나</b> · 이 조건이 ULM 의 모든 고민의 뿌리</li>
+      <li><b>σ<sub>loc</sub> ≈ σ<sub>PSF</sub> / SNR</b> (CRLB) · 회절 한계가 식에 아예 없음</li>
+      <li><b>15MHz·개구 14.1mm·깊이 10mm</b> → PSF −6dB <b>88 µm</b> · σ<sub>PSF</sub> 27.4 µm</li>
+      <li><b>6.5 µm 격자(≈λ/16) 에는 SNR ≳ 13 dB</b> 면 충분 → 회절 한계의 <b>13배 아래</b></li>
+      <li><b>단, 대역제한이 상한</b> · 독립 표본 간격 λ/2 = 51µm — σ<sub>PSF</sub> 안에 0.5개뿐</li>
+      <li><b>미세기포</b> · 공명 크기(32장) · 혈관 안에만 · <b>흐르며 깜빡임</b> = 공짜 PALM/STORM</li>
+      <li><b>MI 0.09 로 촬영</b> · 터뜨리면 궤적이 끊김 — 세게 못 쏘니 SNR 이 늘 아쉬움</li>
+      <li><b>파이프라인</b> · 평면파(A1) → SVD(A6) → 검출 → 부화소 localization → <b>프레임 n↔n+1 pairing</b> → 추적 → λ/10~16 누적</li>
+      <li><b>pairing는 프레임 "사이"</b> · 한 프레임 안에서 잇는 게 아님 → 궤적 하나에 5~10 프레임 필요</li>
+      <li><b>그래서 데이터가 많이 필요하다</b> · Errico 150초·75,000장 → 100만 이벤트</li>
+      <li><b>추적이 속도·방향을 되돌려줌</b> · A6 파워 도플러가 버렸던 정보</li>
+      <li><b>농도의 거래</b> · 기포는 <b>혈관 안에만</b> (면적비 3% → 유효 밀도 33배) · 30개 → 겹침 2%, 240개 → 18%</li>
+      <li><b>시간의 거래</b> (Hingot) · 유량 ∝ d²v → 100µm <b>2분</b> vs 10µm <b>35시간</b></li>
+      <li><b>우회</b> · 자극 20회 반복 + 시점별 누적 → <b>6.5 µm · 1 s</b> (Renaudin)</li>
+      <li><b>실전</b> · PSF 비등방(17장 1.207F#) · gridding · 박동 2.2µm(화소와 같은 자릿수) · 두개골 수차</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 <b>부록 A7 / 10</b><br>
+    IBME Lab 교육용 원본 자료 · 수치는 아래 두 논문의 실제 세팅으로 계산</p>
+  <div class="refs">
+    <div class="rh">주요 참고문헌 · References</div>
+    <p>C. Errico, J. Pierre, S. Pezet, Y. Desailly, Z. Lenkei, O. Couture, M. Tanter, "Ultrafast ultrasound localization microscopy for deep super-resolution vascular imaging," <i>Nature</i>, vol. 527, pp. 499–502, 2015.</p>
+    <p>N. Renaudin, C. Demené, A. Dizeux, N. Ialy-Radio, S. Pezet, M. Tanter, "Functional ultrasound localization microscopy reveals brain-wide neurovascular activity on a microscopic scale," <i>Nature Methods</i>, vol. 19, pp. 1004–1012, 2022.</p>
+    <p>B. Heiles, A. Chavignon, V. Hingot, P. Lopez, E. Teston, O. Couture, "Performance benchmarking of microbubble-localization algorithms for ultrasound localization microscopy," <i>Nature Biomedical Engineering</i>, vol. 6, pp. 605–616, 2022. (PALA · github.com/AChavignon/PALA)</p>
+    <p class="also">함께 보면 좋은 것: Hingot <i>et al.</i>, <i>Sci. Rep.</i> 9, 2456 (2019) — 분해능·획득시간 거래 ·
+    Couture <i>et al.</i>, <i>IEEE TUFFC</i> 65, 1304 (2018) — 총론</p>
+  </div>
+  <a class="next" href="a8-qus.html">다음 · 정량 초음파 영상 Quantitative Ultrasound →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/a7.js"></script>
+</body>
+</html>

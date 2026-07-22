@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>초음파의 응용 · Ultrasound Application — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Basics · 08 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Ultrasound Basics · 08</div>
+    <h1>초음파의 응용<span class="sub">Frequency Range and Application</span></h1>
+    <p class="lede">응용마다 주파수가 다른 건 관습이 아닙니다. <strong>필요한 깊이가 주파수를 결정하고,
+      남은 것을 분해능으로 받습니다.</strong> 이 장은 앞의 일곱 장이 하나로 모이는 곳입니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>주파수를 고르는 법<span class="sub">How the frequency gets chosen</span></h2></div>
+  <p>순서가 정해져 있습니다. <strong>분해능부터 고르는 게 아닙니다.</strong></p>
+  <ul>
+    <li><strong>① 얼마나 깊이 봐야 하는가</strong> — 심장은 15 cm, 갑상선은 4 cm, 눈은 2.5 cm.
+      이건 해부학이 정하는 것이라 <strong>협상 대상이 아닙니다.</strong></li>
+    <li><strong>② 그 깊이에서 신호가 잡음 위로 올라오는 최대 주파수는?</strong> —
+      송신 파워는 <span class="t">FDA 규정</span>으로 묶여 있어 마음대로 올릴 수 없습니다.
+      규정 한도까지 쓰고 나면, <strong>깊이가 주파수 상한을 강제합니다.</strong></li>
+    <li><strong>③ 그 상한을 고른다</strong> — 가장 깊은 곳의 <span class="t">SNR</span>만 버텨준다면
+      <strong>언제나 가능한 최고 주파수</strong>가 정답입니다. 분해능은 그렇게 <strong>남는 것을 받는 것</strong>입니다.</li>
+  </ul>
+  <div class="key"><div class="kh">Key</div>
+    <p><strong>주파수는 고르는 게 아니라 깊이에 의해 강제됩니다.</strong> 아래 지도에서 응용들이 왼쪽에서 오른쪽으로 늘어선 순서가
+      곧 <strong>필요한 깊이가 얕아지는 순서</strong>입니다. 우연이 아닙니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>응용별 주파수<span class="sub">Application map</span></h2></div>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 주파수 지도 · 막대를 눌러보세요</span><span id="pick">복부</span></div>
+    <canvas id="c1" height="400"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:2"><label for="frq">주파수 f · <span class="num" id="frqv">4.3</span> MHz</label>
+          <input type="range" id="frq" min="0.5" max="50" value="4.3" step="0.1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">주파수 f</span><span class="v" id="fv">—</span><span class="u">MHz</span></div>
+        <div class="ro"><span class="k">파장 λ</span><span class="v" id="lv" style="color:var(--neg)">—</span><span class="u" id="lu">mm</span></div>
+        <div class="ro"><span class="k">감쇠 α</span><span class="v" id="av">—</span><span class="u">dB/cm</span></div>
+        <div class="ro"><span class="k">침투 (60 dB)</span><span class="v" id="dv" style="color:var(--pos)">—</span><span class="u" id="du">cm</span></div>
+      </div>
+      <p class="cap"><b style="color:var(--neg)">━</b> 파장 λ — 작을수록 분해능이 좋음 &nbsp;·&nbsp;
+        <b style="color:var(--pos)">━</b> 침투 깊이 — 클수록 깊이 봄.<br>
+        <strong>두 곡선이 서로 반대로 갑니다.</strong> 이 가위질이 초음파 설계의 전부입니다.</p>
+    </div>
+  </div>
+  <div class="tw"><table class="props" id="apptab">
+    <tr><th>응용</th><th>주파수</th><th>λ (중앙)</th><th>침투 ≈</th><th>필요한 깊이</th></tr>
+  </table></div>
+  <p class="cap" style="margin-bottom:16px">※ λ와 침투는 연부조직(c=1540 m/s, α=0.5 dB/cm/MHz, 왕복 60 dB 예산) 기준 계산값입니다.
+    침투는 <b>그 응용이 실제로 통과하는 매질</b>의 감쇠로 계산했습니다 — 눈은 유리체(≈물), IVUS는 혈액. 실제 장비 성능은 탐촉자·빔포밍·처리에 따라 달라집니다.</p>
+  <p><strong>표의 마지막 두 열을 비교해 보십시오.</strong> 계산된 침투가 필요한 깊이를 <strong>딱 맞게 덮습니다.</strong>
+    남지도 모자라지도 않습니다 — 남는다면 주파수를 더 올려서 분해능을 챙겼을 테니까요.</p>
+  <div class="key"><div class="kh">HIFU 는 왜 거꾸로인가</div>
+    <p><span class="t">HIFU</span> <span class="en">high-intensity focused ultrasound</span>는 진단용의 <strong>절반 이하</strong> 주파수를 씁니다.
+      영상이 목적이 아니기 때문입니다 — <strong>깊은 곳에 에너지를 꽂아 태우는 것</strong>이 목적이죠.
+      분해능은 필요 없고 <strong>침투와 파워</strong>만 필요하니, 지도의 <strong>왼쪽 끝</strong>으로 갑니다.
+      같은 물리를 정반대 목적에 쓰는 셈입니다.</p></div>
+  <p><strong>IVUS</strong>는 반대편 극단입니다. 카테터를 혈관 안에 직접 넣으니 <strong>필요한 깊이가 몇 mm</strong>뿐입니다.
+    그래서 <span class="num">10~50 MHz</span>를 쓸 수 있고, λ가 <span class="num">50 µm</span>까지 내려가
+    <strong>혈관벽의 층 구조</strong>가 보입니다. 깊이를 포기한 대가로 받은 분해능입니다.</p>
+  <div class="key"><div class="kh">눈은 왜 예외처럼 보이는가</div>
+    <p>안구는 <span class="num">2.5 cm</span>나 되는데 <span class="num">50 MHz</span>를 씁니다.
+      연부조직 감쇠로 계산하면 침투가 <span class="num">1.8 cm</span>밖에 안 되어 <strong>앞뒤가 안 맞습니다.</strong></p>
+    <p style="margin-top:10px">답은 <strong>매질이 조직이 아니라는 것</strong>입니다. 안구 속 <span class="t">유리체</span>
+      <span class="en">vitreous humor</span>는 사실상 <strong>물</strong>이고, 물의 감쇠는 조직의 <strong>수십 분의 1</strong>입니다
+      (게다가 f² 의존이라 계수 자체가 아주 작습니다). 물로 다시 계산하면 침투가 <span class="num">12.9 cm</span> —
+      넉넉히 남습니다. <strong>눈이 고주파를 쓸 수 있는 진짜 이유는 얕아서가 아니라, 속이 물이기 때문입니다.</strong>
+      IVUS도 같은 이치로 매질이 혈액(α ≈ 0.2)이라 유리합니다. <span class="en">→ 03장</span></p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>순서: 깊이 → 주파수 상한 → 분해능</b> · 분해능은 고르는 게 아니라 <b>남는 것</b></li>
+      <li><b>송신 파워는 FDA 규정으로 묶여 있다</b> · 한도까지 써서 SNR을 확보한다</li>
+      <li><b>가장 깊은 곳의 SNR만 버티면, 언제나 최고 주파수가 정답</b></li>
+      <li><b>심장 2.5~3.5 · 복부 3.5~5 · 소기관 5~12 · 안과/피부/IVUS 15~50 MHz</b></li>
+      <li><b>HIFU는 진단의 절반 이하</b> · 영상이 아니라 <b>에너지 전달</b>이 목적</li>
+      <li><b>계산된 침투가 필요한 깊이와 맞아떨어진다</b> — 물리가 응용을 정한 것</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 08 / 33<br>
+    IBME Lab 교육용 원본 자료 · Ultrasound Basics 챕터 완료</p>
+  <a class="next" href="09-piezoelectric.html">다음 · 압전 효과 Piezoelectric Effect →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/08.js"></script>
+</body>
+</html>

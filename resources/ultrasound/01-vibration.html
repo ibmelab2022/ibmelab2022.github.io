@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>진동과 파동 · Vibration and Wave — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Basics · 01 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Ultrasound Basics · 01</div>
+    <h1>진동과 파동<span class="sub">Vibration and Wave</span></h1>
+    <p class="lede">진동원이 매질을 흔들면 파동이 퍼져나갑니다. 이때 <strong>움직여 나가는 것은 에너지이지, 물질이 아닙니다.</strong>
+      초음파의 모든 것이 이 한 문장에서 출발합니다.</p>
+  </div>
+</header>
+
+<!-- ── 01 ── -->
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>파동이란<span class="sub">What a wave is</span></h2></div>
+  <ul>
+    <li>매질 속의 <strong>진동원</strong> <span class="en">vibration source</span>이 파동을 만듭니다.</li>
+    <li>초음파는 <span class="t">기계파</span> <span class="en">mechanical wave</span>입니다 —
+      전달해줄 매질이 반드시 있어야 하므로 <strong>진공에서는 존재할 수 없습니다.</strong> 빛이나 전파와 다른 점입니다.</li>
+    <li>파동은 매질 안에서 <strong>에너지를 전달</strong>하지만, <strong>물질은 전달하지 않습니다.</strong></li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 종파의 전파 · 빨간 입자를 계속 보세요</span><span id="hstate">재생 중</span></div>
+    <canvas id="c1" height="330"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:2"><label for="amp">입자 진폭 · <span class="num" id="ampv">7</span> px (과장됨)</label>
+          <input type="range" id="amp" min="0" max="14" value="7" step="0.5"></div>
+        <div class="ctrl" style="max-width:140px;min-width:120px"><label for="play">재생</label>
+          <button class="go" id="play">일시정지</button></div>
+      </div>
+      <p class="cap">진폭을 <b>0</b>으로 내리면 흐트러지지 않은 매질이 보이고, 올릴수록 압축·희박 띠가 생깁니다.<br>
+        <b style="color:var(--pos)">■</b> 압축 <span class="en">compression</span> · 밀도 ↑ &nbsp;·&nbsp;
+        <b style="color:var(--neg)">■</b> 희박 <span class="en">rarefaction</span> · 밀도 ↓</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">Key</div>
+    <p>위 애니메이션의 빨간 입자는 <strong>제자리에서 진동만 할 뿐 오른쪽으로 가지 않습니다.</strong>
+      오른쪽으로 가는 것은 압축 띠 — 즉 <strong>에너지</strong>입니다. 바다의 파도가 지나가도 부표가 떠내려가지 않는 것과 같습니다.</p></div>
+  <p class="cap" style="margin-top:18px">※ 실제 진단 초음파에서 입자 변위는 <strong>나노미터 수준</strong>(대략 1~20 nm)이고 파장은 <span class="num">0.3 mm</span> 남짓입니다.
+    파장이 변위보다 <strong>수천 ~ 수십만 배</strong> 큽니다 — 위 그림은 보이게 하려고 크게 과장한 것입니다.</p>
+</div></section>
+
+<!-- ── 02 ── -->
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>종파와 횡파<span class="sub">Longitudinal &amp; transverse waves</span></h2></div>
+  <p>둘의 차이는 하나뿐입니다 — <strong>입자가 어느 방향으로 진동하는가.</strong> 파동은 두 경우 모두 오른쪽으로 갑니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 나란히 비교 · 파장 λ가 같습니다</span><span id="hstate2">재생 중</span></div>
+    <canvas id="c2" height="330"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="max-width:140px;min-width:120px"><label for="play2">재생</label>
+          <button class="go" id="play2">일시정지</button></div>
+      </div>
+    </div>
+  </div>
+  <ul>
+    <li><span class="t">종파</span> <span class="en">longitudinal wave</span> · 입자 운동이 전파 방향과 <strong>나란함</strong>.
+      입자가 모이는 곳이 <span class="t">압축</span> <span class="en">compression</span>(밀도·압력 ↑),
+      벌어지는 곳이 <span class="t">희박</span> <span class="en">rarefaction</span>(밀도·압력 ↓)입니다.</li>
+    <li><span class="t">횡파</span> <span class="en">transverse wave</span> · 입자 운동이 전파 방향과 <strong>수직</strong>.
+      매질이 밀고 당겨지지 않으므로 압축·희박이 생기지 않습니다.</li>
+    <li><span class="t">파장</span> <span class="en">wavelength, λ</span> · 이웃한 두 마루 사이의 거리. 두 파동 모두 같은 방식으로 정의됩니다.</li>
+  </ul>
+  <div class="key"><div class="kh">그래서 중요합니다</div>
+    <p>횡파는 매질에 <strong>전단탄성</strong> <span class="en">shear elasticity</span>이 있어야 전파됩니다.
+      연부조직은 사실상 액체처럼 거동해서 전단탄성이 거의 없고, 그래서 <strong>진단 초음파는 전부 종파</strong>입니다.
+      뒤집어 말하면, 조직에서 <strong>횡파가 얼마나 느리게 가는지</strong>를 재면 조직의 굳기를 알 수 있습니다 —
+      이것이 <span class="t">전단파 탄성영상</span> <span class="en">shear wave elastography</span>의 원리입니다.</p></div>
+</div></section>
+
+<!-- ── 정리 ── -->
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>진동원 → 파동.</b> 초음파는 <b>기계파</b>라서 <b>진공에서는 못 간다</b></li>
+      <li><b>에너지는 이동하고, 물질은 제자리에서 진동만 한다</b></li>
+      <li><b>종파</b> · 입자 운동 ∥ 전파 방향 → <b>압축</b>과 <b>희박</b>이 생긴다</li>
+      <li><b>횡파</b> · 입자 운동 ⊥ 전파 방향 → 압축·희박이 없다</li>
+      <li><b>진단 초음파는 전부 종파</b> — 연부조직에는 전단탄성이 거의 없기 때문</li>
+      <li><b>λ = 이웃한 두 마루 사이 거리</b></li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 01 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="02-parameters.html">다음 · 초음파 파라미터 Ultrasound Parameters →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/01.js"></script>
+</body>
+</html>

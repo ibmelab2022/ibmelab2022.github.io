@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>초음파 반사 · Ultrasound Reflection — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Basics · 04 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Ultrasound Basics · 04</div>
+    <h1>초음파 반사<span class="sub">Ultrasound Reflection</span></h1>
+    <p class="lede">반사파의 파면은 <strong>경계면 너머에 있는 가짜 음원</strong>에서 나온 파동과 정확히 똑같은 모양입니다.
+      이 하나만 이해하면 반사 기하학은 전부 따라옵니다.</p>
+  </div>
+</header>
+
+<!-- ── 01 ── -->
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>반사의 두 조건<span class="sub">Two conditions for reflection</span></h2></div>
+  <ul>
+    <li><strong>면이 커야 합니다</strong> <span class="en">big surface</span> · 경계면이 <strong>파장보다 훨씬 커야</strong> 반사라고 부를 수 있습니다.
+      면이 λ 정도이거나 그보다 작으면 반사가 아니라 <strong>산란</strong>이 됩니다 — 사방으로 흩어지죠.
+      5 MHz에서 λ ≈ <span class="num">0.31 mm</span>이니, 그보다 훨씬 큰 구조만 이 장의 이야기에 해당합니다.
+      <span class="en">→ Ultrasound Scattering</span></li>
+    <li><strong>임피던스가 달라야 합니다</strong> <span class="en">impedance mismatch</span> ·
+      양쪽 Z가 같으면 반사는 <strong>0</strong>입니다. 그 경계면은 초음파에게 존재하지 않습니다.</li>
+  </ul>
+  <div class="eq"><span>R =</span><span class="frac"><span>Z₂ − Z₁</span><span>Z₂ + Z₁</span></span>
+    <span style="margin-left:22px">Z₁ = Z₂ &nbsp;→&nbsp; R = 0</span></div>
+  <p>두 조건은 <strong>둘 다</strong> 필요합니다. 아무리 임피던스 차가 커도 면이 작으면 산란이고,
+    아무리 면이 커도 임피던스가 같으면 아무 일도 일어나지 않습니다.</p>
+</div></section>
+
+<!-- ── 02 ── -->
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>파면의 모양<span class="sub">Wavefront pattern — the mirror image source</span></h2></div>
+  <p>점에서 나온 구면파가 평면에 부딪히면, 되돌아오는 파면은 <strong>복잡한 무언가가 아닙니다.</strong>
+    그냥 <strong>경계면 반대편에 거울처럼 비친 가짜 음원</strong>에서 나온 구면파와 <strong>완전히 같은 모양</strong>입니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 점 음원의 구면파 반사 · 거울상 음원</span><span id="hstate">재생 중</span></div>
+    <canvas id="c1" height="360"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="sy">음원 높이 · Source</label><input type="range" id="sy" min="-100" max="100" value="0" step="1"></div>
+        <div class="ctrl"><label for="tl">경계면 기울기 · <span class="num" id="tlv">0°</span></label>
+          <input type="range" id="tl" min="-32" max="32" value="0" step="1"></div>
+        <div class="ctrl" style="max-width:170px"><label for="gh">거울상 음원</label>
+          <button class="tg on" id="gh">보이는 중</button></div>
+        <div class="ctrl" style="max-width:130px;min-width:112px"><label for="play">재생</label>
+          <button class="go" id="play">일시정지</button></div>
+      </div>
+      <p class="cap"><b style="color:var(--pos)">■</b> 압축 &nbsp;<b style="color:var(--neg)">■</b> 희박 &nbsp;·&nbsp;
+        경계면을 기울여 보세요. <b>거울상 음원</b>이 따라 움직이고, 반사파는 <strong>언제나 그 지점을 중심으로 한 원</strong>입니다.</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">거울상 음원 · virtual source</div>
+    <p>실제 음원 S 에서 경계면에 <strong>수직으로</strong> 선을 긋고, 같은 거리만큼 반대편으로 넘어간 곳이 S′ 입니다.
+      반사파는 <strong>S′ 를 중심으로 하는 동심원</strong>이 됩니다. 거울 속의 내 모습이 거울 뒤 같은 거리에 있는 것과 똑같습니다.</p></div>
+  <p>이 방법을 <span class="t">거울상법</span> <span class="en">method of images</span>이라 부릅니다.
+    편리한 근사가 아니라 <strong>정확한 해</strong>입니다. 경계면 위의 모든 점은 S 와 S′ 로부터 <strong>거리가 같으므로</strong>,
+    두 파동이 그곳에서 항상 같은 위상으로 만납니다 — 그래서 경계 조건이 저절로 만족됩니다.</p>
+</div></section>
+
+<!-- ── 03 ── -->
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>평면파와 각도<span class="sub">Plane wave · angle in = angle out</span></h2></div>
+  <p>음원이 아주 멀면 파면은 평평해집니다 — <span class="t">평면파</span> <span class="en">plane wave</span>.
+    이때 반사는 <strong>거울 그 자체</strong>가 됩니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 평면파의 반사 · θᵣ = θᵢ</span><span id="hstate2">재생 중</span></div>
+    <canvas id="c2" height="340"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:2"><label for="ang">입사각 θᵢ · <span class="num" id="angv">30°</span></label>
+          <input type="range" id="ang" min="0" max="70" value="30" step="1"></div>
+        <div class="ctrl" style="max-width:130px;min-width:112px"><label for="play2">재생</label>
+          <button class="go" id="play2">일시정지</button></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">입사각 θᵢ</span><span class="v" id="tiv">30</span><span class="u">°</span></div>
+        <div class="ro"><span class="k">반사각 θᵣ</span><span class="v" id="trv" style="color:var(--amber-deep)">30</span><span class="u">°</span></div>
+        <div class="ro"><span class="k">탐촉자 수신</span><span class="v" id="rcv" style="font-size:13px">—</span></div>
+      </div>
+    </div>
+  </div>
+  <p><strong>반사각은 언제나 입사각과 같습니다</strong> <span class="num">θᵣ = θᵢ</span>.
+    거울상법으로 보면 당연합니다 — 무한히 먼 거울상 음원에서 오는 평면파일 뿐이니까요.</p>
+  <div class="key"><div class="kh">그래서 구조가 사라집니다</div>
+    <p>큰 매끈한 면 — <span class="t">정반사체</span> <span class="en">specular reflector</span>, 횡격막·혈관벽·바늘 — 는 거울입니다.
+      거울은 <strong>정면으로 봐야만</strong> 내게 되돌려 줍니다. 각도가 붙으면 에코는 <strong>반대편으로 날아가</strong> 탐촉자에 도달하지 않습니다.
+      구조가 없어진 게 아니라 <strong>에코가 다른 데로 간 것</strong>입니다 — 게인을 올려도 소용없고, <strong>프로브 각도를 바꿔야</strong> 합니다.</p></div>
+</div></section>
+
+<!-- ── 정리 ── -->
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>반사 조건 두 개</b> · 면이 λ보다 훨씬 클 것 + 양쪽 Z가 다를 것</li>
+      <li><b>면이 λ 이하면 반사가 아니라 산란</b>이다</li>
+      <li><b>Z가 같으면 R = 0</b> — 경계면이 있어도 안 보인다</li>
+      <li><b>반사파 = 거울상 음원 S′ 에서 나온 파동</b> · 정확한 해다 <span class="en">method of images</span></li>
+      <li><b>경계면의 모든 점은 S와 S′ 에서 등거리</b> — 그래서 경계 조건이 저절로 맞는다</li>
+      <li><b>평면파는 θᵣ = θᵢ</b> · 정반사체는 <b>수직일 때만</b> 보인다</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 04 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="05-refraction.html">다음 · 초음파 굴절 Ultrasound Refraction →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/04.js"></script>
+</body>
+</html>

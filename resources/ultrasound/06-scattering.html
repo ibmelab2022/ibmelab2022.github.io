@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>초음파 산란 · Ultrasound Scattering — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Basics · 06 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Ultrasound Basics · 06</div>
+    <h1>초음파 산란<span class="sub">Ultrasound Scattering</span></h1>
+    <p class="lede">반사와 산란은 <strong>다른 현상이 아닙니다.</strong> 조건도 똑같습니다 — 임피던스가 달라야 하죠.
+      차이는 딱 하나, <strong>구조물이 파장보다 큰가 작은가</strong>입니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>산란의 두 조건<span class="sub">Two conditions for scattering</span></h2></div>
+  <ul>
+    <li><strong>구조물이 작아야 합니다</strong> <span class="en">small particle</span> ·
+      <strong>파장보다 훨씬 작아야</strong> 합니다. 5 MHz에서 λ ≈ <span class="num">0.31 mm</span>이니,
+      그보다 작은 것 — 적혈구(~7 µm), 조직 실질의 미세구조 — 이 여기에 해당합니다.</li>
+    <li><strong>임피던스가 달라야 합니다</strong> <span class="en">impedance mismatch</span> ·
+      배경과 Z가 같으면 아무 일도 없습니다. <strong>반사와 똑같은 조건</strong>입니다.</li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 크기 하나로 산란이 반사가 됩니다</span><span id="mode">—</span></div>
+    <canvas id="c1" height="360"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:2"><label for="sz">구조물 크기 d · <span class="num" id="szv">0.2</span> λ</label>
+          <input type="range" id="sz" min="0.1" max="4" value="0.2" step="0.05"></div>
+        <div class="ctrl" style="flex:1.2"><label for="src">입사파 · Incident</label>
+          <select id="src"><option value="0">평면파 · plane wave</option><option value="1">구면파 · spherical wave</option></select></div>
+        <div class="ctrl" style="max-width:130px;min-width:112px"><label for="play">재생</label>
+          <button class="go" id="play">일시정지</button></div>
+      </div>
+      <p class="cap"><b>d를 왼쪽 끝(0.1 λ)에 두면</b> 흩어진 파동이 <b>완벽한 동심원</b>입니다 — 모든 방향으로 똑같이.
+        <b>d를 키우면</b> 앞뒤로 몰리기 시작하고, <b>d &gt; λ 부터는</b> 거울처럼 되돌아옵니다. 그게 반사입니다.</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">그래서 왜 흩어지는가</div>
+    <p>위 애니메이션은 구조물을 <strong>여러 개의 작은 재방사점</strong>으로 모델링합니다 —
+      <span class="t">하위헌스 원리</span> <span class="en">Huygens' principle</span>, 05장에서 쓴 것과 같습니다.
+      <strong>구조물이 λ보다 작으면</strong> 모든 점이 <strong>같은 위상</strong>으로 재방사하므로 하나의 점 음원처럼 굴고 →
+      <strong>완벽한 구면파</strong>가 나갑니다. <strong>크면</strong> 점마다 위상이 어긋나 서로 간섭하고 →
+      특정 방향으로만 살아남습니다. <strong>그것이 거울 반사입니다.</strong></p></div>
+  <p>즉 반사는 <strong>산란의 특수한 경우</strong>입니다. 별개의 물리가 아니라, 같은 물리의 양 끝입니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>세 현상 정리<span class="sub">Reflection · refraction · scattering</span></h2></div>
+  <div class="tw"><table class="props">
+    <tr><th>현상</th><th>필요 조건</th><th>크기</th><th>방향성</th><th>영상에서</th></tr>
+    <tr><td class="m">반사<span>reflection</span></td><td class="n"><b>Z</b> 차이</td><td class="n">≫ λ</td>
+      <td>θᵣ = θᵢ · <strong>각도에 민감</strong></td><td>횡격막, 혈관벽, 바늘</td></tr>
+    <tr><td class="m">굴절<span>refraction</span></td><td class="n"><b>c</b> 차이</td><td class="n">≫ λ</td>
+      <td>스넬의 법칙</td><td>빔이 휨 → 위치 오류</td></tr>
+    <tr class="hi"><td class="m">산란<span>scattering</span></td><td class="n"><b>Z</b> 차이</td><td class="n"><b>≪ λ</b></td>
+      <td><strong>각도와 무관</strong></td><td>실질 질감, 스페클, 도플러</td></tr>
+  </table></div>
+  <p><strong>각도 무관</strong>이라는 점이 임상적으로 결정적입니다. 정반사체는 프로브를 조금만 기울여도 사라지지만,
+    산란은 <strong>어느 각도에서 봐도 똑같이 돌아옵니다.</strong> 간 실질이 어느 방향에서 스캔해도 같은 질감으로 보이는 이유이고,
+    적혈구(~7 µm ≪ λ)가 <strong>어느 각도에서든 도플러 신호를 주는</strong> 이유입니다.</p>
+  <div class="key"><div class="kh">스페클 · speckle</div>
+    <p>한 <span class="t">분해능 셀</span> <span class="en">resolution cell</span> 안에는 수많은 산란체가 들어 있습니다.
+      그들이 보낸 파동이 <strong>서로 간섭</strong>해서 만드는 얼룩덜룩한 무늬가 <span class="t">스페클</span>입니다.
+      <strong>스페클은 잡음이 아닙니다</strong> — 조직의 실제 구조가 만든 결정론적 무늬이고,
+      같은 자리를 다시 스캔하면 같은 무늬가 나옵니다. 그래서 스페클을 추적해 <strong>조직의 움직임</strong>을 잴 수 있습니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>산란 조건 두 개</b> · 구조물이 λ보다 훨씬 <b>작을 것</b> + Z가 배경과 다를 것</li>
+      <li><b>반사와 조건이 같다</b> — 차이는 <b>크기 하나뿐</b></li>
+      <li><b>작으면 모든 점이 같은 위상</b> → 하나의 점 음원 → <b>완벽한 구면파</b></li>
+      <li><b>커지면 위상이 어긋나 간섭</b> → 특정 방향만 살아남음 → <b>그것이 반사</b></li>
+      <li><b>산란은 각도와 무관</b> · 실질 질감·도플러가 어느 각도에서도 보이는 이유</li>
+      <li><b>스페클은 잡음이 아니다</b> · 산란체들의 간섭 무늬 — 재현되고, 추적할 수 있다</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 06 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="07-attenuation.html">다음 · 초음파 감쇠 Ultrasound Attenuation →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/06.js"></script>
+</body>
+</html>

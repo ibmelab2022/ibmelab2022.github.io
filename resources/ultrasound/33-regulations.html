@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>규정 · Regulations — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Safety · 33 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Safety · 33</div>
+    <h1>규정<span class="sub">Output Regulations &amp; ALARA</span></h1>
+    <p class="lede">앞의 네 장 — <strong>강도·MI·TI·공동화</strong> — 이 여기서 <strong>하나의 화면</strong>으로 모입니다.
+      규정은 이 물리량들에 <strong>상한</strong>을 걸고, 화면에 <strong>MI·TI</strong>를 띄워
+      술자가 스스로 낮추게 합니다(<strong>ALARA</strong>).</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>두 위험, 두 지수<span class="sub">Two indices, hard limits</span></h2></div>
+  <p>규정은 <strong>기계적 위험(MI)</strong>과 <strong>열적 위험(TI)</strong>을 <strong>따로</strong> 관리합니다.
+    미국 FDA의 상한은 다음과 같습니다.</p>
+  <div class="tw"><table class="props">
+    <thead><tr><th>항목</th><th>일반</th><th>안과</th></tr></thead>
+    <tbody>
+      <tr><td class="m">I<sub>SPTA.3</sub><span>시간평균 강도</span></td><td class="n"><b>≤ 720</b> mW/cm²</td><td class="n">≤ 50 mW/cm²</td></tr>
+      <tr class="hi"><td class="m">MI<span>기계적 지수</span></td><td class="n"><b>≤ 1.9</b></td><td class="n">≤ 0.23</td></tr>
+      <tr><td class="m">TI<span>열 지수</span></td><td class="n"><b>≤ 6</b> (초과 시 정당화)</td><td class="n">≤ 1</td></tr>
+    </tbody>
+  </table></div>
+  <p>29장에서 봤듯 <span class="num">I_SPTA.3</span>는 <strong>시간평균</strong>(열)이고, MI는 <strong>순간 음압</strong>(공동화)입니다.
+    두 축이 서로 다른 물리를 보므로 <strong>한 숫자로 합쳐지지 않습니다.</strong></p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>".3"의 정체 — 감쇠 보정<span class="sub">The derating assumption</span></h2></div>
+  <p>한계값 뒤의 <strong>.3</strong>은 <strong>0.3 dB/cm/MHz</strong>로 깎았다는 표시입니다.
+    7장에서 예고했듯, 이 값은 <strong>실제 조직이 아니라</strong> 규격 계산을 위한 <strong>균질 가정</strong>입니다.</p>
+  <div class="key"><div class="kh">7장 회수 — 이 숫자는 조직이 아니라 규약이다</div>
+    <p>실제 연부조직 감쇠는 <span class="num">0.5 dB/cm/MHz</span> 안팎이라, 0.3 가정은 대개 <strong>보수적</strong>입니다
+      (실제보다 덜 깎아 더 높게 잡음). 하지만 <strong>태아처럼 양수·소변 같은 저감쇠 액체</strong>를 지나면
+      실제 노출이 표시값보다 <strong>클 수</strong> 있어, TI가 최대 <strong>2배까지 과소평가</strong>되기도 합니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>ODS와 ALARA<span class="sub">The display standard</span></h2></div>
+  <p>8장에서 본 FDA 파워 한계에는 역사가 있습니다. 1993년, 산과용 상한이 <strong>94 → 720 mW/cm²</strong>로
+    <strong>약 7.6배</strong> 완화됐습니다. 대신 붙은 조건이 <span class="t">출력 표시 표준</span> <span class="en">ODS</span>입니다.</p>
+  <div class="key"><div class="kh">완화의 대가는 실시간 표시</div>
+    <p>더 센 출력을 허용하는 대신, 화면에 <strong>MI와 TI를 실시간으로 띄워</strong> 술자가 위험을 <strong>스스로 판단·조절</strong>하게 했습니다.
+      단, 지수가 <strong>1.0을 넘을 수 있는 장비만</strong> 표시 의무가 있어(<span class="en">ODS</span>),
+      낮은 출력 기기는 표시가 없을 수도 있습니다.</p></div>
+  <p><span class="t">ALARA</span> <span class="en">As Low As Reasonably Achievable</span> — <strong>진단에 필요한 최소 출력</strong>만 쓰는 원칙입니다.
+    상한 이내라도, 낮출 수 있으면 낮추는 것이 규정의 정신입니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 출력 표시(ODS) — 두 지수가 한 화면에</span>
+      <span><button id="mode" class="tg" style="width:auto;padding:5px 12px">B-모드</button></span></div>
+    <canvas id="c1" height="420"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="out">출력 레벨 · <span class="num" id="outv">70</span> %</label>
+          <input type="range" id="out" min="10" max="100" value="70" step="1"></div>
+        <div class="ctrl"><label for="fr">주파수 · <span class="num" id="frv">5.0</span> MHz</label>
+          <input type="range" id="fr" min="2" max="10" value="5" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">MI</span><span class="v" id="mi" style="font-size:22px">—</span></div>
+        <div class="ro"><span class="k" id="tilbl">TIS</span><span class="v" id="ti" style="font-size:22px">—</span></div>
+        <div class="ro"><span class="k">ALARA 안내</span><span class="v" id="adv" style="font-size:13px">—</span></div>
+      </div>
+      <p class="cap"><b>모드를 도플러로</b> 바꾸면 빔이 한 곳에 머물러 <b style="color:var(--pos)">TI가 치솟습니다.</b>
+        <b>출력·주파수</b>를 움직이면 B-모드 화면도 실제로 바뀝니다 — 주파수↑ 이면 스페클 결이 <b>미세</b>해지고
+        <b style="color:var(--amber-deep)">침투(노란 한계선)가 얕아져</b> 깊은 구조가 묻히며, 출력↑ 이면 더 <b style="color:var(--signal-deep)">깊고 밝게</b> 보입니다.
+        동시에 두 지수가 임계선(<b style="color:var(--signal-deep)">조영제 0.3</b> ·
+        <b style="color:var(--amber-deep)">공동화 0.7</b> · <b style="color:var(--pos)">FDA 1.9 / TI 6</b>)에 어떻게 붙는지 보세요.</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">출력과 이득은 안전상 전혀 다른 손잡이다</div>
+    <p>실무의 ALARA에는 순서가 있습니다 — <strong>송신 출력을 먼저 낮추고</strong>, 어두워진 화면은
+      <strong>수신 이득으로 보상</strong>합니다(22·23장). 수신단은 <strong>이미 돌아온 에코</strong>를 다루므로
+      이득을 아무리 올려도 <strong>환자 노출은 조금도 늘지 않습니다.</strong> 화면 밝기로는 둘이 비슷해 보이지만,
+      <strong>MI·TI를 움직이는 것은 출력뿐</strong>입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>특수 상황과 표준<span class="sub">Special cases</span></h2></div>
+  <ul>
+    <li><b>조영제</b> · 미세기포가 핵을 공급하므로(32장) <span class="num">MI &lt; 0.3</span> 권장.</li>
+    <li><b>태아·신생아·눈</b> · 성인보다 열에 취약 → 더 보수적으로. 눈은 별도 상한.</li>
+    <li><b>도플러·오래 머무는 모드</b> · TI 주시 + 체류시간 관리(31장).</li>
+  </ul>
+  <p>관련 표준: <span class="en">FDA Guidance for Diagnostic Ultrasound</span> ·
+    <span class="en">AIUM/NEMA ODS</span> · <span class="en">IEC 62359</span>(지수 측정) ·
+    <span class="en">IEC 60601-2-37</span>(기기 안전).</p>
+  <div class="key"><div class="kh">전체를 관통하는 한 문장</div>
+    <p>초음파는 <strong>알고 쓰면 안전한</strong> 도구입니다. 강도가 <strong>어떻게 정의되고</strong>(29),
+      <strong>무엇이 기포를 터뜨리며</strong>(30·32), <strong>무엇이 조직을 데우는지</strong>(31)를 이해하면,
+      규정의 숫자들은 <strong>임의의 제약이 아니라 물리의 요약</strong>으로 읽힙니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>두 위험, 두 지수</b> · 기계(MI)·열(TI)을 따로 관리</li>
+      <li><b>FDA: MI ≤ 1.9 · I<sub>SPTA.3</sub> ≤ 720 mW/cm² · TI ≤ 6</b> (안과 0.23 / 50 / 1)</li>
+      <li><b>.3 = 0.3 dB/cm/MHz</b> · 실제 조직 아닌 규격 가정 (7장) — 태아 액체 경로선 과소평가</li>
+      <li><b>94→720 7.6배 완화의 대가가 ODS 실시간 표시</b> (8장)</li>
+      <li><b>ALARA</b> · 진단 되는 최소 출력 · 조영제는 MI &lt; 0.3</li>
+      <li><b>출력을 먼저 내리고 수신 이득으로 보상</b> · 이득은 노출을 안 늘림 — MI·TI를 움직이는 건 <b>출력뿐</b></li>
+      <li><b>표준: FDA · AIUM/NEMA ODS · IEC 62359 · 60601-2-37</b></li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 33 / 33 — Safety 파트 완결<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="index.html">처음으로 · 전체 목차 →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/33.js"></script>
+</body>
+</html>

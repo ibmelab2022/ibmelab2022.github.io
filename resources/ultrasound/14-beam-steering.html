@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>빔 조향 · Beam Steering — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Beamforming · 14 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Beamforming · 14</div>
+    <h1>빔 조향<span class="sub">Beam Steering</span></h1>
+    <p class="lede">집속이 <strong>오목한 파면</strong>을 만드는 일이었다면, 조향은 <strong>기울어진 파면</strong>을 만드는 일입니다.
+      지연을 <strong>비스듬한 사다리꼴로</strong> 주면 빔이 그쪽을 봅니다. 탐촉자는 <strong>움직이지 않습니다.</strong></p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>원리는 한 줄입니다<span class="sub">A linear delay ramp</span></h2></div>
+  <p>배열 소자들이 <strong>동시에</strong> 쏘면 파면이 표면과 나란하고 빔은 <strong>수직</strong>으로 나갑니다.
+    한쪽 끝부터 <strong>차례로 조금씩 늦게</strong> 쏘면 파면이 <strong>기울고</strong>, 빔은 그 수직 방향을 봅니다.</p>
+  <div class="eq"><span>τⱼ =</span><span class="frac"><span>xⱼ sin θs</span><span>c</span></span></div>
+  <div class="eqcap">xⱼ = 소자의 위치 · θs = 원하는 조향각 · c = 음속</div>
+  <p>위치에 <strong>비례</strong>하는 지연 — 그래서 <strong>사다리꼴</strong>입니다. 집속의 곡선 지연(13장)과 더하면
+    <strong>조향과 집속을 동시에</strong> 할 수 있습니다. 실제 장비는 늘 둘을 겹쳐서 씁니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 지연(time delay)이 빔을 돌립니다</span><span id="gstat">—</span></div>
+    <canvas id="c1" height="380"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:1.6"><label for="st">조향각 θs · <span class="num" id="stv">0</span>°</label>
+          <input type="range" id="st" min="-60" max="60" value="0" step="1"></div>
+        <div class="ctrl" style="flex:1.6"><label for="pt">소자 피치 · <span class="num" id="ptv">0.50</span> λ</label>
+          <input type="range" id="pt" min="0.35" max="1.3" value="0.5" step="0.05"></div>
+        <div class="ctrl" style="max-width:120px;min-width:108px"><label for="play">재생</label>
+          <button class="go" id="play">일시정지</button></div>
+      </div>
+      <p class="cap"><b>조향각을 돌려보세요.</b> 왼쪽의 <b style="color:var(--pos)">time delay(지연 프로파일)</b>가 기울고,
+        파면이 그만큼 기울고, 빔이 따라 돕니다.<br>
+        <b>이제 피치를 0.5λ 위로 올려보세요.</b> 엉뚱한 방향에 <b style="color:var(--amber-deep)">가짜 빔</b>이 돋아납니다 — <b>격자엽</b>입니다.</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">이것이 부채꼴 스캔입니다</div>
+    <p>θs 를 <strong>한 발씩 바꿔가며</strong> 쏘고 받기를 반복하면 부채꼴 영역이 채워집니다.
+      갈비뼈 사이의 <strong>좁은 창</strong>으로 심장 전체를 보는 방법이 이것입니다 — 탐촉자는 가만히 있고
+      <strong>빔만 전자적으로 흔드는 것</strong>입니다. <span class="en">→ 11장 위상 배열</span></p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>조향의 대가<span class="sub">What steering costs</span></h2></div>
+  <p>공짜가 아닙니다. 각도를 줄수록 <strong>세 가지가 동시에 나빠집니다.</strong></p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 빔 패턴 · 주엽 · 사이드로브 · 격자엽</span><span id="pstat">—</span></div>
+    <canvas id="c2" height="360"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="st2">조향각 θs · <span class="num" id="st2v">30</span>°</label>
+          <input type="range" id="st2" min="0" max="70" value="30" step="1"></div>
+        <div class="ctrl"><label for="pt2">피치 · <span class="num" id="pt2v">0.50</span> λ</label>
+          <input type="range" id="pt2" min="0.35" max="1.3" value="0.5" step="0.05"></div>
+        <div class="ctrl"><label for="ew">소자 폭 · <span class="num" id="ewv">0.42</span> λ</label>
+          <input type="range" id="ew" min="0.2" max="1.2" value="0.42" step="0.02"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">격자엽 위치</span><span class="v" id="gl" style="color:var(--amber-deep);font-size:15px">—</span></div>
+        <div class="ro"><span class="k">유효 개구</span><span class="v" id="ea">—</span><span class="u">%</span></div>
+        <div class="ro"><span class="k">빔 폭 배율</span><span class="v" id="bw" style="color:var(--pos)">—</span><span class="u">배</span></div>
+        <div class="ro"><span class="k">소자 응답 @θs</span><span class="v" id="ed">—</span><span class="u">%</span></div>
+      </div>
+      <p class="cap"><b style="color:var(--muted)">━</b> 소자 지향성(포락선) &nbsp;·&nbsp;
+        <b style="color:var(--pos)">━</b> 최종 빔 패턴 = 배열 인자 × 소자 지향성<br>
+        <b>피치를 올리면</b> 격자엽이 시야 안으로 들어옵니다. <b>소자 폭을 넓히면</b> 포락선이 좁아져
+        격자엽을 눌러주지만, 대신 <b>큰 각도에서 주엽 자체가 죽습니다.</b></p>
+    </div>
+  </div>
+
+  <h3>① 유효 개구가 줄어듭니다</h3>
+  <p>비스듬히 보면 개구가 <strong>짧아 보입니다</strong> — 정확히 <span class="num">D cos θs</span>.
+    F#이 그만큼 올라가니 <strong>빔 폭은 1/cos θs 배</strong>로 넓어집니다.</p>
+  <div class="tw"><table class="props">
+    <tr><th>조향각</th><th>유효 개구</th><th>빔 폭</th><th></th></tr>
+    <tr class="hi"><td class="m">0°</td><td class="n">100%</td><td class="n">1.00배</td><td>기준</td></tr>
+    <tr><td class="m">30°</td><td class="n">86.6%</td><td class="n">1.15배</td><td>실용 범위</td></tr>
+    <tr><td class="m">45°</td><td class="n">70.7%</td><td class="n"><b>1.41배</b></td><td>측방향 분해능 41% 손해</td></tr>
+    <tr><td class="m">60°</td><td class="n">50.0%</td><td class="n"><b>2.00배</b></td><td>빔이 두 배로 뭉개짐</td></tr>
+  </table></div>
+
+  <h3>② 격자엽이 시야로 들어옵니다</h3>
+  <div class="eq" style="font-size:17px"><span>sin θg = sin θs ± λ / 피치</span></div>
+  <p>11장에서 본 식입니다. 조향하지 않으면(θs=0) 격자엽은 <strong>±λ/피치</strong> 에 있어 피치 &lt; λ 면 밖으로 밀려납니다.
+    그런데 <strong>조향하면 격자엽도 함께 끌려옵니다</strong> — 그것도 <strong>주엽의 반대편</strong>으로.
+    +45° 로 돌리면 격자엽은 <strong>−17°</strong> 쪽에 나타납니다(피치 1λ 기준). 피치가 <span class="num">λ/2</span> 이하면
+    <strong>±90° 어디로 돌려도 안전</strong>합니다.</p>
+
+  <h3>③ 소자 자신이 그쪽을 안 봅니다</h3>
+  <p>소자 하나도 <strong>자기 지향성</strong>이 있습니다. 폭이 <span class="num">w</span> 인 소자는
+    <span class="num">sin θ = λ/w</span> 에서 <strong>널</strong>이 생깁니다.</p>
+  <ul>
+    <li>소자 폭 <span class="num">λ/2</span> → 널이 <strong>없습니다.</strong> 90°에서도 <strong>64%</strong>나 방사합니다.</li>
+    <li>소자 폭 <span class="num">λ</span> → 널이 <strong>정확히 90°</strong>. 옆으로는 아예 못 봅니다.</li>
+    <li>소자 폭 <span class="num">2λ</span> → 널이 <strong>30°</strong>. 조향은 사실상 불가능합니다.</li>
+  </ul>
+  <div class="key"><div class="kh">λ/2 가 두 일을 동시에 합니다</div>
+    <p>위상 배열의 피치가 <span class="num">λ/2</span> 인 이유가 <strong>하나가 아니라 둘</strong>입니다.</p>
+    <p style="margin-top:10px"><strong>(a) 격자엽이 안 생깁니다</strong> — 90°까지 돌려도 안전.<br>
+      <strong>(b) 소자가 작아서 넓게 방사합니다</strong> — 피치가 λ/2 면 소자 폭은 그보다도 작으니
+      지향성 널이 없습니다.</p>
+    <p style="margin-top:10px">두 조건이 <strong>같은 숫자에서 만나는 것은 우연이 아닙니다.</strong>
+      둘 다 <strong>"소자 간격 · 소자 크기를 λ 대비 얼마나 작게 하느냐"</strong>는 하나의 질문이기 때문입니다.
+      그리고 이것이 <strong>위상 배열이 비싼 이유</strong>입니다 — 5 MHz 면 소자 폭이 <span class="num">104 µm</span>입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>τⱼ = xⱼ sin θs / c</b> · 위치에 비례하는 <b>사다리꼴 지연</b> → 파면이 기운다</li>
+      <li><b>집속(곡선) + 조향(사다리)</b> 은 그냥 더하면 된다 — 실제 장비는 늘 겹쳐 쓴다</li>
+      <li><b>부채꼴 스캔</b> = θs 를 바꿔가며 반복 · 탐촉자는 가만히 있다</li>
+      <li><b>유효 개구 = D cos θs</b> → 빔 폭 <b>1/cos θs</b> 배 (45°에서 1.41배)</li>
+      <li><b>sin θg = λ/피치 − sin θs</b> · 조향하면 격자엽이 시야로 들어온다</li>
+      <li><b>소자 지향성 널: sin θ = λ/w</b> · 소자가 크면 옆을 못 본다</li>
+      <li><b>λ/2 피치는 격자엽과 소자 지향성을 한 번에 해결</b> — 우연이 아니다</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 14 / 33<br>
+    IBME Lab 교육용 원본 자료 · Beamforming 챕터 완료</p>
+  <a class="next" href="15-pulse-echo.html">다음 · 펄스-에코 방식 Pulse-Echo Method →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/14.js"></script>
+</body>
+</html>

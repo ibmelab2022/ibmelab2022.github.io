@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>영상 분해능 · Imaging Resolution — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Imaging · 17 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Imaging · 17</div>
+    <h1>영상 분해능<span class="sub">Ultrasound Image Resolution</span></h1>
+    <p class="lede">분해능은 <strong>세 방향으로 따로</strong> 있습니다. 그리고 <strong>세 방향의 값이 전부 다릅니다.</strong>
+      앞의 여덟 장이 여기서 하나로 모입니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>축방향 분해능<span class="sub">Axial resolution</span></h2></div>
+  <p>깊이 방향, 즉 <strong>초음파가 진행하는 방향</strong>으로 구별할 수 있는 최소 거리입니다.
+    펄스-에코 방식이므로 <strong>펄스 길이가 전부 결정합니다.</strong></p>
+  <div class="eq"><span>축방향 분해능 =</span><span class="frac"><span>펄스 길이</span><span>2</span></span>
+    <span style="margin-left:22px">=</span><span class="frac"><span>n λ</span><span>2</span></span></div>
+  <div class="eqcap">n = 펄스의 사이클 수 · 2 로 나누는 이유는 <strong>왕복</strong>이기 때문</div>
+  <p>왜 2로 나누는가 — 표적이 <span class="num">d</span> 만큼 떨어져 있으면 <strong>왕복 경로 차는 2d</strong> 입니다.
+    두 에코가 갈라지려면 <span class="num">2d &gt; 펄스 길이</span> 여야 하므로 <span class="num">d &gt; 펄스길이/2</span>.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 두 표적이 언제 갈라지는가 · 축방향</span><span id="astat">—</span></div>
+    <canvas id="c1" height="360"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="sep">두 표적 간격 · <span class="num" id="sepv">0.60</span> mm</label>
+          <input type="range" id="sep" min="0.05" max="1.6" value="0.6" step="0.01"></div>
+        <div class="ctrl"><label for="fr">주파수 · <span class="num" id="frv">5.0</span> MHz</label>
+          <input type="range" id="fr" min="2" max="12" value="5" step="0.5"></div>
+        <div class="ctrl"><label for="nc">사이클 수 · <span class="num" id="ncv">2.0</span></label>
+          <input type="range" id="nc" min="1" max="5" value="2" step="0.1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">파장 λ</span><span class="v" id="lm">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">펄스 길이</span><span class="v" id="pl">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">축방향 분해능</span><span class="v" id="ax" style="color:var(--amber-deep)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">지금 간격</span><span class="v" id="sp">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">판정</span><span class="v" id="vd" style="font-size:14px">—</span></div>
+      </div>
+      <p class="cap">위 = 표적 두 개 · 아래 = 돌아온 에코.
+        <b>간격을 줄여보세요.</b> 두 봉우리가 <b>펄스 길이의 절반</b>보다 가까워지는 순간 <b>하나로 뭉칩니다.</b><br>
+        <b>주파수를 올리거나 사이클을 줄이면</b> 다시 갈라집니다 — 펄스가 짧아지니까요.</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">2 사이클이면 축방향 분해능이 정확히 λ</div>
+    <p>펄스 길이 = nλ 이므로 축방향 = nλ/2. <strong>2사이클 펄스면 딱 λ</strong> 입니다.
+      5 MHz 에서 <span class="num">0.31 mm</span>. 사이클을 3으로 늘리면 <span class="num">0.46 mm</span> 로 나빠집니다.</p></div>
+  <p>실제로는 "갈라진다 / 뭉친다"가 <strong>칼로 자르듯 나뉘지 않습니다.</strong> 간격이 줄면 두 봉우리가 서서히 다가와
+    골이 얕아지다가 사라지죠. 그래서 <strong>−40dB 펄스 길이의 절반보다 멀면 확실히 갈라지고,
+    −3dB 펄스 길이의 절반보다 가까우면 확실히 뭉칩니다.</strong> 그 사이는 회색지대입니다.</p>
+  <div class="key warn"><div class="kh">"주파수를 올리면 축방향이 좋아진다" — 조건이 붙습니다</div>
+    <p>펄스 길이는 <strong>대역폭</strong>이 정합니다(10장). <strong>절대 대역폭이 고정</strong>이면
+      주파수를 올려도 펄스 길이는 <strong>그대로</strong>입니다 — 축방향이 안 좋아집니다.</p>
+    <p style="margin-top:10px">그런데 실제 탐촉자는 <strong>비대역폭(%)</strong> 으로 규정됩니다. 비대역폭이 고정이면
+      주파수를 올릴 때 <strong>절대 대역폭도 같이 올라가서</strong> 펄스가 짧아집니다.
+      비대역폭 70% 기준으로 <span class="num">5 MHz → 0.19 mm</span>, <span class="num">10 MHz → 0.10 mm</span> —
+      <strong>정확히 절반</strong>입니다. <strong>결론은 맞지만 이유는 "비대역폭이 같기 때문"</strong>입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>측방향과 고도 방향<span class="sub">Lateral and elevational</span></h2></div>
+  <ul>
+    <li><span class="t">측방향</span> <span class="en">lateral</span> · 깊이에 수직이고 <strong>빔이 훑는 방향</strong>.
+      탐촉자 면과 나란합니다. <strong>빔 폭이 정합니다</strong> —
+      <span class="num">≈ 1.02 λ F#</span>. <strong>고주파 + 강한 집속</strong>이 답입니다. <span class="en">→ 13장</span></li>
+    <li><span class="t">고도 방향</span> <span class="en">elevation</span> · 깊이에도 측방향에도 수직인 방향.
+      여기 분해능이 <span class="t">슬라이스 두께</span> <span class="en">slice thickness</span>입니다.</li>
+  </ul>
+  <div class="key"><div class="kh">개구가 정사각이 아니면 두 방향이 다릅니다</div>
+    <p>원형이나 정사각 개구면 측방향과 고도 방향이 <strong>대칭</strong>입니다. 그런데 배열 소자는 <strong>가늘고 긴 직사각형</strong>이고,
+      고도 방향에는 <strong>소자가 하나뿐</strong>이라 렌즈로 초점을 고정할 수밖에 없습니다.
+      그래서 <strong>고도 방향 분해능이 대개 측방향보다 나쁩니다.</strong> <span class="en">→ 11장 1.5D 배열</span></p>
+    <p style="margin-top:10px">이것이 <strong>부분체적 효과</strong> <span class="en">partial volume</span>의 원인입니다 —
+      슬라이스가 두꺼우면 <strong>얇은 낭종이 실질처럼</strong> 보입니다. 화면에는 2D 로 나오지만
+      실제로 재고 있는 건 <strong>두께가 있는 판</strong>이니까요.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>점확산함수 — 나는 새<span class="sub">Point spread function</span></h2></div>
+  <p>완벽한 영상 장치라면 <strong>점 표적은 점</strong>으로 찍혀야 합니다. 그런데 초음파 펄스는
+    <strong>제멋대로 생긴 3차원 덩어리</strong>라 점이 <strong>번져서</strong> 찍힙니다.
+    그 번진 모양이 <span class="t">점확산함수</span> <span class="en">PSF</span>입니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 점 하나가 이렇게 찍힙니다</span><span id="pstat">—</span></div>
+    <canvas id="c2" height="380"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="f2">주파수 · <span class="num" id="f2v">5.0</span> MHz</label>
+          <input type="range" id="f2" min="2" max="12" value="5" step="0.5"></div>
+        <div class="ctrl"><label for="fn">F 넘버 · <span class="num" id="fnv">2.0</span></label>
+          <input type="range" id="fn" min="1" max="4" value="2" step="0.1"></div>
+        <div class="ctrl"><label for="dr">표시 동적범위 · <span class="num" id="drv">40</span> dB</label>
+          <input type="range" id="dr" min="15" max="60" value="40" step="1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">축방향</span><span class="v" id="rax" style="color:var(--amber-deep)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">측방향</span><span class="v" id="rlat" style="color:var(--signal-deep)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">비율 (측/축)</span><span class="v" id="rr">—</span><span class="u">배</span></div>
+      </div>
+      <p class="cap"><b>동적범위를 60dB 까지 올려보세요.</b> 몸통 옆으로 <b style="color:var(--pos)">날개</b>가 돋습니다 —
+        <b>사이드로브</b>입니다. 낮은 동적범위에서는 안 보이다가 <b>세게 볼수록 드러납니다.</b><br>
+        축방향(세로)과 측방향(가로)의 <b>길이가 다릅니다.</b> 점이 점으로 안 찍히는 이유입니다.</p>
+    </div>
+  </div>
+  <p><strong>영상은 PSF 와 실제 구조의 공간 합성곱</strong>입니다. PSF 가 완벽한 점이 아닌 한
+    <strong>아티팩트는 반드시 있습니다.</strong> <span class="en">→ 18장</span></p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>스페클은 분해능이 아닙니다<span class="sub">Speckle is not resolution</span></h2></div>
+  <p>연부조직 영상의 <strong>얼룩덜룩한 무늬</strong>를 보고 "분해능 한계"라고 생각하기 쉽지만 아닙니다.
+    한 분해능 셀 안에 <strong>수많은 산란체</strong>가 들어 있고, 그들의 에코가 <strong>서로 간섭</strong>해서 생기는 무늬입니다.</p>
+  <div class="key"><div class="kh">간격을 줄이면 무슨 일이 생기는가</div>
+    <p>점 표적 10개가 <strong>멀리 떨어져</strong> 있으면 에코가 시간축에서 <strong>따로따로</strong> 옵니다.
+      가까워질수록 에코들이 다가오고, <strong>충분히 가까우면 전부 겹칩니다.</strong>
+      에코는 <strong>교류 신호</strong>라 겹친 파형은 <strong>위상차에 따라</strong> 커지거나 사라집니다.</p>
+    <p style="margin-top:10px">실제 조직은 <strong>무한히 많은 산란체</strong>가 크기도 임피던스도 제각각으로 흩어져 있습니다.
+      그 결과 <strong>진폭이 해부 구조를 반영하지 않고</strong> 조직의 <strong>통계적 성질</strong>만 담습니다.
+      <span class="en">→ 06장</span></p></div>
+  <p>그래서 <strong>스페클은 잡음이 아닙니다.</strong> 같은 자리를 다시 스캔하면 <strong>같은 무늬</strong>가 나옵니다 —
+    조직 구조가 만든 <strong>결정론적 무늬</strong>이기 때문입니다. 그 성질 덕분에 <strong>스페클을 추적해 조직의 움직임</strong>을 잴 수 있습니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>분해능은 세 방향으로 따로</b> · 축방향 · 측방향 · 고도 방향</li>
+      <li><b>축방향 = 펄스길이/2 = nλ/2</b> · 2사이클이면 딱 λ · 왕복이라 2로 나눔</li>
+      <li><b>축방향을 정하는 건 대역폭</b> · "고주파 = 축방향 좋음"은 <b>비대역폭 고정일 때만</b></li>
+      <li><b>측방향 ≈ 1.02 λ F#</b> · 고주파 + 강한 집속</li>
+      <li><b>고도 방향이 대개 제일 나쁘다</b> · 소자가 하나뿐이라 렌즈 고정 → 부분체적 효과</li>
+      <li><b>PSF = 나는 새</b> · 몸통은 주엽, 날개는 사이드로브 · 세게 볼수록 드러남</li>
+      <li><b>영상 = PSF ⊛ 구조</b> · PSF 가 점이 아니면 <b>아티팩트는 필연</b></li>
+      <li><b>스페클은 잡음이 아니다</b> · 산란체 간섭의 결정론적 무늬 — 재현되고 추적 가능</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 17 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="18-artifacts.html">다음 · 초음파 영상 아티팩트 Imaging Artifacts →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/17.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>초음파 감쇠 · Ultrasound Attenuation — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Basics · 07 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Ultrasound Basics · 07</div>
+    <h1>초음파 감쇠<span class="sub">Ultrasound Attenuation</span></h1>
+    <p class="lede">깊이 들어갈수록 신호는 약해집니다. 그런데 <strong>모든 주파수가 똑같이 약해지는 게 아닙니다</strong> —
+      높은 주파수가 먼저 죽습니다. 그 결과 <strong>펄스 자체가 변형됩니다.</strong></p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>감쇠의 세 원인<span class="sub">Three causes</span></h2></div>
+  <ul>
+    <li><span class="t">산란</span> <span class="en">scattering</span> · 에너지가 <strong>옆으로 흩어집니다.</strong>
+      없어지진 않지만 내 빔에서는 빠져나갑니다. <span class="en">→ 06장</span></li>
+    <li><span class="t">흡수</span> <span class="en">absorption</span> · 에너지가 <strong>열로 바뀝니다.</strong>
+      진짜로 없어지는 유일한 경로이고, <strong>연부조직 감쇠의 대부분</strong>이 여기서 옵니다.
+      온도가 오르므로 <strong>안전 문제</strong>와 직결됩니다. <span class="en">→ Thermal Index</span></li>
+    <li><span class="t">반사</span> <span class="en">reflection</span> · 경계면에서 <strong>되돌아갑니다.</strong>
+      우리가 보려는 신호이지만, 그만큼 <strong>더 깊은 곳으로는 못 갑니다.</strong> <span class="en">→ 04장</span></li>
+  </ul>
+  <div class="tw"><table class="props">
+    <tr><th>매질</th><th>감쇠계수 α</th><th>5 MHz에서</th><th></th></tr>
+    <tr><td class="m">물<span>water</span></td><td class="n">0.0022 <span class="en">dB/cm/MHz²</span></td>
+      <td class="n">0.055 dB/cm</td><td>사실상 없음</td></tr>
+    <tr><td class="m">혈액<span>blood</span></td><td class="n">≈0.2 <span class="en">dB/cm/MHz</span></td>
+      <td class="n">1.0 dB/cm</td><td>조직보다 낮음</td></tr>
+    <tr class="hi"><td class="m">연부조직<span>soft tissue</span></td><td class="n"><b>≈0.5</b> <span class="en">dB/cm/MHz</span></td>
+      <td class="n"><b>2.5 dB/cm</b></td><td>기준값</td></tr>
+    <tr><td class="m">뼈<span>bone</span></td><td class="n">≈20 <span class="en">dB/cm/MHz</span></td>
+      <td class="n">100 dB/cm</td><td>수 mm에서 소멸</td></tr>
+    <tr><td class="m">공기 · 결석 · 금속</td><td class="n">—</td><td class="n">—</td>
+      <td>사실상 전부 차단</td></tr>
+  </table></div>
+  <div class="key"><div class="kh">숫자가 두 개 돌아다닙니다</div>
+    <p>연부조직 감쇠를 <span class="num">0.3</span>으로 적은 자료를 보게 될 겁니다. 틀린 게 아니라 <strong>용도가 다릅니다.</strong>
+      실측 평균은 대략 <span class="num">0.5</span> (조직에 따라 0.3~1.0)이고, <span class="num">0.3</span>은
+      <strong>안전 규격에서 쓰는 보수적인 감쇠 가정값</strong>입니다 — 감쇠를 적게 잡아야 체내 노출을 <strong>과소평가하지 않으니까요.</strong>
+      영상 성능을 논할 땐 0.5, 안전을 논할 땐 0.3입니다. <span class="en">→ Regulations</span></p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>영상에 미치는 영향<span class="sub">Effects on the image</span></h2></div>
+  <h3>1. 원거리가 어두워집니다</h3>
+  <p>보정하지 않으면 깊은 곳일수록 어둡게 나옵니다. 같은 조직인데 깊이 때문에 달라 보이면 진단이 안 됩니다.
+    그래서 깊이에 비례해 이득을 올려주는 <span class="t">시간 이득 보상</span> <span class="en">TGC</span>이 필수입니다.
+    <span class="en">→ Time Gain Control</span></p>
+
+  <h3>2. 중심 주파수가 내려갑니다 <span class="en">downshift</span></h3>
+  <p>감쇠가 <strong>주파수에 비례</strong>하므로, 펄스 안의 높은 주파수 성분이 먼저 죽습니다. 남은 스펙트럼의 무게중심은
+    <strong>깊이에 비례해 아래로 밀립니다.</strong> 가우시안 스펙트럼과 α ∝ f 를 가정하면 정확히 이렇게 됩니다:</p>
+  <div class="eq"><span>f₀′(d) = f₀ − σ² β d</span><span style="margin-left:20px;font-size:.7em;color:var(--muted)">β = α₀ ln10 / 20</span></div>
+  <div class="eqcap">σ = 대역폭 · d = 깊이 · α₀ = 감쇠계수 (dB/cm/MHz)</div>
+
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 깊이에 따른 스펙트럼 하향 이동</span><span id="dbtot">—</span></div>
+    <canvas id="c1" height="330"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:2"><label for="dep">깊이 · <span class="num" id="depv">0</span> cm</label>
+          <input type="range" id="dep" min="0" max="18" value="0" step="0.5"></div>
+        <div class="ctrl"><label for="f0">중심 주파수 f₀ · <span class="num" id="f0v">5.0</span> MHz</label>
+          <input type="range" id="f0" min="2" max="12" value="5" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">깊이</span><span class="v" id="dv">0</span><span class="u">cm</span></div>
+        <div class="ro"><span class="k">중심 f₀′</span><span class="v" id="fcv" style="color:var(--amber-deep)">—</span><span class="u">MHz</span></div>
+        <div class="ro"><span class="k">λ = c/f₀′</span><span class="v" id="lv">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">대역폭 σ</span><span class="v" id="sv">1.5</span><span class="u">MHz</span></div>
+        <div class="ro"><span class="k">측방향 열화</span><span class="v" id="degv">—</span><span class="u">배</span></div>
+      </div>
+      <p class="cap"><b style="color:var(--muted)">◦</b> 옅은 곡선 = 탐촉자가 내보낸 원래 스펙트럼 ·
+        <b style="color:var(--pos)">■</b> 채운 곡선 = 그 깊이에서 돌아온 에코의 스펙트럼.
+        <b>봉우리가 왼쪽으로 밀립니다</b> — 그런데 <b>폭은 거의 그대로</b>입니다. 이게 중요합니다.</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">여기서 조심 · 흔히 뭉뚱그리는 부분</div>
+    <p>"하향 이동 때문에 원거리 분해능이 나빠진다"는 서술을 자주 보게 됩니다. <strong>절반만 맞습니다.</strong></p>
+    <p style="margin-top:10px"><strong>측방향 분해능은 확실히 나빠집니다</strong> — 빔 폭이 λ = c/f₀′ 에 비례하는데
+      f₀′ 가 내려가니까요. 5 MHz·σ=1.5 조건에서 15 cm 깊이면 f₀′ 가 <span class="num">3.06 MHz</span>까지 내려가고,
+      빔 폭은 <strong><span class="num">1.64배</span></strong> 넓어집니다.</p>
+    <p style="margin-top:10px"><strong>축방향 분해능은 다릅니다.</strong> 축방향은 f₀ 가 아니라 <strong>대역폭</strong>이 정합니다.
+      그런데 위 식에서 보듯 <strong>σ 는 그대로입니다</strong> — 봉우리만 밀릴 뿐 폭은 유지되죠.
+      순수한 모델에서는 <strong>축방향이 보존됩니다.</strong> 실제로는 스펙트럼이 0 Hz 근처에서 잘리고
+      α가 정확히 f에 비례하지도 않아서 조금씩 나빠지지만, <strong>"f₀ 가 내려가니까 축방향도 나빠진다"는 논리는 성립하지 않습니다.</strong></p></div>
+  <p>위 애니메이션에서 <strong>봉우리는 왼쪽으로 밀리는데 폭은 그대로인 것</strong>을 확인해 보세요. 그게 이 얘기입니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>감쇠 = 산란 + 흡수 + 반사</b> · 연부조직에서는 <b>흡수</b>가 대부분 (→ 열 → 안전)</li>
+      <li><b>연부조직 α ≈ 0.5 dB/cm/MHz</b> · 물 0.0022(f²), 혈액 0.2, 뼈 20</li>
+      <li><b>0.3 은 안전 규격용 가정값</b> · 영상 성능은 0.5</li>
+      <li><b>α ∝ f</b> · 그래서 원거리는 어둡고(→ TGC), 높은 주파수가 먼저 죽는다</li>
+      <li><b>f₀′(d) = f₀ − σ²βd</b> · 중심 주파수가 깊이에 비례해 내려간다</li>
+      <li><b>측방향은 나빠지고(λ∝1/f₀′), 축방향은 대역폭이 정한다</b> — 둘을 섞지 말 것</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 07 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="08-application.html">다음 · 초음파의 응용 Ultrasound Application →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/07.js"></script>
+</body>
+</html>

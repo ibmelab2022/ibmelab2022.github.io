@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>주사 변환과 후처리 · Scan Conversion & Post — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Back-End Processing · 24 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Back-End Processing · 24</div>
+    <h1>주사 변환과 후처리<span class="sub">Scan Conversion &amp; Post-processing</span></h1>
+    <p class="lede">23장까지 만든 주사선들은 <strong>탐촉자가 쏜 방향대로</strong> — 곡선 배열이면 부채꼴로 퍼져 있습니다.
+      화면은 <strong>사각 픽셀 격자</strong>이니, 이 <strong>빔 공간을 픽셀 공간으로 옮겨야</strong>(주사 변환) 비로소 영상이 뜹니다.
+      그 뒤 <strong>보기 좋게 다듬는</strong> 후처리가 마지막입니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>주사 변환 — 부채꼴을 픽셀로<span class="sub">Scan conversion</span></h2></div>
+  <p>주사선(빔 데이터)은 <span class="t">에코 메모리</span>에 <strong>S₁ … S_N</strong> 으로 차곡차곡 쌓입니다 — 이건
+    <strong>탐촉자 종류와 무관하게 똑같습니다</strong>. 그런데 이 빔들이 <strong>공간의 어디를 향했는지</strong>는 배열 모양에 따라 다르므로,
+    <span class="t">주사 변환</span> <span class="en">scan conversion</span>이 <strong>같은 데이터를 종류별로 다른 형태의 픽셀 영상</strong>으로 펼칩니다:<br>
+    <strong>선형</strong> <span class="en">linear</span> — 평평한 배열, 빔이 나란히 직진 → <strong>사각형</strong>(폭 = 배열 크기).<br>
+    <strong>컨벡스</strong> <span class="en">convex</span> — 곡면 배열, 빔이 부챗살로 퍼짐 → <strong>넓은 곡면 부채꼴</strong>(넓은 시야).<br>
+    <strong>위상</strong> <span class="en">phased</span> — 작은 배열에서 넓은 각도로 <strong>조향</strong>(14장) → <strong>뾰족한 섹터</strong>(갈비뼈 사이 좁은 창으로 심장).<br>
+    섹터·부채꼴은 <strong>빔이 퍼지므로 깊을수록 빔 사이가 벌어져</strong>(측방 분해능 저하, 17장) 심부일수록 보간이 성깁니다.</p>
+</div></section>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 같은 에코 메모리 → 종류별로 다른 형태</span><span id="sstat">—</span></div>
+    <canvas id="c1" height="420"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:0 0 160px"><label>트랜스듀서 종류</label><button class="tg" id="ttype">다음: 컨벡스</button></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">지금 종류</span><span class="v" id="ttv" style="color:var(--signal-deep)">—</span><span class="u"></span></div>
+      </div>
+      <p class="cap">왼쪽 <b>에코 메모리</b>(빔 데이터 S₁…S_N, 흰 점 = 표적)는 종류가 바뀌어도 <b>그대로</b>입니다.
+        <b>종류 버튼</b>을 누르면 오른쪽 <b>영상 형태</b>가 바뀝니다 — 선형은 사각형, 컨벡스는 넓은 곡면 부채꼴, 위상은 뾰족한 섹터.
+        같은 표적이 <b>종류에 따라 다른 위치</b>에 놓이는 것도 보세요. 어느 배열이냐가 곧 화면 모양을 정합니다.</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>후처리 — 마지막 다섯 손잡이<span class="sub">Post-processing</span></h2></div>
+  <p>영상이 뜬 뒤의 화장입니다. <strong>감마</strong>(계조 곡선)로 어둡거나 밝은 쪽을 강조하고,
+    <strong>평활</strong>로 <span class="t">스페클</span>을 눌러 매끄럽게 하며, <strong>경계 강조</strong>로 윤곽을 세웁니다.
+    <span class="t">잔상</span> <span class="en">persistence</span>(프레임 평균)은 잡음을 줄이지만 <strong>움직임을 흐립니다</strong>.
+    주의: <strong>스페클은 잡음이 아니라 조직의 간섭 무늬</strong>라, 너무 평활하면 <strong>진짜 조직 정보까지 지웁니다</strong> —
+    후처리는 언제나 <strong>보기 좋음 ↔ 정보 보존</strong>의 절충입니다.</p>
+</div></section>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 감마와 평활 — 원본 vs 후처리</span><span id="pstat">—</span></div>
+    <canvas id="c2" height="300"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="gm">감마 · <span class="num" id="gmv">1.0</span></label>
+          <input type="range" id="gm" min="0.5" max="2.2" value="1" step="0.1"></div>
+        <div class="ctrl"><label for="sm">평활 · <span class="num" id="smv">0</span></label>
+          <input type="range" id="sm" min="0" max="4" value="0" step="1"></div>
+      </div>
+      <p class="cap">왼쪽 = 원본(검파·압축 직후), 오른쪽 = 후처리. <b>감마 &lt; 1</b>은 밝은 쪽을, <b>감마 &gt; 1</b>은
+        어두운 쪽을 눌러 대비를 바꿉니다. <b>평활을 올리면</b> 스페클이 줄어 매끄럽지만 <b>경계도 뭉툭</b>해지고
+        미세 조직이 지워집니다. 스캐너의 gray map·smoothing 손잡이가 이것입니다.</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>주사 변환</b> · 에코 메모리(S₁…S_N)를 직교 픽셀 영상으로 — 이웃 빔에서 보간</li>
+      <li><b>종류가 형태를 정함</b> · 선형=사각형 · 컨벡스=넓은 곡면 부채꼴 · 위상=뾰족한 섹터</li>
+      <li><b>섹터·부채꼴은 심부서 빔 벌어짐</b> · 깊을수록 보간이 성김(측방 분해능↓, 17장)</li>
+      <li><b>후처리 = 화장</b> · 감마(계조)·평활·경계강조·잔상</li>
+      <li><b>잔상(persistence)</b> · 프레임 평균 — 잡음↓ 이지만 움직임 흐림</li>
+      <li><b>스페클은 조직의 지문</b> · 잡음이 아니라 간섭 무늬 — 과한 평활은 정보 손실</li>
+      <li><b>여기까지가 B-모드 영상 사슬</b> · 펄서(19)부터 후처리(24)까지 한 바퀴</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 24 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="25-doppler.html">다음 · 도플러 효과 Doppler Effect →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/24.js"></script>
+</body>
+</html>

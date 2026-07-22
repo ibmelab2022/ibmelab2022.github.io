@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>열 지수 · Thermal Index — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Safety · 31 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Safety · 31</div>
+    <h1>열 지수<span class="sub">Thermal Index</span></h1>
+    <p class="lede">흡수된 초음파는 <strong>열</strong>이 됩니다(7장). TI는 <strong>지금 출력이 조직을 몇 도나 올릴 만한가</strong>를
+      실시간으로 알려줍니다. 그런데 <strong>뼈냐 연부조직이냐</strong>에 따라 그 답이 완전히 달라집니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>흡수가 열이 된다<span class="sub">Absorption becomes heat</span></h2></div>
+  <p>7장에서 <strong>감쇠</strong>는 산란과 흡수로 나뉜다고 했습니다. 이 중 <strong>흡수된 부분만</strong> 조직 안에서 열로 바뀝니다.
+    단위 부피당 발열률은 국소 강도와 흡수계수의 곱입니다.</p>
+  <div class="eq"><span>q = 2 α I</span></div>
+  <div class="eqcap">q = 발열률(W/m³) · α = <strong>흡수</strong>계수(Np/m) · I = 국소 강도 · <strong>산란은 열이 아님</strong></div>
+  <div class="key"><div class="kh">그래서 TI는 주파수에 의존한다</div>
+    <p>흡수계수는 <span class="num">α ∝ f</span>. 주파수를 올리면 같은 강도라도 <strong>더 많이 데워집니다.</strong>
+      다만 고주파는 <strong>더 얕게</strong> 흡수되므로, 열이 <strong>표면 쪽에 몰립니다.</strong></p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>TI의 정의<span class="sub">A ratio of powers</span></h2></div>
+  <p>TI는 온도를 직접 재는 값이 아니라 <strong>파워의 비</strong>입니다. 지금 쏘는 음향 파워를,
+    그 조직을 <strong>1°C 올리는 데 필요한 파워</strong>로 나눈 값이죠.</p>
+  <div class="eq"><span>TI =</span><span class="frac"><span>W<sub>0</sub> (지금 파워)</span><span>W<sub>deg</sub> (1°C 올리는 파워)</span></span></div>
+  <div class="eqcap">TI = 1 이면 모델 가정에서 <strong>약 1°C 상승</strong> · 실제 ΔT<sub>max</sub>를 <strong>2배 이내</strong>로 예측</div>
+  <p>즉 <strong>TI = 2</strong>는 대략 <strong>2°C 정도</strong> 오를 수 있다는 신호입니다. 정확한 온도는 관류·흡수·경로에 따라
+    달라지지만, TI는 실시간으로 <strong>위험의 상대적 크기</strong>를 보여주는 실용적 눈금입니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>세 가지 TI<span class="sub">TIS · TIB · TIC</span></h2></div>
+  <p>같은 파워라도 <strong>빔이 무엇을 지나느냐</strong>에 따라 데워지는 정도가 달라, TI는 <strong>세 가지 시나리오</strong>로 나뉩니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 뼈를 만나면 발열이 폭증한다</span>
+      <span><button id="bone" class="tg on" style="width:auto;padding:5px 12px">뼈 있음</button></span></div>
+    <canvas id="c1" height="330"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="pw">출력 · <span class="num" id="pwv">1.00</span></label>
+          <input type="range" id="pw" min="0.2" max="1" value="1" step="0.01"></div>
+        <div class="ctrl"><label for="fr">주파수 · <span class="num" id="frv">5.0</span> MHz</label>
+          <input type="range" id="fr" min="2" max="12" value="5" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">흡수 발열 ∝ αI</span><span class="v" id="qrel">—</span><span class="u">상대</span></div>
+        <div class="ro"><span class="k">연부조직 ΔT</span><span class="v" id="dts" style="color:var(--amber-deep)">—</span><span class="u">°C</span></div>
+        <div class="ro"><span class="k">뼈 표면 ΔT</span><span class="v" id="dtb" style="color:var(--pos)">—</span><span class="u">°C</span></div>
+      </div>
+      <p class="cap"><b>주파수를 올리면</b> 흡수(α ∝ f)가 커져 발열이 늘어납니다. <b>뼈를 켜 보세요</b> —
+        연부조직은 은은히 데워지지만 <b style="color:var(--pos)">뼈 표면은 국소적으로 확 뜨거워집니다.</b><br>
+        뼈의 흡수가 연부조직의 <b>40배</b>라, 같은 빔이어도 <b>뼈가 있으면</b> 전혀 다른 위험이 됩니다.</p>
+    </div>
+  </div>
+  <div class="tw"><table class="props">
+    <thead><tr><th>지수</th><th>가정</th><th>주로 쓰는 검사</th></tr></thead>
+    <tbody>
+      <tr><td class="m">TIS<span>soft tissue</span></td><td>경로가 <b>전부 연부조직</b></td><td>복부·말초혈관</td></tr>
+      <tr class="hi"><td class="m">TIB<span>bone at focus</span></td><td><b>초점 깊이에 뼈</b>가 있음</td><td>태아(2·3분기)</td></tr>
+      <tr><td class="m">TIC<span>cranial</span></td><td><b>표면 가까이 뼈</b> · 완전 흡수 가정</td><td>성인 경두개</td></tr>
+    </tbody>
+  </table></div>
+  <div class="key warn"><div class="kh">뼈가 있으면 대개 TIC · TIB가 가장 크다</div>
+    <p>뼈의 흡수계수는 연부조직의 <strong>약 40배</strong>. 특히 <span class="t">TIC</span>는 <strong>뼈 표면에서 에너지가
+      전부 흡수된다</strong>고 가정하는 <strong>최악의 시나리오</strong>라, 값이 크게 나옵니다.
+      경두개 검사에서 TIC를 주시해야 하는 이유입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>얼마나 뜨거우면 위험한가<span class="sub">How hot, how long</span></h2></div>
+  <p>온도만이 아니라 <strong>얼마나 오래</strong>도 중요합니다. 발열은 <strong>한 곳에 머무는 시간</strong>(dwell time)에 비례해 쌓이니까요.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 태아 기준 · 온도와 시간의 안전 경계</span><span id="tstat">—</span></div>
+    <canvas id="c2" height="300"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="ti">열 지수 TI · <span class="num" id="tiv">2.0</span></label>
+          <input type="range" id="ti" min="0.5" max="6" value="2" step="0.1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">정상상태 ΔT ≈ TI</span><span class="v" id="rdt" style="color:var(--pos)">—</span><span class="u">°C</span></div>
+        <div class="ro"><span class="k">허용 체류시간</span><span class="v" id="rtime" style="color:var(--amber-deep)">—</span></div>
+        <div class="ro"><span class="k">판정</span><span class="v" id="rver" style="font-size:14px">—</span></div>
+      </div>
+      <p class="cap"><b style="color:var(--signal-deep)">ΔT ≤ 1.5°C</b>이면 시간 제한 없이 안전합니다(WFUMB). 그 위로는
+        <b style="color:var(--pos)">허용 시간이 온도 1°C마다 1/4로</b> 줄어듭니다.<br>
+        <b>TI를 올려 보세요</b> — 곡선을 넘는 순간부터 <b>체류시간을 제한</b>해야 합니다.</p>
+    </div>
+  </div>
+  <p>그래서 <strong>도플러처럼 빔을 한 곳에 오래 고정</strong>하는 모드가 발열에 가장 취약합니다.
+    낮추는 방법은 둘 — <strong>출력을 줄이거나(TI ↓), 머무는 시간을 줄이는 것</strong>입니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>흡수(산란 아님)만 열</b> · <b>q = 2αI</b> · α ∝ f 라 고주파일수록 발열↑</li>
+      <li><b>TI = 음향 파워 / 1°C 올리는 파워</b> · TI≈1 → 약 1°C (2배 이내 예측)</li>
+      <li><b>TIS · TIB · TIC</b> · 뼈 흡수 40배라 뼈가 있으면 발열 폭증</li>
+      <li><b>TIC(경두개)가 대개 최대</b> · 뼈 표면 완전 흡수 가정(최악)</li>
+      <li><b>ΔT ≤ 1.5°C 무제한 안전</b> · 태아 41°C(+4°C) 5분↑ 위험</li>
+      <li><b>발열은 체류시간 의존</b> · 도플러·오래 머물기 주의 · 1°C↑마다 허용시간 1/4</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 31 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="32-cavitation.html">다음 · 공동화 Cavitation →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/31.js"></script>
+</body>
+</html>

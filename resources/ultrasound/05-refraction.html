@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>초음파 굴절 · Ultrasound Refraction — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Basics · 05 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Ultrasound Basics · 05</div>
+    <h1>초음파 굴절<span class="sub">Ultrasound Refraction</span></h1>
+    <p class="lede">반사는 <strong>임피던스</strong>가 결정했습니다. 굴절은 <strong>음속</strong>이 결정합니다.
+      같은 경계면에서 일어나지만, <strong>서로 다른 물성이 지배하는 별개의 현상</strong>입니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>굴절의 두 조건<span class="sub">Two conditions for refraction</span></h2></div>
+  <ul>
+    <li><strong>면이 커야 합니다</strong> <span class="en">big surface</span> · 반사와 똑같은 조건입니다.
+      경계면이 <strong>파장보다 훨씬 커야</strong> 합니다. 작으면 굴절이 아니라 산란입니다.</li>
+    <li><strong>음속이 달라야 합니다</strong> <span class="en">velocity mismatch</span> ·
+      c₁ = c₂ 이면 굴절은 <strong>0</strong>입니다. 빔은 그대로 직진합니다.</li>
+  </ul>
+  <div class="key"><div class="kh">04장과의 차이 · 여기가 핵심입니다</div>
+    <p><strong>반사는 Z, 굴절은 c 가 결정합니다.</strong> Z = ρc 이므로 이 둘은 <strong>따로 놉니다.</strong></p></div>
+  <div class="tw"><table class="props">
+    <tr><th>경우</th><th>반사</th><th>굴절</th><th>영상에서는</th></tr>
+    <tr><td class="m">Z 다름 · c 같음</td><td class="n"><b>있음</b></td><td class="n">없음</td>
+      <td>밝게 보이는데 <strong>빔은 안 휨</strong></td></tr>
+    <tr class="hi"><td class="m">Z 같음 · c 다름</td><td class="n">없음</td><td class="n"><b>있음</b></td>
+      <td>안 보이는데 <strong>빔은 휨</strong> — 가장 위험</td></tr>
+    <tr><td class="m">둘 다 다름</td><td class="n"><b>있음</b></td><td class="n"><b>있음</b></td>
+      <td>대부분의 실제 조직 경계</td></tr>
+  </table></div>
+  <p>두 번째 줄이 무섭습니다. ρ와 c가 서로 보상해서 Z가 같아지면 <strong>R = 0</strong>이라 경계면이 화면에 전혀 안 나타납니다.
+    그런데 c는 다르니 <strong>빔은 조용히 휘어</strong> 있습니다. 장비는 빔이 직진했다고 믿고 깊이를 계산하므로,
+    구조물이 <strong>엉뚱한 자리에</strong> 그려집니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>스넬의 법칙<span class="sub">Snell's law</span></h2></div>
+  <div class="eq"><span class="frac"><span>sin θᵢ</span><span>c₁</span></span><span>=</span>
+    <span class="frac"><span>sin θₜ</span><span>c₂</span></span>
+    <span style="margin-left:24px">θc = arcsin(c₁/c₂)</span></div>
+  <div class="eqcap">왼쪽: 스넬의 법칙 · 오른쪽: 임계각 (c₂ > c₁ 일 때만 존재)</div>
+  <ul>
+    <li><strong>c₂ &gt; c₁ (빨라짐)</strong> · 법선에서 <strong>멀어지게</strong> 꺾입니다. 어느 각도부터는
+      투과파가 존재할 수 없게 되어 <span class="t">전반사</span> <span class="en">total internal reflection</span>가 됩니다.
+      연부조직→뼈의 임계각은 <strong><span class="num">22.2°</span></strong>에 불과합니다.</li>
+    <li><strong>c₂ &lt; c₁ (느려짐)</strong> · 법선 <strong>쪽으로</strong> 꺾입니다. 임계각이 없어 <strong>어떤 각도에서도 투과</strong>합니다.</li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 평면파의 굴절 · 스넬의 법칙</span><span id="tir">—</span></div>
+    <canvas id="c1" height="340"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:1.4"><label for="pre">경계면 · Interface</label>
+          <select id="pre">
+            <option value="0">연부조직 → 뼈 · 빨라짐 (1540 → 4080)</option>
+            <option value="1">지방 → 근육 · 빨라짐 (1450 → 1590)</option>
+            <option value="2">근육 → 지방 · 느려짐 (1590 → 1450)</option>
+            <option value="3">연부조직 → 물 · 느려짐 (1540 → 1480)</option>
+          </select></div>
+        <div class="ctrl" style="flex:2"><label for="ang">입사각 θᵢ · <span class="num" id="angv">20°</span></label>
+          <input type="range" id="ang" min="0" max="80" value="20" step="1"></div>
+        <div class="ctrl" style="max-width:130px;min-width:112px"><label for="play">재생</label>
+          <button class="go" id="play">일시정지</button></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">입사각 θᵢ</span><span class="v" id="tiv">—</span><span class="u">°</span></div>
+        <div class="ro"><span class="k">투과각 θₜ</span><span class="v" id="ttv" style="color:var(--amber-deep)">—</span><span class="u">°</span></div>
+        <div class="ro"><span class="k">임계각 θc</span><span class="v" id="tcv">—</span><span class="u">°</span></div>
+        <div class="ro"><span class="k">파장 λ₂/λ₁</span><span class="v" id="lrv">—</span></div>
+        <div class="ro"><span class="k">반사 |R|</span><span class="v" id="rrv">—</span></div>
+      </div>
+      <p class="cap">경계면 너머에서 <b>파장이 달라지는 것</b>을 보세요. 파면이 <b>경계면 위에서는 반드시 이어져야</b> 하므로,
+        파장이 바뀌면 진행 방향도 꺾일 수밖에 없습니다. 이것이 굴절의 전부입니다.</p>
+    </div>
+  </div>
+  <p>왜 이런 법칙이 나오는가 — 위 애니메이션의 이유가 전부입니다. <strong>파면은 경계면에서 끊어질 수 없습니다.</strong>
+    경계면을 따라 잰 파면 간격이 양쪽에서 같아야 하는데, 파장이 c에 비례해 바뀌므로 각도가 그만큼 꺾여야 합니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>구면파의 굴절<span class="sub">Spherical wave · Huygens construction</span></h2></div>
+  <p>점 음원에서 나온 구면파가 경계를 지날 때도 스넬의 법칙은 똑같이 성립합니다.
+    <strong>경계면 위의 모든 점이 새로운 2차 음원</strong>이 되고 —
+    <span class="t">하위헌스 원리</span> <span class="en">Huygens' principle</span> —
+    이 2차 파동들의 <strong>포락선</strong>이 굴절된 파면입니다.</p>
+  <p><strong>빠른 매질(뼈)</strong>에서는 겉보기 음원이 경계에 가까워져 파면이 <strong>더 굽고</strong>,
+    <strong>느린 매질(지방)</strong>에서는 음원이 멀어져 <strong>평평해집니다</strong> —
+    물속 동전이 얕아 보이는 것과 같은 겉보기 위치 효과입니다. 04장의 거울상법처럼 이것도 편법이 아니라
+    <strong>파동이 실제로 하는 일</strong>입니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>굴절 조건 두 개</b> · 면이 λ보다 훨씬 클 것 + 양쪽 <b>c</b>가 다를 것</li>
+      <li><b>반사 ← Z 차이 · 굴절 ← c 차이</b> · Z = ρc 이므로 둘은 따로 논다</li>
+      <li><b>Z 같고 c 다르면</b> — 안 보이는데 빔은 휜다. 가장 위험한 경우</li>
+      <li><b>sin θᵢ / c₁ = sin θₜ / c₂</b> · 파면이 경계면에서 끊어질 수 없기 때문</li>
+      <li><b>빨라지면</b> 법선에서 멀어지고 <b>임계각</b>이 생긴다 (조직→뼈 <b>22.2°</b>)</li>
+      <li><b>느려지면</b> 법선 쪽으로 꺾이고 임계각이 없다 — 항상 투과</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 05 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="06-scattering.html">다음 · 초음파 산란 Ultrasound Scattering →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/05.js"></script>
+</body>
+</html>

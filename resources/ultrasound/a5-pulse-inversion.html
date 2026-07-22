@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>펄스 반전과 진폭 변조 · Pulse Inversion — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>부록 · Advanced Ultrasound Techniques · A5 / 10</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">부록 · Advanced Ultrasound Techniques · A5</div>
+    <h1>Pulse Inversion and Amplitude Modulation<span class="sub">펄스 반전과 진폭 변조</span></h1>
+    <p class="lede">A4 는 <strong>필터로</strong> 2f₀ 를 잘라냈습니다. 그런데 기본파의 꼬리가 새어 들어오고,
+      필터를 좁히면 축방향을 잃습니다. <strong>필터를 아예 안 쓰는 길</strong>이 있습니다 —
+      <strong>두 번 쏘고 더하면</strong> 선형은 저절로 지워집니다.</p>
+  </div>
+</header>
+
+<div class="wrap" style="padding-top:24px">
+  <h3 style="margin-top:0">먼저 — 왜 두 번 쏘는가</h3>
+  <p>A4 는 <strong>필터로</strong> 2f₀ 를 잘랐습니다. 그런데 f₀ 의 꼬리가 2f₀ 대역으로 새어 들어옵니다
+    (<span class="en">harmonic leakage</span>). 필터를 좁히면 축방향을 잃고, 넓히면 기본파가 섞이죠.</p>
+  <ul>
+    <li><b>펄스 반전</b> <span class="en">PI</span> · <strong>p 와 −p</strong> 를 쏘고 <strong>더합니다.</strong>
+      조직이 선형이면 응답도 부호가 뒤집혀 <strong>합이 정확히 0</strong> — 필터 없이 지워집니다.</li>
+    <li><b>진폭 변조</b> <span class="en">AM</span> · 부호 대신 <strong>크기</strong>를 바꿉니다.
+      전체 한 번, 반쪽 두 번을 쏴서 <span class="num">r(p) − 2r(p/2)</span> 로 조합하죠.</li>
+    <li>살아남는 건 <strong>비선형 성분뿐</strong>입니다. 오른쪽 스펙트럼을 보면 무엇이 지워지고 무엇이 남는지 보입니다.</li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 두 번 쏘고 더하면 선형이 지워진다</span>
+      <span><button id="mode" class="tg on" style="width:auto;padding:5px 12px">PI</button></span></div>
+    <canvas id="c1" height="404"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="a2">2차 비선형 a₂ · <span class="num" id="a2v">0.15</span></label>
+          <input type="range" id="a2" min="0" max="0.4" value="0.15" step="0.01"></div>
+        <div class="ctrl"><label for="a3">3차 비선형 a₃ · <span class="num" id="a3v">0.04</span></label>
+          <input type="range" id="a3" min="0" max="0.2" value="0.04" step="0.005"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">선형 잔류</span><span class="v" id="rlin" style="color:var(--signal-deep)">—</span></div>
+        <div class="ro"><span class="k">2f₀ (짝수)</span><span class="v" id="re2" style="color:var(--pos)">—</span></div>
+        <div class="ro"><span class="k">홀수 (f₀)</span><span class="v" id="re3" style="color:var(--amber-deep)">—</span></div>
+        <div class="ro"><span class="k">송신 횟수</span><span class="v" id="rtx">—</span><span class="u">회</span></div>
+      </div>
+      <p class="cap"><b>①</b> 송신 파형 → <b>②</b> 돌아온 <b>두 에코</b> → <b>③</b> 둘을 조합한 <b>잔류</b>, 세 칸으로 봅니다.
+        <b style="color:#1b4fa0">파랑</b>·<b style="color:var(--pos)">빨강</b>이 두 에코인데, PI 는 <b>서로 뒤집혀 더하면</b>, AM 은 <b>거의 같아 빼면</b> —
+        어느 쪽이든 <b style="color:var(--signal-deep)">선형은 정확히 0</b>, <b>비선형만</b> 남습니다(③은 작아서 ×N 확대). 오른쪽 스펙트럼이 그 결과이고, <b>판독값도 스펙트럼 성분</b>입니다.<br>
+        <b>버튼으로 AM 으로 바꿔보세요.</b> PI 는 <b>짝수(2f₀)만</b> — 넓은 대역 필요. AM 은 <b style="color:var(--amber-deep)">홀수도</b> 남기는데
+        <b>기본파 대역 안</b>(f₀·3f₀)이라 대역폭 요구가 없습니다. <b>a₃ 를 키우면</b> AM 은 f₀·3f₀ 잔류가 커지지만 <b>PI 는 꿈쩍 안 합니다</b> — PI 가 홀수를 죽인다는 증거입니다.</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>다항식 하나로 다 보인다<span class="sub">A polynomial says it all</span></h2></div>
+  <p>산란체의 응답을 압력의 다항식으로 씁니다 — 선형 항 + 2차 + 3차:</p>
+  <div class="eq"><span>r(p) = a₁p + a₂p² + a₃p³</span></div>
+  <div class="eqcap">a₁ = 선형(조직 대부분) · a₂ = 짝수 하모닉의 씨앗 · a₃ = 홀수</div>
+  <p><span class="t">펄스 반전</span> <span class="en">pulse inversion, PI</span> 은
+    <strong>p 와 −p 를 쏘고 더합니다.</strong> 대입만 하면 끝입니다:</p>
+  <div class="eq"><span>r(p) + r(−p) = <b style="color:var(--pos)">2a₂p²</b></span></div>
+  <div class="eqcap"><strong>선형도 3차도 부호가 뒤집혀 사라지고</strong>, 2차만 <strong>2배</strong>로 남습니다 — 주파수로 풀면 <strong>2f₀ 성분(진폭 a₂)</strong>, 단일 에코의 2f₀(a₂/2) 대비 2배</div>
+  <div class="key"><div class="kh">PI 는 홀수 하모닉도 같이 죽입니다</div>
+    <p>홀수 항은 <span class="num">(−p)³ = −p³</span> 라 <strong>선형과 함께 지워집니다.</strong>
+      살아남는 건 <strong>짝수뿐</strong> — 곧 <strong>2f₀</strong> 입니다. A4 의 필터가 하던 일을
+      <strong>필터 없이</strong> 하는 셈이라, <strong>기본파 누출</strong> <span class="en">harmonic leakage</span> 이
+      원리적으로 0 입니다. 게다가 <strong>축방향을 위해 대역을 좁힐 필요가 없습니다.</strong></p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>진폭 변조 — 홀수를 살린다<span class="sub">Amplitude modulation</span></h2></div>
+  <p><span class="t">진폭 변조</span> <span class="en">amplitude modulation, AM</span> 은 부호가 아니라
+    <strong>크기</strong>를 바꿉니다 — 반쪽 진폭으로 두 번, 전체 진폭으로 한 번 쏘고 이렇게 조합합니다:</p>
+  <div class="eq"><span>r(p) − 2·r(p/2) = <b style="color:var(--pos)">a₂p²/2</b> + <b style="color:var(--amber-deep)">3a₃p³/4</b></span></div>
+  <div class="eqcap">선형은 지워지고 <strong>2차와 3차가 모두</strong> 남습니다 — 주파수로는 <strong>2f₀(a₂/4)</strong> 와 <strong>홀수 f₀·3f₀</strong> (수치 확인: 0.1050 ↔ 이론 0.1050)</div>
+  <div class="key"><div class="kh">왜 홀수를 살리는 게 중요한가 — 대역폭 때문입니다</div>
+    <p>2f₀ 를 받으려면 탐촉자가 <strong>f₀ 와 2f₀ 를 둘 다</strong> 담아야 합니다(A4 의 대가).
+      그런데 <strong>홀수 차 비선형은 스펙트럼이 송신 대역 안으로 접혀 들어옵니다.</strong>
+      <strong>넓은 대역폭이 아예 필요 없다</strong>는 뜻이죠. 조영제는 <strong>낮은 MI 에서도</strong>
+      기본파 근처에 비선형 성분을 내므로(32장), <strong>AM 이 조영 영상에서 유리</strong>합니다.</p>
+    <p style="margin-top:10px">둘을 합친 <span class="en">AMPI</span>(진폭+위상 동시 변조)가 상용 장비의 표준입니다 —
+      대신 <strong>송신이 3번</strong>이라 프레임률이 1/3 입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>움직이면 무너진다<span class="sub">Motion breaks the cancellation</span></h2></div>
+  <p>상쇄는 <strong>두 펄스가 같은 것을 본다</strong>는 전제 위에 섭니다. 그 사이에 조직이 <span class="num">Δx</span>
+    움직이면 왕복 위상이 <span class="num">2kΔx</span> 어긋나고, <strong>선형 항이 완전히는 안 지워집니다.</strong></p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 움직임이 남기는 잔류</span><span id="mstat">—</span></div>
+    <canvas id="c2" height="330"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="vt">조직 속도 · <span class="num" id="vtv">5</span> mm/s</label>
+          <input type="range" id="vt" min="0" max="60" value="5" step="0.5"></div>
+        <div class="ctrl"><label for="pf">PRF · <span class="num" id="pfv">5.0</span> kHz</label>
+          <input type="range" id="pf" min="1" max="15" value="5" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">펄스 간격</span><span class="v" id="rdt">—</span><span class="u">µs</span></div>
+        <div class="ro"><span class="k">그동안 이동</span><span class="v" id="rdx" style="color:var(--amber-deep)">—</span><span class="u">µm</span></div>
+        <div class="ro"><span class="k">선형 잔류</span><span class="v" id="rres" style="color:var(--pos)">—</span><span class="u">dB</span></div>
+        <div class="ro"><span class="k">조영/조직 대비</span><span class="v" id="rctr" style="font-size:14px">—</span></div>
+      </div>
+      <p class="cap"><b>정지 조직은 완전히 지워집니다.</b> 그런데 <b style="color:var(--pos)">심근처럼 20~50 mm/s</b> 로 움직이면
+        잔류가 <b>−16 dB</b> 까지 올라와 <b>하모닉 신호를 덮어버립니다.</b><br>
+        <b>PRF 를 올리면</b> 간격이 짧아져 잔류가 줍니다 — 그래서 <b>PI 는 빠른 송신을 원합니다</b>(→ A1).</p>
+    </div>
+  </div>
+  <p>정리하면 PI 의 대가는 둘입니다 — <strong>송신 2배(프레임률 1/2)</strong>와 <strong>움직임 민감성</strong>입니다.
+    문헌에 따르면 PI 도플러는 같은 펄스의 하모닉 영상보다 <strong>조영/조직 대비를 3~10 dB</strong> 더 줍니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>r(p) = a₁p + a₂p² + a₃p³</b> · 다항식 하나에 전부 들어 있음</li>
+      <li><b>PI: r(p) + r(−p) = 2a₂p²</b> · 선형과 <b>홀수까지</b> 지워지고 짝수만 <b>2배</b></li>
+      <li><b>필터가 필요 없다</b> · harmonic leakage 원리적으로 0 · 대역을 좁힐 필요 없어 축방향 유지</li>
+      <li><b>AM: r(p) − 2r(p/2) = a₂p²/2 + 3a₃p³/4</b> · 선형만 지우고 <b>홀수도 살림</b></li>
+      <li><b>홀수는 송신 대역 안으로 접혀 들어옴</b> → <b>넓은 대역폭이 필요 없음</b> — 조영제에 유리 (32장)</li>
+      <li><b>AMPI</b> = 둘을 합침 · 상용 표준 · 대신 송신 3회 → 프레임률 1/3</li>
+      <li><b>움직임이 상쇄를 깬다</b> · 잔류 = 2·sin(kΔx) · PRF 5kHz 에서 <b>5mm/s → −28dB · 20mm/s → −16dB</b></li>
+      <li><b>대가 둘</b> · 송신 2~3배(프레임률) + 움직임 민감 → <b>빠른 송신을 원함</b> (→ A1)</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 <b>부록 A5 / 10</b><br>
+    IBME Lab 교육용 원본 자료</p>
+  <div class="refs">
+    <div class="rh">주요 참고문헌 · References</div>
+    <p>D. H. Simpson, C. T. Chin, P. N. Burns, "Pulse inversion Doppler: a new method for detecting nonlinear echoes from microbubble contrast agents," <i>IEEE Trans. Ultrason. Ferroelectr. Freq. Control</i>, vol. 46, no. 2, pp. 372–382, 1999.</p>
+    <p>R. J. Eckersley, C. T. Chin, P. N. Burns, "Optimising phase and amplitude modulation schemes for imaging microbubble contrast agents at low acoustic power," <i>Ultrasound Med. Biol.</i>, vol. 31, no. 2, pp. 213–219, 2005.</p>
+  </div>
+  <a class="next" href="a6-power-doppler.html">다음 · 파워 도플러와 클러터 필터링 Power Doppler →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/a5.js"></script>
+</body>
+</html>

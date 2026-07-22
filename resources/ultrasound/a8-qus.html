@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>정량 초음파 영상 · Quantitative Ultrasound — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>부록 · Advanced Ultrasound Techniques · A8 / 10</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">부록 · Advanced Ultrasound Techniques · A8</div>
+    <h1>Quantitative Ultrasound<span class="sub">정량 초음파 영상</span></h1>
+    <p class="lede">B 모드의 밝기는 <strong>숫자가 아닙니다</strong> — 장비·이득·설정을 바꾸면 같은 조직이 다르게 나옵니다.
+      그런데 02장이 심어둔 <strong>"c = 1540 가정"</strong>과 17장이 남긴 <strong>"스페클은 조직의 통계"</strong>,
+      이 둘에서 <strong>조직 고유의 숫자</strong>를 뽑아낼 수 있습니다.</p>
+  </div>
+</header>
+
+<div class="wrap" style="padding-top:24px">
+  <h3 style="margin-top:0">먼저 — 장비는 음속을 "가정"한다</h3>
+  <p>12·13장의 빔포밍 지연은 전부 <span class="num">c = 1540 m/s</span> 를 넣고 계산합니다.
+    실제 조직의 c 가 다르면 <strong>지연이 틀리고, 틀린 지연은 초점을 무너뜨립니다.</strong></p>
+  <ul>
+    <li><b>대가</b> · 개구 가장자리와 가운데의 지연 오차 ≈ <span class="num">(D²/8z)(1/c − 1/c₀)</span>.
+      5 MHz·개구 20mm·초점 40mm 면 <strong>±3.2% 만 벗어나도</strong> 위상 오차가 45°를 넘습니다.
+      <strong>지방(1450 m/s)은 −5.8%</strong> — 이미 무너집니다. 05장의 <strong>"안 보이는데 빔은 휜다"</strong>가 이것입니다.</li>
+    <li><b>뒤집기</b> · 그렇다면 <strong>가정 음속 c₀ 를 훑어</strong> <strong>가장 또렷해지는 값</strong>을 찾으면,
+      그게 <strong>진짜 c</strong> 입니다. 아티팩트의 원인을 <strong>측정 도구로</strong> 바꾼 거죠.</li>
+    <li><b>왜 쓸모 있나</b> · 지방은 c 가 낮습니다. <strong>지방 30% → 1520 m/s</strong> —
+      <strong>지방간을 숫자로</strong> 잴 수 있습니다.</li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 음속을 틀리면 초점이 무너진다 — 그래서 잴 수 있다</span><span id="sstat">—</span></div>
+    <canvas id="c1" height="380"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="ct">실제 음속 c · <span class="num" id="ctv">1450</span> m/s</label>
+          <input type="range" id="ct" min="1400" max="1700" value="1450" step="5"></div>
+        <div class="ctrl"><label for="c0">가정 음속 c₀ · <span class="num" id="c0v">1540</span> m/s</label>
+          <input type="range" id="c0" min="1400" max="1700" value="1540" step="5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">음속 오차</span><span class="v" id="rerr" style="color:var(--amber-deep)">—</span><span class="u">%</span></div>
+        <div class="ro"><span class="k">지연 오차</span><span class="v" id="rdt">—</span><span class="u">ns</span></div>
+        <div class="ro"><span class="k">위상 오차</span><span class="v" id="rph" style="color:var(--pos)">—</span><span class="u">°</span></div>
+        <div class="ro"><span class="k">결맞음</span><span class="v" id="rco" style="color:var(--signal-deep)">—</span><span class="u">%</span></div>
+        <div class="ro"><span class="k">판정</span><span class="v" id="rv" style="font-size:13px">—</span></div>
+      </div>
+      <p class="cap">위 곡선은 <b>가정 음속 c₀ 를 훑었을 때의 결맞음</b>입니다 —
+        <b style="color:var(--signal-deep)">봉우리가 실제 c 에 정확히 섭니다.</b> 이게 음속 영상의 원리입니다.<br>
+        아래는 그때의 <b>측방향 빔</b>. <b>c₀ 를 실제 c 에서 떼어놓아 보세요</b> — 주엽이 무너지고
+        <b style="color:var(--pos)">사이드로브가 솟습니다.</b> 지방(1450)에 1540을 가정하면 <b>위상 오차 91°</b>입니다.</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>음속 영상<span class="sub">Speed-of-sound imaging</span></h2></div>
+  <p>실전에서는 화면 전체를 한 값으로 재지 않습니다. <strong>구역마다</strong> c₀ 를 훑어
+    <strong>결맞음이 최대가 되는 값</strong>을 찾으면 <strong>음속 지도</strong>가 됩니다.
+    개구를 반으로 갈라 두 부분영상의 <strong>상호상관</strong>을 보는 방법, 각도별 평면파(A1)의
+    <strong>위상 정합</strong>을 보는 방법 등이 쓰입니다.</p>
+  <div class="tw"><table class="props">
+    <thead><tr><th>매질</th><th>c [m/s]</th><th>1540 대비</th><th>위상 오차 (5MHz·F#2)</th></tr></thead>
+    <tbody>
+      <tr class="hi"><td class="m">지방<span>fat</span></td><td class="n">1450</td><td class="n">−5.8%</td><td class="n"><b>91°</b> — 붕괴</td></tr>
+      <tr><td class="m">물<span>water</span></td><td class="n">1480</td><td class="n">−3.9%</td><td class="n">59° — 붕괴</td></tr>
+      <tr><td class="m">연부조직</td><td class="n">1540</td><td class="n">0%</td><td class="n">0° — 기준</td></tr>
+      <tr><td class="m">간<span>liver</span></td><td class="n">1550</td><td class="n">+0.6%</td><td class="n">−9° — 허용</td></tr>
+      <tr><td class="m">근육<span>muscle</span></td><td class="n">1590</td><td class="n">+3.2%</td><td class="n">−46° — 붕괴</td></tr>
+    </tbody>
+  </table></div>
+  <div class="eqcap">허용 한계는 <strong>±49 m/s = ±3.2%</strong> (45° = λ/8 기준 · 수치해)</div>
+  <div class="key"><div class="kh">02장의 씨앗이 여기서 회수됩니다</div>
+    <p>02장에서 <span class="num">c = √(K/ρ)</span> 를 배우고 "장비는 1540 을 가정한다"고 했습니다.
+      그게 <strong>속도 아티팩트의 씨앗</strong>이었죠. <strong>같은 오차가 지금은 신호</strong>입니다 —
+      아티팩트를 <strong>지우려 하지 않고 읽으면</strong> 조직의 성질이 나옵니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>후방산란계수<span class="sub">Backscatter coefficient</span></h2></div>
+  <p>17장은 <strong>"스페클은 잡음이 아니라 조직의 통계"</strong>라고 했습니다. 그 통계를 읽습니다.
+    <span class="t">후방산란계수</span> <span class="en">backscatter coefficient, BSC</span> 는
+    <strong>단위 부피·단위 입체각당 되돌아오는 파워</strong>입니다 — 조직 고유의 물리량이죠.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 스펙트럼의 기울기가 산란체 크기를 말한다</span><span id="bstat">—</span></div>
+    <canvas id="c2" height="360"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="sa">유효 산란체 반경 a · <span class="num" id="sav">25</span> µm</label>
+          <input type="range" id="sa" min="5" max="80" value="25" step="1"></div>
+        <div class="ctrl"><label for="dp">깊이 · <span class="num" id="dpv">3</span> cm</label>
+          <input type="range" id="dp" min="1" max="8" value="3" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">ka @6MHz</span><span class="v" id="rka">—</span></div>
+        <div class="ro"><span class="k">스펙트럼 기울기</span><span class="v" id="rsl" style="color:var(--signal-deep)">—</span></div>
+        <div class="ro"><span class="k">왕복 감쇠 @6MHz</span><span class="v" id="ratt" style="color:var(--pos)">—</span><span class="u">dB</span></div>
+        <div class="ro"><span class="k">보정 안 하면</span><span class="v" id="rbias" style="font-size:13px">—</span></div>
+      </div>
+      <p class="cap"><b style="color:var(--signal-deep)">청록 = 참(보정된 BSC)</b>, <b style="color:var(--pos)">빨강 = 감쇠 보정 전</b>입니다.<br>
+        <b>산란체가 작으면</b>(ka ≪ 1) 기울기가 <b>4</b> — 06장의 <b>레일리 산란</b> 그대로입니다.
+        <b>커지면 ka~1 에서 꺾이며</b> 기울기가 떨어지죠 — <b>그 기울기가 곧 크기</b>입니다.
+        그런데 <b style="color:var(--pos)">감쇠(7장)도 스펙트럼을 기울입니다</b> — 먼저 걷어내지 않으면 크기를 잘못 읽습니다.</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">참조 팬텀 — 장비를 나눠서 지운다</div>
+    <p>받은 스펙트럼에는 <strong>조직 말고도</strong> 탐촉자 응답·송신 파형·이득·집속이 전부 섞여 있습니다.
+      <strong>성질을 아는 참조 팬텀</strong>을 같은 설정으로 찍어 <strong>나누면</strong> 그 공통항이 <strong>소거됩니다.</strong></p>
+    <p style="margin-top:10px">남는 건 <strong>조직 고유의 BSC</strong> — <strong>장비가 바뀌어도 같은 숫자</strong>입니다.
+      이게 "정량"의 뜻이죠. 여기서 <strong>유효 산란체 크기</strong>와 <strong>음향 집중도</strong>를 뽑아
+      지방간·종양 특성화에 씁니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>왜 이게 어려운가<span class="sub">Why it is hard</span></h2></div>
+  <ul>
+    <li><b>감쇠와 산란이 얽힌다</b> · 스펙트럼 기울기는 <strong>산란체 크기</strong>와 <strong>감쇠</strong> 둘 다에서 옵니다.
+      깊이 3cm·6MHz면 왕복 감쇠만 <span class="num">18 dB</span> — <strong>먼저 풀어야</strong> 크기를 읽습니다.</li>
+    <li><b>스페클은 통계라 표본이 필요하다</b> · BSC 한 점을 얻으려면 <strong>여러 분해능 셀</strong>을 평균해야 합니다.
+      그래서 <strong>공간 분해능을 희생</strong>합니다 — 17장의 스페클이 여기서 대가를 청구하는 셈이죠.</li>
+    <li><b>가정이 많다</b> · 산란체가 <strong>무작위·균일·약산란</strong>이라고 가정합니다.
+      실제 조직은 구조가 있어 <strong>"유효" 크기</strong>일 뿐 진짜 세포 크기가 아닙니다.</li>
+  </ul>
+  <div class="key"><div class="kh">그래도 방향은 분명합니다</div>
+    <p>B 모드의 밝기는 <strong>비교할 수 없는 수</strong>입니다. QUS 는 <strong>비교할 수 있는 수</strong>를 냅니다 —
+      다른 장비, 다른 날, 다른 병원에서도요. <strong>추적 관찰과 다기관 연구</strong>가 가능해지는 지점입니다.
+      A9 의 전단파 속도도 같은 정신입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>B 모드 밝기는 숫자가 아니다</b> · 장비·이득·설정에 따라 달라짐 → 비교 불가</li>
+      <li><b>장비는 c=1540 을 가정</b>(02장) · 틀리면 지연 오차 ≈ (D²/8z)(1/c − 1/c₀)</li>
+      <li><b>허용 ±49 m/s = ±3.2%</b> (45° 기준) · <b>지방 1450 = −5.8% → 위상 91° → 초점 붕괴</b></li>
+      <li><b>뒤집으면 측정</b> · c₀ 를 훑어 <b>결맞음 최대</b>인 값이 진짜 c → 음속 영상</li>
+      <li><b>지방 30% → 1520 m/s</b> · 지방간을 숫자로 (아티팩트를 지우지 말고 읽는다)</li>
+      <li><b>BSC</b> · 17장의 "스페클 = 조직의 통계" 를 숫자로 · 단위 부피·입체각당 되돌아오는 파워</li>
+      <li><b>기울기 = 산란체 크기</b> · ka≪1 이면 <b>4</b>(레일리, 06장) · ka~1 에서 꺾임</li>
+      <li><b>감쇠(7장)를 먼저 보정</b> · 3cm·6MHz 왕복 18dB — 안 하면 크기를 잘못 읽음</li>
+      <li><b>참조 팬텀으로 나눔</b> · 탐촉자·이득·집속이 소거 → <b>장비 무관한 조직 고유 값</b></li>
+      <li><b>대가</b> · 표본이 필요해 공간 분해능 희생 · "유효" 크기일 뿐 · 가정이 많음</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 <b>부록 A8 / 10</b><br>
+    IBME Lab 교육용 원본 자료</p>
+  <div class="refs">
+    <div class="rh">주요 참고문헌 · References</div>
+    <p>M. L. Oelze, J. Mamou, "Review of quantitative ultrasound: envelope statistics and backscatter coefficient imaging and contributions to diagnostic ultrasound," <i>IEEE Trans. Ultrason. Ferroelectr. Freq. Control</i>, vol. 63, no. 2, pp. 336–351, 2016.</p>
+    <p>F. L. Lizzi, M. Greenebaum, E. J. Feleppa, M. Elbaum, D. J. Coleman, "Theoretical framework for spectrum analysis in ultrasonic tissue characterization," <i>J. Acoust. Soc. Am.</i>, vol. 73, no. 4, pp. 1366–1373, 1983.</p>
+  </div>
+  <a class="next" href="a9-elastography.html">다음 · 음향방사력과 전단파 탄성영상 ARFI and SWE →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/a8.js"></script>
+</body>
+</html>

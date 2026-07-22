@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>컬러 혈류 영상 · Color Flow Imaging — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Flow Detection · 28 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Flow Detection · 28</div>
+    <h1>컬러 혈류 영상<span class="sub">Color Flow Imaging</span></h1>
+    <p class="lede">PW 는 <strong>한 점</strong>의 속도를 쟀습니다. 컬러는 <strong>수천 점</strong>을 동시에 재
+      B모드 위에 <strong>색으로 칠합니다.</strong> 빨강은 다가옴, 파랑은 멀어짐.
+      대가는 <strong>속도와 시간(프레임률)의 맞교환</strong>입니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>점에서 지도로<span class="sub">From a point to a map</span></h2></div>
+  <p>PW 는 게이트 <strong>한 곳</strong>을 여러 번 엿봤습니다(27장). 컬러는 그 일을 <strong>화면의 수많은 점에서 병렬로</strong>
+    합니다 — 컬러 박스 안 각 위치마다 <strong>여러 펄스를 쏴</strong> 속도를 추정하고 색을 칠하죠.
+    다만 스펙트럼 전체를 뽑을 시간은 없어서, 각 점에서는 <strong>평균 속도 하나</strong>만 구합니다.</p>
+  <div class="key"><div class="kh">자기상관 — 빠른 지름길</div>
+    <p>점마다 푸리에 변환을 하면 너무 느립니다. 대신 <span class="t">자기상관</span> <span class="en">autocorrelation</span>으로
+      연속한 펄스 에코의 <strong>위상차</strong>만 뽑습니다 — 위상차가 곧 평균 편이, 곧 평균 속도입니다(25장).
+      곱셈 몇 번이면 끝나 <strong>실시간</strong>이 가능합니다. 얻는 건 세 가지: <strong>평균 속도·분산·파워.</strong></p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>색을 읽는 법 — BART<span class="sub">Reading the colors</span></h2></div>
+  <ul>
+    <li><b style="color:var(--pos)">빨강 = 다가옴</b> <span class="en">toward</span> · <b style="color:var(--neg)">파랑 = 멀어짐</b> <span class="en">away</span>.
+      기억법 <span class="en">BART</span>(Blue Away, Red Toward).</li>
+    <li><strong>밝을수록 빠름.</strong> 화면 옆 <span class="t">컬러바</span> <span class="en">color bar</span>가 실제 기준입니다.</li>
+    <li><strong>색은 뒤집을 수 있습니다.</strong> 검사자가 컬러 맵을 반전하면 빨강·파랑이 바뀌므로,
+      <strong>혈액의 종류가 아니라 방향</strong>임을 명심해야 합니다 (동맥=빨강이 아님).</li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 다가오면 빨강, 멀어지면 파랑 — 접히면 알록달록</span><span id="cstat">—</span></div>
+    <canvas id="c1" height="400"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="pk">혈류 최대 속도 · <span class="num" id="pkv">0.40</span> m/s</label>
+          <input type="range" id="pk" min="0.1" max="1.2" value="0.4" step="0.05"></div>
+        <div class="ctrl"><label for="sc">속도 스케일 (PRF) · <span class="num" id="scv">0.60</span> m/s</label>
+          <input type="range" id="sc" min="0.2" max="1.0" value="0.6" step="0.05"></div>
+        <div class="ctrl" style="flex:0 0 128px"><label>&nbsp;</label><button class="go" id="p1">재생</button></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">벽 필터 통과</span><span class="v" id="wfv" style="color:var(--signal-deep);font-size:15px">—</span></div>
+        <div class="ro"><span class="k">앨리어싱</span><span class="v" id="alv" style="font-size:15px">—</span></div>
+        <div class="ro"><span class="k">색 규약</span><span class="v" style="font-size:14px">BART</span></div>
+      </div>
+      <p class="cap">혈관을 흐르는 혈류가 방향에 따라 <b style="color:var(--pos)">빨강</b>(다가옴)·<b style="color:var(--neg)">파랑</b>(멀어짐)으로,
+        속도가 빠를수록 밝게 칠해집니다. 정지 조직은 <b>벽 필터</b>가 걷어내 회색으로 둡니다.<br>
+        <b>속도를 스케일보다 크게</b> 올려 보세요 — 색이 <b>반대쪽으로 접혀</b>(빨강↔파랑) 알록달록해집니다.
+        PW 와 <b>같은 나이퀴스트</b> 한계입니다. 스케일(PRF)을 올리면 풀립니다.</p>
+    </div>
+  </div>
+  <p>여기서 25장의 <span class="num">cos θ</span> 가 화면을 물들입니다: <strong>같은 혈관이 휘어지면</strong>
+    빔과의 각이 변해 <strong>색이 빨강→검정→파랑으로</strong> 바뀝니다 — 흐름이 멈춰서가 아니라
+    <strong>90° 를 지나며 편이가 0</strong> 이 되기 때문입니다. 검게 보인다고 폐색이 아닙니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>벽 필터 — 조직을 지운다<span class="sub">Wall filter / clutter</span></h2></div>
+  <p>혈액의 산란은 주변 조직 에코보다 <strong>수십 dB 약합니다</strong>(25장). 정지 조직·혈관벽은
+    도플러 편이가 <strong>0 근처</strong>이므로, 저주파를 잘라내는 <span class="t">벽 필터</span>
+    <span class="en">wall filter</span>로 <strong>움직이는 혈액만 남깁니다</strong>(클러터 억제).</p>
+  <div class="key warn"><div class="kh">느린 피가 함께 지워집니다</div>
+    <p>벽 필터를 너무 높이면 <strong>느리게 흐르는 정맥·미세혈류까지</strong> 잘려 나갑니다 —
+      "혈류 없음"으로 오독하기 쉽죠(초기 혈전 등). 반대로 너무 낮으면 심박·호흡으로 움직이는 조직이
+      <span class="t">색 번쩍임</span> <span class="en">flash artifact</span>으로 새어 나옵니다.
+      <strong>낮은 문턱과 높은 문턱 사이의 줄다리기</strong> — 22·23장에서 본 그 구조입니다.</p></div>
+  <p>방향을 버리고 <strong>파워(에코 세기)만</strong> 칠하는 <span class="t">파워 도플러</span>
+    <span class="en">power Doppler</span>도 있습니다. 각도·앨리어싱에 둔감하고 느린 혈류에 민감하지만,
+    <strong>방향과 속도를 알 수 없습니다.</strong> 맞교환은 어디에나 있습니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>공짜가 아니다 — 프레임률<span class="sub">The frame-rate cost</span></h2></div>
+  <p>각 색 점에는 <strong>여러 펄스(앙상블)</strong>가 필요합니다 — 위상차를 안정되게 재려면요.
+    라인 수 × 앙상블 길이 × PRP 가 <strong>한 프레임의 시간</strong>이 됩니다. 앙상블을 늘리면 속도가 정확해지지만
+    <strong>프레임률이 급락</strong>합니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 앙상블을 늘리면 정확해지고 느려진다</span><span id="fstat">—</span></div>
+    <canvas id="c2" height="300"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="en">앙상블 길이 · <span class="num" id="env">8</span> 펄스</label>
+          <input type="range" id="en" min="3" max="20" value="8" step="1"></div>
+        <div class="ctrl"><label for="bx">컬러 박스 폭 · <span class="num" id="bxv">128</span> 라인</label>
+          <input type="range" id="bx" min="32" max="256" value="128" step="16"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">프레임 시간</span><span class="v" id="ftv" style="color:var(--amber-deep)">—</span><span class="u">ms</span></div>
+        <div class="ro"><span class="k">프레임률</span><span class="v" id="fpv" style="color:var(--signal-deep)">—</span><span class="u">fps</span></div>
+        <div class="ro"><span class="k">속도 추정</span><span class="v" id="qtv" style="font-size:14px">—</span></div>
+      </div>
+      <p class="cap">프레임률 = 1 / (라인 수 × 앙상블 × PRP). <b>앙상블을 올리면</b> 속도 추정이 안정되지만
+        프레임률이 떨어져 <b>빠른 심장을 못 따라갑니다.</b> <b>박스를 좁히면</b> 라인이 줄어 다시 빨라지죠 —
+        그래서 컬러 박스는 <b>필요한 만큼만 작게</b> 잡는 것이 실전 요령입니다.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>점 → 지도</b> · 컬러 박스 각 점에서 여러 펄스로 평균 속도를 추정</li>
+      <li><b>자기상관</b> · 위상차만 뽑아 실시간 · 평균 속도·분산·파워</li>
+      <li><b>BART</b> · 빨강 다가옴 / 파랑 멀어짐 · 밝을수록 빠름 · <b>반전 가능</b>(방향이지 혈액 종류 아님)</li>
+      <li><b>cos θ 가 색을 물들임</b> · 혈관이 휘면 90°에서 검게 — 폐색 아님 (25장)</li>
+      <li><b>벽 필터</b> · 정지 조직(편이 0) 제거 · 너무 높으면 느린 혈류도 지움 (줄다리기)</li>
+      <li><b>같은 나이퀴스트</b> · 스케일(PRF) 넘으면 색이 접힘 — PW 와 동일 (27장)</li>
+      <li><b>프레임률 대가</b> · 라인 × 앙상블 × PRP · 정확도↔속도 맞교환</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 28 / 33<br>IBME Lab 교육용 원본 자료 · 수치 참고: Szabo, <i>Diagnostic Ultrasound Imaging</i></p>
+  <a class="next" href="29-intensity.html">다음 · 강도 Intensity →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/28.js"></script>
+</body>
+</html>

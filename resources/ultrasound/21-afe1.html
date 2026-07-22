@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>아날로그 프런트엔드 Ⅰ · Analog Front-End — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Signal and Circuit · 21 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Signal and Circuit · 21</div>
+    <h1>아날로그 프런트엔드 Ⅰ<span class="sub">Analog Front-End · LNA · VCA · PGA · Filter</span></h1>
+    <p class="lede">T/R 스위치를 지난 에코는 아직 <strong>µV</strong>입니다. ADC 풀스케일(<strong>~1 V</strong>)까지 되살리려면
+      약 <strong>80 dB</strong> — 이 장은 그 이득 사슬을 순서대로 봅니다:
+      <strong>LNA → VCA(TGC) → PGA → 필터</strong>. 그중 <strong>깊이의 어둠을 지우는 VCA(TGC)</strong>가 이 장의 핵심입니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>LNA — 저잡음이 먼저다<span class="sub">Low-noise amplifier</span></h2></div>
+  <p>사슬의 <strong>첫 증폭기</strong>가 전체 잡음을 정합니다(잡음지수). µV 에코에 회로 잡음이 조금만 더해져도
+    묻혀버리니, 1단은 <strong>이득보다 저잡음</strong>이 우선입니다 — <span class="t">저잡음 증폭기</span> <span class="en">LNA</span>.
+    보통 <span class="num">+15~20 dB</span>. 여기서 정해진 잡음 바닥은 <strong>뒤에서 아무리 키워도 못 내립니다</strong> —
+    그래서 1단이 가장 중요합니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>VCA(TGC) — 깊이의 어둠을 지운다<span class="sub">Time-gain compensation</span></h2></div>
+  <p>같은 조직이라도 <strong>깊을수록 감쇠</strong>가 커져(07장) 에코가 약해집니다 — 화면이면 아래로 갈수록 어둡죠.
+    <span class="t">가변이득 증폭기</span> <span class="en">VCA</span>의 이득을 <strong>시간(=깊이)에 따라 올려</strong> 이 어둠을 되돌리는 것이
+    <span class="t">시간 이득 보정</span> <span class="en">TGC</span>입니다. 왕복 감쇠가 <span class="num">≈ 주파수 dB/cm</span>이니,
+    <strong>TGC 기울기를 감쇠에 맞추면</strong> 깊이가 밝기에서 <strong>지워집니다</strong>.</p>
+</div></section>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 같은 조직, 깊이만 다름 — 어둠을 지운다</span><span id="rvd">—</span></div>
+    <canvas id="c1" height="440"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="tg">TGC 기울기 · <span class="num" id="tgv">5.0</span> dB/cm</label>
+          <input type="range" id="tg" min="0" max="10" value="5" step="0.5"></div>
+        <div class="ctrl"><label for="fz">주파수 · <span class="num" id="fzv">5.0</span> MHz</label>
+          <input type="range" id="fz" min="3" max="8" value="5" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">필요 기울기 (= 감쇠)</span><span class="v" id="rneed" style="color:var(--signal-deep)">—</span><span class="u">dB/cm</span></div>
+        <div class="ro"><span class="k">18 cm 이득</span><span class="v" id="rdeep">—</span><span class="u">dB</span></div>
+      </div>
+      <p class="cap">왼쪽 = <b style="color:var(--pos)">TGC 없이</b>(깊을수록 어두움), 오른쪽 = <b style="color:var(--signal-deep)">TGC 적용</b>, 가운데 = 실제 장비의
+        <b style="color:var(--amber-deep)">깊이별 이득 손잡이</b>(직선을 이룸). <b>기울기를 주파수(감쇠)에 맞추면</b> 오른쪽 영상이 위아래 <b>균일</b>해집니다 —
+        깊이가 밝기에서 지워지죠.<br>
+        <b style="color:var(--pos)">너무 올리면</b>(과보정) 심부에서 조직 대신 <b>잡음이 스노우처럼</b> 뜹니다. TGC 로도 <b>감쇠로 이미 사라진 심부</b>는 못 되살립니다(07장).</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>PGA — 마지막으로 눈금에 맞춘다<span class="sub">Programmable-gain amplifier</span></h2></div>
+  <p>LNA·VCA 를 거친 신호를 <span class="t">프로그램 이득 증폭기</span> <span class="en">PGA</span>가 마무리로 키워
+    <strong>ADC 풀스케일에 맞춥니다</strong>(보통 <span class="num">+0~30 dB</span>, 검사·깊이별로 조절). 세 단을 합치면
+    <span class="num">LNA 20 + VCA 30 + PGA 30 ≈ 80 dB</span> — µV 에코가 <strong>~1 V</strong>가 됩니다. 너무 키우면
+    <strong>ADC 위에서 잘리고</strong>(포화), 덜 키우면 <strong>양자화 계단이 거칠어집니다</strong>(22장) — 그 사이를 맞추는 손잡이가 게인입니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>필터 — 에코 대역만 남긴다<span class="sub">Band-pass &amp; anti-alias</span></h2></div>
+  <p>ADC 직전, <span class="t">대역 필터</span>가 <strong>에코 대역(f₀ 언저리)만 통과</strong>시킵니다. 아래로는 조직 움직임·잔향의
+    <strong>저역 클러터</strong>를, 위로는 <strong>고역 잡음</strong>을 버립니다 — 특히 고역 잡음은 그대로 두면 표본화 때
+    <strong>대역 안으로 접혀 들어오므로</strong>(에일리어싱, 22장) 미리 잘라야 합니다(안티앨리어싱).</p>
+</div></section>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 대역 필터 — 에코만 통과, 클러터·잡음 버림</span><span id="fstat">—</span></div>
+    <canvas id="c2" height="320"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="bw">통과 대역폭 · <span class="num" id="bwv">70</span> %</label>
+          <input type="range" id="bw" min="20" max="110" value="70" step="5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">통과대역 하한</span><span class="v" id="rlo">—</span><span class="u">MHz</span></div>
+        <div class="ro"><span class="k">통과대역 상한</span><span class="v" id="rhi">—</span><span class="u">MHz</span></div>
+      </div>
+      <p class="cap">회색 = 입력(저역 <b style="color:var(--pos)">클러터</b> + <b style="color:var(--signal-deep)">에코</b> + 고역 잡음), 청록 = 출력(입력 × 필터).
+        <b style="color:var(--amber-deep)">앰버 점선</b>이 필터 응답입니다. <b>너무 좁히면</b> 에코 가장자리까지 깎여 <b>펄스가 길어지고</b>(분해능 손해),
+        <b>너무 넓히면</b> 클러터·잡음이 더 샙니다. 대역폭은 <b>축 분해능 ↔ SNR</b>의 맞바꿈입니다.</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>수신 사슬</b> · LNA → VCA(TGC) → PGA → 필터 → (ADC, 22장) · µV → ~1 V, 약 80 dB</li>
+      <li><b>LNA</b> · 저잡음 1차(+15~20 dB) — <b>잡음 바닥은 1단이 정하고 뒤에서 못 내림</b></li>
+      <li><b>VCA(TGC)</b> · 이득을 시간(깊이)에 따라 올려 <b>깊이의 어둠을 보상</b> — 기울기 = 감쇠(≈f dB/cm)면 균일</li>
+      <li><b>과보정</b> · 심부에서 조직 대신 <b>잡음 스노우</b> · 감쇠로 사라진 심부는 TGC 로도 못 되살림(07장)</li>
+      <li><b>PGA</b> · 마무리 이득으로 <b>ADC 풀스케일에 정렬</b>(+0~30 dB) — 넘치면 포화, 모자라면 양자화 거칠어짐</li>
+      <li><b>대역 필터</b> · 에코 대역만 통과 · 저역 클러터·고역 잡음 제거 · 고역은 <b>안티앨리어싱</b>(22장)</li>
+      <li><b>대역폭 맞바꿈</b> · 좁으면 펄스 길어져 분해능 손해, 넓으면 SNR 손해</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 21 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="22-afe2.html">다음 · 아날로그 프런트엔드 Ⅱ ADC →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/21.js"></script>
+</body>
+</html>

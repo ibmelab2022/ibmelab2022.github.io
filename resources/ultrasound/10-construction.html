@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>탐촉자 구조와 특성 · Transducer Construction — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Transducer · 10 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Ultrasound Transducer · 10</div>
+    <h1>탐촉자 구조와 특성<span class="sub">Transducer Construction and Characteristics</span></h1>
+    <p class="lede">탐촉자는 <strong>타협 기계</strong>입니다. 펄스를 짧게 하려면 에너지를 버려야 하고,
+      감도를 지키려면 펄스가 길어집니다. <strong>그 타협을 어디서 하느냐</strong>가 탐촉자 설계의 전부입니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>두께 공진 모드<span class="sub">Thickness resonance mode</span></h2></div>
+  <p>09장에서 봤듯 힘을 주면 <strong>양·음 전하 중심이 어긋나 쌍극자</strong>가 생깁니다. 그런데
+    <strong>쌍극자 방향이 힘의 방향과 나란할 수도, 수직일 수도</strong> 있습니다. 이 차이가 모드를 가릅니다.</p>
+  <ul>
+    <li><span class="t">두께 모드</span> <span class="en">thickness mode · d33</span> ·
+      판 양면에 전극을 붙인 구조입니다. <strong>전기장과 응력이 같은 방향</strong>(두께 방향)이죠.
+      <strong>초음파 영상용 탐촉자는 거의 전부 이것</strong>입니다.</li>
+    <li><span class="t">횡 모드</span> <span class="en">transverse mode · d31</span> ·
+      <strong>전기장과 응력이 수직</strong>인 경우입니다. 저주파 응용에서 쓰입니다.</li>
+  </ul>
+  <div class="key"><div class="kh">표기가 헷갈리는 지점</div>
+    <p>압전 계수는 <span class="num">d<sub>ij</sub></span> 로 적고, <strong>i = 전기장 방향, j = 응력 방향</strong>입니다.
+      둘 다 3(분극축)이면 <span class="num">d33</span> = 두께 모드, 전기장 3 · 응력 1이면 <span class="num">d31</span> = 횡 모드입니다.
+      <strong>수직인 경우는 표준 표기로 "31 모드"</strong>입니다.</p>
+    <p style="margin-top:10px">한편 초음파에서 <strong>"1-3"</strong>이라고 하면 대개 모드가 아니라
+      <span class="t">1-3 복합재</span> <span class="en">1-3 composite</span>를 가리킵니다 —
+      <strong>PZT 기둥을 고분자에 심은 구조</strong>입니다. 완전히 다른 개념이니 자료를 읽을 때 구분하셔야 합니다.</p></div>
+  <p>1-3 복합재는 현대 영상 탐촉자에서 매우 중요합니다. <strong>임피던스를 34에서 15~20 MRayl 로 떨어뜨려</strong>
+    정합을 훨씬 쉽게 만들고(되튐 82% → 72%), <strong>kt 도 올라갑니다.</strong> 게다가 기둥을 잘라 만들므로
+    <strong>배열 소자로 바로 이어집니다.</strong></p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>대역폭과 Q<span class="sub">Bandwidth and quality factor</span></h2></div>
+  <p>"중심 주파수 5 MHz 탐촉자"라는 말은 <strong>5.0 MHz 에서만 작동한다는 뜻이 아닙니다.</strong>
+    4.9 에서도 5.1 에서도 작동하죠. 항상 <strong>범위</strong>가 있고, 그것을 세로축 크기·가로축 주파수로 그린 것이
+    <span class="t">스펙트럼</span> <span class="en">spectrum</span>입니다. 좋은 탐촉자는 <strong>종 모양</strong>이 나옵니다.</p>
+  <p>봉우리를 <span class="num">0 dB</span>로 놓고 양옆에서 <strong>−3dB 또는 −6dB</strong> 되는 두 점을 찾습니다.
+    그 사이 간격이 <span class="t">대역폭</span> <span class="en">bandwidth</span>입니다.</p>
+  <div class="eq"><span>Q =</span><span class="frac"><span>중심 주파수</span><span>대역폭</span></span>
+    <span style="margin-left:24px">비대역폭 =</span>
+    <span class="frac"><span>대역폭</span><span>중심 주파수</span></span><span>× 100%</span></div>
+  <div class="key warn"><div class="kh">dB 기준을 안 적으면 그 숫자는 의미가 없습니다</div>
+    <p>−3dB 와 −6dB 는 <strong>다른 점</strong>입니다. −3dB 는 <strong>파워가 절반</strong>(진폭 0.707),
+      −6dB 는 <strong>진폭이 절반</strong>(파워 1/4)입니다. 가우시안 스펙트럼에서 계산하면:</p>
+    <div class="eq" style="margin:14px 0 10px;background:transparent;border:none;padding:6px 0;font-size:17px">
+      <span>−6dB 대역폭 = √2 × (−3dB 대역폭)</span></div>
+    <p><strong>정확히 √2 배</strong>입니다. 그래서 Q 도 √2 배 달라집니다 — 같은 탐촉자가
+      <strong>−6dB 기준으로 Q=2.83, −3dB 기준으로 Q=4.00</strong> 이 됩니다.
+      <strong>"Q = 3" 이라고만 하면 아무 말도 안 한 것</strong>입니다.</p>
+    <p style="margin-top:10px">관례는 이렇습니다 — <strong>초음파 탐촉자는 −6dB</strong>(진폭 기준),
+      <strong>전자회로는 −3dB</strong>(파워 기준). 참고로 dB 값 자체는 진폭이든 파워든 <strong>같은 숫자</strong>입니다.
+      진폭엔 20log, 파워엔 10log 를 쓰는 이유가 바로 그것입니다.</p></div>
+  <h3>영상은 왜 낮은 Q 를 원하는가</h3>
+  <p><strong>Q 가 낮을수록 대역폭이 넓고, 펄스가 짧습니다.</strong> 영상은 <strong>짧은 펄스</strong>가 있어야
+    축방향 분해능이 나오므로 <strong>낮은 Q — 광대역 시스템</strong>이 필요합니다.</p>
+  <p>반대로 <strong>공진이 목적이면 높은 Q</strong>를 씁니다. 손목시계의 수정 진동자가 대표적입니다 —
+    한 주파수에서 오래 정확히 떨어야 하니까요. <strong>같은 지표를 정반대로 원하는 것</strong>입니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>후면재와 정합층<span class="sub">Damping and matching — same goal, different price</span></h2></div>
+  <p>둘 다 <strong>Q 를 낮춰 펄스를 짧게</strong> 만듭니다. 그런데 <strong>방식이 정반대</strong>입니다.</p>
+  <ul>
+    <li><span class="t">후면재</span> <span class="en">backing layer</span> ·
+      뒤로 나가는 에너지를 <strong>흡수해 버립니다.</strong> 무겁게 감쇠할수록 대역폭이 넓어지고 펄스가 짧아지지만,
+      <strong>감도가 떨어집니다.</strong> 버린 에너지는 영영 안 돌아오니까요.</li>
+    <li><span class="t">정합층</span> <span class="en">matching layer</span> ·
+      앞으로 <strong>더 잘 빠져나가게</strong> 해줍니다. 에너지를 버리는 게 아니라 <strong>내보내는</strong> 것이라
+      대역폭도 넓어지고 <strong>감도도 같이 올라갑니다.</strong></li>
+  </ul>
+  <div class="panel" style="margin-top:16px">
+    <div class="plabel"><span><b>인터랙티브</b> · 후면재와 정합층이 하는 일</span><span id="qstat">—</span></div>
+    <canvas id="c1" height="380"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="bk">후면재 감쇠 · <span class="num" id="bkv">없음</span></label>
+          <input type="range" id="bk" min="0" max="100" value="0" step="1"></div>
+        <div class="ctrl"><label for="mt">정합층 · <span class="num" id="mtv">없음</span></label>
+          <input type="range" id="mt" min="0" max="100" value="0" step="1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">Q</span><span class="v" id="qv">—</span></div>
+        <div class="ro"><span class="k">−6dB 대역폭</span><span class="v" id="bwv" style="color:var(--signal-deep)">—</span><span class="u">MHz</span></div>
+        <div class="ro"><span class="k">비대역폭</span><span class="v" id="fbv">—</span><span class="u">%</span></div>
+        <div class="ro"><span class="k">펄스 길이</span><span class="v" id="plv">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">감도</span><span class="v" id="sev" style="color:var(--pos)">—</span><span class="u">%</span></div>
+      </div>
+      <p class="cap"><b>① 정합층만 올려보세요.</b> 펄스가 짧아지는데 <b>진폭이 오히려 커집니다.</b> 공짜에 가깝습니다.<br>
+        <b>② 이번엔 정합층을 0으로 두고 후면재만 올려보세요.</b> 펄스는 짧아지지만 <b>진폭이 무너집니다.</b>
+        같은 목적, 전혀 다른 대가입니다.</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">그래서 순서가 있습니다</div>
+    <p>위 애니메이션에서 확인하셨을 겁니다. 정합층을 넣으면 <strong>Q 35 → 2.4</strong> (대역폭 <strong>15배</strong>)인데
+      감도는 <strong>59% → 97%</strong> 로 <strong>오릅니다.</strong> 후면재만 쓰면 <strong>Q 35 → 3.7</strong> (대역폭 10배)이지만
+      감도는 <strong>59% → 6%</strong> 로 <strong>무너집니다.</strong> 둘 다 쓰면 비대역폭 <strong>66%</strong> 에
+      감도 <strong>61%</strong> — 상용 영상 탐촉자가 실제로 서 있는 자리입니다.</p>
+    <p style="margin-top:10px"><strong>정합층부터 최대한 쓰고, 그래도 대역폭이 부족할 때만 후면재를 더한다</strong> —
+      설계 원칙이 여기서 나옵니다.</p></div>
+  <h3>정합층이 없으면 어떻게 되는가</h3>
+  <p>세라믹 Z ≈ <span class="num">34 MRayl</span>, 조직 Z ≈ <span class="num">1.63</span>.
+    그대로 붙이면 <span class="num">R = −0.91</span> — 진동이 <strong>소자 안에서 앞뒤로 왕복</strong>하며
+    <strong>한 번 부딪힐 때마다 아주 조금씩만</strong> 조직으로 새어 나갑니다.
+    결과는 <strong>길고 약한 펄스</strong> — 분해능도 감도도 둘 다 잃습니다.</p>
+  <div class="eq" style="font-size:17px"><span>Z<sub>m</sub> = √( Z₁ Z₂ ) = √( 34 × 1.63 ) ≈ 7.4 MRayl</span></div>
+  <p>두께 <span class="num">λ/4</span>, 임피던스는 두 값의 <strong>기하평균</strong>. 왜 λ/4 인가 —
+    층의 앞뒷면에서 반사된 두 파가 <strong>왕복 λ/2 = 180° 위상차</strong>로 만나 <strong>서로 상쇄</strong>되기 때문입니다.
+    <strong>반사를 없애는 게 아니라 반사끼리 죽이는 것</strong>입니다. 대역을 더 넓히려면 층을 여러 겹 쌓습니다.
+    <span class="en">→ 04장 초음파 반사</span></p>
+  <div class="key"><div class="kh">도플러는 거꾸로 갑니다</div>
+    <p>도플러 탐촉자는 <strong>후면재를 가볍게</strong> 씁니다. Q 가 높아 펄스가 길어지지만 <strong>감도를 얻습니다.</strong>
+      도플러 신호는 <strong>적혈구 산란</strong>에서 오는 아주 약한 신호라 감도가 절실하고,
+      대신 <strong>축방향 분해능은 덜 중요</strong>하기 때문입니다. <strong>용도가 Q 를 정합니다.</strong>
+      <span class="en">→ 06장 산란 · Doppler Effect</span></p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>영상용은 두께 모드 (d33)</b> · 전기장 ∥ 응력 · 판 양면 전극</li>
+      <li><b>d31 = 횡 모드</b> (전기장 ⊥ 응력) · <b>"1-3" 은 대개 복합재</b>를 뜻함 — 다른 개념</li>
+      <li><b>Q = 중심 주파수 / 대역폭</b> · <b>dB 기준을 반드시 함께 적을 것</b></li>
+      <li><b>−6dB 대역폭 = √2 × −3dB 대역폭</b> · 같은 탐촉자가 Q=2.83 또는 4.00</li>
+      <li><b>영상 = 낮은 Q</b>(짧은 펄스) · <b>공진기 = 높은 Q</b>(수정시계)</li>
+      <li><b>후면재</b>: 에너지를 <b>버려서</b> 대역폭을 산다 → <b>감도 하락</b></li>
+      <li><b>정합층</b>: 에너지를 <b>내보내서</b> 대역폭을 얻는다 → <b>감도도 상승</b></li>
+      <li><b>정합층 먼저, 후면재는 그 다음</b> · 도플러는 반대로 (감도 우선)</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 10 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="11-array.html">다음 · 배열 탐촉자 Array Transducer →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/10.js"></script>
+</body>
+</html>

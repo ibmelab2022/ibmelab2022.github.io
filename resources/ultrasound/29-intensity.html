@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>강도 · Intensity — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Safety · 29 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Safety · 29</div>
+    <h1>강도<span class="sub">Ultrasound Intensity</span></h1>
+    <p class="lede">강도는 <strong>단위 면적당 파워</strong>입니다. 그런데 초음파는 <strong>짧게 쏘고 길게 듣기</strong> 때문에(15장),
+      <strong>언제·어디서 재느냐에 따라 같은 빔의 강도가 500배까지 갈립니다.</strong>
+      안전 한계가 왜 하필 <strong>평균값</strong>에 걸리는지가 여기서 정해집니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>강도의 정의<span class="sub">Intensity from pressure</span></h2></div>
+  <p>강도는 파동이 <strong>단위 면적을 지나며 나르는 파워</strong>입니다. 평면파에서는 <strong>음압 진폭의 제곱</strong>으로 정해집니다.</p>
+  <div class="eq"><span>I =</span><span class="frac"><span>P</span><span>A</span></span>
+    <span style="margin-left:22px">=</span><span class="frac"><span>p²</span><span>2ρc</span></span></div>
+  <div class="eqcap">p = 음압 진폭 · ρc = 음향 임피던스 Z · <strong>강도는 압력의 제곱</strong>에 비례</div>
+  <div class="key"><div class="kh">2장 회수 — 강도는 f²에 비례 (f⁴이 아님)</div>
+    <p>변위 진폭이 <span class="num">ξ₀</span>일 때 <span class="num">I = ½ρc·ω²ξ₀² ∝ f²ξ₀²</span> 입니다.
+      주파수를 2배로 하면 강도는 <strong>정확히 4배</strong>. 원문의 <strong>f⁴은 틀렸고</strong>(그건 레일리 산란),
+      진폭 고정 시 강도는 <strong>f²</strong>로 커집니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>공간: 피크와 평균<span class="sub">Spatial peak vs average</span></h2></div>
+  <p>빔은 <strong>초점에서 세고 가장자리로 갈수록 약합니다</strong>(12·13장). 그래서 강도는 <strong>한 값이 아니라 분포</strong>입니다.
+    빔 안에서 가장 센 점이 <span class="t">공간 피크</span> <span class="en">spatial peak, SP</span>,
+    빔 단면 전체의 평균이 <span class="t">공간 평균</span> <span class="en">spatial average, SA</span>입니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 빔은 균일하지 않다 · 공간</span><span id="sstat">—</span></div>
+    <canvas id="c2" height="300"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="fn">집속 F 넘버 · <span class="num" id="fnv">2.0</span></label>
+          <input type="range" id="fn" min="1" max="5" value="2" step="0.1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">공간피크 SP</span><span class="v" id="rsp" style="color:var(--pos)">—</span><span class="u">상대</span></div>
+        <div class="ro"><span class="k">공간평균 SA</span><span class="v" id="rsa" style="color:var(--signal-deep)">—</span><span class="u">상대</span></div>
+        <div class="ro"><span class="k">SP / SA</span><span class="v" id="rspa" style="color:var(--amber-deep)">—</span><span class="u">배</span></div>
+      </div>
+      <p class="cap"><b>강하게 집속할수록</b>(F 넘버 ↓) 피크는 치솟지만 <b>총 파워는 그대로</b>라
+        <b style="color:var(--amber-deep)">SP/SA 비</b>가 커집니다. "강도"라고 말할 때 <b>어느 값인지</b>를 반드시 붙여야 하는 이유입니다.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>시간: 세 가지 평균<span class="sub">Temporal peak, pulse, average</span></h2></div>
+  <p>공간 피크 한 점을 정하고 나면, 이번엔 <strong>시간</strong>이 문제입니다. 펄스가 지나가는 순간과 침묵하는 순간의 강도가 전혀 다르니까요.</p>
+  <ul>
+    <li><span class="t">시간 피크</span> <span class="en">temporal peak, TP</span> · 펄스 안에서 가장 센 <strong>순간</strong>의 강도.</li>
+    <li><span class="t">펄스 평균</span> <span class="en">pulse average, PA</span> · 펄스가 켜져 있는 <strong>동안만</strong> 평균낸 값.</li>
+    <li><span class="t">시간 평균</span> <span class="en">temporal average, TA</span> · <strong>침묵 시간까지 포함</strong>해 전 주기로 평균낸 값.</li>
+  </ul>
+  <div class="eq"><span>I<sub>SPTA</sub> = I<sub>SPPA</sub> ×</span><span class="frac"><span>펄스 길이</span><span>펄스 주기</span></span>
+    <span style="margin-left:18px">= I<sub>SPPA</sub> × 듀티비</span></div>
+  <div class="eqcap">15장 회수 — 듀티비가 <strong>0.2%</strong>면 시간평균은 펄스평균의 <strong>1/500</strong></div>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 하나의 빔, 세 개의 강도 · 시간</span><span id="tstat">—</span></div>
+    <canvas id="c1" height="330"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="amp">출력(음압 진폭) · <span class="num" id="ampv">1.00</span></label>
+          <input type="range" id="amp" min="0.3" max="1" value="1" step="0.01"></div>
+        <div class="ctrl"><label for="prf">PRF · <span class="num" id="prfv">3.0</span> kHz</label>
+          <input type="range" id="prf" min="1" max="15" value="3" step="0.5"></div>
+        <div class="ctrl"><label for="nc">펄스 사이클 · <span class="num" id="ncv">2.0</span></label>
+          <input type="range" id="nc" min="1" max="5" value="2" step="0.1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">듀티비</span><span class="v" id="dc" style="color:var(--amber-deep)">—</span><span class="u">%</span></div>
+        <div class="ro"><span class="k">I<sub>SPTP</sub> 순간피크</span><span class="v" id="isptp">—</span><span class="u">W/cm²</span></div>
+        <div class="ro"><span class="k">I<sub>SPPA</sub> 펄스평균</span><span class="v" id="isppa">—</span><span class="u">W/cm²</span></div>
+        <div class="ro"><span class="k">I<sub>SPTA</sub> 시간평균</span><span class="v" id="ispta" style="color:var(--signal-deep)">—</span><span class="u">mW/cm²</span></div>
+        <div class="ro"><span class="k">720 한계 대비</span><span class="v" id="vlim" style="font-size:14px">—</span></div>
+      </div>
+      <p class="cap"><b>세로축은 로그</b>입니다 — 세 지표가 1000배씩 차이 나서 선형축이면 I<sub>SPTA</sub>가 바닥에 붙어 안 보입니다.
+        가로축은 <b>1 ms 실시간 창</b>이라 <b>PRF를 올리면 펄스 개수가 늘어납니다</b>
+        (펄스 자체는 실제로 1픽셀보다 얇아 최소 폭으로 그렸습니다).<br>
+        <b style="color:var(--signal-deep)">I<sub>SPPA</sub>와 I<sub>SPTA</sub> 사이의 세로 간격이 곧 듀티비</b>입니다.
+        <b>PRF나 사이클을 줄이면</b> 간격이 벌어지며 I<sub>SPTA</sub>가 <b style="color:var(--pos)">FDA 720 선</b> 아래로 내려가고,
+        <b>출력을 올리면</b> 세 선이 함께 올라갑니다. 같은 빔인데 <b>재는 방식만 바꿔도</b> 이렇게 달라집니다.</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">크기순은 항상 정해져 있다</div>
+    <p><span class="num">I_SPTP &gt; I_SPPA &gt; I_SPTA</span> — 순간피크가 가장 크고, 침묵을 포함한 시간평균이 가장 작습니다.
+      진단 초음파의 듀티비는 <strong>1% 미만</strong>이라, 화면 위 빔의 순간피크는 <strong>수백 W/cm²</strong>인데
+      시간평균은 <strong>1 W/cm² 미만</strong>으로 떨어집니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>왜 두 값을 다 봐야 하나<span class="sub">Two risks, two measures</span></h2></div>
+  <p>여기서 안전의 큰 그림이 갈립니다. <strong>발열은 평균 파워가, 공동화는 순간 피크가</strong> 결정하기 때문입니다.</p>
+  <div class="key"><div class="kh">평균은 열, 피크는 기계적 효과</div>
+    <p>조직이 데워지는 것은 <strong>시간평균 강도</strong>에 비례합니다. 그래서 FDA의 열 관련 한계
+      <span class="num">I_SPTA.3 ≤ 720 mW/cm²</span>는 <strong>시간평균</strong>에 걸립니다(→31·33장).
+      반면 기포를 터뜨리는 <strong>공동화</strong>는 <strong>순간 음압</strong>이 결정하므로, 시간평균이 아무리 작아도
+      순간피크가 크면 위험합니다(→30·32장).</p></div>
+  <p>그래서 초음파 안전은 <strong>하나의 숫자로 요약되지 않습니다.</strong> 열을 보는 지수(<strong>TI</strong>)와
+    기계적 효과를 보는 지수(<strong>MI</strong>)가 <strong>따로</strong> 필요합니다. 다음 네 장이 그 두 축을 하나씩 세웁니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>강도 = 파워/면적 = p²/2ρc</b> · 압력의 <b>제곱</b>에 비례</li>
+      <li><b>강도 ∝ f²ξ₀²</b> · 진폭 고정 시 f 2배면 4배 (f⁴ 아님 — 2장)</li>
+      <li><b>공간피크 SP / 공간평균 SA</b> · 빔은 균일하지 않다 → 어디서 재는지 붙여야</li>
+      <li><b>시간: I_SPTP &gt; I_SPPA &gt; I_SPTA</b> · <b>I_SPTA = I_SPPA × 듀티비</b></li>
+      <li><b>듀티비 0.2%면 시간평균은 펄스평균의 1/500</b> · 순간 수백 W/cm² → 평균 &lt;1 W/cm²</li>
+      <li><b>평균은 열(TI), 피크는 공동화(MI)</b> · 그래서 안전 지수가 둘이다</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 29 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="30-mechanical-index.html">다음 · 기계적 지수 Mechanical Index →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/29.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>연속파 도플러 · CW Doppler — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Flow Detection · 26 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Flow Detection · 26</div>
+    <h1>연속파 도플러<span class="sub">Continuous Wave Doppler</span></h1>
+    <p class="lede">가장 단순한 도플러입니다 — <strong>쉬지 않고 쏘고, 쉬지 않고 듣습니다.</strong>
+      15장의 "쏘고 입 다물고 듣기"를 <strong>정면으로 어깁니다.</strong> 그 대가로 얻는 것과
+      잃는 것이 이 장의 전부입니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>쉬지 않으려면 소자가 둘<span class="sub">Two elements, always on</span></h2></div>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 두 소자, 겹치는 곳을 다 듣는다</span><span id="cstat">—</span></div>
+    <canvas id="c1" height="400"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="ov">겹침 영역 크기 · <span class="num" id="ovv">중간</span></label>
+          <input type="range" id="ov" min="0" max="2" value="1" step="1"></div>
+        <div class="ctrl"><label for="vh">깊은 혈관 속도 · <span class="num" id="vhv">0.4</span> m/s</label>
+          <input type="range" id="vh" min="0" max="1.2" value="0.4" step="0.1"></div>
+        <div class="ctrl"><label for="vl">얕은 혈관 속도 · <span class="num" id="vlv">0.8</span> m/s</label>
+          <input type="range" id="vl" min="0" max="1.2" value="0.8" step="0.1"></div>
+        <div class="ctrl" style="flex:0 0 128px"><label>&nbsp;</label><button class="go" id="p1">재생</button></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">최대 측정 속도</span><span class="v" style="color:var(--signal-deep);font-size:16px">무제한</span><span class="u"></span></div>
+        <div class="ro"><span class="k">깊이 분해능</span><span class="v" style="color:var(--pos);font-size:16px">없음</span><span class="u"></span></div>
+        <div class="ro"><span class="k">스펙트럼</span><span class="v" id="spec" style="font-size:14px">—</span></div>
+      </div>
+      <p class="cap">위 소자는 <b>계속 송신</b>(빨강), 아래 소자는 <b>계속 수신</b>(청록). 둘의 빔이
+        <b style="color:var(--amber-deep)">겹치는 영역</b> 안의 <b>모든</b> 혈류가 동시에 잡힙니다.<br>
+        두 혈관 속도를 다르게 해 보세요 — 스펙트럼에 <b>두 봉우리가 겹쳐</b> 나타납니다.
+        어느 것이 <b>어느 깊이</b>인지 CW 는 <b>구별하지 못합니다.</b> 대신 아무리 빨라도 <b>접히지 않습니다.</b></p>
+    </div>
+  </div>
+  <p>펄스-에코는 <strong>한 소자</strong>가 번갈아 쏘고 들었습니다. CW 는 동시에 해야 하므로
+    <strong>송신용·수신용 소자를 따로</strong> 둡니다. 그래서 CW 탐촉자는 21장의 송수신 전환이
+    필요 없습니다 — 애초에 전선이 갈라져 있으니까요. 10장의 설계 논리도 여기서 갈립니다:
+    <strong>순수 CW 프로브는 대역폭이 필요 없어</strong> 후면재를 가볍게 하고
+    <strong>감도(공진)를 극대화</strong>합니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>얻은 것: 속도 무제한<span class="sub">No Nyquist limit</span></h2></div>
+  <p>CW 는 신호를 <strong>연속으로</strong> 봅니다 — 표본 사이 간격이 없습니다. 27장에서 볼
+    <strong>나이퀴스트 한계가 없다</strong>는 뜻입니다. 심장 판막을 지나는 <span class="num">5 m/s</span>
+    제트도, 협착 후 고속류도 <strong>접힘 없이</strong> 그대로 잽니다. 고속 혈류 측정에서는
+    CW 가 여전히 최선입니다.</p>
+  <div class="key"><div class="kh">CW 가 듣는 소리 — 06장이 다시</div>
+    <p>겹침 영역 안 <strong>수많은 적혈구</strong>가 저마다 조금씩 다른 속도로 움직입니다(혈관 중심은 빠르고
+      벽 근처는 느린 포물선 분포). 그 모든 v cosθ 가 <strong>동시에</strong> 편이를 만들어
+      스펙트럼은 <strong>봉우리가 아니라 띠</strong>가 됩니다 — 이것이 도플러 <strong>스펙트럼</strong>입니다.
+      혈류의 속도 <strong>분포</strong>를 통째로 듣는 셈입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>잃은 것: 거리<span class="sub">No range</span></h2></div>
+  <p>15장의 핵심은 <strong>돌아온 시각이 곧 깊이</strong>였습니다. 그런데 CW 는 <strong>언제 쐈는지</strong>가
+    없습니다 — 계속 쏘니까요. 시각 기준점이 없으니 <strong>깊이를 알 수 없습니다.</strong>
+    겹침 영역 어디서 온 편이든 <strong>구별 없이 합쳐집니다.</strong></p>
+  <p>이것이 다음 장의 동기입니다. <strong>깊이를 되찾으려면 다시 펄스로 쏘아야 합니다</strong> —
+    그러면 15장의 PRF 세계로 돌아가고, <strong>나이퀴스트 한계</strong>가 따라옵니다.
+    CW 가 버린 거리와, PW 가 치를 대가는 <strong>같은 동전의 양면</strong>입니다. <span class="en">→ 27장</span></p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>연속 송신 + 연속 수신</b> · 15장의 펄스-에코를 정면으로 어긴다</li>
+      <li><b>소자가 둘</b> · 송신용·수신용 분리 → T/R 스위치(21장) 불필요</li>
+      <li><b>CW 프로브는 대역 불필요</b> · 후면재 가볍게 = 감도 우선 (10장)</li>
+      <li><b>얻은 것: 속도 무제한</b> · 나이퀴스트 없음 → 고속 제트(5 m/s)도 접힘 없이</li>
+      <li><b>잃은 것: 거리</b> · 송신 시각 기준 없음 → 겹침 영역 전체가 뭉뚱그려짐</li>
+      <li><b>스펙트럼 = 속도 분포</b> · 수많은 적혈구의 v cosθ 가 만드는 띠 (06장)</li>
+      <li><b>거리 되찾기 = 펄스 = 나이퀴스트</b> · CW의 손실과 PW의 대가는 동전의 양면 → 27장</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 26 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="27-pw-doppler.html">다음 · 펄스파 도플러 Pulsed Wave Doppler →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/26.js"></script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>기계적 지수 · Mechanical Index — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Safety · 30 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Safety · 30</div>
+    <h1>기계적 지수<span class="sub">Mechanical Index</span></h1>
+    <p class="lede"><strong>이 음압이 공동화를 일으킬 만큼 센가</strong>를 한 숫자로 답하는 것이 MI입니다.
+      <strong>MI = P<sub>r</sub> / √f</strong> — 왜 하필 <strong>음압</strong>이고 왜 <strong>√f</strong>로 나누는지,
+      공동화의 물리가 그대로 공식이 됩니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>왜 음압인가<span class="sub">Rarefactional pressure</span></h2></div>
+  <p>MI가 보는 것은 <strong>최대 음압</strong>, 즉 파동이 조직을 가장 세게 <strong>잡아당기는</strong> 순간의 압력입니다.
+    기포는 <strong>눌릴 때가 아니라 당겨질 때 커지기</strong> 때문입니다.</p>
+  <div class="eq"><span>MI =</span><span class="frac"><span>P<sub>r</sub></span><span>√f<sub>c</sub></span></span>
+    <span style="margin-left:22px;font-family:var(--mono);font-size:.7em;color:var(--muted)">P<sub>r</sub> [MPa] · f<sub>c</sub> [MHz]</span></div>
+  <div class="eqcap">P<sub>r</sub> = 최대 희박(음)압 · MI는 <strong>단위 없는 지수</strong>지만 관례상 √(MPa/MHz)로 계산</div>
+  <p>양압(압축)이 아무리 커도 기포를 <strong>터뜨리지는</strong> 못합니다. 기포를 부풀리는 것은 <strong>음압</strong>이고,
+    부푼 기포가 다음 압축 반주기에 <strong>격렬히 되붕괴</strong>하는 것이 <span class="t">관성 공동화</span>
+    <span class="en">inertial cavitation</span>의 핵심입니다(→32장).</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>왜 √f로 나누나<span class="sub">The frequency term</span></h2></div>
+  <p>같은 음압이라도 <strong>주파수가 높으면 덜 위험합니다.</strong> 음압이 당기는 시간이 짧아,
+    기포가 <strong>위험한 크기까지 자랄 틈이 없기</strong> 때문입니다. 반주기가 지나면 곧바로 압축으로 뒤집혀 버립니다.</p>
+  <div class="key"><div class="kh">MI = 0.7 — 관성 공동화의 이론 임계값</div>
+    <p>Apfel과 Holland는 물과 혈액 속 <strong>최적 크기 기포</strong>가 한 사이클 펄스에서 관성 붕괴를 시작하는
+      음압을 계산했고, 그 값이 <span class="num">P<sub>r</sub> ≈ 0.7·√f</span> 였습니다. <strong>이것이 MI의 물리적 근원</strong>입니다.
+      MI가 <strong>바로 이 임계값 대비 몇 배인가</strong>를 나타내도록 √f로 나눈 것이죠.</p></div>
+  <p>정리하면 공동화 위험은 <strong>음압 P<sub>r</sub>이 클수록, 주파수 f가 작을수록</strong> 큽니다.
+    MI는 이 <strong>두 요인을 한 숫자</strong>에 담습니다. 다만 실제 발생은 매질의 <strong>점성·온도·용존기체·핵의 유무</strong>에도
+    크게 좌우됩니다(→32장).</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>표시 MI는 조직 속 값<span class="sub">Derating</span></h2></div>
+  <p>화면의 MI는 <strong>탐촉자 표면</strong>이 아니라 <strong>조직 속(in situ)</strong>에서 예상되는 값입니다.
+    표면에서 잰 음압을 <strong>0.3 dB/cm/MHz</strong>로 깎아(<span class="t">감쇠 보정</span> <span class="en">derating</span>) 계산합니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · MI는 대개 초점에서 최대 · 감쇠 vs 집속</span><span id="dstat">—</span></div>
+    <canvas id="c2" height="300"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="f2">주파수 · <span class="num" id="f2v">5.0</span> MHz</label>
+          <input type="range" id="f2" min="2" max="10" value="5" step="0.5"></div>
+        <div class="ctrl"><label for="fd">초점 깊이 · <span class="num" id="fdv">4.0</span> cm</label>
+          <input type="range" id="fd" min="2" max="12" value="4" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">초점 감쇠</span><span class="v" id="ratt">—</span><span class="u">dB</span></div>
+        <div class="ro"><span class="k">MI 최대 깊이</span><span class="v" id="rpk" style="color:var(--amber-deep)">—</span><span class="u">cm</span></div>
+        <div class="ro"><span class="k">표면 대비 최대</span><span class="v" id="rgain" style="color:var(--pos)">—</span><span class="u">배</span></div>
+      </div>
+      <p class="cap"><b>집속 이득</b>은 음압을 초점에서 끌어올리고(13장), <b>감쇠</b>는 깊이 갈수록 깎습니다.
+        MI가 최대인 곳은 <b style="color:var(--amber-deep)">둘의 줄다리기</b>로 정해집니다 —
+        <b>초점을 깊게</b> 잡을수록 감쇠가 집속 이득을 갉아먹습니다.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>한계와 조영제<span class="sub">Limits and contrast</span></h2></div>
+  <p>FDA는 진단 초음파의 <strong>MI를 1.9 이하</strong>로 권고합니다(안과는 <span class="num">0.23</span>). 정상 조직에는 공동화의
+    <strong>씨앗(핵)이 거의 없어</strong> 이 범위에서 기계적 손상은 드뭅니다.</p>
+  <div class="key warn"><div class="kh">조영제를 쓰면 이야기가 완전히 달라진다</div>
+    <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 기포는 언제 터지는가</span>
+      <span><button id="play" class="tg" style="width:auto;padding:5px 12px">재생</button></span></div>
+    <canvas id="c1" height="330"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="pr">최대 음압 P<sub>r</sub> · <span class="num" id="prv">1.50</span> MPa</label>
+          <input type="range" id="pr" min="0.2" max="4" value="1.5" step="0.05"></div>
+        <div class="ctrl"><label for="fr">주파수 · <span class="num" id="frv">3.0</span> MHz</label>
+          <input type="range" id="fr" min="1" max="10" value="3" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">MI = P<sub>r</sub>/√f</span><span class="v" id="mi" style="font-size:26px">—</span></div>
+        <div class="ro"><span class="k">판정</span><span class="v" id="verdict" style="font-size:14px">—</span></div>
+        <div class="ro"><span class="k">공동화 임계</span><span class="v" style="color:var(--amber-deep)">0.7</span></div>
+        <div class="ro"><span class="k">FDA 한계</span><span class="v" style="color:var(--pos)">1.9</span></div>
+      </div>
+      <p class="cap"><b>음압을 올리거나 주파수를 낮추면</b> MI가 커집니다. <b style="color:var(--amber-deep)">0.7</b>을 넘으면
+        기포가 <b>잔잔한 진동</b>에서 <b style="color:var(--pos)">격렬한 붕괴</b>로 바뀝니다(관성 공동화).<br>
+        같은 음압이어도 <b>주파수가 높으면</b> MI가 작아집니다 — 이유는 위 02에 있습니다.</p>
+    </div>
+  </div>
+  <p>초음파 조영제는 <strong>미세기포 그 자체</strong>라, 공동화의 핵을 <strong>혈관 안에 잔뜩 뿌리는</strong> 셈입니다.
+      임계값이 급락해서, <span class="num">MI &gt; 0.7</span>이면 조영 기포가 <strong>붕괴</strong>하기 시작합니다.
+      그래서 조영 검사에서는 <strong>MI를 0.3 미만</strong>으로 유지하는 것이 권장됩니다(→32·33장).</p></div>
+  <p>MI는 <strong>기계(비열)적</strong> 위험만 봅니다. 조직이 <strong>데워지는</strong> 문제는 전혀 다른 지수 — <strong>열 지수 TI</strong>가
+    맡습니다. 다음 장입니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>MI = P<sub>r</sub>/√f</b> · <b>음압</b>(희박)이 기포를 키운다 — 압축이 아니라</li>
+      <li><b>√f로 나누는 이유</b> · 고주파는 위상이 빨리 뒤집혀 기포 성장 시간이 부족</li>
+      <li><b>임계 MI ≈ 0.7</b> · 관성 공동화의 이론 임계값 (Apfel–Holland)</li>
+      <li><b>표시 MI는 in situ 값</b> · 0.3 dB/cm/MHz 감쇠 보정</li>
+      <li><b>대개 초점에서 최대</b>(13장) · 깊으면 감쇠가 집속 이득을 상쇄</li>
+      <li><b>FDA MI ≤ 1.9</b> · 조영제 사용 시 <b>MI &lt; 0.3</b> (기포 붕괴 방지)</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 30 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="31-thermal-index.html">다음 · 열 지수 Thermal Index →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/30.js"></script>
+</body>
+</html>

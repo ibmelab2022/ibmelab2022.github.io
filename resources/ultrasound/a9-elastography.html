@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>음향방사력과 전단파 탄성영상 · ARFI and SWE — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>부록 · Advanced Ultrasound Techniques · A9 / 10</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">부록 · Advanced Ultrasound Techniques · A9</div>
+    <h1>Acoustic Radiation Force and Shear Wave Elastography<span class="sub">음향방사력과 전단파 탄성영상</span></h1>
+    <p class="lede">01장은 <strong>"연부조직에는 종파만 있다"</strong>고 했습니다. <strong>맞습니다 — 우리가 보내는 파는요.</strong>
+      그런데 <strong>조직을 밀면</strong> 전단파가 생깁니다. 그리고 그 속도가 <strong>B 모드가 평생 못 본 대비</strong>를 줍니다.</p>
+  </div>
+</header>
+
+<div class="wrap" style="padding-top:24px">
+  <h3 style="margin-top:0">먼저 — 미는 힘은 어디서 오나</h3>
+  <p>31장에서 <strong>흡수가 열을 만든다</strong>고 했습니다(<span class="num">q = 2αI</span>).
+    <strong>같은 흡수가 힘도 만듭니다.</strong> 파동이 흡수되면 <strong>운동량을 조직에 넘기니까요.</strong></p>
+  <div class="eq"><span>q = 2αI</span><span style="margin-left:22px;color:var(--muted);font-size:.7em">(발열 · 31장)</span>
+    <span style="margin-left:30px">F =</span><span class="frac"><span>2αI</span><span>c</span></span>
+    <span style="margin-left:14px;color:var(--muted);font-size:.7em">(방사력 · A9)</span></div>
+  <div class="eqcap"><strong>F = q / c</strong> — 같은 <span class="num">2αI</span> 가 <strong>열도 만들고 미는 힘도 만듭니다</strong></div>
+  <ul>
+    <li><b>밀기</b> <span class="en">ARFI push</span> · 초점에 <strong>수백 µs</strong> 동안 세게 쏩니다.
+      조직이 <strong>수 µm</strong> 밀립니다 — 종파 방향으로요.</li>
+    <li><b>퍼지기</b> · 밀린 자리에서 <strong>전단파</strong>가 <strong>옆으로</strong> 퍼집니다.
+      속도는 <span class="num">c<sub>s</sub> = √(µ/ρ)</span> — <strong>02장의 c = √(K/ρ) 와 완전히 같은 꼴</strong>입니다.</li>
+    <li><b>보기</b> · 전단파는 <strong>수 m/s</strong>로 <strong>순식간에</strong> 지나갑니다.
+      <strong>수천 fps</strong> 로 찍어야 잡히죠 — <strong>평면파(A1) 없이는 불가능</strong>합니다.</li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 밀고 · 퍼지고 · 초고속으로 본다</span>
+      <span><button id="play" class="tg" style="width:auto;padding:5px 12px">재생</button></span></div>
+    <canvas id="c1" height="400"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="ee">조직 탄성 E · <span class="num" id="eev">5</span> kPa</label>
+          <input type="range" id="ee" min="2" max="100" value="5" step="1"></div>
+        <div class="ctrl"><label for="fps">추적 프레임률 · <span class="num" id="fpsv">2000</span> fps</label>
+          <input type="range" id="fps" min="50" max="10000" value="2000" step="50"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">전단탄성률 µ</span><span class="v" id="rmu">—</span><span class="u">kPa</span></div>
+        <div class="ro"><span class="k">전단파 속도</span><span class="v" id="rcs" style="color:var(--pos)">—</span><span class="u">m/s</span></div>
+        <div class="ro"><span class="k">2cm 통과</span><span class="v" id="rtt" style="color:var(--amber-deep)">—</span><span class="u">ms</span></div>
+        <div class="ro"><span class="k">그동안 프레임</span><span class="v" id="rnf" style="color:var(--signal-deep)">—</span><span class="u">장</span></div>
+        <div class="ro"><span class="k">추적</span><span class="v" id="rok" style="font-size:13px">—</span></div>
+      </div>
+      <p class="cap">가운데 <b style="color:var(--neg)">푸시 빔</b>이 조직을 밀면 <b style="color:var(--pos)">전단파</b>가 좌우로 퍼집니다.
+        점은 <b>추적 프레임</b>입니다.<br>
+        <b>프레임률을 60까지 내려보세요</b> — 파가 지나가는 동안 <b>한 장도 못 찍습니다.</b>
+        <b>탄성을 올리면</b> 파가 <b>빨라져</b> 더 높은 프레임률이 필요합니다. 이게 <b>평면파(A1)가 전제인 이유</b>입니다.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 밀기 → Mach 원뿔 → 추적 → 도달시각 → 탄성 지도</span>
+      <span><button id="step3" class="tg" style="width:auto;padding:5px 12px">다음 단계</button>
+            <button id="play3" class="tg" style="width:auto;padding:5px 12px">재생</button></span></div>
+    <canvas id="c3" height="456"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="e3">조직 탄성 E · <span class="num" id="e3v">20</span> kPa</label>
+          <input type="range" id="e3" min="2" max="100" value="20" step="1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">단계</span><span class="v" id="r3step" style="font-size:14px;color:var(--signal-deep)">—</span></div>
+        <div class="ro"><span class="k">전단파 c<sub>s</sub></span><span class="v" id="r3cs" style="color:var(--pos)">—</span><span class="u">m/s</span></div>
+        <div class="ro"><span class="k">전단탄성률 µ</span><span class="v" id="r3mu" style="color:var(--signal-deep)">—</span><span class="u">kPa</span></div>
+        <div class="ro"><span class="k">이 단계</span><span class="v" id="r3what" style="font-size:13px;color:var(--amber-deep)">—</span></div>
+      </div>
+      <p class="cap"><b>버튼으로 다섯 단계를 넘겨보세요.</b> ① 초점에 <b style="color:var(--neg)">방사력</b>으로 밀고 →
+        ② 초점을 전단파보다 빠르게 내려 <b>준평면 전단파(Mach 원뿔)</b>를 만들고 →
+        ③ <b>평면파로 수천 fps</b> 추적해 화소마다 변위 시간신호를 얻고 →
+        ④ 이웃 화소 신호를 <b style="color:var(--pos)">상관</b>시켜 도달 시각차 Δt 로 <b>c<sub>s</sub> = Δx/Δt</b> 를 재고 →
+        ⑤ <b style="color:var(--signal-deep)">µ = ρc<sub>s</sub>²</b> 로 탄성 지도를 만듭니다.<br>
+        <b>E 를 올려보세요</b> — 전단파가 빨라져 x-t 줄무늬가 <b>더 눕고</b>(기울기↓), Mach 원뿔이 <b>넓어지며</b>,
+        탄성 지도의 내포물이 <b>더 세게(빨갛게)</b> 나타납니다.</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>같은 꼴, 다른 탄성률<span class="sub">Where the contrast comes from</span></h2></div>
+  <p>02장의 <span class="num">c = √(K/ρ)</span> 와 전단파의 <span class="num">c<sub>s</sub> = √(µ/ρ)</span> 는
+    <strong>글자 하나만 다릅니다.</strong> 그런데 그 하나가 전부를 바꿉니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · K 는 다 물이라 같고, µ 만 다르다</span><span id="mstat">—</span></div>
+    <canvas id="c2" height="340"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="e2">조직 탄성 E · <span class="num" id="e2v">5</span> kPa</label>
+          <input type="range" id="e2" min="2" max="100" value="5" step="1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">종파 c</span><span class="v" id="rcl" style="color:var(--neg)">—</span><span class="u">m/s</span></div>
+        <div class="ro"><span class="k">전단파 c<sub>s</sub></span><span class="v" id="rcs2" style="color:var(--pos)">—</span><span class="u">m/s</span></div>
+        <div class="ro"><span class="k">속도비</span><span class="v" id="rrat" style="color:var(--amber-deep)">—</span><span class="u">: 1</span></div>
+        <div class="ro"><span class="k">정상 간 대비</span><span class="v" id="rctr" style="color:var(--signal-deep)">—</span><span class="u">배</span></div>
+      </div>
+      <p class="cap"><b>E 를 2 에서 100 kPa 까지</b> 밀어보세요 (정상 간 → 유방암).
+        <b style="color:var(--neg)">종파 속도는 꿈쩍도 안 합니다</b> — K 가 조직마다 <b>4%</b>밖에 안 다르니까요.
+        <b style="color:var(--pos)">전단파 속도는 4.5배</b> 뜁니다.<br>
+        <b>조직의 K 는 전부 "물"</b>입니다. 그래서 종파 속도가 다 1540 근처고, <b>B 모드 대비가 원래 약합니다.</b>
+        <b>µ 만 조직마다 20배 다릅니다</b> — 그게 탄성영상 대비의 근원입니다.</p>
+    </div>
+  </div>
+  <div class="tw"><table class="props">
+    <thead><tr><th>조직</th><th>E [kPa]</th><th>µ = E/3 [kPa]</th><th>c<sub>s</sub> [m/s]</th></tr></thead>
+    <tbody>
+      <tr><td class="m">정상 간</td><td class="n">5</td><td class="n">1.67</td><td class="n">1.25</td></tr>
+      <tr><td class="m">F2 섬유화</td><td class="n">8</td><td class="n">2.67</td><td class="n">1.59</td></tr>
+      <tr class="hi"><td class="m">F4 경변<span>cirrhosis</span></td><td class="n">20</td><td class="n">6.67</td><td class="n"><b>2.51</b></td></tr>
+      <tr><td class="m">악성 종양</td><td class="n">60</td><td class="n">20.0</td><td class="n">4.34</td></tr>
+      <tr><td class="m">유방암</td><td class="n">100</td><td class="n">33.3</td><td class="n">5.61</td></tr>
+    </tbody>
+  </table></div>
+  <div class="eqcap">비압축성 가정 <strong>E ≈ 3µ</strong> · ρ = 1060 · <strong>종파는 전 구간 1536 m/s 근처</strong></div>
+  <div class="key"><div class="kh">종파 : 전단파 = 1,225 : 1</div>
+    <p>같은 조직에서 <strong>세 자릿수</strong> 차이입니다. 그래서 전단파는 <strong>수 cm 만에</strong> 다 지나가고,
+      <strong>파장도 수 mm</strong> 라 초음파로 <strong>추적</strong>이 가능합니다.
+      전단파를 <strong>보내는</strong> 게 아니라 <strong>만들어서 종파로 훔쳐보는</strong> 것 —
+      이게 Sarvazyan 등의 발상입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>미는 힘의 대가 — 열<span class="sub">The push is also heat</span></h2></div>
+  <p><span class="num">F = q/c</span> 이므로 <strong>미는 만큼 데웁니다.</strong> 피할 수 없습니다 — <strong>같은 흡수</strong>니까요.</p>
+  <div class="tw"><table class="props">
+    <thead><tr><th>모드</th><th>I [W/cm²]</th><th>발열 q = 2αI</th><th>방사력 F = 2αI/c</th></tr></thead>
+    <tbody>
+      <tr><td class="m">일반 B 모드</td><td class="n">1</td><td class="n">0.58 MW/m³</td><td class="n">0.37 kN/m³</td></tr>
+      <tr class="hi"><td class="m">ARFI 푸시</td><td class="n"><b>1,000</b></td><td class="n"><b>576 MW/m³</b></td><td class="n"><b>374 kN/m³</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="eqcap">5 MHz · 연부조직 α = 28.8 Np/m — <strong>천 배 세게 밀면 천 배 데웁니다</strong></div>
+  <div class="key warn"><div class="kh">그래서 ARFI 는 안전 규제의 최전선입니다</div>
+    <p>푸시는 <strong>수백 µs</strong> 짜리 <strong>긴</strong> 펄스입니다 — 듀티비가 확 올라가니
+      <span class="num">I_SPTA</span> 가 뛰고 <strong>TI 가 곧바로 문제</strong>가 됩니다(29·31·33장).
+      그래서 상용 장비는 <strong>푸시 사이에 냉각 시간</strong>을 강제하고, 연속 촬영을 제한합니다.</p>
+    <p style="margin-top:10px">MI 도 마찬가지입니다 — 푸시의 최대 음압이 크면 <strong>공동화</strong> 위험이 붙습니다(30·32장).
+      <strong>부록에서 안전 파트가 되살아나는 유일한 장</strong>이 여기입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>Supersonic — 소닉붐을 만든다<span class="sub">The elastic Cerenkov effect</span></h2></div>
+  <p>푸시 하나로 만든 전단파는 <strong>동심원으로 퍼져 금방 약해집니다.</strong> Bercoff 등의 수는 영리합니다 —
+    <strong>푸시 초점을 깊이 방향으로 연달아 내리되, 전단파보다 빠르게</strong> 내립니다.</p>
+  <div class="key"><div class="kh">전단파의 소닉붐</div>
+    <p>푸시 초점이 <span class="num">10 m/s</span> 로 내려가고 전단파가 <span class="num">1.25 m/s</span> 면
+      <strong>Mach 8</strong> — 초음속 비행기의 충격파처럼 <strong>Mach 원뿔</strong>이 생깁니다
+      (반각 <span class="num">7.2°</span>). 이 원뿔이 <strong>거의 평면인 전단파</strong>를 만들어
+      <strong>신호가 세지고 추적이 쉬워집니다.</strong></p>
+    <p style="margin-top:10px">추가 하드웨어는 <strong>하나도 없습니다</strong> — <strong>송신 초점을 여러 깊이로 연달아 쏘는 것</strong>뿐이죠.
+      13·14장의 집속·조향이 <strong>전단파를 빚는 도구</strong>가 된 셈입니다. Bercoff 등은 이걸
+      <strong>탄성 체렌코프 효과</strong>라고 불렀습니다.</p></div>
+  <p>그리고 <strong>추적은 평면파</strong>로 합니다(A1). 밀고 → 초고속으로 훑고 → 화소마다 <strong>파의 도달 시각</strong>을 재서
+    <strong>기울기(= 속도)</strong>를 구하면 <span class="num">c<sub>s</sub></span> 지도가, 곧
+    <span class="num">µ = ρc<sub>s</sub>²</span> 로 <strong>탄성 지도</strong>가 나옵니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>지나온 물리를 되짚으면<span class="sub">The thread, once more</span></h2></div>
+  <ul>
+    <li><b>A1 평면파</b> · 전단파 추적에 <strong>수천 fps</strong> — 없으면 아예 성립 안 함</li>
+    <li><b>01·02장</b> · "종파만 있다"를 깨고, <span class="num">c = √(K/ρ)</span> 의 <strong>쌍둥이</strong>를 찾음</li>
+    <li><b>29·31·33장</b> · <span class="num">F = q/c</span> — <strong>미는 만큼 데운다</strong> · TI·MI 가 곧바로 한계</li>
+    <li><b>13·14장</b> · 집속·조향이 <strong>전단파를 빚는 도구</strong>가 됨 (Mach 원뿔)</li>
+    <li><b>A8</b> · 전단파 속도도 <strong>장비 무관한 숫자</strong> — 같은 정신</li>
+  </ul>
+  <div class="key"><div class="kh">한 권을 관통하는 것</div>
+    <p>이 자료가 <strong>연결고리</strong>를 고집한 이유가 여기서 드러납니다. <strong>흡수</strong> 하나가
+      7장에서는 <strong>감쇠</strong>였고, 31장에서는 <strong>열</strong>이었고, 여기서는 <strong>힘</strong>입니다.
+      <span class="num">c = √(탄성률/ρ)</span> 하나가 02장에서는 <strong>1540 m/s</strong> 였고,
+      여기서는 <strong>1.25 m/s</strong> 입니다.</p>
+    <p style="margin-top:10px"><strong>새 기법은 새 물리가 아닙니다.</strong> 앞에서 배운 물리를
+      <strong>다른 각도로 다시 본 것</strong>입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>보내는 건 종파, 만드는 건 전단파</b> · 01장의 "종파만 있다" 를 깸</li>
+      <li><b>F = 2αI/c = q/c</b> · 31장의 발열과 <b>같은 2αI</b> — 같은 흡수가 열도 힘도 만듦</li>
+      <li><b>c<sub>s</sub> = √(µ/ρ)</b> · 02장 <b>c = √(K/ρ)</b> 와 <b>완전히 같은 꼴</b> · E ≈ 3µ</li>
+      <li><b>K 는 조직간 4%, µ 는 20배</b> · 조직의 K 는 다 "물" 이라서 → <b>B모드 대비가 약한 이유</b></li>
+      <li><b>전단파 대비 4.5배</b> · 정상 간 1.25 → 경변 2.51 → 유방암 5.61 m/s</li>
+      <li><b>종파 : 전단파 = 1,225 : 1</b> · 같은 매질에서 세 자릿수 — 그래서 종파로 전단파를 훔쳐볼 수 있음</li>
+      <li><b>ARFI 푸시 1,000 W/cm²</b> → q 576 MW/m³ · F 374 kN/m³ — <b>미는 만큼 데움</b> → TI·MI 한계 (29·31·33장)</li>
+      <li><b>Supersonic = Mach 원뿔</b> · 푸시 10 m/s ÷ c<sub>s</sub> 1.25 = <b>Mach 8</b> · 반각 7.2° → 거의 평면인 전단파</li>
+      <li><b>하드웨어 추가 0</b> · 송신 초점을 연달아 내리는 것뿐 (13·14장)</li>
+      <li><b>추적은 평면파</b>(A1) · 경변이면 <b>1,300 fps</b>, 종양이면 <b>2,800 fps</b> 필요</li>
+      <li><b>µ = ρc<sub>s</sub>²</b> · 도달 시각의 기울기 → 속도 → 탄성 지도</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 <b>부록 A9 / 10</b><br>
+    IBME Lab 교육용 원본 자료</p>
+  <div class="refs">
+    <div class="rh">주요 참고문헌 · References</div>
+    <p>A. P. Sarvazyan, O. V. Rudenko, S. D. Swanson, J. B. Fowlkes, S. Y. Emelianov, "Shear wave elasticity imaging: a new ultrasonic technology of medical diagnostics," <i>Ultrasound Med. Biol.</i>, vol. 24, no. 9, pp. 1419–1435, 1998.</p>
+    <p>J. Bercoff, M. Tanter, M. Fink, "Supersonic shear imaging: a new technique for soft tissue elasticity mapping," <i>IEEE Trans. Ultrason. Ferroelectr. Freq. Control</i>, vol. 51, no. 4, pp. 396–409, 2004.</p>
+    <p>G. Montaldo, M. Tanter, J. Bercoff, N. Benech, M. Fink, "Coherent plane-wave compounding for very high frame rate ultrasonography and transient elastography," <i>IEEE Trans. Ultrason. Ferroelectr. Freq. Control</i>, vol. 56, no. 3, pp. 489–506, 2009.</p>
+    <p>P. Song, H. Zhao, A. Manduca, M. W. Urban, J. F. Greenleaf, S. Chen, "Comb-push ultrasound shear elastography (CUSE): a novel method for two-dimensional shear elasticity imaging of soft tissues," <i>IEEE Trans. Med. Imaging</i>, vol. 31, no. 9, pp. 1821–1832, 2012.</p>
+    <p class="also">함께 보면 좋은 것: Nightingale, McAleavey, Trahey, <i>Ultrasound Med. Biol.</i> 29, 1715 (2003) — ARFI 로 전단파 생성 ·
+    Bercoff, Tanter, Fink, <i>Appl. Phys. Lett.</i> 84, 2202 (2004) — 탄성 체렌코프 효과</p>
+  </div>
+  <a class="next" href="a10-hfus.html">다음 · 고주파 단일소자 High-Frequency Single-Element →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/a9.js"></script>
+</body>
+</html>

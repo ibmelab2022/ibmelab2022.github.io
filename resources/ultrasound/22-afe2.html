@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>아날로그 프런트엔드 Ⅱ · ADC — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Signal and Circuit · 22 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Signal and Circuit · 22</div>
+    <h1>아날로그 프런트엔드 Ⅱ<span class="sub">Analog-to-Digital Converter</span></h1>
+    <p class="lede">LNA·VCA·PGA·필터를 지난 신호는 이제 <strong>ADC</strong>에서 숫자가 됩니다 — 이 지점이
+      <strong>아날로그와 디지털의 경계</strong>입니다(19장 지도의 노란 점선). 두 가지를 정해야 합니다:
+      <strong>시간을 얼마나 자주 찍나</strong>(표본화)와 <strong>세기를 몇 단계로 나누나</strong>(양자화).</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>표본화 — 얼마나 자주 찍나<span class="sub">Sampling &amp; Nyquist</span></h2></div>
+  <p>연속 신호를 <strong>일정 간격으로 찍어</strong> 숫자열로 바꿉니다. 얼마나 자주? <span class="t">나이퀴스트</span>
+    <span class="en">Nyquist</span>: <strong>가장 높은 주파수의 2배 이상</strong>(fs ≥ 2·f<sub>max</sub>)이어야 합니다. 덜 찍으면
+    높은 주파수가 <strong>엉뚱한 낮은 주파수로 접혀</strong> 들어옵니다 — <span class="t">에일리어싱</span> <span class="en">aliasing</span>.
+    그래서 앞장 필터로 대역 위를 미리 잘랐죠. 에코 대역 상단이 <span class="num">~8 MHz</span>면 fs ≥ 16 MHz — 실무는
+    <span class="num">40~65 MHz</span>로 넉넉히 찍습니다.</p>
+</div></section>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 덜 찍으면 접힌다 — 나이퀴스트</span><span id="sstat">—</span></div>
+    <canvas id="c1" height="340"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="sf">신호 주파수 · <span class="num" id="sfv">5.0</span> MHz</label>
+          <input type="range" id="sf" min="1" max="12" value="5" step="0.5"></div>
+        <div class="ctrl"><label for="fs">표본화 fs · <span class="num" id="fsv">40</span> MHz</label>
+          <input type="range" id="fs" min="6" max="50" value="40" step="1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">나이퀴스트 fs/2</span><span class="v" id="rny">—</span><span class="u">MHz</span></div>
+        <div class="ro"><span class="k">겉보기 주파수</span><span class="v" id="rfa" style="color:var(--pos)">—</span><span class="u">MHz</span></div>
+      </div>
+      <p class="cap">연한 회색 = 원신호, <b style="color:var(--pos)">굵은 선</b> = 표본을 지나는 <b>복원 파형</b>, 점 = 표본.
+        <b>fs 를 신호의 2배 아래로 낮추면</b>(fs &lt; 2f) 복원 파형이 원신호보다 <b>훨씬 느린 엉뚱한 사인</b>이 됩니다 —
+        이게 에일리어싱입니다. 그래서 표본화 전에 <b>대역 위 잡음을 필터로 잘라야</b> 합니다(21장 안티앨리어싱).</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>양자화 — 몇 단계로 나누나<span class="sub">Quantization &amp; bit depth</span></h2></div>
+  <p>찍은 세기를 <strong>정해진 준위 중 하나로 반올림</strong>합니다. <span class="num">N</span>비트면
+    <span class="num">2<sup>N</sup></span>준위. 반올림 오차가 <span class="t">양자화 잡음</span>이고, 담을 수 있는
+    <span class="t">동적범위</span>는 <strong>≈ 6.02·N + 1.76 dB</strong>입니다. TGC 를 거친 신호가 대략
+    <span class="num">80 dB</span> 범위이니, 이를 담으려면 <strong>12~14비트</strong>(74~86 dB)가 필요합니다 —
+    비트가 모자라면 약한 에코가 <strong>계단 잡음에 묻힙니다</strong>.</p>
+</div></section>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 비트가 적으면 계단이 거칠어진다</span><span></span></div>
+    <canvas id="c2" height="320"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="nb">비트 수 N · <span class="num" id="nbv">4</span> bit</label>
+          <input type="range" id="nb" min="2" max="10" value="4" step="1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">준위 수 2ᴺ</span><span class="v" id="rlev" style="color:var(--signal-deep)">—</span><span class="u">단계</span></div>
+        <div class="ro"><span class="k">동적범위</span><span class="v" id="rdr" style="color:var(--amber-deep)">—</span><span class="u">dB</span></div>
+      </div>
+      <p class="cap">연한 회색 = 아날로그, <b style="color:var(--signal-deep)">청록 계단</b> = 양자화 결과, <b style="color:var(--pos)">빨강 채움</b> = 오차(양자화 잡음).
+        <b>비트를 늘리면</b> 준위가 촘촘해져 계단이 매끄러워지고 동적범위가 <b>6 dB/비트</b>씩 넓어집니다.
+        너무 적으면 약한 신호가 계단에 묻히죠. ADC 를 지나면 신호는 <b>숫자</b>가 되어 FPGA 로 — 다음 장부터 디지털 백엔드입니다.</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>ADC = 아날로그↔디지털 경계</b> · 시간(표본화) + 세기(양자화)를 숫자로</li>
+      <li><b>표본화 · 나이퀴스트</b> · fs ≥ 2·f<sub>max</sub> — 덜 찍으면 <b>에일리어싱</b>(높은 주파수가 낮게 접힘)</li>
+      <li><b>그래서 안티앨리어싱 필터</b> · 표본화 전에 대역 위를 미리 자름(21장) · 실무 fs 40~65 MHz</li>
+      <li><b>양자화 · 비트수</b> · N비트 → 2ᴺ준위 · 반올림 오차 = <b>양자화 잡음</b></li>
+      <li><b>동적범위 ≈ 6.02·N + 1.76 dB</b> · 6 dB/비트 — 12비트 74dB, 14비트 86dB</li>
+      <li><b>TGC 후 ~80 dB 를 담으려면 12~14비트</b> · 모자라면 약한 에코가 계단에 묻힘</li>
+      <li><b>이후는 숫자</b> · FPGA 가 받아 DAS·검파·영상 (23·24장)</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 22 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="23-detection.html">다음 · 검파와 압축 Detection &amp; Compression →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/22.js"></script>
+</body>
+</html>

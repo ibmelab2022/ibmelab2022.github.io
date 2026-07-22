@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>평면파 영상과 결맞음 합성 · Plane Wave Imaging — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>부록 · Advanced Ultrasound Techniques · A1 / 10</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">부록 · Advanced Ultrasound Techniques · A1</div>
+    <h1>Plane Wave Imaging and Coherent Compounding<span class="sub">평면파 영상과 결맞음 합성</span></h1>
+    <p class="lede">15·16장은 <strong>"한 번에 한 줄"</strong>을 전제했습니다. 그런데 그 줄 수가 곧
+      <strong>프레임률의 나눗셈</strong>입니다. 평면파는 <strong>송신 집속을 통째로 버려</strong> 128배를 얻고, 화질을 잃습니다.
+      그리고 <strong>각도로 되찾습니다</strong> — 되찾는 만큼 프레임률을 반납하면서.</p>
+  </div>
+</header>
+
+<div class="wrap" style="padding-top:24px">
+  <h3 style="margin-top:0">먼저 — 평면파 영상이 무엇인가</h3>
+  <p>12·13·14장에서 배운 것 하나로 전부 설명됩니다. <strong>소자마다 언제 쏘느냐(송신 지연)가 파면의 모양을 정합니다.</strong></p>
+  <ul>
+    <li><b>집속</b> · 지연을 <strong>곡선</strong>으로 주면(가장자리 먼저, 가운데 나중) 파면이 <strong>오목</strong>해져 한 점으로 모입니다.
+      대신 <strong>그 줄 하나만</strong> 조명됩니다 — 그래서 128번 쏴야 합니다.</li>
+    <li><b>평면파</b> <span class="en">plane wave</span> · 지연을 <strong>전부 0</strong>으로 놓으면 파면이 <strong>평평</strong>합니다.
+      집속은 사라지지만 <strong>시야 전체</strong>가 한 방에 조명되죠 — <strong>송신 한 번 = 프레임 한 장</strong>.</li>
+    <li><b>조향</b> <span class="en">steering</span> · 지연을 <strong>직선 램프</strong>로 주면 평면파가 기울어집니다(14장) —
+      이 각도가 화질을 되찾는 열쇠입니다.</li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 지연이 파면을 정한다</span>
+      <span><button id="mode" class="tg" style="width:auto;padding:5px 12px">집속</button>
+            <button id="play" class="tg" style="width:auto;padding:5px 12px">재생</button></span></div>
+    <canvas id="c1" height="400"></canvas>
+    <div class="pbody">
+      <div class="readout">
+        <div class="ro"><span class="k">지연 범위</span><span class="v" id="rdel" style="color:var(--amber-deep)">—</span><span class="u">µs</span></div>
+        <div class="ro"><span class="k">한 번에 조명</span><span class="v" id="rill" style="color:var(--signal-deep)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">프레임당 송신</span><span class="v" id="rtx1" style="color:var(--pos)">—</span><span class="u">회</span></div>
+        <div class="ro"><span class="k">파면 모양</span><span class="v" id="rsh" style="font-size:14px">—</span></div>
+      </div>
+      <p class="cap">위는 <b style="color:var(--amber-deep)">소자별 발사 시각</b>(막대), 아래는 그것이 만드는 <b>파면</b>입니다 —
+        얇은 원은 소자마다의 <span class="en">Huygens</span> 잔물결이고, <b>굵은 선이 그 포락선</b>입니다.<br>
+        <b>버튼으로 집속 → 평면파 → 조향을 돌려보세요.</b> 막대가 <b>곡선 → 평평 → 램프</b>로 바뀌고,
+        파면이 <b>오목 → 수평 → 기울어짐</b>으로 따라옵니다. <b style="color:var(--signal-deep)">청록 영역이 조명되는 곳</b>입니다.</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>버리는 것과 남는 것<span class="sub">What you throw away</span></h2></div>
+  <p>집속은 <strong>송신과 수신 양쪽</strong>이 하는 일입니다. 평면파는 <strong>송신 쪽을 통째로 포기</strong>합니다.
+    남는 건 수신뿐인데, <strong>수신은 공짜</strong>입니다 — 이미 돌아온 신호라 소프트웨어로 <strong>모든 픽셀에</strong>
+    지연-합 <span class="en">delay-and-sum, DAS</span> 을 다시 걸 수 있습니다(13장).</p>
+  <p>거래는 이렇습니다 — <strong>송신 집속을 내주고 프레임률 128배를 받습니다.</strong>
+    그 대가와 되사는 법이 이 장의 나머지입니다.</p>
+  <div class="key"><div class="kh">위 패널에서 이미 보이는 숫자</div>
+    <p>집속은 초점에서 <span class="num">0.74 mm</span> 만, 평면파는 개구 전체 <span class="num">20 mm</span> 를
+      조명합니다 — <strong>27배</strong>. 이게 <strong>128번 쏴야 했던 이유</strong>입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>음속이 병목이다<span class="sub">Speed of sound is the bottleneck</span></h2></div>
+  <p>깊이 <span class="num">z</span> 까지 갔다 오는 데 <span class="num">2z/c</span> 가 걸립니다. 다음 줄은 그 에코가
+    <strong>다 돌아온 뒤에야</strong> 쏠 수 있습니다(15장 <span class="t">PRF</span> 한계). 라인 하나에 송신 하나이므로:</p>
+  <div class="eq"><span>프레임률 =</span><span class="frac"><span>c</span><span>2 z · N<sub>line</sub></span></span></div>
+  <div class="eqcap">z = 영상 깊이 · N<sub>line</sub> = 스캔 라인 수 · <strong>장비 성능이 아니라 음속이 정합니다</strong></div>
+  <p>깊이 5 cm 면 왕복 <span class="num">64.9 µs</span> — 초당 <strong>15,400회</strong>가 물리적 상한입니다.
+    128 라인으로 나누면 <strong>120 fps</strong>. 심장이든 전단파든 이보다 빠른 건 볼 수 없습니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 같은 시간에 몇 프레임을 만드나</span>
+      <span><button id="play2" class="tg" style="width:auto;padding:5px 12px">재생</button></span></div>
+    <canvas id="c2" height="360"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="dp">영상 깊이 · <span class="num" id="dpv">5.0</span> cm</label>
+          <input type="range" id="dp" min="2" max="15" value="5" step="0.5"></div>
+        <div class="ctrl"><label for="na">평면파 각도 수 · <span class="num" id="nav">3</span></label>
+          <input type="range" id="na" min="1" max="41" value="3" step="2"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">왕복 시간</span><span class="v" id="rprt">—</span><span class="u">µs</span></div>
+        <div class="ro"><span class="k">최대 송신</span><span class="v" id="rtx">—</span><span class="u">회/s</span></div>
+        <div class="ro"><span class="k">128라인 B-mode</span><span class="v" id="rline" style="color:var(--neg)">—</span><span class="u">fps</span></div>
+        <div class="ro"><span class="k">평면파 합성</span><span class="v" id="rpw" style="color:var(--signal-deep)">—</span><span class="u">fps</span></div>
+        <div class="ro"><span class="k">배율</span><span class="v" id="rgain" style="color:var(--amber-deep)">—</span><span class="u">배</span></div>
+      </div>
+      <p class="cap">두 방식이 <b>똑같은 속도로 송신</b>합니다 — 음속이 정한 한계라 아무도 못 어깁니다.
+        차이는 <b>한 프레임에 송신을 몇 번 쓰느냐</b>뿐입니다.<br>
+        <b>각도 수를 1로 내려보세요</b> — 오른쪽이 폭주합니다. <b>41로 올리면</b> 왼쪽에 가까워집니다.
+        아래 <b>카운터와 막대</b>를 보세요.<br><span style="color:var(--muted)">(그림은 <b>조향이 보이는 속도</b>로만 돌립니다 — 실제 15,400회/s 는 화면에서 에일리어싱이 납니다. 카운터·막대가 <b>진짜 fps 비</b>를 냅니다.)</span></p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">라인을 줄이면? — 화질과 프레임률의 첫 번째 거래</div>
+    <p>라인 수를 반으로 줄이면 프레임률은 2배지만 <strong>측방향 샘플링이 성겨집니다.</strong>
+      이 거래는 <strong>선형</strong>이라 크게 얻을 게 없습니다. 판을 뒤집으려면
+      <strong>"한 줄에 한 송신"이라는 전제 자체</strong>를 깨야 합니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>각도로 되찾는다<span class="sub">Coherent compounding</span></h2></div>
+  <p><span class="t">결맞음 합성</span> <span class="en">coherent compounding</span> — 각도를 바꿔 가며 N 번 쏘고,
+    각 <span class="en">low-resolution frame</span> 을 <strong>복소수 그대로 더합니다.</strong>
+    <strong>포락선 검출 전에</strong> 더하는 것이 핵심입니다(23·24장) — 위상을 살려야 <span class="en">coherent</span> 입니다.
+    포락선을 먼저 씌워 더하면(<span class="en">incoherent</span>) 스페클만 뭉개지고 집속은 안 됩니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 합성 송신 빔 패턴 · 광대역</span><span id="cstat">—</span></div>
+    <canvas id="c3" height="340"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="n2">각도 수 N · <span class="num" id="n2v">11</span></label>
+          <input type="range" id="n2" min="1" max="41" value="11" step="2"></div>
+        <div class="ctrl"><label for="am">각도 범위 α<sub>max</sub> · ±<span class="num" id="amv">10.0</span>°</label>
+          <input type="range" id="am" min="4" max="20" value="10" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">유효 F#</span><span class="v" id="rfn">—</span></div>
+        <div class="ro"><span class="k">송신 −6dB 폭</span><span class="v" id="rw6" style="color:var(--signal-deep)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">격자엽 위치</span><span class="v" id="rgx" style="color:var(--pos)">—</span><span class="u">mm</span></div>
+        <div class="ro"><span class="k">격자엽 레벨</span><span class="v" id="rgl" style="color:var(--pos)">—</span><span class="u">dB</span></div>
+        <div class="ro"><span class="k">5cm 프레임률</span><span class="v" id="rfps" style="color:var(--amber-deep)">—</span><span class="u">fps</span></div>
+      </div>
+      <p class="cap"><b>N=1 이면 선이 평탄합니다</b> — 송신 집속이 0. <b>각도를 더할수록 주엽이 좁아지며</b>
+        진짜 집속 개구에 수렴합니다.<br>
+        대신 <b style="color:var(--pos)">격자엽</b>이 생깁니다. <b>각도가 성길수록 격자엽이 안쪽으로 들어와</b>
+        영상을 더럽힙니다 — 각도를 늘리면 바깥으로 밀려납니다.</p>
+    </div>
+  </div>
+  <p>같은 깊이의 산란체가 <span class="num">Δx</span> 만큼 옆에 있으면 평면파 <span class="num">α</span> 는
+    <span class="num">k·Δx·sinα</span> 만큼 위상이 어긋난 채 도달합니다. N 각도를 결맞음 합성하면:</p>
+  <div class="eq"><span>H(Δx) =</span><span class="frac"><span>1</span><span>N</span></span>
+    <span>Σ<sub>i</sub> e<sup> j k Δx sin α<sub>i</sub></sup></span></div>
+  <div class="eqcap"><strong>배열 인자</strong> <span class="en">array factor</span> 와 <strong>완전히 같은 꼴</strong> —
+    소자 위치 자리에 <span class="num">sin α<sub>i</sub></span> 가 앉아 있습니다</div>
+  <div class="key"><div class="kh">11·14장의 격자엽이 그대로 돌아옵니다 — 단, 역할이 뒤바뀐 채로</div>
+    <p><strong>11·14장</strong> · <strong>공간</strong>을 성기게 샘플링(소자 간격 p) → <strong>각도</strong>에 격자엽
+      (<span class="num">sin θ<sub>g</sub> = λ/p</span>)<br>
+      <strong>A1</strong> · <strong>각도</strong>를 성기게 샘플링(각도 간격 Δα) → <strong>공간</strong>에 격자엽
+      (<span class="num">Δx<sub>g</sub> = λ/sin Δα</span>)</p>
+    <p style="margin-top:10px">공간과 각도가 <strong>자리를 맞바꿉니다.</strong> <span class="en">Fourier</span> 쌍대이니
+      우연이 아닙니다. 5 MHz·11각도·±10° 면 격자엽이 <span class="num">8.8 mm</span> 옆에 섭니다 — 영상 한복판입니다.</p></div>
+  <div class="key"><div class="kh">그런데 광대역 펄스가 격자엽을 죽입니다</div>
+    <p>단일 주파수(<span class="en">CW</span>)로 계산하면 격자엽이 <strong>0 dB</strong>, 즉 주엽과 같은 크기로 나옵니다.
+      실제로는 격자엽 자리에서 각도별 도달 시간차가 <strong>펄스 길이를 넘어서</strong> 겹치지 못합니다.
+      2사이클 펄스 기준 11각도면 <span class="num">−14 dB</span> 로 주저앉습니다.
+      <strong>Montaldo 등이 11~41 각도로 실용적인 화질을 얻는 이유</strong>입니다. 위 패널은 광대역으로 그렸습니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>거래 조건<span class="sub">The trade</span></h2></div>
+  <div class="tw"><table class="props">
+    <thead><tr><th>각도 수</th><th>프레임률</th><th>송신 −6dB 폭</th><th>격자엽</th></tr></thead>
+    <tbody>
+      <tr><td class="m">1<span>순수 평면파</span></td><td class="n"><b>15,400</b> fps</td><td class="n">평탄 (집속 없음)</td><td class="n">—</td></tr>
+      <tr><td class="m">11</td><td class="n"><b>1,400</b> fps</td><td class="n">0.98 mm</td><td class="n">8.8 mm · −14 dB</td></tr>
+      <tr class="hi"><td class="m">41</td><td class="n"><b>376</b> fps</td><td class="n">1.04 mm</td><td class="n">35 mm (시야 밖)</td></tr>
+      <tr><td class="m">128 라인<span>기존 B-mode</span></td><td class="n">120 fps</td><td class="n">— (진짜 송신 집속)</td><td class="n">—</td></tr>
+    </tbody>
+  </table></div>
+  <div class="eqcap">5 MHz · α<sub>max</sub> = ±10° · 2사이클 펄스 · 깊이 5 cm</div>
+  <div class="key"><div class="kh">41 각도라도 기존 B-mode 보다 3배 빠릅니다</div>
+    <p>화질을 <strong>거의 다</strong> 되찾고도 <span class="num">376 fps</span> — 128라인의 <span class="num">120 fps</span> 보다
+      <strong>3.1배</strong>입니다. 각도만 충분하면 합성 송신이 <strong>진짜 집속 개구와 같은 분해능</strong>에 도달합니다 —
+      유효 <span class="num">F# = 1/(2 sin α<sub>max</sub>)</span> 로 17장의 <span class="num">1.207 λF#</span> 에 수렴하죠.
+      각도 수 하나로 <strong>화질과 프레임률 사이를 연속적으로 이동</strong>할 수 있다는 게 진짜 이득입니다.</p>
+    <p style="margin-top:10px">그리고 이 장이 <strong>부록 전체의 전제</strong>입니다 — 전단파 추적(<span class="en">A9</span>)도
+      <span class="en">SVD</span>·미세기포 추적(<span class="en">A6·A7</span>)도 <strong>수천 fps 가 있어야</strong> 성립합니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>지연이 파면을 정한다</b> · 곡선 → 오목 · <b>0 → 평평</b> · 램프 → 기울어짐</li>
+      <li><b>집속은 0.74mm 만 조명</b> → 128번 · <b>평면파는 20mm 전체</b> → 한 번 (27배)</li>
+      <li><b>음속이 병목</b> · 프레임률 = c/(2z·N<sub>line</sub>) · 5cm·128라인 = <b>120 fps</b></li>
+      <li><b>평면파 1 송신 = 1 프레임</b> → <b>15,400 fps (128배)</b> · 수신은 공짜(소프트웨어 DAS)</li>
+      <li><b>대가: 송신 집속이 0</b> · 빔포밍이 <b>수신에만</b> 갇힘 → 대비·측방향 붕괴</li>
+      <li><b>결맞음 합성</b> · 각도별 프레임을 <b>포락선 검출 전에 복소수로</b> 더함</li>
+      <li><b>H(Δx) = (1/N) Σ e<sup>jkΔx sinα</sup></b> · <b>배열 인자와 같은 꼴</b> — 소자 위치 자리에 sin α</li>
+      <li><b>격자엽이 쌍대로 돌아옴</b> · 소자 간격 → <b>각도</b>에 (11·14장) / 각도 간격 → <b>공간</b>에 (Δx = λ/sinΔα)</li>
+      <li><b>광대역이 격자엽을 죽인다</b> · CW 0dB → 2사이클·11각도면 <b>−14dB</b></li>
+      <li><b>N 각도 → 프레임률 1/N</b> · 41각도도 <b>376 fps</b> = 128라인의 3.1배 · 유효 F# = 1/(2 sin α<sub>max</sub>)</li>
+      <li><b>A1 이 A6·A7·A9 의 전제</b> · 수천 fps 없이는 SVD·ULM·전단파 추적 불가</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 <b>부록 A1 / 10</b><br>
+    IBME Lab 교육용 원본 자료</p>
+  <div class="refs">
+    <div class="rh">주요 참고문헌 · References</div>
+    <p>G. Montaldo, M. Tanter, J. Bercoff, N. Benech, M. Fink, "Coherent plane-wave compounding for very high frame rate ultrasonography and transient elastography," <i>IEEE Trans. Ultrason. Ferroelectr. Freq. Control</i>, vol. 56, no. 3, pp. 489–506, 2009.</p>
+    <p>M. Tanter, M. Fink, "Ultrafast imaging in biomedical ultrasound," <i>IEEE Trans. Ultrason. Ferroelectr. Freq. Control</i>, vol. 61, no. 1, pp. 102–119, 2014.</p>
+  </div>
+  <a class="next" href="a2-synthetic.html">다음 · 합성 개구 영상 Synthetic Aperture Imaging →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/a1.js"></script>
+</body>
+</html>

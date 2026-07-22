@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>펄스파 도플러 · Pulsed Wave Doppler — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Flow Detection · 27 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Flow Detection · 27</div>
+    <h1>펄스파 도플러<span class="sub">Pulsed Wave Doppler</span></h1>
+    <p class="lede">CW 는 거리를 몰랐습니다. 펄스로 끊어 쏘면 <strong>깊이를 고를 수</strong> 있습니다 —
+      원하는 곳에 <strong>게이트</strong>를 놓고 그곳만 듣죠. 대신 대가가 있습니다:
+      <strong>15장의 PRF 한계가, 이번엔 속도의 한계로 돌아옵니다.</strong></p>
+  </div>
+</header>
+
+<div class="wrap" style="padding-top:4px">
+  <div class="panel" style="margin-top:0">
+    <div class="plabel"><span><b>인터랙티브</b> · 게이트 깊이와 최대 속도는 한 밧줄에 묶여 있다</span><span id="pstat">—</span></div>
+    <canvas id="c1" height="420"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="pr">PRF · <span class="num" id="prv">8.0</span> kHz</label>
+          <input type="range" id="pr" min="2" max="20" value="8" step="0.5"></div>
+        <div class="ctrl"><label for="vf">수축기 피크 속도 · <span class="num" id="vfv">0.40</span> m/s</label>
+          <input type="range" id="vf" min="0.1" max="1.5" value="0.4" step="0.05"></div>
+        <div class="ctrl"><label for="f0">주파수 f₀ · <span class="num" id="f0v">5.0</span> MHz</label>
+          <input type="range" id="f0" min="2" max="8" value="5" step="0.5"></div>
+        <div class="ctrl" style="flex:0 0 128px"><label>&nbsp;</label><button class="go" id="p1">재생</button></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">게이트 최대 깊이</span><span class="v" id="dmv" style="color:var(--amber-deep)">—</span><span class="u">cm</span></div>
+        <div class="ro"><span class="k">최대 측정 속도</span><span class="v" id="vmv" style="color:var(--signal-deep)">—</span><span class="u">cm/s</span></div>
+        <div class="ro"><span class="k">도플러 편이</span><span class="v" id="fdv">—</span><span class="u">Hz</span></div>
+        <div class="ro"><span class="k">판정</span><span class="v" id="alv" style="font-size:15px">—</span></div>
+      </div>
+      <p class="cap">위 = 깊이 축(가로) — 혈관이 빔과 <b>45°</b>로 지나가고, 그 위에 게이트(노란 창)와
+        <b style="color:var(--amber-deep)">│ 게이트 최대 깊이</b>가 있습니다 (15장과 같은 눈금).
+        혈류는 <b>맥동</b>합니다 — 수축기에 확 빨라졌다 이완기에 잦아듭니다.<br>
+        아래 = 그 결과인 <b>스펙트로그램</b>: 가로 시간, 세로 편이.
+        <b style="color:var(--signal)">±나이퀴스트(PRF/2)</b>를 넘는 순간 봉우리 꼭대기가
+        <b style="color:var(--pos)">반대편으로 접힙니다</b> — 임상에서 보는 그 모양입니다.<br>
+        <b>피크 속도를 올려보세요</b> — 이완기는 멀쩡한데 <b>수축기 꼭대기만</b> 잘려 넘어갑니다.
+        <b>PRF 를 올리면</b> 접힘이 풀리지만 <b style="color:var(--amber-deep)">게이트 최대 깊이가 얕아집니다.</b></p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>거리 게이트<span class="sub">Range gating</span></h2></div>
+  <p>펄스를 쏘고 <strong>정해진 시간만큼 기다린 뒤</strong> 아주 짧은 순간만 표본을 땁니다.
+    15장의 거리식 <span class="num">D = cT/2</span> 그대로 — <strong>기다린 시간이 곧 깊이</strong>입니다.
+    그 창을 <span class="t">샘플 볼륨</span> <span class="en">sample volume</span>이라 하고, 검사자가
+    화면에서 원하는 혈관에 갖다 놓습니다. CW 가 못 하던 <strong>"어느 깊이냐"</strong>를 PW 가 답합니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>한 점을 여러 번 엿본다<span class="sub">Sampling the phase, pulse by pulse</span></h2></div>
+  <p>편이는 <strong>한 펄스로는 못 잽니다</strong> — 주파수는 시간에 걸쳐 정의되니까요. 그래서 같은 게이트를
+    <strong>펄스마다 반복해 표본</strong>하고, 표본들 사이의 <strong>위상 변화</strong>를 모아 편이를 복원합니다
+    (25장의 "위상의 변화율"). 표본 주기가 곧 <span class="num">1/PRF</span> 입니다 —
+    <strong>도플러 신호를 PRF 로 샘플링</strong>하는 셈입니다. 여기서 나이퀴스트가 들어옵니다.</p>
+  <div class="key"><div class="kh">이것이 왜 문제가 되는가</div>
+    <p>어떤 신호든 <strong>초당 PRF 번</strong>만 표본하면, 그 신호에 <span class="num">PRF/2</span> 보다 빠른 성분이 있을 때
+      <strong>가짜 저주파로 둔갑</strong>합니다 — 마차 바퀴가 거꾸로 도는 착시와 같습니다.
+      도플러 편이가 <span class="num">PRF/2</span> 를 넘으면 <strong>속도의 부호가 뒤집혀</strong> 보입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>같은 밧줄 — 깊이와 속도<span class="sub">Depth × velocity is fixed</span></h2></div>
+  <p>15장에서 <span class="num">PRF ≤ c/2D</span> 였습니다(먼 에코를 다 받고 쏴야 하니까). 그리고 방금
+    <span class="num">f_d ≤ PRF/2</span> 를 얻었습니다(접히지 않으려면). 둘을 <strong>곱하면</strong> —</p>
+  <div class="eq"><span>v_max · D_max =</span><span class="frac"><span>c²</span><span>8 f₀</span></span></div>
+  <div class="eqcap">깊이를 키우면 속도 한계가 <strong>정확히 그만큼</strong> 낮아집니다 · f₀ 를 낮추면 둘 다 넓어짐 (대신 분해능↓)</div>
+  <p>이것이 PW 도플러의 <strong>근본 한계</strong>입니다. 깊은 혈관의 빠른 제트(대동맥 협착 등)는
+    PW 로 못 잡습니다 — 접혀버리니까요. <strong>그때 CW 로 돌아갑니다</strong>: 거리를 포기하는 대신
+    속도 한계가 없죠. 26장과 27장이 <strong>서로의 약점을 정확히 메웁니다.</strong></p>
+  <div class="key"><div class="kh">앨리어싱을 늦추는 법 — 그리고 한계</div>
+    <p>PRF 를 올리거나(깊이 희생), f₀ 를 낮추거나(분해능 희생), 기준선을 옮기거나(음·양 범위 재배분).
+      전부 <strong>맞교환</strong>입니다. 근본적으로 못 늘리는 건 <span class="num">v·D</span> 곱이고,
+      그 벽에 부딪히면 <strong>CW 뿐</strong>입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>스펙트로그램 읽기<span class="sub">Reading the spectrogram</span></h2></div>
+  <p>PW 의 출력은 <strong>시간축 스펙트럼</strong>입니다 — 가로 시간, 세로 편이(속도), 밝기가 그 속도의 세기.
+    한 심장 주기 동안 봉우리가 오르내리는 게 맥동혈류죠. 봉우리 아래가 비어 있으면
+    <span class="t">스펙트럼 창</span> <span class="en">spectral window</span> — 층류의 표시이고,
+    창이 채워지면 난류입니다. 협착 뒤 제트가 나이퀴스트를 넘으면 봉우리 꼭대기가
+    <strong>화면 아래에서 다시 나타납니다</strong> — 접힌 자국.</p>
+  <div class="key"><div class="kh">듀플렉스 — B모드와 번갈아</div>
+    <p>실제 장비는 회색조 영상(B모드)과 PW 를 <strong>번갈아</strong> 수행합니다(듀플렉스). 영상으로 게이트 위치를 잡고,
+      도플러로 속도를 재는 거죠. 완전 동시는 아니고 <strong>시간을 쪼개</strong> 씁니다 —
+      이 "시분할" 부담이 28장 컬러에서 <strong>프레임률 문제</strong>로 커집니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>거리 게이트</b> · 기다린 시간 = 깊이 (15장 D=cT/2) → CW 가 못 하던 깊이 선택</li>
+      <li><b>도플러를 PRF 로 샘플링</b> · 펄스 간 위상차로 편이 복원 (25장)</li>
+      <li><b>나이퀴스트</b> · f_d &gt; PRF/2 면 앨리어싱 — 속도 부호가 뒤집힘</li>
+      <li><b>v_max · D_max = c²/8f₀</b> · 깊이와 속도는 한 밧줄 (15장의 재등장)</li>
+      <li><b>벽에 부딪히면 CW</b> · 깊고 빠른 제트는 거리 포기하고 CW 로 (26↔27 상보)</li>
+      <li><b>출력은 스펙트로그램</b> · 시간×속도×세기 · 창이 비면 층류, 접히면 나이퀴스트 초과</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 27 / 33<br>IBME Lab 교육용 원본 자료 · 수치 참고: Szabo, <i>Diagnostic Ultrasound Imaging</i></p>
+  <a class="next" href="28-color-flow.html">다음 · 컬러 혈류 영상 Color Flow Imaging →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/27.js"></script>
+</body>
+</html>

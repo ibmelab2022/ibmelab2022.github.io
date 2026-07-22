@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>검파와 압축 · Detection & Compression — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Back-End Processing · 23 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Back-End Processing · 23</div>
+    <h1>검파와 압축<span class="sub">Detection &amp; Log Compression</span></h1>
+    <p class="lede">ADC 가 넘긴 숫자를 FPGA 가 받습니다. 채널을 합쳐 주사선을 만드는 <strong>DAS 빔포밍</strong>(12·13장)이
+      첫 디지털 작업이고, 그 결과는 아직 <strong>반송파가 실린 RF</strong>입니다. 여기서 <strong>포락선만 벗겨내고</strong>(검파),
+      <strong>100 dB 를 화면이 낼 수 있는 계조로 눌러야</strong>(압축) 비로소 영상이 됩니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>먼저 DAS — 채널을 주사선으로<span class="sub">Beamforming, the first digital op</span></h2></div>
+  <p>ADC 는 <strong>소자 채널마다</strong> 숫자열을 내놓습니다. 이것들에 <strong>깊이별 지연을 주고 더하면</strong>
+    한 방향의 <span class="t">주사선</span> 하나가 됩니다 — <span class="t">지연-합</span> <span class="en">delay-and-sum</span>,
+    수신 빔포밍(12·13장). 아날로그에서 못 하고 <strong>디지털에서 하는 이유</strong>가 이것입니다: 깊이마다 지연을 바꾸는
+    <strong>동적 집속</strong>은 숫자라야 가능하니까요.</p>
+  <p><strong>어디에 DAS 를 거나?</strong> 예전에는 <strong>RF 표본에 직접</strong> 지연-합을 했는데, 반송파 때문에
+    <strong>표본보다 훨씬 미세한 지연</strong>이 필요해 고배율 보간이 들었습니다. <strong>요즘 장비는</strong> 흔히
+    <strong>먼저 IQ 로 내리고(다음 절) decimation 한 뒤 그 IQ 에 DAS 를 겁니다</strong> — 기저대역에선 지연이
+    <strong>정수-표본 이동(거친) + 위상회전 e<sup>−j2πf₀τ</sup>(미세)</strong>로 갈라져, <strong>RF 보간 없이 정밀</strong>하면서
+    <strong>데이터율은 ~10배 낮습니다</strong>. 순서가 검파보다 앞서기도, 뒤서기도 하는 셈이죠. 이 장은 그렇게 얻은
+    <strong>주사선 하나</strong>를 영상 밝기로 바꾸는 단계입니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>검파 — 반송파를 벗긴다<span class="sub">Envelope detection</span></h2></div>
+  <p>빔포밍 결과는 <span class="num">~5 MHz</span> 반송파가 진동하는 <span class="t">RF</span> 신호입니다(스펙트럼은 <strong>±f₀</strong> 양쪽 대칭).
+    화면에 필요한 건 <strong>진폭(포락선)</strong>뿐이라 반송파를 벗깁니다. 해석신호를 만드는 길이 둘입니다.<br>
+    <span class="t">IQ 복조</span> <span class="en">quadrature demodulation</span> = <strong>하향혼합 → LPF → decimation</strong>.
+    RF 에 <strong>e<sup>−j2πf₀t</sup></strong>(=cos·sin)를 곱하면 스펙트럼이 <strong>f₀ 만큼 내려가</strong> 신호 대역이 <strong>0 Hz</strong>로,
+    엉뚱한 상(像)은 <strong>−2f₀</strong>로 갑니다. <strong>LPF 가 −2f₀ 상을 지우면</strong> 기저대역 복소신호 <strong>I + jQ</strong>만 남죠
+    (포락선 = √(I²+Q²)). 이제 <strong>대역이 좁으니 표본을 훨씬 성기게</strong> 다시 뽑아도 됩니다 — <span class="t">decimation</span>,
+    <strong>데이터율 ~10배 감소</strong>. 이 IQ 는 <strong>도플러(위상)와 DAS</strong>에도 그대로 쓰입니다. 대신 <strong>f₀ 를 알아야</strong> 합니다.<br>
+    <span class="t">힐베르트 변환</span> <span class="en">Hilbert transform</span> — <strong>90° 위상천이</strong>로 짝 x_H 를 만들어 x + j·x_H 를 구성하면,
+    스펙트럼에서 <strong>음의 주파수(−f₀)만 지워지고</strong> <strong>+f₀ 는 그대로</strong> 남습니다(한쪽 스펙트럼 = <span class="en">analytic signal</span>).
+    <strong>f₀ 를 몰라도</strong> 되고 <strong>반송파가 유지</strong>돼(통과대역) decimation 은 그 자체로는 안 합니다.
+    <strong>결과 포락선은 둘이 같습니다</strong> — 무엇이 편한가의 선택입니다.</p>
+</div></section>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · IQ vs Hilbert — 시간 파형 + 주파수 스펙트럼</span><span id="dstat">—</span></div>
+    <canvas id="c1" height="328"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:0 0 150px"><label>검파 방식 전환</label><button class="tg" id="meth">Hilbert 보기</button></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">지금 방식</span><span class="v" id="mname" style="color:var(--signal-deep)">—</span><span class="u"></span></div>
+      </div>
+      <p class="cap"><b>위 = 시간 파형</b>, <b>아래 = 주파수 스펙트럼</b>. <b>IQ</b>면 하향혼합이 신호를 <b>0 Hz(기저대역)</b>로 내리고(−2f₀ 상은 LPF 가 제거),
+        대역이 좁아져 <b>decimation(성긴 표본)</b> 가능 — I·Q 는 반송파 없는 저주파. <b>Hilbert</b>면 <b>−f₀ 만 지우고 +f₀ 는 유지</b>(한쪽 스펙트럼),
+        x·x_H 에 반송파가 남습니다. <b>포락선(앰버)은 둘이 똑같죠.</b></p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>로그 압축 — 100 dB 를 계조로<span class="sub">Log compression</span></h2></div>
+  <p>검파된 에코의 세기는 <strong>강한 경계와 약한 조직 사이에 100 dB</strong>(10만 배)나 됩니다. 화면은
+    <strong>256 계조</strong>뿐이라 그대로는 못 담습니다. 그래서 <strong>로그로 눌러</strong>(gray ∝ log 진폭)
+    넓은 범위를 계조에 매핑합니다 — 로그라야 <strong>약한 것과 강한 것을 동시에</strong> 보여줄 수 있습니다.
+    표시할 <span class="t">동적범위</span> 창을 <strong>좁히면 대비가 오르고</strong>(약한 에코 잘림),
+    <strong>넓히면 미세 계조가 다 보이지만 흐릿</strong>해집니다 — 장비의 <span class="en">dynamic range</span> 손잡이입니다.</p>
+</div></section>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 동적범위 창에 따른 B-모드 영상</span><span id="cstat">—</span></div>
+    <canvas id="c2" height="350"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="dr">표시 동적범위 · <span class="num" id="drv">60</span> dB</label>
+          <input type="range" id="dr" min="30" max="90" value="60" step="5"></div>
+      </div>
+      <p class="cap">왼쪽 = 실제 B-모드 영상(경계·조직·저에코 병변·낭종·심부), 오른쪽 = 압축 곡선과 각 구조의 회색.
+        창을 <b>좁히면</b>(예: 40 dB) <b>병변·낭종이 검게 잘려</b> 경계가 또렷해지고, <b>넓히면</b>(예: 80 dB) 미세 계조까지
+        보이지만 <b>전체가 회색으로 흐릿</b>해집니다 — 같은 데이터, 다른 <span class="en">dynamic range</span> 손잡이입니다.</p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>DAS</b> · 채널에 지연-합 → 주사선 하나(12·13장) · 요즘은 <b>decimated IQ 에 DAS</b>(정수표본+위상회전 e<sup>−j2πf₀τ</sup>)</li>
+      <li><b>빔포밍 결과 = RF</b> · 스펙트럼 ±f₀ 대칭 — 화면엔 진폭(포락선)만 필요</li>
+      <li><b>IQ 복조 = 하향혼합+LPF+decimation</b> · ×e<sup>−j2πf₀t</sup> → 0 Hz · LPF 가 −2f₀ 제거 · 대역 좁아 ↓fs(~10배)</li>
+      <li><b>Hilbert = 해석신호</b> · −f₀ 만 제거, +f₀(반송파) 유지 = 한쪽 스펙트럼 · f₀ 불필요 · decimation 은 안 함</li>
+      <li><b>같은 포락선, 다른 편의</b> · IQ=저데이터율·도플러 친화 / Hilbert=f₀ 불필요·구현 단순</li>
+      <li><b>100 dB → 256 계조</b> · 로그 압축(gray ∝ log 진폭)이라야 약·강 동시 표시</li>
+      <li><b>동적범위 창</b> · 좁히면 대비↑(약한 에코 잘림), 넓히면 계조↑(흐릿)</li>
+      <li><b>주사선 하나 완성</b> · 다음은 이 선들을 모아 영상으로 (24장 주사 변환)</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 23 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="24-scan-postproc.html">다음 · 주사 변환과 후처리 Scan Conversion &amp; Post →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/23.js"></script>
+</body>
+</html>

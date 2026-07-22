@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>압전 효과 · Piezoelectric Effect — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Transducer · 09 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Ultrasound Transducer · 09</div>
+    <h1>압전 효과<span class="sub">Piezoelectric Effect</span></h1>
+    <p class="lede">여기서 <strong>전기가 소리가 되고, 소리가 다시 전기가 됩니다.</strong>
+      앞의 여덟 장이 소리의 물리였다면, 이 장부터는 <strong>그 소리를 만드는 장치</strong> 이야기입니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>양방향으로 작동합니다<span class="sub">Direct and inverse effect</span></h2></div>
+  <ul>
+    <li><span class="t">정효과</span> <span class="en">direct effect</span> · 힘을 주면 <strong>전압이 나옵니다.</strong>
+      → 에코를 받는 <strong>수신</strong>이 이것입니다.</li>
+    <li><span class="t">역효과</span> <span class="en">inverse effect</span> · 전압을 걸면 <strong>변형됩니다.</strong>
+      교류를 걸면 떨면서 <strong>음파를 만듭니다</strong> → <strong>송신</strong>입니다.</li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 압전 효과는 양방향입니다</span><span id="pzstat">재생 중</span></div>
+    <div class="duo">
+      <div class="half">
+        <div class="hlabel"><span>① 역효과 · 송신</span><span class="en">inverse effect</span></div>
+        <canvas id="cA" height="310"></canvas>
+      </div>
+      <div class="half">
+        <div class="hlabel"><span>② 정효과 · 수신</span><span class="en">direct effect</span></div>
+        <canvas id="cB" height="310"></canvas>
+      </div>
+    </div>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:2"><label for="exg">변형 과장 · <span class="num" id="exgv">8</span> px</label>
+          <input type="range" id="exg" min="0" max="12" value="8" step="0.5"></div>
+        <div class="ctrl" style="max-width:140px;min-width:120px"><label for="pzplay">재생</label>
+          <button class="go" id="pzplay">일시정지</button></div>
+      </div>
+      <p class="cap"><b>왼쪽 — 전극에 짧은 교류 버스트를 걸면</b> 판이 두께 방향으로 떨고, 그 떨림이 앞의 매질을 밀어 <b>음파 다발</b>이 되어 나갑니다.<br>
+        <b>오른쪽 — 음파 다발이 도착해 판을 누르면</b> 판이 떨고, 그 떨림이 전극에 <b>전압</b>을 만듭니다.
+        도착하기 전까지 판은 <b>가만히 있습니다.</b><br>
+        <b style="color:var(--signal-deep)">같은 사슬을 반대로 읽은 것뿐입니다.</b>
+        연속파가 아니라 <b>짧은 버스트</b>인 이유는, 영상 초음파가 실제로 하는 일이
+        <b>짧게 쏘고 조용히 듣는 것</b>이기 때문입니다. <span class="en">→ Pulse-echo Method</span><br>
+        <b>변형 과장을 0으로</b> 내리면 아무 일도 안 일어납니다 — 실제 변형은 <b>나노미터</b> 수준이라 크게 부풀린 그림입니다.</p>
+    </div>
+  </div>
+  <p>같은 소자 하나가 <strong>스피커와 마이크를 동시에</strong> 합니다. 초음파 탐촉자가 송수신을 겸할 수 있는 이유이고,
+    <strong>펄스-에코 방식이 성립하는 전제</strong>입니다 — 쏜 놈이 그대로 듣습니다.</p>
+  <div class="key"><div class="kh">왜 전압이 생기는가</div>
+    <p>압전 재료는 <strong>양전하 중심과 음전하 중심이 어긋날 수 있는</strong> 결정 구조를 갖고 있습니다.
+      평소엔 두 중심이 겹쳐 있다가, 특정 방향으로 <strong>눌리면 어긋나면서</strong> 한쪽 면에 +, 반대편에 − 가 쌓입니다.
+      대칭이 조금 깨져 있는 구조여야만 가능한 일입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>도메인과 폴링<span class="sub">Domains and poling</span></h2></div>
+  <p>압전 세라믹 안에는 <span class="t">도메인</span> <span class="en">domain</span>이라는 작은 구역이 무수히 많습니다.
+    크기는 <strong>수 µm ~ 수백 µm</strong>이고, <strong>각자 자기 방향</strong>을 갖고 있습니다.</p>
+  <ul>
+    <li>응력 방향과 <strong>나란한</strong> 도메인 → 양의 전하를 냄</li>
+    <li>응력 방향과 <strong>수직인</strong> 도메인 → 거의 아무것도 안 냄</li>
+    <li>응력 방향과 <strong>반대인</strong> 도메인 → 음의 전하를 냄 (앞의 것을 <strong>깎아먹음</strong>)</li>
+  </ul>
+  <p>갓 구워낸 세라믹은 도메인이 <strong>무작위</strong>라 서로 상쇄됩니다. <strong>덩어리 전체로는 압전성이 없습니다.</strong></p>
+  <div class="panel" >
+    <div class="plabel"><span><b>인터랙티브</b> · 도메인 · 폴링 · 퀴리 온도</span><span id="stat">—</span></div>
+    <canvas id="c1" height="330"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="volt">인가 전압 · <span class="num" id="voltv">0.0</span> × 항전압 Vc</label>
+          <input type="range" id="volt" min="0" max="2" value="0" step="0.05"></div>
+        <div class="ctrl"><label for="temp">온도 · <span class="num" id="tempv">0.3</span> × 퀴리온도 Tc</label>
+          <input type="range" id="temp" min="0" max="1.6" value="0.3" step="0.02"></div>
+        <div class="ctrl" style="max-width:140px;min-width:120px"><label for="rst">초기화</label>
+          <button class="go" id="rst">무작위로</button></div>
+      </div>
+      <p class="cap"><b>① 전압을 천천히 올려보세요.</b> Vc 를 넘기 전까지는 <b>아무 일도 안 일어납니다.</b>
+        넘는 순간 도메인이 줄을 서고 알짜 분극이 살아납니다 — 이것이 <b>폴링</b>입니다.<br>
+        <b>② 그 다음 온도를 Tc 위로 올려보세요.</b> 애써 맞춘 정렬이 한순간에 풀립니다. <b>되돌리려면 다시 폴링해야 합니다.</b></p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">폴링 · poling</div>
+    <p>양면에 <strong>높은 직류 전압</strong>을 <strong>수 초</strong>(대략 1~10초) 걸어 도메인을 강제로 한 방향으로 돌려세웁니다.
+      도메인이 뒤집히기 시작하는 문턱 전압을 <span class="t">항전압</span> <span class="en">coercive voltage</span>이라 하고,
+      재료마다 다릅니다. <strong>순수한 압전 단결정은 도메인이 하나뿐이라 폴링이 필요 없습니다.</strong></p></div>
+  <h3>퀴리 온도 <span class="en">Curie temperature</span></h3>
+  <p>온도가 오르면 도메인의 운동에너지가 커집니다. 어느 온도를 넘으면 <strong>정렬을 유지할 수 없게 되어</strong>
+    원래의 무작위 방향으로 돌아가 버립니다. 그 온도가 <span class="t">퀴리 온도</span>입니다.
+    <strong>넘는 순간 압전성을 잃고, 식힌다고 저절로 돌아오지 않습니다</strong> — 다시 폴링해야 합니다.</p>
+  <div class="key warn"><div class="kh">제작할 때 발목을 잡습니다</div>
+    <p>탐촉자를 조립하려면 <strong>납땜</strong>을 해야 하고, 접착제는 <strong>열경화</strong>가 필요합니다.
+      그런데 그 열이 퀴리 온도를 넘으면 <strong>애써 폴링한 소자가 그 자리에서 죽습니다.</strong>
+      그래서 탐촉자 공정은 <strong>퀴리 온도가 상한선</strong>이 되고, 저온 땜과 저온 경화 접착제를 씁니다.
+      고온에서 쓸 소자일수록 퀴리 온도가 높은 재료를 골라야 합니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>kt — 얼마나 잘 바꾸는가<span class="sub">Thickness-mode coupling coefficient</span></h2></div>
+  <p><span class="t">kt</span>는 <strong>두께 방향</strong> 기계-전기 결합계수입니다. 정의는 간단합니다 —
+    <strong>넣어준 에너지 중 실제로 내보낸 비율</strong>. 압전 재료 성능의 핵심 지표입니다.</p>
+  <div class="key"><div class="kh">압전성이 없다면 그냥 축전기입니다</div>
+    <p>양면에 전극을 붙인 세라믹 판은 <strong>축전기</strong> <span class="en">capacitor</span>입니다.
+      임피던스에 <strong>허수부만 있고 실수부가 없습니다.</strong> 전류와 전압이 항상 <strong>90° 어긋나므로</strong>
+      에너지는 <strong>저장했다 돌려줄 뿐, 밖으로 나가지 않습니다.</strong></p>
+    <p style="margin-top:10px">압전성이 있으면 <strong>공진 주파수에서 임피던스에 실수부가 생깁니다.</strong>
+      실수부가 전기 에너지를 <strong>소비</strong>하고, 그것이 <strong>음향 에너지로 나갑니다.</strong>
+      아래에서 kt 를 0 으로 내려보세요 — 실수부가 사라지고 순수한 축전기로 돌아갑니다.</p></div>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 전기 임피던스 · BVD 등가회로</span><span id="ktstat">—</span></div>
+    <canvas id="c2" height="330"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:2"><label for="kt">결합계수 kt · <span class="num" id="ktv">0.50</span></label>
+          <input type="range" id="kt" min="0" max="0.7" value="0.5" step="0.01"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">kt</span><span class="v" id="ktr">—</span></div>
+        <div class="ro"><span class="k">직렬공진 fs</span><span class="v" id="fsv">5.00</span><span class="u">MHz</span></div>
+        <div class="ro"><span class="k">병렬공진 fp</span><span class="v" id="fpv" style="color:var(--signal-deep)">—</span><span class="u">MHz</span></div>
+        <div class="ro"><span class="k">공진 분리</span><span class="v" id="dfv">—</span><span class="u">MHz</span></div>
+      </div>
+      <p class="cap"><b style="color:var(--muted)">━</b> |Z| 임피던스 크기 &nbsp;·&nbsp;
+        <b style="color:var(--pos)">━</b> Re(Z) 실수부 — <b>이것이 음향으로 나가는 몫</b><br>
+        kt 가 클수록 <b>fs 와 fp 가 벌어지고</b> 실수부 봉우리가 커집니다. 두 공진의 간격이 곧 kt 입니다.</p>
+    </div>
+  </div>
+  <p>측정으로 kt 를 구하는 방법이 여기서 나옵니다. <strong>임피던스 분석기로 fs 와 fp 만 재면</strong> 됩니다:</p>
+  <div class="eq" style="font-size:17px"><span>kt² =</span>
+    <span class="frac"><span>π</span><span>2</span></span><span>·</span>
+    <span class="frac"><span>fs</span><span>fp</span></span><span>· tan(</span>
+    <span class="frac"><span>π</span><span>2</span></span><span>·</span>
+    <span class="frac"><span>fp − fs</span><span>fp</span></span><span>)</span></div>
+  <div class="eqcap">IEEE 표준식 · fs = 직렬공진(임피던스 최소) · fp = 병렬공진(임피던스 최대)</div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>어떤 재료를 쓰는가<span class="sub">Common piezoelectric materials</span></h2></div>
+  <div class="tw"><table class="props">
+    <tr><th>재료</th><th>kt</th><th>임피던스 Z</th><th>잘 맞는 모드</th><th></th></tr>
+    <tr class="hi"><td class="m">세라믹<span>ceramic · PZT</span></td><td class="n"><b>높음</b> ≈0.5</td>
+      <td class="n">≈34 MRayl</td><td class="n"><b>두께 모드</b></td><td>영상용 주력. 폴링 필요</td></tr>
+    <tr><td class="m">단결정<span>crystal</span></td><td class="n">낮음</td>
+      <td class="n">30+ MRayl</td><td class="n">바 모드 <span class="en">bar</span></td><td>도메인 하나 → 폴링 불필요</td></tr>
+    <tr><td class="m">고분자<span>polymer · PVDF</span></td><td class="n">낮음</td>
+      <td class="n">≈4 MRayl</td><td class="n">수신 · 광대역</td><td>Z 가 조직에 가까움</td></tr>
+  </table></div>
+  <div class="key"><div class="kh">04장으로 이어집니다</div>
+    <p>세라믹과 결정은 <strong>Z 가 30 MRayl 을 넘습니다.</strong> 조직은 <span class="num">1.63</span>입니다.
+      그대로 붙이면 <span class="num">R = −0.91</span> — <strong>에너지의 83%가 소자 안으로 되튑니다.</strong>
+      감도는 처참하고 펄스는 길어집니다. 그래서 <span class="t">정합층</span> <span class="en">matching layer</span>이
+      <strong>선택이 아니라 필수</strong>입니다. 두께 λ/4, 임피던스는 기하평균 √(Z₁Z₂) ≈ <span class="num">7.4 MRayl</span>.
+      <span class="en">→ Transducer Construction</span></p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>정효과 = 수신, 역효과 = 송신</b> · 소자 하나가 스피커이자 마이크</li>
+      <li><b>도메인은 무작위</b> → 그대로는 압전성 없음. <b>폴링</b>으로 줄 세운다</li>
+      <li><b>항전압 Vc</b> 를 넘어야 도메인이 뒤집힌다 · 단결정은 폴링 불필요</li>
+      <li><b>퀴리 온도를 넘으면 정렬이 풀린다</b> — 식혀도 안 돌아옴, 다시 폴링해야 함</li>
+      <li><b>kt = 내보낸 에너지 / 저장한 에너지</b> · 압전성이 없으면 그냥 축전기(실수부 0)</li>
+      <li><b>fs 와 fp 만 재면 kt 가 나온다</b> · 두 공진의 간격이 곧 결합의 세기</li>
+      <li><b>세라믹·결정은 Z &gt; 30 MRayl</b> → <b>정합층 필수</b></li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 09 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="10-construction.html">다음 · 탐촉자 구조와 특성 Transducer Construction →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/09.js"></script>
+</body>
+</html>

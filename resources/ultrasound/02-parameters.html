@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>초음파 파라미터 · Ultrasound Parameters — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Basics · 02 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Ultrasound Basics · 02</div>
+    <h1>초음파 파라미터<span class="sub">Ultrasound Parameters</span></h1>
+    <p class="lede">파라미터는 일곱 개지만, <strong>독립적인 것은 몇 개 안 됩니다.</strong>
+      나머지는 전부 그것들로부터 따라 나옵니다. 무엇이 원인이고 무엇이 결과인지 구분하는 것이 이 장의 전부입니다.</p>
+  </div>
+</header>
+
+<!-- ── 01 ── -->
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>주파수 · 속도 · 파장<span class="sub">Frequency, speed, wavelength</span></h2></div>
+  <ul>
+    <li><span class="t">주파수</span> <span class="en">frequency, f</span> · 입자가 1초에 제자리를 오가는 횟수. 단위는 <span class="num">Hz</span>.
+      진단 초음파는 <span class="num">2~15 MHz</span> 대역을 씁니다. <strong>탐촉자가 정합니다.</strong></li>
+    <li><span class="t">전파 속도</span> <span class="en">propagation speed, c</span> · 마루가 1초에 나아가는 거리.
+      매질의 <strong>탄성과 밀도</strong>가 정합니다. <strong>사람이 못 바꿉니다.</strong></li>
+    <li><span class="t">파장</span> <span class="en">wavelength, λ</span> · 이웃한 두 마루 사이의 거리. <strong>위 둘의 결과입니다.</strong></li>
+  </ul>
+  <div class="eq"><span>c = f λ</span><span style="margin-left:26px">c = √(</span><span class="frac"><span>K</span><span>ρ</span></span><span>)</span></div>
+  <div class="eqcap">K = 부피탄성률 bulk modulus · ρ = 밀도 density</div>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · c = f λ · 실제 축척 <span class="en">true scale</span></span>
+      <span id="win">가로 4 mm</span></div>
+    <canvas id="c1" height="270"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="med">매질 · Medium</label><select id="med"></select></div>
+        <div class="ctrl" style="flex:1.6"><label for="frq">주파수 f · <span class="num" id="frqv">5.0</span> MHz</label>
+          <input type="range" id="frq" min="2" max="15" value="5" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">음속 c</span><span class="v" id="cv">—</span><span class="u">m/s</span></div>
+        <div class="ro"><span class="k">주파수 f</span><span class="v" id="fv">—</span><span class="u">MHz</span></div>
+        <div class="ro"><span class="k">파장 λ = c/f</span><span class="v" id="lv" style="color:var(--amber-deep)">—</span><span class="u" id="lu">mm</span></div>
+      </div>
+      <p class="cap"><b>f를 올리면</b> 같은 4 mm 안에 파동이 더 촘촘히 들어갑니다. <b>매질을 바꾸면</b> f는 그대로인데 λ가 변합니다.
+        λ는 <strong>손잡이가 아니라 결과</strong>입니다.</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">Key</div>
+    <p><strong>f는 탐촉자가, c는 매질이 정합니다. 그래서 λ는 결과입니다.</strong> λ를 직접 조절할 방법은 없습니다 —
+      f를 바꾸는 것뿐입니다. λ가 중요한 이유는 <strong>분해능과 산란이 λ를 기준으로 결정되기 때문</strong>입니다.</p></div>
+  <p>c 식에서 밀도 ρ가 <strong>분모</strong>에 있는 점을 보십시오. 무거울수록 느려집니다.
+    그런데 뼈는 밀도가 두 배인데도 <span class="num">4080 m/s</span>로 훨씬 빠릅니다 —
+    <strong>K가 밀도보다 훨씬 크게 늘기 때문</strong>입니다. 밀도만 보고 속도를 짐작하면 틀립니다.</p>
+  <div class="key"><div class="kh">장비는 이렇게 가정합니다</div>
+    <p>초음파 장비는 조직의 c를 알 방법이 없어서 <strong>전부 <span class="num">1540 m/s</span>라고 가정</strong>하고 깊이를 계산합니다.
+      지방(1450)이나 뼈(4080)를 지나면 이 가정이 깨지고, 그것이 <strong>속도 아티팩트</strong>로 나타납니다.</p></div>
+</div></section>
+
+<!-- ── 02 ── -->
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>진폭에서 강도까지<span class="sub">Amplitude → pressure → intensity</span></h2></div>
+  <p>나머지 네 파라미터는 <strong>하나의 사슬</strong>입니다. 앞의 것이 뒤의 것을 만듭니다. 슬라이더를 움직여 보세요.</p>
+
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 파라미터 사슬 · 연부조직 <span class="en">Z = 1.63 MRayl</span></span></div>
+    <div class="pbody">
+      <div class="chain">
+        <div class="node">
+          <span class="nl">진폭 Amplitude</span><span class="nk">ξ₀</span>
+          <span class="nv" id="n1">10.0</span><span class="nu">nm</span>
+        </div>
+        <div class="op hot" id="op1">× 2πf</div>
+        <div class="node">
+          <span class="nl">입자속도 Velocity</span><span class="nk">u₀</span>
+          <span class="nv" id="n2">0.314</span><span class="nu">m/s</span>
+        </div>
+        <div class="op">× Z</div>
+        <div class="node">
+          <span class="nl">음압 Pressure</span><span class="nk">p₀</span>
+          <span class="nv" id="n3">513</span><span class="nu">kPa</span>
+        </div>
+        <div class="op hot" id="op3">p₀² ÷ 2Z</div>
+        <div class="node out">
+          <span class="nl">강도 Intensity</span><span class="nk">I</span>
+          <span class="nv" id="n4">8.06</span><span class="nu" style="color:#8C9BB0">W/cm²</span>
+        </div>
+      </div>
+      <div class="fnote2">
+        f 는 <b>첫 화살표에 딱 한 번</b> 들어갑니다. 그런데 I 는 <b>p₀ 를 제곱</b>하죠.<br>
+        그래서 f 가 두 번 곱해집니다 &nbsp;→&nbsp; <em>I ∝ f² ξ₀²</em><br>
+        <span id="dbl" style="color:#8C9BB0"></span>
+      </div>
+      <div class="ctrls" style="margin-top:16px">
+        <div class="ctrl"><label for="xi">변위 진폭 ξ₀ · <span class="num" id="xiv">10.0</span> nm</label>
+          <input type="range" id="xi" min="1" max="20" value="10" step="0.5"></div>
+        <div class="ctrl"><label for="f2">주파수 f · <span class="num" id="f2v">5.0</span> MHz</label>
+          <input type="range" id="f2" min="1" max="15" value="5" step="0.5"></div>
+      </div>
+    </div>
+  </div>
+
+  <ul>
+    <li><span class="t">진폭</span> <span class="en">amplitude, ξ₀</span> · 입자가 평형에서 벗어나는 최대 거리.</li>
+    <li><span class="t">음압</span> <span class="en">pressure, p</span> · 입자가 모이면 고압(압축), 흩어지면 저압(희박).
+      압력이 입자를 밀고, 입자의 움직임이 다시 압력을 만듭니다.</li>
+    <li><span class="t">파워</span> <span class="en">power, P</span> · 진동하는 입자가 나르는 에너지를 시간으로 나눈 값. 단위 <span class="num">W</span>.</li>
+    <li><span class="t">강도</span> <span class="en">intensity, I</span> · <strong>단위 면적당 파워</strong> <span class="num">I = P / A</span>.
+      같은 파워라도 빔을 좁게 집속하면 강도는 올라갑니다 — <strong>안전 규정이 파워가 아니라 강도를 규제하는 이유</strong>입니다.</li>
+  </ul>
+
+  <div class="key warn"><div class="kh">자료에 자주 나오는 오류</div>
+    <p>"진폭이 같으면 파워는 <strong>주파수의 4제곱</strong>에 비례한다"는 서술을 보게 될 수 있습니다. <strong>틀렸습니다.</strong>
+      위 사슬에서 확인되듯 <span class="num">I = ½ Z (2πf ξ₀)² ∝ f² ξ₀²</span> — <strong>2제곱</strong>입니다.
+      f⁴은 <span class="t">레일리 산란</span> <span class="en">Rayleigh scattering</span>에서 나오는 값으로,
+      파장보다 훨씬 작은 구조에서 <strong>흩어지는</strong> 양에 관한 완전히 다른 이야기입니다.
+      <span class="en">→ Ultrasound Scattering</span></p></div>
+</div></section>
+
+<!-- ── 정리 ── -->
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>c = f λ</b> · f는 탐촉자가, c는 매질이 정한다 → <b>λ는 결과</b></li>
+      <li><b>c = √(K/ρ)</b> · 밀도가 분모 — 뼈가 빠른 건 K가 훨씬 크기 때문</li>
+      <li><b>장비는 c = 1540 m/s로 가정</b>하고 깊이를 계산한다</li>
+      <li><b>ξ₀ → u₀ → p₀ → I</b> 는 하나의 사슬 · u₀ = 2πf ξ₀, p₀ = Z u₀</li>
+      <li><b>I = ½ Z u₀² ∝ f² ξ₀²</b> · 4제곱이 아니라 <b>2제곱</b></li>
+      <li><b>I = P / A</b> · 강도는 단위 면적당 파워 — 집속하면 올라간다</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 02 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="03-medium.html">다음 · 매질의 음향 특성 Medium Acoustic Property →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/02.js"></script>
+</body>
+</html>

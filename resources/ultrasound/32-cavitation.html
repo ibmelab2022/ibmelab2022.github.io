@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>공동화 · Cavitation — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Safety · 32 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Safety · 32</div>
+    <h1>공동화<span class="sub">Acoustic Cavitation</span></h1>
+    <p class="lede">MI가 잡으려던 바로 그 현상입니다(30장). 음압이 조직 속 미세기포를 흔드는데,
+      <strong>약하면 잔잔히 진동하고(안정), 세면 부풀었다 격렬히 붕괴합니다(관성).</strong>
+      붕괴하는 순간 기포 속은 <strong>수천 도</strong>가 됩니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>두 얼굴<span class="sub">Stable vs inertial</span></h2></div>
+  <ul>
+    <li><span class="t">안정 공동화</span> <span class="en">stable · non-inertial</span> · 기포가 평형 크기 주위로
+      <strong>지속적으로 작게 진동</strong>합니다. 주변에 <span class="t">미세흐름</span> <span class="en">microstreaming</span>이 생겨
+      세포막 투과성을 <strong>가역적으로</strong> 바꿉니다 — 약물 전달에 이용됩니다.</li>
+    <li><span class="t">관성 공동화</span> <span class="en">inertial · transient</span> · 기포가 <strong>크게 부풀었다</strong>
+      관성으로 <strong>격렬히 붕괴</strong>합니다. 충격파·미세제트가 나오고 기포 속은 순간 <strong>수천 K</strong>에 이릅니다.</li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 기포 반경의 시간 변화</span>
+      <span><button id="play" class="tg" style="width:auto;padding:5px 12px">재생</button></span></div>
+    <canvas id="c1" height="340"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="pr">음압 P<sub>r</sub> · <span class="num" id="prv">1.50</span> MPa</label>
+          <input type="range" id="pr" min="0.2" max="4" value="1.5" step="0.05"></div>
+        <div class="ctrl"><label for="fr">주파수 · <span class="num" id="frv">3.0</span> MHz</label>
+          <input type="range" id="fr" min="2" max="8" value="3" step="0.5"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">MI</span><span class="v" id="mi">—</span></div>
+        <div class="ro"><span class="k">영역</span><span class="v" id="regime" style="font-size:15px">—</span></div>
+        <div class="ro"><span class="k">최대 팽창</span><span class="v" id="rmax" style="color:var(--signal-deep)">—</span><span class="u">×R₀</span></div>
+      </div>
+      <p class="cap">곡선은 <b>Rayleigh–Plesset 방정식을 그 자리에서 푼 실제 해</b>입니다. 아래 띠는
+        <b style="color:var(--neg)">음압(당김)</b>과 <b style="color:var(--pos)">양압(누름)</b> — 기포는 <b>당길 때 커집니다.</b><br>
+        <b>음압을 천천히 올려보세요.</b> 팽창이 <b>연속적으로</b> 자랍니다 — MI 0.7 근처에서도 <b>급변은 없습니다</b>.
+        <b style="color:var(--amber-deep)">2R₀ 선</b>은 물리적 단절이 아니라 <b>관례로 그은 기준</b>입니다.<br>
+        <b>주파수를 올려보세요</b> — 같은 음압인데 팽창이 확 줄어듭니다. 당기는 반주기가 짧아 <b>자랄 틈이 없기</b> 때문입니다.
+        <b>MI가 √f로 나누는 이유가 바로 이것</b>입니다(30장).</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">둘은 스위치가 아니라 같은 눈금 위의 두 지점입니다</div>
+    <p>이름이 둘이라 <strong>딱 갈라지는 두 상태</strong>처럼 들리지만, 실제 R(t)는 음압을 따라
+      <strong>연속적으로</strong> 변합니다. 위 곡선에서 <span class="num">1.20 → 1.25 MPa</span>(MI 0.693 → 0.722)로 올려도
+      최대 팽창은 <span class="num">2.00 → 2.03 R₀</span>, <strong>1.6% 움직일 뿐</strong>입니다.
+      <strong>"관성 임계"는 연속체 위에 그은 관례선</strong>이고, MI 0.7 은 그 선을
+      <strong>가장 터지기 쉬운 크기의 핵</strong>에 대해 계산한 값입니다(30장).</p></div>
+  <div class="key warn"><div class="kh">관성 붕괴가 남기는 것</div>
+    <p>붕괴 순간의 고온·고압은 <strong>자유 라디칼</strong>(OH·, H·)을 만들고 <strong>빛(초음파발광)</strong>까지 냅니다.
+      가까운 세포와 모세혈관에는 <strong>기계적 손상</strong>이 생길 수 있습니다.
+      MI = 0.7이 바로 이 <strong>관성 붕괴의 문턱</strong>입니다(30장).</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>기포에도 공명이 있다<span class="sub">Resonance size</span></h2></div>
+  <p>모든 진동자처럼 기포에도 <strong>공명 주파수</strong>가 있습니다. 기체의 압축성이 스프링, 주변 물이 질량 역할을 하죠.
+    작은 기포일수록 높은 주파수에서 공명합니다.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 진단 주파수의 공명 기포 = 조영제 크기</span><span id="rstat">—</span></div>
+    <canvas id="c2" height="300"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="f2">주파수 · <span class="num" id="f2v">3.0</span> MHz</label>
+          <input type="range" id="f2" min="0.5" max="10" value="3" step="0.1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">공명 반경 R₀</span><span class="v" id="rr" style="color:var(--signal-deep)">—</span><span class="u">µm</span></div>
+        <div class="ro"><span class="k">지름</span><span class="v" id="rd">—</span><span class="u">µm</span></div>
+        <div class="ro"><span class="k">조영제 크기대?</span><span class="v" id="rin" style="font-size:14px">—</span></div>
+      </div>
+      <p class="cap">Minnaert 관계로 계산한 <b style="color:var(--signal-deep)">공명 반경</b>은 주파수에 반비례합니다.
+        진단 주파수(1~7 MHz)의 공명 기포는 <b>반경 0.5~3 µm</b> —
+        <b style="color:var(--amber-deep)">초음파 조영제 미세기포와 정확히 같은 크기</b>입니다.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>핵이 있어야 시작된다<span class="sub">The nucleus problem</span></h2></div>
+  <p>공동화가 일어나려면 세 가지가 맞아야 합니다 — <strong>① 씨앗이 될 기포(핵), ② 충분한 음압, ③ 자랄 시간(낮은 주파수).</strong>
+    MI가 담는 것은 ②와 ③이고, <strong>①이 결정적</strong>입니다.</p>
+  <div class="key"><div class="kh">그래서 조영제가 판을 바꾼다</div>
+    <p>정상 조직에는 적당한 <strong>핵이 거의 없어</strong>, 진단 수준의 음압에도 관성 공동화가 <strong>드뭅니다.</strong>
+      그런데 초음파 조영제는 <strong>딱 공명 크기의 미세기포</strong>를 혈관에 <strong>잔뜩 공급</strong>합니다.
+      핵이 넘쳐나니 <strong>임계값이 급락</strong>하죠 — 그래서 조영 검사에서는 <span class="num">MI &lt; 0.3</span>을 지킵니다(33장).</p></div>
+  <p>가스가 든 <strong>폐와 장</strong>도 이미 <strong>기체·기포를 품고</strong> 있어, 진단 초음파에도 취약한 부위로 꼽힙니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">04</div>
+    <h2>위험이자 도구<span class="sub">Weapon and tool</span></h2></div>
+  <p>공동화는 <strong>피해야 할 위험</strong>인 동시에, 통제하면 <strong>강력한 치료 도구</strong>가 됩니다.</p>
+  <div class="tw"><table class="props">
+    <thead><tr><th>이용 (통제된 공동화)</th><th>위험 (의도치 않은 공동화)</th></tr></thead>
+    <tbody>
+      <tr><td><b>히스토트립시</b> — 관성 공동화로 조직을 비열적으로 분쇄</td><td>모세혈관 파열·점상 출혈</td></tr>
+      <tr><td><b>약물 전달·유전자 도입</b> — 미세흐름이 세포막을 연다</td><td>폐·장 출혈 (가스체 활성화)</td></tr>
+      <tr><td><b>혈전 용해·BBB 개방</b> — 국소적으로 장벽을 연다</td><td>조영제 과다 시 심근 손상 보고</td></tr>
+    </tbody>
+  </table></div>
+  <p>18장에서 아티팩트가 <strong>알면 정보</strong>가 되었듯, 공동화도 <strong>알면 도구</strong>입니다.
+    진단에서는 <strong>피하고</strong>, 치료에서는 <strong>정밀하게 일으키는</strong> 것 — 그 경계를 긋는 눈금이 <strong>MI</strong>입니다.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>안정 공동화</b> · 잔잔한 진동 → 미세흐름 (가역 · 이용 가능)</li>
+      <li><b>관성 공동화</b> · 대팽창 후 붕괴 → 충격파·수천 K·라디칼 (파괴적)</li>
+      <li><b>공명 반경 ≈ 3.3 / f[MHz] µm</b> · 진단 주파수서 <b>0.5~3 µm</b></li>
+      <li><b>그 크기가 곧 조영제 미세기포</b> · 우연이 아니라 공명을 맞춘 설계</li>
+      <li><b>핵이 있어야 시작</b> · 정상 조직엔 드묾 · 조영제·폐·장이 핵 공급</li>
+      <li><b>그래서 조영 시 MI &lt; 0.3</b>(33장) · 위험이자 치료 도구 — 경계는 MI</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 32 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="33-regulations.html">다음 · 규정 Regulations →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/32.js"></script>
+</body>
+</html>

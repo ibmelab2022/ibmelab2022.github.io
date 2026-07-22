@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>도플러 효과 · Doppler Effect — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Flow Detection · 25 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Flow Detection · 25</div>
+    <h1>도플러 효과<span class="sub">Doppler Effect</span></h1>
+    <p class="lede">지금까지는 <strong>어디에</strong> 있는가였습니다. 이제 <strong>얼마나 빨리 움직이는가</strong>입니다.
+      움직이는 적혈구가 되쏘는 소리는 <strong>주파수가 바뀝니다</strong> — 그리고 그 변화량이
+      <strong>귀에 들리는 kHz</strong>라는 데서 모든 것이 시작됩니다.</p>
+  </div>
+</header>
+
+<div class="wrap" style="padding-top:4px">
+  <div class="panel" style="margin-top:0">
+    <div class="plabel"><span><b>인터랙티브</b> · 다가오면 촘촘, 멀어지면 성글게</span><span id="dstat">—</span></div>
+    <canvas id="c1" height="380"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="vel">혈류 속도 v · <span class="num" id="velv">0.50</span> m/s</label>
+          <input type="range" id="vel" min="0" max="1" value="0.5" step="0.05"></div>
+        <div class="ctrl"><label for="ang">도플러 각 θ · <span class="num" id="angv">45</span>°</label>
+          <input type="range" id="ang" min="0" max="90" value="45" step="5"></div>
+        <div class="ctrl"><label for="f0">송신 주파수 · <span class="num" id="f0v">5.0</span> MHz</label>
+          <input type="range" id="f0" min="2" max="10" value="5" step="0.5"></div>
+        <div class="ctrl" style="flex:0 0 152px"><label>&nbsp;</label><button class="go tg" id="rev">흐름 ← 다가옴</button></div>
+        <div class="ctrl" style="flex:0 0 112px"><label>&nbsp;</label><button class="go" id="p1">재생</button></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">도플러 편이 f_d</span><span class="v" id="fd" style="color:var(--amber-deep)">—</span><span class="u">Hz</span></div>
+        <div class="ro"><span class="k">유효 성분 v·cosθ</span><span class="v" id="vc">—</span><span class="u">m/s</span></div>
+        <div class="ro"><span class="k">편이 비율</span><span class="v" id="rat" style="font-size:15px">—</span></div>
+        <div class="ro"><span class="k">방향</span><span class="v" id="dir" style="font-size:15px">—</span></div>
+      </div>
+      <p class="cap"><b>회색 파면</b>이 탐촉자에서 나가 <b>적혈구에 닿는 순간</b>, 그 자리에서
+        <b>에코 파면</b>이 태어납니다 — 도착 전에는 에코가 없습니다.
+        적혈구가 <b>움직이며 되쏘므로</b> 에코 파면의 중심이 이동하고, 그래서 간격이
+        <b style="color:var(--pos)">다가오면 촘촘</b>·<b style="color:var(--neg)">멀어지면 성글게</b> 바뀝니다.<br>
+        <b>흐름 버튼</b>으로 방향을 뒤집어 보세요 — 편이의 <b>부호가 반대</b>가 됩니다.
+        <b>각을 90°로</b> 돌리면 cosθ=0 이라 편이가 <b>사라집니다.</b><br>
+        <b>단, 파면 간격은 보이도록 약 400배 과장했습니다.</b> 실제 편이 비율은 판독창의
+        <b>편이 비율</b>(≈5×10⁻⁴, 즉 0.05%)입니다 — 실제 스케일이라면 파면 간격 변화는
+        <b>눈으로 구별할 수 없습니다.</b> 그래서 도플러는 <b>보는 게 아니라 듣습니다.</b></p>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>왜 인자 2인가<span class="sub">The factor of two</span></h2></div>
+  <p>적혈구는 <strong>두 번</strong> 도플러를 겪습니다. 먼저 정지한 탐촉자가 쏜 소리를
+    <strong>움직이며 받는 수신자</strong>로서 한 번, 그다음 그 소리를 <strong>움직이며 되쏘는 음원</strong>으로서
+    또 한 번. 두 편이가 더해져 인자 2가 됩니다.</p>
+  <div class="eq"><span>f_d =</span><span class="frac"><span>2 f₀ v cos θ</span><span>c</span></span></div>
+  <div class="eqcap">f₀ = 송신 주파수 · v = 혈류 속도 · θ = 빔과 흐름 사이 각 · c = 음속</div>
+  <div class="key"><div class="kh">숫자로 붙잡기 — 5 MHz, 0.5 m/s, 정면</div>
+    <p>f_d = 2 × 5×10⁶ × 0.5 / 1540 = <strong><span class="num">3,247 Hz</span></strong>.
+      송신은 <span class="num">5,000,000 Hz</span>, 돌아온 건 <span class="num">5,003,247 Hz</span> —
+      차이가 <strong>3.2 kHz, 사람 목소리 대역</strong>입니다. 초기 도플러 장비가
+      화면 없이 <strong>스피커</strong>로 혈류를 들려준 이유입니다.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>왜 들리는가 — 그리고 왜 06장이 필요한가<span class="sub">Audible, and scattered</span></h2></div>
+  <p>편이 비율은 <span class="num">f_d/f₀ = 2v/c</span> 입니다. 혈류 0.5 m/s 면
+    <span class="num">6.5×10⁻⁴</span> — MHz를 백만분의 몇으로 줄이니 정확히 <strong>kHz</strong>가 나옵니다.
+    이것은 우연이 아니라 <strong>v ≪ c</strong>(혈류는 음속의 0.03 %)의 필연입니다.</p>
+  <div class="key"><div class="kh">그런데 적혈구가 어떻게 소리를 되쏘는가 — 06장의 회수</div>
+    <p>적혈구는 지름 <span class="num">7 µm</span>, 5 MHz 파장은 <span class="num">308 µm</span> —
+      파장의 <strong>1/40</strong>입니다. 그래서 거울 반사가 아니라 <strong>레일리 산란</strong>(06장):
+      사방으로 약하게 되쏩니다. 두 가지 결과가 따라옵니다 —
+      ① 신호가 <strong>조직보다 100~1000배 약해</strong> 별도의 민감한 하드웨어가 필요하고(26장),
+      ② <strong>전방향</strong>이라 큰 각도에서도 어쨌든 신호는 옵니다. 방향만 맞으면.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>각도가 전부다<span class="sub">The angle is everything</span></h2></div>
+  <p>도플러는 <strong>빔 방향 성분</strong>(v cosθ)만 잽니다. 흐름에 나란하면(θ=0) 전부 보이고,
+    수직이면(θ=90°) 아무것도 안 보입니다. 문제는 cosθ가 <strong>큰 각에서 가파르게</strong> 떨어진다는 것.</p>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · cosθ 곡선과 각도 오차</span><span id="astat">—</span></div>
+    <canvas id="c2" height="320"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl"><label for="a2">도플러 각 θ · <span class="num" id="a2v">60</span>°</label>
+          <input type="range" id="a2" min="0" max="88" value="60" step="1"></div>
+      </div>
+      <div class="readout">
+        <div class="ro"><span class="k">cos θ</span><span class="v" id="ct" style="color:var(--signal-deep)">—</span><span class="u"></span></div>
+        <div class="ro"><span class="k">측정/참 속도</span><span class="v" id="mt">—</span><span class="u">%</span></div>
+        <div class="ro"><span class="k">±3° 각오차 →</span><span class="v" id="ve" style="color:var(--pos)">—</span><span class="u">% 속도오차</span></div>
+      </div>
+      <p class="cap">장비는 각을 모르면 <b>θ=0(cosθ=1)로 가정</b>합니다 — 사용자가 커서로 흐름 방향을 알려줘야
+        보정합니다. <b>θ를 60° 너머로 밀어 보세요</b>: 곡선이 절벽이 되고, <b style="color:var(--pos)">±3° 의 손 떨림이
+        큰 속도 오차</b>가 됩니다. 그래서 임상은 <b>60°를 상한</b>으로 둡니다.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>f_d = 2 f₀ v cosθ / c</b> · 움직임을 주파수 변화로 읽는다</li>
+      <li><b>인자 2</b> · 적혈구가 움직이는 수신자이자 움직이는 재방출원 — 편이 두 번</li>
+      <li><b>편이는 kHz</b> · f_d/f₀ = 2v/c ≈ 10⁻³ (v ≪ c) → 들린다 (5 MHz·0.5 m/s = 3.2 kHz)</li>
+      <li><b>적혈구는 레일리 산란체</b> · 7 µm ≪ 308 µm (06장) → 신호 100~1000배 약함 · 전방향</li>
+      <li><b>빔 성분만 잰다</b> · v cosθ · θ=90°면 편이 0 — 수직 흐름은 안 보임</li>
+      <li><b>각도 상한 60°</b> · cosθ가 큰 각에서 절벽 → 작은 각오차가 큰 속도오차</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 25 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="26-cw-doppler.html">다음 · 연속파 도플러 Continuous Wave Doppler →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/25.js"></script>
+</body>
+</html>

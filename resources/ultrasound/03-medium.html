@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>매질의 음향 특성 · Medium Acoustic Property — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Basics · 03 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Ultrasound Basics · 03</div>
+    <h1>매질의 음향 특성<span class="sub">Medium Acoustic Property</span></h1>
+    <p class="lede">초음파에게 매질은 <strong>세 개의 숫자</strong>입니다 — 음속 <span class="num">c</span>,
+      감쇠 <span class="num">α</span>, 임피던스 <span class="num">Z</span>.
+      이 셋이 <strong>얼마나 깊이 볼 수 있고, 무엇이 보이는지</strong>를 전부 결정합니다.</p>
+  </div>
+</header>
+
+<!-- ── 01 ── -->
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>세 개의 숫자<span class="sub">c · α · Z</span></h2></div>
+  <ul>
+    <li><span class="t">음속</span> <span class="en">speed, c</span> · 파장을 정하고, 장비가 <strong>깊이를 계산하는 근거</strong>가 됩니다.</li>
+    <li><span class="t">감쇠</span> <span class="en">attenuation, α</span> · <strong>얼마나 깊이 볼 수 있는지</strong>를 정합니다.
+      연부조직에서는 주파수에 거의 비례합니다 — 단위가 <span class="num">dB/cm/MHz</span>인 이유입니다.</li>
+    <li><span class="t">음향 임피던스</span> <span class="en">impedance, Z = ρc</span> · 경계면에서 <strong>얼마나 반사되는지</strong>를 정합니다.
+      <span class="en">→ Ultrasound Reflection</span></li>
+  </ul>
+  <div class="tw">
+  <table class="props">
+    <tr><th>매질</th><th>음속 c</th><th>감쇠 α</th><th>임피던스 Z</th><th>결론</th></tr>
+    <tr>
+      <td class="m">공기<span>air</span></td>
+      <td class="n">343 m/s</td><td class="n">극심</td><td class="n"><b>0.0004</b> MRayl</td>
+      <td>MHz 대역은 사실상 전파 불가. <strong>Z가 거의 0</strong></td>
+    </tr>
+    <tr>
+      <td class="m">물<span>water</span></td>
+      <td class="n">1480 m/s</td><td class="n">0.0022 <span class="en">dB/cm/MHz²</span></td><td class="n">1.48 MRayl</td>
+      <td>감쇠가 <strong>거의 없음</strong>. 기준 매질</td>
+    </tr>
+    <tr class="hi">
+      <td class="m">연부조직<span>soft tissue</span></td>
+      <td class="n"><b>1540 m/s</b></td><td class="n"><b>≈0.5</b> <span class="en">dB/cm/MHz</span></td><td class="n">1.63 MRayl</td>
+      <td>진단의 무대. <strong>모든 기준값</strong></td>
+    </tr>
+    <tr>
+      <td class="m">뼈<span>bone</span></td>
+      <td class="n"><b>4080 m/s</b></td><td class="n">≈20 <span class="en">dB/cm/MHz</span></td><td class="n">7.80 MRayl</td>
+      <td>2.6배 빠르고 40배 감쇠. <strong>벽</strong></td>
+    </tr>
+  </table>
+  </div>
+  <p class="cap" style="margin-bottom:8px">※ 조직 물성은 개체·온도·주파수에 따라 편차가 있습니다.
+    연부조직 감쇠는 0.3~1.0, 뼈는 10~30 dB/cm/MHz 범위로 보고됩니다.</p>
+</div></section>
+
+<!-- ── 02 ── -->
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>매질별로<span class="sub">Medium by medium</span></h2></div>
+
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 같은 빔, 다른 매질 · 에코 세기(왕복)</span><span id="win">가로 20 cm</span></div>
+    <canvas id="c1" height="310"></canvas>
+    <div class="pbody">
+      <div class="ctrls">
+        <div class="ctrl" style="flex:2"><label for="frq">주파수 f · <span class="num" id="frqv">5.0</span> MHz</label>
+          <input type="range" id="frq" min="1" max="15" value="5" step="0.5"></div>
+      </div>
+      <p class="cap">세 매질에 <b>똑같은 빔</b>을 쏩니다. 막대가 흐려지는 것이 에코가 죽어가는 것입니다.
+        <b style="color:var(--amber-deep)">│</b> 표시는 <b>60 dB 소멸 지점</b> — 실질적인 관찰 한계입니다.</p>
+    </div>
+  </div>
+  <p><strong>공기</strong> — 흔히 감쇠 때문에 못 쓴다고 하지만, 실은 <strong>거기까지 가지도 못합니다.</strong>
+    연부조직과 공기의 Z 차이가 너무 커서 경계면에서 <span class="num">99.9%</span>가 되튕깁니다.
+    공기로 들어가는 에너지는 <span class="num">0.1%</span>뿐입니다. <strong>감쇠를 논하기 전에 이미 끝난 것</strong>입니다.
+    젤을 바르는 이유, 그리고 폐와 장관 가스가 초음파의 금지구역인 이유가 이것입니다.</p>
+
+  <p><strong>물</strong> — 감쇠가 연부조직의 <strong>수백 분의 1</strong>입니다. 위 애니메이션에서 물 막대가 거의 안 흐려지는 게 보이실 겁니다.
+    그래서 물은 <strong>기준 매질</strong>이 됩니다 — 수조 측정, 젤, 그리고 음향현미경의 결합 매질이 전부 물입니다.</p>
+
+  <p><strong>연부조직</strong> — <span class="num">c = 1540 m/s</span>는 <strong>장비가 깊이를 계산할 때 쓰는 바로 그 값</strong>입니다.
+    감쇠는 대략 <span class="num">0.5 dB/cm/MHz</span>. 주파수에 비례하므로 <strong>f를 올리면 분해능은 좋아지지만 얕아집니다</strong> —
+    초음파의 근본적인 맞교환입니다. <span class="en">→ Ultrasound Attenuation</span></p>
+
+  <p><strong>뼈</strong> — 음속이 <strong>2.6배</strong> 빠르고 감쇠는 <strong>40배</strong>입니다.
+    표면에서 <span class="num">42.8%</span>가 반사되고, 통과한 것도 몇 mm 안에 사라집니다.
+    그래서 뼈 뒤에는 <span class="t">음향 음영</span> <span class="en">acoustic shadowing</span>이 생기고, 성인 두개골 경유 영상이 그토록 어렵습니다.</p>
+
+  <div class="key"><div class="kh">Key</div>
+    <p><strong>물과 연부조직은 Z가 거의 같습니다</strong> (1.48 vs 1.63). 그래서 물은 조직을 볼 때 <strong>투명한 창</strong>이 됩니다 —
+      방광이나 낭종 너머가 잘 보이는 이유이고, 젤이 작동하는 이유입니다. 반면 공기와 뼈는 양쪽 극단으로 멀리 떨어져 <strong>벽</strong>이 됩니다.</p></div>
+</div></section>
+
+<!-- ── 정리 ── -->
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>매질 = c, α, Z 세 숫자</b> · 각각 깊이 계산 / 관찰 한계 / 반사량을 정한다</li>
+      <li><b>공기</b> · Z ≈ 0 → 99.9% 반사. <b>감쇠가 아니라 Z가 문제</b></li>
+      <li><b>물</b> · 감쇠 거의 없음 + Z가 조직과 비슷 → <b>투명한 창</b></li>
+      <li><b>연부조직</b> · c = 1540 m/s (장비의 가정값), α ≈ 0.5 dB/cm/MHz</li>
+      <li><b>뼈</b> · c 2.6배, α 40배 → 표면만 밝고 <b>뒤는 음영</b></li>
+      <li><b>α ∝ f</b> · 주파수를 올리면 분해능↑ 침투↓ — 피할 수 없는 맞교환</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 03 / 33<br>IBME Lab 교육용 원본 자료</p>
+  <a class="next" href="04-reflection.html">다음 · 초음파 반사 Ultrasound Reflection →</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/03.js"></script>
+</body>
+</html>

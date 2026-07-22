@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>초음파 영상 아티팩트 · Imaging Artifacts — IBME Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap"><div class="brow">
+    <span><a href="index.html">← 목차</a> · <b>IBME LAB</b> 초음파 물리</span><span>Imaging · 18 / 33</span>
+  </div></div>
+  <div class="wrap hero-t">
+    <div class="eyebrow">Imaging · 18</div>
+    <h1>영상 아티팩트<span class="sub">Ultrasound Imaging Artifacts</span></h1>
+    <p class="lede">아티팩트는 <strong>고장이 아닙니다.</strong> 영상이 서 있는 <strong>네 가지 가정</strong>이 깨질 때
+      물리가 정직하게 내놓는 결과입니다. <strong>어떤 가정이 깨졌는지</strong> 알면 전부 예측됩니다.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">01</div>
+    <h2>깨지는 네 가지 가정<span class="sub">The four assumptions</span></h2></div>
+  <p>초음파 영상은 <strong>네 가지를 믿고</strong> 그림을 그립니다:</p>
+  <ul>
+    <li><strong>펄스는 작다</strong> — 축방향으로도 측방향으로도. → 깨지면 <strong>번짐 · 사이드로브</strong></li>
+    <li><strong>속도는 1540 m/s 로 일정하다</strong> → 깨지면 <strong>위치 오류</strong></li>
+    <li><strong>빔은 직진하고 앞으로만 간다</strong> → 깨지면 <strong>거울상 · 잔향</strong></li>
+    <li><strong>감쇠는 깊이에 고르게 일어난다</strong> → 깨지면 <strong>음영 · 후방 증강</strong></li>
+  </ul>
+  <div class="panel">
+    <div class="plabel"><span><b>인터랙티브</b> · 켜고 끄면서 비교해 보세요</span><span id="astat">—</span></div>
+    <canvas id="c1" height="440"></canvas>
+    <div class="pbody">
+      <div class="ctrls" style="gap:10px">
+        <div class="ctrl" style="min-width:112px"><label>잔향</label><button class="go tg" id="t0">Reverberation</button></div>
+        <div class="ctrl" style="min-width:112px"><label>거울상</label><button class="go tg" id="t1">Mirror</button></div>
+        <div class="ctrl" style="min-width:112px"><label>음향 음영</label><button class="go tg" id="t2">Shadowing</button></div>
+        <div class="ctrl" style="min-width:112px"><label>후방 증강</label><button class="go tg" id="t3">Enhancement</button></div>
+        <div class="ctrl" style="min-width:112px"><label>사이드로브</label><button class="go tg" id="t4">Side lobe</button></div>
+        <div class="ctrl" style="min-width:112px"><label>혜성꼬리</label><button class="go tg" id="t5">Comet-tail</button></div>
+      </div>
+      <p class="cap">기본 영상에는 <b>횡격막(평면)</b>, <b>낭종(액체)</b>, <b>결석</b>, <b>공기방울</b>, <b>점 표적</b>이 있습니다.
+        버튼을 눌러 아티팩트를 하나씩 얹어보세요.<br>
+        <b style="color:var(--pos)">붉은 표시</b>가 <b>실제로는 없는데 그려진 것</b>입니다.</p>
+    </div>
+  </div>
+  <div class="key"><div class="kh">아티팩트의 정의</div>
+    <p>이상적이라면 <strong>점 표적은 점</strong>으로 찍힙니다. 가정이 깨지면 점이 <strong>번진 모양</strong>이 되고,
+      그것이 <span class="t">점확산함수</span> <span class="en">PSF</span>입니다.</p>
+    <div class="eq" style="margin:14px 0 10px;background:transparent;border:none;padding:6px 0;font-size:17px">
+      <span>영상 = PSF ⊛ 실제 구조</span></div>
+    <p><strong>PSF 가 완벽한 점이 아닌 한 아티팩트는 반드시 있습니다.</strong> 없앨 수 있는 게 아니라
+      <strong>알아보고 해석해야 하는 것</strong>입니다. <span class="en">→ 17장</span></p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">02</div>
+    <h2>전파 관련<span class="sub">Propagation artifacts</span></h2></div>
+  <h3>잔향 <span class="en">reverberation</span></h3>
+  <p>에코가 탐촉자 면에 <strong>닿으면 사라진다</strong>고 가정합니다. 그런데 <strong>탐촉자 표면과 나란한 평면 구조</strong>가
+    있고 에코가 아주 세면, 탐촉자 면에서 <strong>되튀어 다시 나갑니다.</strong> 그리고 또 돌아오죠.</p>
+  <p>결과: 그 구조가 <strong>더 깊은 곳에 여러 번, 같은 간격으로</strong> 나타나고 <strong>갈수록 어두워집니다.</strong>
+    2번째 상은 <strong>정확히 두 배 깊이</strong>에 있습니다 — 왕복을 두 번 했으니까요. 간격이 <strong>일정하다는 것</strong>이
+    진짜 구조와 구별하는 단서입니다.</p>
+
+  <h3>거울상 <span class="en">mirror image</span></h3>
+  <p>펄스가 <strong>앞으로만 간다</strong>고 가정합니다. 그런데 반사가 너무 강하면 반사된 펄스가 <strong>그 방향으로 계속 진행</strong>하며
+    경로상의 구조에서 <strong>또 에코</strong>를 만듭니다. 장비는 그것도 <strong>직선 경로의 에코</strong>로 해석하므로
+    <strong>거울 반대편에 가짜 구조</strong>가 그려집니다. 04장의 <strong>거울상 음원</strong> 그대로입니다.</p>
+  <p>대부분은 약해서 조직 영상에 묻혀 안 보입니다. <strong>큰 평면 뒤에 큰 액체 공간</strong>이 있을 때 —
+    방광이나 위 — <strong>확 눈에 띕니다.</strong></p>
+
+  <h3>혜성꼬리 · 링다운 <span class="en">comet-tail · ring-down</span></h3>
+  <p>초음파가 <strong>공기 표적</strong>에 부딪히면 꼬리처럼 길게 늘어진 밝은 줄이 생깁니다.
+    작은 구조가 <strong>연속파를 계속 내보내기 때문</strong>이라고 보는 견해가 우세합니다.</p>
+
+  <h3>사이드로브 <span class="en">side lobe</span></h3>
+  <p>빔이 <strong>가늘다</strong>고 가정합니다. 그런데 사이드로브가 있으면 빔이 <strong>옆도 보고 있습니다.</strong></p>
+  <div class="key"><div class="kh">왜 '나는 새' 가 되는가</div>
+    <p>주엽이 점 표적을 지나면 <strong>밝은 점</strong>이 찍힙니다. 빔이 옆으로 한 칸 가면 —
+      빔이 정말 가늘다면 <strong>아무것도 안 찍혀야</strong> 합니다. 그런데 사이드로브가 그 표적을 <strong>여전히 보고 있어서</strong>
+      <strong>덜 밝은 점</strong>이 찍힙니다.</p>
+    <p style="margin-top:10px">그런데 사이드로브는 주엽보다 <strong>비스듬해서 경로가 깁니다.</strong> 그래서 그 가짜 점은
+      화면에서 <strong>옆으로 나란히</strong>가 아니라 <strong>옆으로 가면서 점점 깊게</strong> 찍힙니다.
+      결과가 <strong>나는 새</strong> — 몸통은 주엽, <strong>날개는 사이드로브</strong>입니다. <span class="en">→ 14장 빔 패턴</span></p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sechead"><div class="secnum">03</div>
+    <h2>감쇠 관련<span class="sub">Attenuation artifacts</span></h2></div>
+  <h3>음향 음영 <span class="en">shadowing</span></h3>
+  <p><strong>결석이나 뼈</strong>를 만나면 펄스가 극심하게 감쇠하고 반사됩니다.
+    그 뒤로는 <strong>보낼 에너지도, 돌아올 에코도</strong> 없습니다. 화면에는 <strong>검은 그림자</strong>가 됩니다.
+    <span class="en">→ 03장 (뼈 α ≈ 20 dB/cm/MHz)</span></p>
+
+  <h3>후방 증강 <span class="en">enhancement</span></h3>
+  <p>이건 <strong>TGC 가 만드는 아티팩트</strong>라 흥미롭습니다.</p>
+  <div class="key"><div class="kh">TGC 의 가정이 깨지는 것</div>
+    <p><span class="t">TGC</span> 는 깊은 에코를 더 크게 증폭합니다 — <strong>감쇠가 깊이에 고르게 일어난다</strong>고 가정하고요.
+      그런데 <strong>낭종처럼 액체 공간</strong>을 지나면 그 구간은 <strong>감쇠가 거의 없습니다</strong>(03장: 물 α ≈ 0).</p>
+    <p style="margin-top:10px">펄스는 <strong>덜 죽은 채로</strong> 낭종을 통과했는데, TGC 는 <strong>조직을 지나온 줄 알고</strong>
+      똑같이 증폭합니다. 결과: <strong>낭종 뒤 조직이 필요 이상으로 밝아집니다.</strong>
+      조직이 진짜 밝은 게 아니라 <strong>보정이 과했을 뿐</strong>입니다.</p>
+    <p style="margin-top:10px">그래서 <strong>후방 증강은 낭종의 증거</strong>가 됩니다 — 아티팩트인데 <strong>진단에 쓰입니다.</strong>
+      음영도 마찬가지로 <strong>결석의 증거</strong>죠. <strong>아티팩트를 알면 정보가 됩니다.</strong></p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sum">
+    <div class="kh">한 장 정리 · Summary</div>
+    <ul>
+      <li><b>영상 = PSF ⊛ 구조</b> · PSF 가 점이 아니면 <b>아티팩트는 필연</b></li>
+      <li><b>네 가정</b> · 펄스는 작다 / 속도 1540 일정 / 직진·전진만 / 감쇠 균일</li>
+      <li><b>잔향</b> · 탐촉자와 평면 사이 왕복 · <b>같은 간격</b>으로 반복되며 어두워짐</li>
+      <li><b>거울상</b> · 04장 거울상 음원 그대로 · 큰 평면 + 액체 뒤에서 뚜렷</li>
+      <li><b>사이드로브 → 나는 새</b> · 경로가 길어 <b>옆으로 갈수록 깊게</b> 찍힘</li>
+      <li><b>음영</b> · 결석·뼈 뒤 · <b>후방 증강</b> · 낭종 뒤 — TGC 과보정</li>
+      <li><b>스페클</b> · 아티팩트지만 잡음이 아님 — 조직의 통계</li>
+      <li><b>음영과 증강은 진단에 쓰인다</b> — 아티팩트를 알면 정보가 된다</li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="fnote">IBME LAB · 강남대학교 전자반도체공학부 · 초음파 물리 18 / 33<br>
+    IBME Lab 교육용 원본 자료 · Imaging 챕터 완료</p>
+  <a class="next" href="index.html">← 목차로 · Signal and Circuit 챕터 준비 중</a>
+</div></footer>
+
+<script src="assets/core.js"></script>
+<script src="js/18.js"></script>
+</body>
+</html>
