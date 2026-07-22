@@ -323,10 +323,10 @@ recruit: {
 
   studyMaterials: [
     {
-      title: "초음파 물리",
+      title: "의료 초음파: 물리학, 초음파 시스템 및 영상",
       en:    `Medical Ultrasound:
               Physics, Instrumentation & Imaging`,
-      meta:  "Ch 33 + A10 (43 Chapters) · Korean",
+      meta:  "Ch.33 + App.10 (43 Chapters) · Korean",
       href:  "resources/ultrasound/",
       desc:  `강남대학교 IBME Lab의 학부·대학원 강의를 위한 의료 초음파 교육자료입니다.
               진동·파동의 기초에서 탐촉자, 빔포밍, 영상 형성, 신호처리, 도플러 혈류, 안전 규정, 그리고 부록의 고급 기법까지 초음파 영상 시스템의 물리적 원리를 단계적으로 다룹니다.`,
@@ -335,7 +335,17 @@ recruit: {
   ],
 
   equipment: [
-    // 장비를 추가하려면 위 설명의 작성 예시를 참고해 { … }, 를 여기에 넣으세요.
+    {
+               name:  "TEST",
+               ko:    "TEST",
+               image: "images/TEST.jpg",
+               specs: [
+                 "TEST",
+                 "TEST",
+                 "TEST",
+               ],
+               note:  "TEST",
+             },
   ],
 
   /* ───────── ⑫ Lab Q&A (자주 묻는 질문) ─────────
