@@ -172,7 +172,7 @@ recruit: {
       video:       "images/research/ulm_mouse_brain.mp4",
       poster:      "images/research/ulm_mouse_brain.jpg",
       mediaTitle:  "ULM imaging of mouse brain",
-      mediaCredit: "J. Kim et al., IEEE–TUFFC, 2022",
+      mediaCredit: "IBME Lab",
     },
     {
       tag:      "SCANNING ACOUSTIC MICROSCOPY (SAM) & UBM",
