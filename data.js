@@ -155,7 +155,11 @@ recruit: {
        · subtitle : 영문 한 줄 부제 (없으면 지워도 됨)
        · bodyEn   : 영문 설명
        · bodyKr   : 국문 설명
-       · image    : 대표 이미지 주소 (비우면 IBME 패턴이 표시됨) */
+       · image    : 대표 이미지 경로 (비우면 IBME 패턴이 표시됨)
+       · video    : 동영상 경로. 넣으면 image 대신 동영상이 표시됩니다
+       · poster   : 동영상 재생 전 보일 정지 이미지 (video 와 함께 사용)
+       · mediaTitle / mediaCredit : 클릭 확대 화면 아래에 표시될 제목과 출처
+     그림·동영상 모두 카드에서 클릭하면 전체 화면으로 확대됩니다. */
   research: [
     {
       tag:      "ULTRASOUND LOCALIZATION MICROSCOPY (ULM)",
@@ -164,6 +168,11 @@ recruit: {
       bodyEn:   `We develop next-generation ultrasound localization microscopy (ULM) techniques to visualize microvascular networks beyond the diffraction limit. Our research focuses on ultrafast ultrasound imaging, advanced beamforming, novel microbubble localization and tracking algorithms, motion correction, and quantitative vascular imaging to advance next-generation biomedical ultrasound.`,
       bodyKr:   `초음파 회절 한계를 극복하여 미세 혈관 구조를 영상화하는 초음파 국소화 현미경(Ultrasound Localization Microscopy, ULM) 기술을 연구합니다. 초고속 초음파 영상(Ultrafast Ultrasound Imaging), 고급 빔포밍(Advanced Beamforming), 새로운 미세기포 위치 추정 및 추적 알고리즘(Novel Microbubble Localization & Tracking Algorithms), 움직임 보정(Motion Correction), 정량적 혈관 영상(Quantitative Vascular Imaging) 기술을 개발하여 차세대 초음파 의료영상 기술을 구현합니다.`,
       image:    "",
+      /* 동영상 — 필요 없으면 video~poster 4줄을 지우세요 */
+      video:       "images/ulm_mouse_brain.mp4",
+      poster:      "images/ulm_mouse_brain.jpg",
+      mediaTitle:  "ULM imaging of mouse brain",
+      mediaCredit: "J. Kim et al., IEEE–TUFFC, 2022",
     },
     {
       tag:      "SCANNING ACOUSTIC MICROSCOPY (SAM) & UBM",
@@ -171,7 +180,9 @@ recruit: {
       subtitle: "High-Frequency Acoustic Imaging for Biomedical & Semiconductor Applications",
       bodyEn:   `We develop high-frequency acoustic imaging systems based on scanning acoustic microscopy (SAM) and ultrasound biomicroscopy (UBM), which share the same underlying principle of high-frequency ultrasound. The same core technology extends across two domains: biomedical imaging of tissues and small biological structures, and nondestructive evaluation of semiconductor devices and advanced electronic packages. By integrating acoustic imaging, signal processing, AI-based image enhancement, and automated analysis, we aim to advance both diagnostic imaging and industrial inspection.`,
       bodyKr:   `동일한 고주파 초음파 원리를 공유하는 Scanning Acoustic Microscopy(SAM)와 Ultrasound Biomicroscopy(UBM) 기반의 고주파 음향 영상 시스템을 개발합니다. 이 핵심 기술은 조직 및 미세 생체 구조의 바이오 영상과, 반도체 소자 및 첨단 전자 패키지의 비파괴 검사라는 두 분야에 모두 적용됩니다. 음향 영상 기술에 신호처리, AI 기반 영상 향상, 자동 분석 기술을 융합하여 진단 영상과 산업 검사 양쪽의 발전을 목표로 합니다.`,
-      image:    "",
+      image:       "images/sam_system.jpg",
+      mediaTitle:  "SAM system and internal IC images",
+      mediaCredit: "IBME Lab",
     },
     {
       tag:      "COMPUTATIONAL IMAGING",
@@ -179,7 +190,9 @@ recruit: {
       subtitle: "Computational Imaging for Next-Generation Ultrasound Systems",
       bodyEn:   `We investigate computational imaging techniques that enhance image quality while reducing acquisition time and hardware complexity. Our research includes coded-mask imaging, compressed sensing, sparse reconstruction, inverse imaging, and advanced beamforming algorithms.`,
       bodyKr:   `영상 품질 향상과 데이터 획득 시간 단축을 동시에 달성하기 위한 계산영상(Computational Imaging) 기술을 연구합니다. Coded-Mask Imaging, Compressed Sensing, Sparse Reconstruction, 역문제 기반 영상 복원, 고급 빔포밍 알고리즘을 통해 차세대 초음파·음향 영상 시스템을 개발합니다.`,
-      image:    "",
+      image:       "images/cus_computational.jpg",
+      mediaTitle:  "Single-sensor computational ultrasound: coded-mask acquisition and wFISTA reconstruction",
+      mediaCredit: "IBME Lab",
     },
     {
       tag:      "FPGA-BASED IMAGING SYSTEMS",
@@ -187,7 +200,9 @@ recruit: {
       subtitle: "Real-Time Hardware Acceleration for Imaging Applications",
       bodyEn:   `We design high-performance imaging systems on FPGA and embedded hardware platforms for real-time ultrasound and acoustic imaging. Our research focuses on high-speed data acquisition, real-time beamforming, hardware acceleration, and scalable imaging architectures.`,
       bodyKr:   `실시간 초음파 및 음향 영상 시스템을 위한 FPGA 기반 고성능 이미징 플랫폼을 개발합니다. 고속 데이터 획득, 실시간 빔포밍, 하드웨어 가속, 확장 가능한 이미징 아키텍처를 설계하여 차세대 의료·산업용 영상 시스템을 구현합니다.`,
-      image:    "",
+      image:       "images/fpga_boards.jpg",
+      mediaTitle:  "In-house imaging hardware boards",
+      mediaCredit: "IBME Lab",
     },
     // ↑ 복사해서 연구 주제를 계속 추가하세요.
   ],

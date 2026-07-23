@@ -333,6 +333,35 @@ main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 }
 .rcard .rimg .noimg span{font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.16em;color:#5b7f95}
 
+/* 연구 카드 미디어 (그림·동영상 공용) */
+.rcard .rimg.has-media{cursor:zoom-in;background:#08131f}
+.rcard .rimg.has-media img,
+.rcard .rimg.has-media video{
+  width:100%;height:100%;object-fit:contain;position:absolute;inset:0;background:#08131f;
+}
+.rcard .rimg .mzoom{
+  position:absolute;right:10px;bottom:10px;z-index:2;
+  padding:6px 11px;border-radius:999px;background:rgba(8,16,26,.74);
+  font-family:"Spline Sans Mono",monospace;font-size:10.5px;letter-spacing:.1em;color:#dbe9f2;
+  pointer-events:none;transition:.2s;
+}
+.rcard .rimg.has-media:hover .mzoom{background:var(--signal-deep);color:#fff}
+
+/* 라이트박스 */
+.vbox{position:fixed;inset:0;z-index:200;display:none;place-items:center;padding:28px;
+  background:rgba(6,12,20,.92);backdrop-filter:blur(6px)}
+.vbox.open{display:grid}
+.vbox-inner{width:min(1280px,96vw);max-height:92vh;display:flex;flex-direction:column;gap:12px}
+.vbox-inner video,.vbox-inner img{width:100%;max-height:82vh;object-fit:contain;
+  border-radius:12px;background:#000;display:block}
+.vbox-cap{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+  font-size:13px;color:#b9cbd9}
+.vbox-cap b{color:#fff;font-size:14.5px;font-weight:600}
+.vbox-close{position:absolute;top:18px;right:22px;width:40px;height:40px;border-radius:50%;
+  border:0;cursor:pointer;background:rgba(255,255,255,.14);color:#fff;font-size:21px;
+  line-height:1;transition:.2s}
+.vbox-close:hover{background:var(--signal)}
+
 /* ───────────────────────── PUBLICATIONS ───────────────────────── */
 .pub-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
 .pub-tab{
@@ -519,6 +548,7 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
   .subhead::after{display:none}
   .rcard.has-img{grid-template-columns:1fr}
   .rcard .rimg{min-height:180px;order:-1}
+  .vbox{padding:14px}
   .teach-grid{grid-template-columns:1fr}
   .equip-grid{grid-template-columns:1fr}
   .foot-inner{grid-template-columns:1fr;gap:28px}
@@ -814,9 +844,20 @@ $('#aboutHeading').textContent = SITE.about.heading;
 (function(){
   $('#researchList').innerHTML = SITE.research.map((r,i)=>{
     const hasImg = r.image && r.image.trim();
-    const imgCell = `<div class="rimg">${hasImg
-        ? `<img src="${esc(r.image)}" alt="${esc(r.title)}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=&quot;noimg&quot;><span>IBME · RESEARCH</span></div>'">`
-        : `<div class="noimg"><span>IBME · RESEARCH</span></div>`}</div>`;
+    const hasVid = r.video && r.video.trim();
+    const cap = ` data-mtitle="${esc(r.mediaTitle||r.title)}" data-mcredit="${esc(r.mediaCredit||'')}"`;
+    let imgCell;
+    if(hasVid){
+      imgCell = `<div class="rimg has-media" data-mtype="video" data-msrc="${esc(r.video)}"${cap}>
+          <video src="${esc(r.video)}" muted loop playsinline preload="metadata"${r.poster?` poster="${esc(r.poster)}"`:''}></video>
+          <div class="mzoom">클릭하여 확대</div></div>`;
+    } else if(hasImg){
+      imgCell = `<div class="rimg has-media" data-mtype="image" data-msrc="${esc(r.image)}"${cap}>
+          <img src="${esc(r.image)}" alt="${esc(r.title)}" loading="lazy">
+          <div class="mzoom">클릭하여 확대</div></div>`;
+    } else {
+      imgCell = `<div class="rimg"><div class="noimg"><span>IBME · RESEARCH</span></div></div>`;
+    }
     // 영문 부제 + 영문/국문 본문 (없으면 기존 body 사용)
     const subtitle = r.subtitle ? `<div class="rsub">${esc(r.subtitle)}</div>` : '';
     let bodyBlocks = '';
@@ -837,6 +878,47 @@ $('#aboutHeading').textContent = SITE.about.heading;
       ${imgCell}
     </article>`;
   }).join('');
+})();
+
+/* ---------- 연구 미디어: 미리보기 + 클릭 확대 ---------- */
+(function(){
+  const box=$('#vbox'), bv=$('#vboxVideo'), bi=$('#vboxImage');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cells=[...document.querySelectorAll('.rimg.has-media')];
+  if(!cells.length) return;
+
+  // 카드 안 동영상: 화면에 보일 때만 재생
+  const vids=cells.filter(c=>c.dataset.mtype==='video');
+  if(vids.length && !reduce && 'IntersectionObserver' in window){
+    const io=new IntersectionObserver(es=>es.forEach(e=>{
+      const v=e.target.querySelector('video'); if(!v) return;
+      if(e.isIntersecting) v.play().catch(()=>{}); else v.pause();
+    }),{threshold:.25});
+    vids.forEach(c=>io.observe(c));
+  }
+
+  function open(c){
+    const isVid = c.dataset.mtype==='video';
+    bv.style.display = isVid?'block':'none';
+    bi.style.display = isVid?'none':'block';
+    if(isVid){ bv.src=c.dataset.msrc; bv.play().catch(()=>{}); }
+    else { bi.src=c.dataset.msrc; bi.alt=c.dataset.mtitle||''; }
+    $('#vboxTitle').textContent  = c.dataset.mtitle||'';
+    $('#vboxCredit').textContent = c.dataset.mcredit||'';
+    box.classList.add('open'); document.body.style.overflow='hidden';
+  }
+  function close(){
+    box.classList.remove('open'); document.body.style.overflow='';
+    bv.pause(); bv.removeAttribute('src'); bv.load(); bi.removeAttribute('src');
+  }
+  cells.forEach(c=>{
+    c.addEventListener('click',()=>open(c));
+    c.setAttribute('tabindex','0'); c.setAttribute('role','button');
+    c.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();open(c);} });
+  });
+  $('#vboxClose').addEventListener('click',close);
+  box.addEventListener('click',e=>{ if(e.target===box) close(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&box.classList.contains('open')) close(); });
 })();
 
 /* ---------- PUBLICATIONS ---------- */
@@ -1138,5 +1220,15 @@ $('#aboutHeading').textContent = SITE.about.heading;
   } else draw();
 })();
 </script>
+<!-- 연구 미디어 라이트박스 -->
+<div class="vbox" id="vbox" role="dialog" aria-modal="true" aria-label="연구 자료 확대 보기">
+  <button class="vbox-close" id="vboxClose" aria-label="닫기">&times;</button>
+  <div class="vbox-inner">
+    <video id="vboxVideo" controls loop playsinline style="display:none"></video>
+    <img id="vboxImage" alt="" style="display:none">
+    <div class="vbox-cap"><b id="vboxTitle"></b><span id="vboxCredit"></span></div>
+  </div>
+</div>
+
 </body>
 </html>
