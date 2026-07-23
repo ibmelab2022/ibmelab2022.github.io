@@ -710,6 +710,16 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
 <div class="lightbox" id="lightbox"><img id="lightboxImg" alt=""></div>
 
 <!-- 콘텐츠 파일 -->
+<!-- 연구 미디어 라이트박스 -->
+<div class="vbox" id="vbox" role="dialog" aria-modal="true" aria-label="연구 자료 확대 보기">
+  <button class="vbox-close" id="vboxClose" aria-label="닫기">&times;</button>
+  <div class="vbox-inner">
+    <video id="vboxVideo" controls loop playsinline style="display:none"></video>
+    <img id="vboxImage" alt="" style="display:none">
+    <div class="vbox-cap"><b id="vboxTitle"></b><span id="vboxCredit"></span></div>
+  </div>
+</div>
+
 <script src="data.js"></script>
 
 <!-- 렌더링 엔진 (수정 불필요) -->
@@ -881,11 +891,12 @@ $('#aboutHeading').textContent = SITE.about.heading;
 })();
 
 /* ---------- 연구 미디어: 미리보기 + 클릭 확대 ---------- */
-(function(){
-  const box=$('#vbox'), bv=$('#vboxVideo'), bi=$('#vboxImage');
-  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+(function(){ try{
+  const box=$('#vbox'), bv=$('#vboxVideo'), bi=$('#vboxImage'), btn=$('#vboxClose');
   const cells=[...document.querySelectorAll('.rimg.has-media')];
-  if(!cells.length) return;
+  if(!box || !bv || !bi || !btn || !cells.length) return;   // 하나라도 없으면 조용히 종료
+  const reduce = typeof matchMedia==='function'
+    && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // 카드 안 동영상: 화면에 보일 때만 재생
   const vids=cells.filter(c=>c.dataset.mtype==='video');
@@ -916,9 +927,10 @@ $('#aboutHeading').textContent = SITE.about.heading;
     c.setAttribute('tabindex','0'); c.setAttribute('role','button');
     c.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();open(c);} });
   });
-  $('#vboxClose').addEventListener('click',close);
+  btn.addEventListener('click',close);
   box.addEventListener('click',e=>{ if(e.target===box) close(); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&box.classList.contains('open')) close(); });
+  }catch(err){ console.warn('media lightbox:',err); }   // 실패해도 나머지 페이지는 정상 동작
 })();
 
 /* ---------- PUBLICATIONS ---------- */
@@ -1220,15 +1232,6 @@ $('#aboutHeading').textContent = SITE.about.heading;
   } else draw();
 })();
 </script>
-<!-- 연구 미디어 라이트박스 -->
-<div class="vbox" id="vbox" role="dialog" aria-modal="true" aria-label="연구 자료 확대 보기">
-  <button class="vbox-close" id="vboxClose" aria-label="닫기">&times;</button>
-  <div class="vbox-inner">
-    <video id="vboxVideo" controls loop playsinline style="display:none"></video>
-    <img id="vboxImage" alt="" style="display:none">
-    <div class="vbox-cap"><b id="vboxTitle"></b><span id="vboxCredit"></span></div>
-  </div>
-</div>
 
 </body>
 </html>
