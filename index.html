@@ -842,13 +842,13 @@ $('#aboutHeading').textContent = SITE.about.heading;
     const hasVid = r.video && r.video.trim();
     let figCell = '';
     if(hasVid || hasImg){
-      const src = hasVid ? r.video : r.image;
       const media = hasVid
         ? `<video src="${esc(r.video)}" muted loop playsinline preload="metadata"${r.poster?` poster="${esc(r.poster)}"`:''}></video>`
         : `<img src="${esc(r.image)}" alt="${esc(r.title)}" loading="lazy">`;
       const t = r.mediaTitle ? `<b>${esc(r.mediaTitle)}</b>` : '';
       const c = r.mediaCredit ? `${t?'<span class="sep">·</span>':''}${esc(r.mediaCredit)}` : '';
-      const full = `<br><a class="full" href="${esc(src)}" target="_blank" rel="noopener">원본 크기로 보기 ↗</a>`;
+      const full = '';   // 원본 크기 링크 (다시 넣으려면 아래 주석 참고)
+      // const full = `<br><a class="full" href="${esc(src)}" target="_blank" rel="noopener">원본 크기로 보기 ↗</a>`;
       figCell = `<figure class="rfig">${media}<figcaption>${t}${c}${full}</figcaption></figure>`;
     }
     // 영문 부제 + 영문/국문 본문 (없으면 기존 body 사용)
