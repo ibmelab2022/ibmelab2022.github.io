@@ -3,8 +3,7 @@
 /* ── c1 : MI 게이지 + 기포 (안정 진동 ↔ 관성 붕괴) ── */
 const prS=document.getElementById("pr"), frS=document.getElementById("fr");
 
-function bubbleRadius(MI, t){
-  const R0=22;
+function bubbleRadius(MI, t, R0){
   if(MI < 0.7) return {R:R0*(1+0.13*Math.sin(t*3.2)), phase:"stable", u:0};
   const u=(t*0.6)%1;
   const grow=Math.min(1,(MI-0.7)/1.5);
@@ -29,11 +28,18 @@ const gauge = makeScene("c1", 330, (ctx,W,H,t)=>{
   else { zoneCol=POS; vtxt="FDA 한계 초과"; }
   const vd=document.getElementById("verdict"); vd.textContent=vtxt; vd.style.color=zoneCol;
 
-  /* ── 왼쪽: 기포 챔버 ── */
+  /* ── 왼쪽: 기포 챔버 ──
+     ◆ 반경을 74 로 고정했더니 좁은 창에서 오른쪽 MI 칩을 침범했습니다
+       (폭 340 에서 챔버 오른쪽 176 > 칩 왼쪽 163). 남는 폭에 맞춰 기포까지 함께 줄입니다. */
   const bx=W*0.30, by=H*0.50;
+  ctx.font=`700 ${(11*FS).toFixed(1)}px ${MONO}`;
+  const miW=ctx.measureText("MI 0.00").width+10;
+  const room=(W*0.62-17-miW-8)-bx;
+  const R0=Math.max(12, Math.min(22,(room-8)/3.9));   /* 최대 팽창 3.9·R0 이 여유 안에 들도록 */
+  const CH=Math.min(74, R0*3.9+8);
   ctx.fillStyle="rgba(43,61,80,.04)";
-  ctx.beginPath(); ctx.arc(bx,by,74,0,7); ctx.fill();
-  const b=bubbleRadius(MI,t);
+  ctx.beginPath(); ctx.arc(bx,by,CH,0,7); ctx.fill();
+  const b=bubbleRadius(MI,t,R0);
 
   if(b.phase==="inertial" && b.u>=0.70 && b.u<0.94){    /* 붕괴 충격파 */
     const rr=22*(1+(b.u-0.70)/0.24*3.4);
@@ -62,12 +68,15 @@ const gauge = makeScene("c1", 330, (ctx,W,H,t)=>{
       ctx.lineTo(bx+Math.cos(an)*(b.R+13),by+Math.sin(an)*(b.R+13)); ctx.stroke(); }
   }
   ctx.textAlign="center";
-  chip(ctx, MI<0.7?"안정 진동 (미세흐름)":"관성 붕괴 (충격파·열점)", bx, by+92, MI<0.7?SIGNAL_DK:POS, 10.5);
+  chip(ctx, MI<0.7?"안정 진동 (미세흐름)":"관성 붕괴 (충격파·열점)", bx, by+CH+18, MI<0.7?SIGNAL_DK:POS, 10.5);
   chip(ctx, MI<0.7?"기포가 잔잔히 숨쉼":"부풀었다 격렬히 무너짐", bx, H-14, MUTED, 9.5, 400);
   ctx.textAlign="left";
 
   /* ── 오른쪽: MI 세로 게이지 ── */
-  const gx=W*0.62, gw=30, yTop=26, yBot=H-30, span=yBot-yTop, MImax=3;
+  /* ◆ MImax 를 3 으로 두면 슬라이더 최대(P_r 4 MPa · f 1 MHz → MI 4.0)에서 마커가
+     꼭대기에 붙어 슬라이더를 움직여도 그림이 변하지 않았습니다(전 조합의 1.8%).
+     슬라이더가 낼 수 있는 최댓값에 맞춥니다. */
+  const gx=W*0.62, gw=30, yTop=26, yBot=H-30, span=yBot-yTop, MImax=4;
   const yFor=mi=> yBot - Math.min(mi,MImax)/MImax*span;
   const zone=(lo,hi,col)=>{ ctx.fillStyle=col; ctx.fillRect(gx, yFor(hi), gw, yFor(lo)-yFor(hi)); };
   zone(0,0.3,"rgba(23,192,201,.12)");
@@ -113,8 +122,15 @@ const der = makeScene("c2", 300, (ctx,W,H)=>{
   document.getElementById("rpk").textContent=xpk.toFixed(1);
   document.getElementById("rgain").textContent=Ppk.toFixed(2);
   const st=document.getElementById("dstat");
-  st.textContent = Ppk<1 ? `깊은 초점 — 감쇠가 집속 이득을 이김 (표면보다 약함)` : `초점서 ${Ppk.toFixed(2)}배로 증폭`;
-  st.style.color = Ppk<1? POS : AMBER_DK;
+  /* ◆ 예전 판정은 Ppk<1 이었는데, 피크 탐색이 x=0 부터라 P(0)=G(0)≥1 이므로 Ppk≥1 이 항상 성립해
+     "깊은 초점 — 감쇠가 집속 이득을 이김" 문구가 한 번도 뜨지 않았습니다.
+     실제로 확인해야 할 것은 **최대 지점이 초점에서 밀렸는가** 입니다
+     (전 조합의 60% 에서 피크가 초점보다 얕은 쪽에 놓입니다). */
+  const pushed = d - xpk > 1.0;
+  st.textContent = pushed
+    ? `감쇠가 집속 이득을 이겨 최대가 ${xpk.toFixed(1)} cm 로 밀림 (초점 ${d.toFixed(1)} cm)`
+    : `초점 ${d.toFixed(1)} cm 부근에서 ${Ppk.toFixed(2)}배로 증폭`;
+  st.style.color = pushed? POS : AMBER_DK;
 
   const L=50,R=16,PW=W-L-R, T=16,B=H-30, PH=B-T, yMax=3.6;
   const X=x=> L + x/Dmax*PW;

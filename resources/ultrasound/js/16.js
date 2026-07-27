@@ -37,7 +37,7 @@ const hero = makeScene("c1", 500, (ctx,W,H,t)=>{
   const cw=(W-2*M-gx)/2, rh=(H-2*M-gy)/2;
   const cells=[[M,M],[M+cw+gx,M],[M,M+rh+gy],[M+cw+gx,M+rh+gy]];
   const titles=["A-Mode","B-Mode","M-Mode","C-Mode"];
-  const subs=["진폭 · 탐촉자 고정 · 선 하나 (영상 아님)",
+  const subs=["진폭 · 탐촉자 고정 · 선 하나 (영상 아님, 90° 회전)",
               "밝기 → 2D 해부 · 가로축 = 공간",
               "밝기 → 시간축에 쌓음 · 움직임의 궤적",
               "일정 깊이 정면 단면 en face · C-SAM"];
@@ -46,6 +46,8 @@ const hero = makeScene("c1", 500, (ctx,W,H,t)=>{
   const st=document.getElementById("mstat");
   if(st){ st.textContent="넷 다 같은 에코 라인 · 배열만 다름"; st.style.color=SIGNAL_DK; }
 
+  /* A-Mode. 관례 화면은 가로=깊이·세로=진폭이지만, 여기서는 네 칸의 깊이축을
+     나란히 맞춰 비교하기 위해 90° 돌려 깊이를 세로·진폭을 가로로 그립니다. */
   function drawA(ix,iy,iw,ih){
     ctx.strokeStyle=W_(.10); ctx.lineWidth=1;
     for(let d=0.25;d<1;d+=0.25){ ctx.beginPath(); ctx.moveTo(ix,iy+d*ih); ctx.lineTo(ix+iw,iy+d*ih); ctx.stroke(); }

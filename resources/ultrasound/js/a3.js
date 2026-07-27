@@ -2,7 +2,10 @@
    검증: /home/claude/work/a345.js · a345b.js
      · 축방향 = c/2B · 2사이클 펄스 B=2.21MHz → 0.436mm (복소 기저대역 정합필터 수치해)
      · 32사이클 첩(길이 16배) 같은 B → 0.436mm — 완전히 같음
-     · TB = T·B = 6.4µs × 2.21MHz = 14.1 → SNR +12.0 dB (에너지비 16 → +12.0, 10log₁₀TB → +11.5)
+     · TB = T·B = 6.4µs × 2.21MHz = 14.1
+       ★ SNR 이득은 **짧은 펄스 대비 에너지비** 10log₁₀(T/T₀) = 10log₁₀16 = +12.0 dB 로 계산한다.
+         흔히 쓰는 10log₁₀TB(=11.5)는 **첩 자신의 압축 전후** 기준이라 다른 값이다.
+         짧은 펄스의 TB₀=0.88≈1 이라 두 값이 가까울 뿐 — 본문 §01 에 구분해 적었다.
        ⚠ '사이클 수 = TB' 는 오해 (비대역폭 100% 가정) — +15dB 는 64사이클
      · 사이드로브 rect −14.3 dB / hann −25.7 dB (주엽은 0.436 → 0.885mm)                */
 const C = 1540, F0 = 5e6;
@@ -128,13 +131,16 @@ function drawCompressed(ctx, x, y0, w, h, cd){
   const pyT = bb+5, penMid = pyT+5;
   const shallow = cd.type==="pulse", extra = extraCmOf(cd.energy), frac = Math.min(1, extra/PEN_MAX);
   ctx.textAlign="left"; label(ctx,"도달 깊이", x, penMid+3, MUTED, 8.5, 400);
-  const pbarL = x+56, pbarW = w-56-98;
+  /* ◆ 고정 여백 56+98 이라 좁은 창에서 폭이 음수가 됐습니다(W=340 에서 −68).
+     칸 폭에 비례한 여백으로 바꾸고 최소 폭을 보장합니다. */
+  const padName = Math.min(56, w*0.22), padVal = Math.min(98, w*0.38);
+  const pbarL = x+padName, pbarW = Math.max(18, w-padName-padVal);
   ctx.strokeStyle=LINE; ctx.lineWidth=1; ctx.strokeRect(pbarL, pyT, pbarW, 10);
   ctx.fillStyle = shallow ? "rgba(179,18,60,.50)" : "rgba(23,192,201,.60)";
   ctx.fillRect(pbarL, pyT, Math.max(pbarW*frac, 2.5), 10);
   ctx.textAlign="left";
   chip(ctx, shallow ? "기준 · 가장 얕음" : `+${extra.toFixed(1)} cm 깊이`,
-       pbarL+pbarW+5, penMid+3, shallow?POS:SIGNAL_DK, 9, 700);
+       Math.min(pbarL+pbarW+5, x+w-4), penMid+3, shallow?POS:SIGNAL_DK, 9, 700);
   ctx.textAlign="left";
 }
 
@@ -326,9 +332,14 @@ const en = makeScene("c3", 330, (ctx,W,H)=>{
   rn.textContent = net>=0 ? `+${net.toFixed(1)} dB 남음` : `${(-net).toFixed(1)} dB 부족`;
   rn.style.color = net>=0 ? SIGNAL_DK : (net>-10 ? AMBER_DK : POS);
   const st = document.getElementById("estat");
-  st.textContent = gain>20 ? "문헌 상한(~20 dB)을 넘어섬 — 현실에선 감쇠·사각지대가 막음"
-                           : `에너지 ${(T/Ts).toFixed(0)}배 → SNR +${gain.toFixed(1)} dB`;
-  st.style.color = gain>20 ? POS : SIGNAL_DK;
+  /* ◆ 예전 판정은 gain>20 이었는데 슬라이더 최대(128사이클)가 +18.06 dB 라
+     "문헌 상한을 넘어섬" 문구가 한 번도 뜨지 않았습니다(§7-1 #17).
+     도달 가능한 구간을 셋으로 나눠 상한에 얼마나 가까운지를 알립니다. */
+  const near = gain >= 15;
+  st.textContent = near
+    ? `에너지 ${(T/Ts).toFixed(0)}배 → +${gain.toFixed(1)} dB · 문헌 상한 ~20 dB 에 근접 (사각지대 ${(C*T/2*1e3).toFixed(1)} mm)`
+    : `에너지 ${(T/Ts).toFixed(0)}배 → SNR +${gain.toFixed(1)} dB`;
+  st.style.color = near ? AMBER_DK : SIGNAL_DK;
 
   /* ── 위: 파형 면적 비교 (최대 음압 고정) ── */
   const L=54, R=16, PW=W-L-R, T0=22, B0=150, base=(T0+B0)/2;

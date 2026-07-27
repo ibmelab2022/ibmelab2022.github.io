@@ -18,20 +18,23 @@
   <div class="wrap hero-t">
     <div class="eyebrow">Imaging · 15</div>
     <h1>펄스-에코 방식<span class="sub">Ultrasound Pulse-Echo Method</span></h1>
-    <p class="lede">쏘고, 입 다물고, 듣습니다. 초음파 영상의 전부가 이 <strong>세 동작의 반복</strong>입니다.
-      <strong>돌아온 시각이 곧 깊이</strong>이고, 그것이 이 방식이 성립하는 이유입니다.</p>
+    <p class="lede">송신하고, 멈추고, 수신한다. 초음파 영상은 이 <strong>세 동작의 반복</strong>으로 이루어진다.
+      에코가 <strong>돌아온 시각이 곧 깊이</strong>이며, 이것이
+      펄스-에코 방식<span class="en">(pulse-echo method)</span>이 성립하는 근거이다.</p>
   </div>
 </header>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">01</div>
     <h2>거리식<span class="sub">The range equation</span></h2></div>
-  <p>탐촉자가 펄스를 쏘고 <strong>듣기 모드로 바꿉니다.</strong> 가까운 표적의 에코가 먼저 오고, 먼 표적은 나중에 옵니다.
-    매질이 균질하면 음속이 <strong>일정</strong>하고 경로가 <strong>직선</strong>이므로, 시각만 재면 거리가 나옵니다.</p>
+  <p>탐촉자는 펄스를 송신한 직후 <strong>수신 모드로 전환한다.</strong>
+    가까운 표적의 에코가 먼저 도달하고 먼 표적의 에코는 나중에 도달한다.
+    매질이 균질하면 음속이 <strong>일정</strong>하고 경로가 <strong>직선</strong>이므로,
+    도달 시각만 측정하면 거리를 얻을 수 있다.</p>
   <div class="eq"><span>D =</span><span class="frac"><span>c · T</span><span>2</span></span></div>
   <div class="eqcap">T = 왕복 시간 · 2 로 나누는 이유는 <strong>갔다 왔기</strong> 때문</div>
   <div class="panel">
-    <div class="plabel"><span><b>인터랙티브</b> · 시각이 깊이가 된다 · PRF 를 올려보세요</span><span id="pstat">—</span></div>
+    <div class="plabel"><span><b>인터랙티브</b> · 시각이 깊이가 되는 과정 · PRF 가정</span><span id="pstat">—</span></div>
     <canvas id="c1" height="400"></canvas>
     <div class="pbody">
       <div class="ctrls">
@@ -46,33 +49,35 @@
         <div class="ro"><span class="k">듀티비</span><span class="v" id="duty">—</span><span class="u">%</span></div>
         <div class="ro"><span class="k">접힌 표적</span><span class="v" id="fold" style="color:var(--pos);font-size:15px">—</span></div>
       </div>
-      <p class="cap"><b style="color:var(--pos)">파형</b>이 오른쪽으로 나아가다 표적을 만나면 일부는 <b style="color:var(--signal)">에코</b>로 되돌아오고,
-        <b>통과한 파형은 한 단계 옅어집니다</b> — 반사가 떼어간 몫 + 감쇠 (04·07장). 에코도 돌아오는 길에 같은 값을 또 치릅니다.
-        그래서 <b>깊은 표적일수록 A-라인 막대가 작습니다.</b> 화면의 감쇠는 실제의 약 1/10 로 그렸습니다 —
-        실제(5 MHz, 왕복 5 dB/cm)라면 깊은 에코는 <b>보이지도 않습니다.</b> 그걸 살리는 것이 22장 TGC 입니다.<br>
-        <b>PRF 를 올려보세요.</b> <b style="color:var(--amber-deep)">│</b> 를 넘는 표적의 에코는 <b>다음 펄스가 나간 뒤에</b> 도착합니다
-        (<b style="color:var(--amber-deep)">노란 파형</b>). 장비는 그걸 <b>방금 쏜 펄스의 에코</b>로 착각해
-        <b style="color:var(--pos)">엉뚱하게 얕은 곳</b>에 그립니다.</p>
+      <p class="cap"><b style="color:var(--pos)">파형</b>이 오른쪽으로 진행하다 표적을 만나면 일부가 <b style="color:var(--signal)">에코</b>로 되돌아오고,
+        <b>통과한 파형은 한 단계 약해진다</b> — 반사가 떼어간 몫과 감쇠가 함께 작용한다(4·7장).
+        에코도 돌아오는 길에 같은 손실을 다시 치르므로 <b>깊은 표적일수록 A-라인 막대가 작다.</b>
+        화면의 감쇠는 실제의 약 1/10 로 그린 것이며, 실제 값(5 MHz, 왕복 5 dB/cm)이라면 깊은 에코는
+        <b>화면에 나타나지도 않는다.</b> 그것을 되살리는 것이 21장의 시간 이득 보상이다.<br>
+        <b>PRF 를 올리면</b> <b style="color:var(--amber-deep)">│</b> 를 넘는 표적의 에코가 <b>다음 펄스가 나간 뒤에</b> 도착한다
+        (<b style="color:var(--amber-deep)">노란 파형</b>). 장비는 이를 <b>방금 송신한 펄스의 에코</b>로 해석해
+        <b style="color:var(--pos)">실제보다 얕은 위치</b>에 표시한다.</p>
     </div>
   </div>
-  <div class="key warn"><div class="kh">단위를 조심하세요 · 자료에 자주 틀려 있습니다</div>
-    <p>연부조직 음속 <span class="num">1540 m/s</span> 를 다시 쓰면 <strong><span class="num">1.54 mm/µs</span></strong> 입니다.
-      <span class="num">mm/ms</span> 로 적힌 자료를 보게 되는데 <strong>1000배 틀린 값</strong>입니다.</p>
-    <p style="margin-top:10px">예: 에코가 <strong><span class="num">10 µs</span></strong> 만에 오면
-      D = 1540 × 10×10⁻⁶ / 2 = <strong><span class="num">7.7 mm</span></strong>.
-      만약 정말 10 <strong>ms</strong> 였다면 <span class="num">7.7 m</span> — 사람 몸이 아닙니다.</p>
-    <p style="margin-top:10px">같은 이유로 <strong>1 MHz 의 한 주기는 1 µs</strong> 입니다 (1 ms 가 아니라).
-      초음파는 <strong>µs 의 세계</strong>입니다.</p></div>
+  <div class="key warn"><div class="kh">단위 — 자료에 자주 틀려 있는 지점</div>
+    <p>연부조직 음속 <span class="num">1540 m/s</span> 를 다르게 표기하면
+      <strong><span class="num">1.54 mm/µs</span></strong> 이다.
+      <span class="num">mm/ms</span> 로 적힌 자료를 접하게 되는데 <strong>1000배 틀린 값</strong>이다.</p>
+    <p style="margin-top:10px">예를 들어 에코가 <strong><span class="num">10 µs</span></strong> 만에 도달하면
+      D = 1540 × 10×10⁻⁶ / 2 = <strong><span class="num">7.7 mm</span></strong> 이다.
+      같은 값이 10 <strong>ms</strong> 였다면 <span class="num">7.7 m</span> 가 되어 인체의 크기를 벗어난다.</p>
+    <p style="margin-top:10px">같은 이유로 <strong>1 MHz 의 한 주기는 1 µs</strong> 이다(1 ms 가 아니다).
+      초음파는 <strong>µs 단위에서 일어나는 현상</strong>이다.</p></div>
 </div></section>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">02</div>
     <h2>펄스 길이<span class="sub">Pulse duration</span></h2></div>
-  <p>펄스에는 <strong>시간 길이</strong>가 있습니다. 교류 신호이므로 <strong>최소 한 사이클</strong>은 있어야 합니다.</p>
+  <p>펄스는 유한한 <strong>시간 길이</strong>를 갖는다. 교류 신호이므로 <strong>최소 한 사이클</strong>은 필요하다.</p>
   <ul>
-    <li><strong>길수록 에너지가 많습니다</strong> → 감쇠를 견디고 더 깊이 갑니다.</li>
-    <li><strong>너무 길면</strong> 가까이 있는 두 표적의 에코가 <strong>겹쳐버립니다.</strong> → 구별 불가.</li>
-    <li>그래서 영상은 <strong>짧은 펄스</strong>를 원합니다. <span class="en">→ 17장 축방향 분해능</span></li>
+    <li>펄스가 <strong>길수록 담고 있는 에너지가 크므로</strong> 감쇠를 견디고 더 깊이 도달한다.</li>
+    <li>반면 펄스가 <strong>너무 길면</strong> 가까이 있는 두 표적의 에코가 <strong>서로 겹쳐</strong> 구별할 수 없게 된다.</li>
+    <li>따라서 영상에서는 <strong>짧은 펄스</strong>가 유리하다(17장).</li>
   </ul>
   <div class="tw"><table class="props">
     <tr><th>펄스</th><th>주기</th><th>지속 시간</th><th>공간 길이</th><th>축방향 분해능</th></tr>
@@ -83,24 +88,31 @@
     <tr><td class="m">10 MHz · 2 사이클</td><td class="n">0.10 µs</td><td class="n">0.20 µs</td>
       <td class="n">0.308 mm <span class="en">= 2λ</span></td><td class="n"><b>0.154 mm</b></td></tr>
   </table></div>
-  <p><strong>같은 사이클 수라면 주파수가 높을수록 펄스가 짧습니다.</strong> 표의 첫 줄과 셋째 줄이 그것입니다 —
-    사이클 수는 같은데 주파수가 두 배라 모든 게 절반이 됩니다.</p>
+  <p><strong>사이클 수가 같다면 주파수가 높을수록 펄스가 짧아진다.</strong>
+    표의 첫 행과 셋째 행이 그 예로, 사이클 수는 같고 주파수가 두 배이므로 모든 값이 절반이 된다.</p>
+  <p>표의 <strong>축방향 분해능</strong> 열이 공간 길이의 절반인 데에는 거리식과 같은 이유가 있다.
+    두 반사체가 Δz 만큼 떨어져 있으면 두 에코의 <strong>왕복 경로차는 2Δz</strong> 이므로,
+    에코가 겹치지 않으려면 <span class="num">2Δz ≥ 펄스 공간 길이</span> 여야 한다.
+    즉 <strong>축방향 분해능 = 펄스 공간 길이 / 2 = nλ/2</strong> 이고, 2사이클이면 정확히 λ 가 된다.</p>
 
   <h3>펄스의 공간 형상 <span class="en">pulse spatial shape</span></h3>
-  <p>피스톤 표면을 막 떠난 펄스는 <strong>원반</strong>입니다 — 지름은 탐촉자 지름, 두께는
-    <span class="num">c × 펄스 지속</span>. 5 MHz 2사이클이면 두께가 <span class="num">0.6 mm</span> 남짓한 얇은 판이죠.
-    이 원반이 나아가면서 퍼지고, 결국 <strong>돔 모양</strong>이 됩니다. <span class="en">→ 12장 근거리장</span></p>
+  <p>피스톤 표면을 막 떠난 펄스는 <strong>원반 형태</strong>이다. 지름은 탐촉자의 지름이고 두께는
+    <span class="num">c × 펄스 지속 시간</span>이므로, 5 MHz 2사이클이면 두께가
+    <span class="num">0.6 mm</span> 남짓한 얇은 판이 된다.
+    이 원반은 진행하면서 퍼져 결국 <strong>돔 형태</strong>가 된다(12장).</p>
 </div></section>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">03</div>
     <h2>PRF — 얼마나 자주 쏠 수 있나<span class="sub">Pulse repetition frequency</span></h2></div>
-  <p>표적이 움직이므로 <strong>반복해서 쏘아야</strong> 따라갈 수 있습니다. 그런데 <strong>아무 때나 쏘면 안 됩니다</strong> —
-    <strong>가장 먼 표적의 에코가 돌아온 다음에</strong> 쏴야 합니다.</p>
+  <p>표적이 움직이므로 <strong>반복해서 송신해야</strong> 그 움직임을 따라갈 수 있다.
+    그런데 송신 시점을 임의로 정할 수는 없다 —
+    <strong>가장 먼 표적의 에코가 돌아온 뒤에</strong> 다음 펄스를 보내야 한다.</p>
   <div class="key"><div class="kh">안 그러면 무슨 일이 생기는가</div>
-    <p>먼 표적의 에코가 <strong>다음 펄스가 나간 뒤에</strong> 도착하면, 장비는 그것을 <strong>방금 쏜 펄스의 에코</strong>로 해석합니다.
-      결과: <strong>깊은 곳의 구조물이 얕은 곳에 그려집니다.</strong> 어느 쪽이 진짜인지 구별할 방법이 없습니다.
-      맨 위 거리식(01절) 애니메이션에서 PRF 를 올려 보세요.</p></div>
+    <p>먼 표적의 에코가 <strong>다음 펄스가 나간 뒤에</strong> 도착하면, 장비는 그것을
+      <strong>방금 송신한 펄스의 에코</strong>로 해석한다.
+      그 결과 <strong>깊은 곳의 구조물이 얕은 곳에 표시되며</strong>, 도달 시각만으로는 어느 쪽이 실제인지 판별할 수 없다.
+      01절 애니메이션에서 PRF 를 올리면 이 현상이 그대로 나타난다.</p></div>
   <div class="eq"><span>PRP<sub>min</sub> =</span><span class="frac"><span>2D</span><span>c</span></span>
     <span style="margin-left:26px">PRF<sub>max</sub> =</span><span class="frac"><span>c</span><span>2D</span></span></div>
   <div class="eqcap">PRP = 펄스 반복 주기 <span class="en">pulse repetition period</span> · D = 최대 검출 깊이</div>
@@ -111,29 +123,30 @@
     <tr class="hi"><td class="m">15 cm</td><td class="n">194.8 µs</td><td class="n">5.13 kHz</td><td>심장 · 복부</td></tr>
     <tr><td class="m">20 cm</td><td class="n">259.7 µs</td><td class="n"><b>3.85 kHz</b></td><td>깊은 복부</td></tr>
   </table></div>
-  <p><strong>PRF 가 높을수록 최대 깊이는 얕아지고, 대신 빠른 움직임을 잡을 수 있습니다.</strong>
-    이 맞교환은 <strong>도플러에서 결정적</strong>이 됩니다 — 거기서는 PRF 가 <strong>측정 가능한 최대 속도</strong>를 정하니까요.
-    <span class="en">→ Pulse Wave Doppler</span></p>
+  <p><strong>PRF 가 높을수록 최대 검출 깊이는 얕아지고, 그 대신 더 빠른 움직임을 추적할 수 있다.</strong>
+    이 맞교환은 도플러에서 결정적인 제약이 되는데, 거기서는 PRF 가
+    <strong>측정 가능한 최대 속도</strong>를 직접 정하기 때문이다(27장).</p>
 
   <h3>듀티비 <span class="en">duty factor</span></h3>
   <div class="eq" style="font-size:17px"><span>듀티비 =</span>
     <span class="frac"><span>펄스 지속</span><span>PRP</span></span><span>= 펄스 지속 × PRF</span></div>
-  <p>15 cm 깊이에 5 MHz 2사이클이면 <span class="num">0.40 µs / 195 µs</span> = <strong><span class="num">0.2%</span></strong>.
-    <strong>탐촉자는 99.8% 의 시간을 듣고만 있습니다.</strong> 그래서 <strong>평균 파워가 아주 낮고</strong>,
-    이것이 진단 초음파가 안전한 큰 이유 중 하나입니다. <span class="en">→ Intensity · Thermal Index</span></p>
+  <p>15 cm 깊이에 5 MHz 2사이클을 쓰면 <span class="num">0.40 µs / 195 µs</span> =
+    <strong><span class="num">0.2%</span></strong> 이다.
+    <strong>탐촉자는 전체 시간의 99.8%를 수신에만 쓴다.</strong>
+    따라서 <strong>시간 평균 파워가 매우 낮으며</strong>, 이것이 진단 초음파가 안전한 주요 근거 가운데 하나이다(29장·31장).</p>
 </div></section>
 
 <section><div class="wrap">
   <div class="sum">
     <div class="kh">한 장 정리 · Summary</div>
     <ul>
-      <li><b>쏘고 → 듣고 → 반복.</b> 돌아온 <b>시각이 곧 깊이</b>다</li>
-      <li><b>D = cT/2</b> · 2 로 나누는 건 갔다 왔기 때문</li>
-      <li><b>1540 m/s = 1.54 mm/µs</b> · 초음파는 <b>µs 의 세계</b> (mm/ms 는 1000배 오류)</li>
-      <li><b>축방향 분해능 = 펄스길이/2 = nλ/2</b> · 2사이클이면 정확히 λ</li>
-      <li><b>PRF_max = c/(2D)</b> · 먼 표적의 에코를 다 받고 나서 쏴야 한다</li>
-      <li><b>PRF 가 너무 높으면</b> 깊은 구조물이 <b>얕은 곳에 그려진다</b> — 구별 불가</li>
-      <li><b>듀티비 ≈ 0.2%</b> · 99.8% 는 듣기만 한다 → 평균 파워가 낮다</li>
+      <li><b>송신 → 수신 → 반복.</b> 에코가 돌아온 <b>시각이 곧 깊이</b>다</li>
+      <li><b>D = cT/2</b> · 2 로 나누는 것은 왕복했기 때문</li>
+      <li><b>1540 m/s = 1.54 mm/µs</b> · 초음파는 <b>µs 단위</b> (mm/ms 는 1000배 오류)</li>
+      <li><b>축방향 분해능 = 펄스 공간 길이/2 = nλ/2</b> · 왕복 경로차가 2Δz 이기 때문 · 2사이클이면 λ</li>
+      <li><b>PRF_max = c/(2D)</b> · 먼 표적의 에코를 다 받은 뒤에 송신해야 한다</li>
+      <li><b>PRF 가 너무 높으면</b> 깊은 구조물이 <b>얕은 곳에 표시된다</b> — 판별 불가</li>
+      <li><b>듀티비 ≈ 0.2%</b> · 99.8% 는 수신만 한다 → 시간 평균 파워가 낮다</li>
     </ul>
   </div>
 </div></section>

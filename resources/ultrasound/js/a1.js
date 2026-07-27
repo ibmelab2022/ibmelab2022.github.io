@@ -240,8 +240,11 @@ const fr = makeScene("c2", 360, (ctx,W,H,t)=>{
   ctx.textAlign="left";
 
   const by=bot+42, bw=W-24, bx=12, bh=13;
-  const lo=Math.log10(10), hi=Math.log10(30000);
-  const XB = v => bx + (Math.log10(Math.max(v,10))-lo)/(hi-lo)*bw;
+  /* ◆ 상한을 30,000 으로 두면 깊이 2 cm·각도 1개(38,500 fps)에서 막대와 칩이 캔버스를 넘었습니다
+     (XB=1018 > 막대 끝 988). 슬라이더가 낼 수 있는 최댓값(깊이 2 cm·1각도)까지 담습니다. */
+  const FPS_MAX = 1/(2*(2/100)/C);                 /* = 38,500 fps */
+  const lo=Math.log10(10), hi=Math.log10(FPS_MAX);
+  const XB = v => bx + Math.min(1,(Math.log10(Math.max(v,10))-lo)/(hi-lo))*bw;
   ctx.fillStyle="rgba(238,243,247,.9)"; ctx.fillRect(bx,by,bw,bh);
   ctx.strokeStyle=LINE; ctx.lineWidth=1; ctx.strokeRect(bx,by,bw,bh);
   ctx.fillStyle=NEG; ctx.fillRect(bx, by, XB(fpsLine)-bx, bh);

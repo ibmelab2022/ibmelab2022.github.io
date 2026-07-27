@@ -54,7 +54,12 @@ const c1=makeScene("c1", 420, (ctx,W,H,t)=>{
   st.textContent = TX ? "송신 — 익스팬더 열림 · 리미터 닫힘(LNA 보호)" : "수신 — 익스팬더 닫힘(송신기 분리) · 리미터 열림(에코 통과)";
   st.style.color = TX? POS : SIGNAL_DK;
 
-  const X0=Math.max(6,(W-472)/2), RY=92;
+  /* ◆ 이 회로도는 가로 472 px 를 전제로 좌표가 짜여 있어, 좁은 창에서는
+     LNA 상자·리미터·스코프 오른쪽이 캔버스 밖으로 잘렸습니다(W=400 에서 72 px).
+     전체를 균일 축소해 항상 안쪽에 들어오게 합니다. 세로는 내용이 352 px 라 여유가 있습니다. */
+  const SC = Math.min(1, (W-12)/472), VW = SC<1 ? 472 : W;
+  ctx.save(); if(SC<1) ctx.scale(SC, SC);
+  const X0=Math.max(6,(VW-472)/2), RY=92;
   const puX=X0+24, puR=X0+88, exL=X0+114, exR=X0+166, nd=X0+222, rL=X0+254, rR=X0+332, lnX=X0+366, lnBox=X0+408, lnBoxR=X0+466;
   /* 배선 (주 레일) */
   ctx.strokeStyle=INK2; ctx.lineWidth=1.7; ctx.lineCap="round"; ctx.beginPath();
@@ -136,6 +141,7 @@ const c1=makeScene("c1", 420, (ctx,W,H,t)=>{
     chip(ctx,"손실 없이 통과 (같은 크기)",sc2+scW/2,scY+scH-8,SIGNAL_DK,9.5);
     ctx.textAlign="left";
   }
+  ctx.restore();
 },{play:"p1", speed:0.014, tStill:5.4});
 rrS.oninput=c1.redraw;
 

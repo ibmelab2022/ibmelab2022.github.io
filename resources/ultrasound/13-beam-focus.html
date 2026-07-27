@@ -18,21 +18,26 @@
   <div class="wrap hero-t">
     <div class="eyebrow">Beamforming · 13</div>
     <h1>빔 집속<span class="sub">Ultrasound Beam Focus</span></h1>
-    <p class="lede">집속은 <strong>단 하나의 아이디어</strong>입니다 — <strong>파면을 오목하게 만들면 한 점으로 모인다.</strong>
-      면을 깎아서 만들든 지연으로 만들든, 결과는 같습니다.</p>
+    <p class="lede">집속<span class="en">(focusing)</span>은 하나의 원리로 설명된다 —
+      <strong>파면을 오목하게 만들면 파동이 한 점으로 모인다.</strong>
+      면을 깎아서 만들든 소자별 지연으로 만들든 결과는 같다.</p>
   </div>
 </header>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">01</div>
     <h2>방법<span class="sub">How the concave wavefront is made</span></h2></div>
-  <p>평평한 면을 균일하게 흔들면 <strong>평면파</strong>가 나갑니다. 퍼지지도 모이지도 않죠.
-    <strong>오목한 파면</strong>을 만들면 진행하면서 <strong>한 점으로 수렴</strong>합니다. 방법은 둘뿐입니다:</p>
+  <p>평평한 면을 균일하게 진동시키면 파면도 평평하다. 이 빔은 근거리장 안에서는 대체로 나란히 진행하지만,
+    12장에서 다루었듯 근거리장을 지나면 확산각만큼 퍼진다. 어느 경우에도 <strong>스스로 한 점으로 수렴하지는 않는다.</strong>
+    12장의 <strong>자연 초점</strong>은 빔이 가장 가늘어지는 지점일 뿐, 파면이 수렴해 만들어지는 초점이 아니라는 점을 구분해야 한다.
+    반면 <strong>오목한 파면</strong>을 만들면 진행하면서 <strong>한 점으로 수렴한다.</strong>
+    오목한 파면을 만드는 방법은 두 가지이다.</p>
   <ul>
-    <li><strong>면을 오목하게 깎는다</strong> <span class="en">mechanical</span> · 렌즈나 곡면 소자.
-      초점이 <strong>한 곳에 고정</strong>됩니다.</li>
-    <li><strong>배열의 소자마다 지연을 준다</strong> <span class="en">electronic</span> ·
-      바깥을 먼저, 가운데를 나중에 쏘면 오목한 파면이 됩니다. <strong>초점을 마음대로 옮길 수 있습니다.</strong></li>
+    <li><strong>면을 오목하게 가공한다</strong> — <span class="t">기계적 집속</span><span class="en">(mechanical focusing)</span>.
+      음향 렌즈나 곡면 소자를 사용하며, 초점이 <strong>한 곳에 고정</strong>된다.</li>
+    <li><strong>배열의 소자마다 지연을 준다</strong> — <span class="t">전자적 집속</span><span class="en">(electronic focusing)</span>.
+      바깥 소자를 먼저, 가운데 소자를 나중에 구동하면 오목한 파면이 만들어지며,
+      <strong>초점 위치를 자유롭게 옮길 수 있다.</strong></li>
   </ul>
   <div class="panel">
     <div class="plabel"><span><b>인터랙티브</b> · 오목한 파면이 만드는 초점</span><span id="mstat">—</span></div>
@@ -51,17 +56,18 @@
         <div class="ctrl" style="max-width:120px;min-width:108px"><label for="play">재생</label>
           <button class="go" id="play">일시정지</button></div>
       </div>
-      <p class="cap"><b>두 방법을 번갈아 보세요 — 파면이 똑같습니다.</b> 오목한 면을 깎든, 바깥 소자를 먼저 쏘든
-        결국 <b>가운데가 늦게 도착하는 오목한 파면</b>을 만드는 일입니다.<br>
-        <b>소자 수를 4까지 줄여보세요.</b> 매끈하던 파면이 계단처럼 부서지고 초점이 흐려집니다.</p>
+      <p class="cap"><b>두 방법을 번갈아 보면 파면이 동일하다.</b> 면을 오목하게 깎든 바깥 소자를 먼저 구동하든,
+        결국 <b>가운데가 가장 늦게 출발하는 오목한 파면</b>을 만드는 일이다.
+        그 결과 모든 성분이 <b>초점에는 동시에 도착한다.</b><br>
+        <b>소자 수를 4까지 줄이면</b> 매끈하던 파면이 계단처럼 부서지고 초점이 흐려진다.</p>
     </div>
   </div>
   <div class="key"><div class="kh">집속이 좋아지는 조건</div>
-    <p><strong>소자가 많을수록 · 소자가 작을수록 · 지연 분해능이 높을수록</strong> 좋아집니다.
-      전부 <strong>같은 이유</strong>입니다 — 이상적인 곡면을 <strong>얼마나 촘촘하게 흉내 내는가</strong>.
-      위에서 소자 수를 줄이면 파면이 계단이 되는 게 보이실 겁니다.</p>
-    <p style="margin-top:10px">이론적으로는 <strong>원형 오목면</strong>이 가장 좋은 초점을 냅니다 —
-      축대칭이라 모든 방향에서 똑같이 모이니까요. 배열은 그것을 <strong>근사</strong>하는 것입니다.</p></div>
+    <p><strong>소자 수가 많을수록, 소자가 작을수록, 지연 분해능이 높을수록</strong> 집속이 좋아진다.
+      세 조건은 결국 <strong>같은 하나</strong>를 뜻한다 — 이상적인 곡면을 <strong>얼마나 촘촘하게 근사하는가</strong>이다.
+      위에서 소자 수를 줄이면 파면이 계단 모양으로 부서지는 것을 확인할 수 있다.</p>
+    <p style="margin-top:10px">이론적으로는 <strong>원형 오목면</strong>이 가장 좋은 초점을 형성한다.
+      축대칭 구조여서 모든 방향에서 동일하게 수렴하기 때문이다. 배열은 이 곡면을 <strong>근사</strong>하는 방식이다.</p></div>
 </div></section>
 
 <section><div class="wrap">
@@ -69,9 +75,9 @@
     <h2>F 넘버 하나로 정리된다<span class="sub">The f-number</span></h2></div>
   <div class="eq"><span>F# =</span><span class="frac"><span>초점 깊이</span><span>개구 크기</span></span></div>
   <div class="eqcap">개구 크기 = 원형이면 지름 · 배열이면 활성 개구의 전체 길이</div>
-  <p>집속 성능은 <strong>주파수 · 초점 깊이 · 개구 크기</strong> 셋에 달려 있습니다. 그런데 뒤의 둘을
-    <strong>비율 하나로 묶으면</strong> — 그것이 F#입니다 — 성능은 <strong>F# 과 주파수</strong>만으로 정해집니다.
-    변수 셋이 둘로 줄어드는 것입니다.</p>
+  <p>집속 성능은 <strong>주파수·초점 깊이·개구 크기</strong> 세 가지에 좌우된다.
+    그런데 뒤의 두 값을 하나의 비율로 묶은 것이 <span class="t">F 넘버</span><span class="en">(f-number, F#)</span>이며,
+    이렇게 하면 성능이 <strong>F# 과 주파수</strong>만으로 결정된다. 변수가 셋에서 둘로 줄어드는 것이다.</p>
   <div class="panel">
     <div class="plabel"><span><b>인터랙티브</b> · F# 이 정하는 것</span><span id="tstat">—</span></div>
     <canvas id="c2" height="330"></canvas>
@@ -93,23 +99,26 @@
   <div class="eq" style="font-size:17px">
     <span>빔 폭 ≈ 1.02 · λ · F#</span>
     <span style="margin-left:26px">초점 영역 ≈ 7.1 · λ · F#²</span></div>
-  <div class="eqcap">원형 개구 · −6 dB 기준 근사값 · 개구 모양과 기준 dB 에 따라 계수가 달라집니다</div>
+  <div class="eqcap">원형 개구 · −6 dB 기준 근사값 · 개구 모양과 기준 dB 에 따라 계수가 달라진다</div>
+  <p class="cap" style="margin-bottom:14px">※ 두 계수는 모두 <strong>펄스에코(왕복) −6 dB</strong> 기준이다.
+    같은 −6 dB 라도 <strong>편도</strong>로 정의하면 계수가 각각 <span class="num">1.41</span>과
+    <span class="num">9.7</span>로 달라지므로, 계수를 인용할 때는 <strong>편도인지 왕복인지 함께 밝혀야 한다.</strong></p>
   <ul>
-    <li><span class="t">빔 폭</span> <span class="en">beam width</span> · 초점에서 가장 좁고, F# 과 중심 주파수가 정합니다.
-      이것이 <strong>측방향 분해능</strong>입니다.</li>
-    <li><span class="t">초점 영역</span> <span class="en">focal zone</span> · 초점을 중심으로 <strong>앞뒤로 퍼집니다.</strong>
-      이 구간을 벗어나면 빔이 굵어집니다.</li>
-    <li><span class="t">최대 강도</span> · 에너지가 가장 좁은 곳에 모이므로 <strong>초점에서 강도가 최대</strong>입니다.
-      <span class="en">→ Mechanical Index</span></li>
+    <li><span class="t">빔 폭</span><span class="en">(beam width)</span> · 초점에서 가장 좁으며, F# 과 중심 주파수가 결정한다.
+      이것이 <strong>측방향 분해능</strong><span class="en">(lateral resolution)</span>이다.</li>
+    <li><span class="t">초점 영역</span><span class="en">(focal zone)</span> · 초점을 중심으로 <strong>앞뒤에 걸쳐 있다.</strong>
+      이 구간을 벗어나면 빔이 다시 굵어진다.</li>
+    <li><span class="t">최대 강도</span> · 에너지가 가장 좁은 단면에 모이므로 <strong>초점에서 강도가 최대</strong>가 된다(30장).</li>
   </ul>
   <div class="key"><div class="kh">피할 수 없는 맞교환</div>
-    <p>빔 폭은 F# 에 <strong>비례</strong>하는데 초점 영역은 F# 의 <strong>제곱에 비례</strong>합니다.
-      F# 을 절반으로 줄이면 빔은 <strong>2배 가늘어지지만</strong> 초점 영역은 <strong>4배 짧아집니다.</strong>
-      <strong>날카롭게 볼수록 얇은 구간만 날카롭습니다.</strong></p>
-    <p style="margin-top:10px">그런데 재미있는 게 있습니다. 두 식을 나누면 λ 가 <strong>지워집니다</strong>:
-      <span class="num">길이 / 폭 ≈ 7 · F#</span>. 즉 <strong>초점 스팟의 생김새(가늘고 긴 정도)는 F# 만으로 정해지고
-      주파수와 무관합니다.</strong> 주파수는 스팟의 <strong>크기</strong>를 바꿀 뿐 <strong>모양</strong>은 못 바꿉니다.
-      위에서 주파수만 움직여 보세요 — 폭:길이 비가 꿈쩍도 하지 않습니다.</p></div>
+    <p>빔 폭은 F# 에 <strong>비례</strong>하지만 초점 영역은 F# 의 <strong>제곱에 비례</strong>한다.
+      따라서 F# 을 절반으로 줄이면 빔은 <strong>2배 가늘어지는 대신</strong> 초점 영역은 <strong>4배 짧아진다.</strong>
+      <strong>날카롭게 볼수록 날카로운 구간이 좁아지는 것이다.</strong></p>
+    <p style="margin-top:10px">두 식을 나누면 λ 가 <strong>소거된다.</strong>
+      <span class="num">길이 / 폭 ≈ 7 · F#</span> 이므로,
+      <strong>초점 스팟의 종횡비는 F# 만으로 정해지며 주파수와 무관하다.</strong>
+      주파수는 스팟의 <strong>크기</strong>를 바꿀 뿐 <strong>모양</strong>은 바꾸지 못한다.
+      위에서 주파수만 조절하면 폭 : 길이 비가 변하지 않는 것을 확인할 수 있다.</p></div>
 </div></section>
 
 <section><div class="wrap">
@@ -117,9 +126,10 @@
     <div class="kh">한 장 정리 · Summary</div>
     <ul>
       <li><b>집속 = 오목한 파면을 만드는 일</b> · 면을 깎거나(고정) 지연을 주거나(가변)</li>
-      <li><b>소자 많이 · 작게 · 지연 곱게</b> = 이상적 곡면을 촘촘히 흉내내는 것</li>
+      <li><b>평평한 개구는 스스로 모이지 않는다</b> · 근거리장 뒤로는 오히려 퍼진다 (12장)</li>
+      <li><b>소자 많이 · 작게 · 지연 곱게</b> = 이상적 곡면을 촘촘히 근사하는 것</li>
       <li><b>F# = 초점 깊이 / 개구 크기</b> · 변수 셋을 둘로 줄여준다</li>
-      <li><b>빔 폭 ≈ 1.02 λ F#</b> — 측방향 분해능</li>
+      <li><b>빔 폭 ≈ 1.02 λ F#</b> — 측방향 분해능 · <b>왕복 −6 dB 기준</b></li>
       <li><b>초점 영역 ≈ 7.1 λ F#²</b> — F# 의 <b>제곱</b></li>
       <li><b>F# 절반 → 빔 2배 가늘고, 초점 영역 4배 짧다</b></li>
       <li><b>스팟의 종횡비 ≈ 7 F#</b> · 주파수와 무관 — 주파수는 크기만 바꾼다</li>

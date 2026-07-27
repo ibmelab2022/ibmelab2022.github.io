@@ -278,8 +278,8 @@ const domainScene = makeScene("c1", 330, (ctx,W,H)=>{
 
   label(ctx,`V = ${V.toFixed(2)} Vc    T = ${T.toFixed(2)} Tc`,x0,22,INK,11.5);
   if(T>1){ ctx.fillStyle="rgba(179,18,60,.10)"; ctx.fillRect(x0-6,y0-8,GW+12,ROWS*ch+12);
-    label(ctx,"열 요동이 정렬을 이깁니다",x0+GW-190,y0+ROWS*ch+22,POS,10.5); }
-  else if(V>0 && V<=1) label(ctx,"전압이 항전압 Vc 보다 낮아 도메인이 꿈쩍하지 않습니다",x0,y0+ROWS*ch+22,MUTED,10.5,400);
+    label(ctx,"열 요동이 정렬을 이긴다",x0+GW-190,y0+ROWS*ch+22,POS,10.5); }
+  else if(V>0 && V<=1) label(ctx,"전압이 항전압 Vc 보다 낮아 도메인이 움직이지 않는다",x0,y0+ROWS*ch+22,MUTED,10.5,400);
 });
 voltS.oninput = tempS.oninput = domainScene.redraw;
 
@@ -374,7 +374,7 @@ const ktScene = makeScene("c2", 330, (ctx,W,H)=>{
     ctx.textAlign="right"; chip(ctx,"fs · 직렬공진",X(FS0)-5,T+34,INK,11);
     ctx.textAlign="left";  chip(ctx,"fp · 병렬공진",X(fp)+5,T+34,SIGNAL_DK,11);
   } else {
-    chip(ctx,"실수부 없음 — 에너지가 나가지 못합니다",L+14,T+30,MUTED,11.5);
+    chip(ctx,"실수부 없음 — 에너지가 나가지 못한다",L+14,T+30,MUTED,11.5);
   }
   label(ctx,"|Z|",L-46,YZ(zmax)+14,MUTED,11.5);
   label(ctx,"Re(Z)",L-52,B-16,POS,11.5);

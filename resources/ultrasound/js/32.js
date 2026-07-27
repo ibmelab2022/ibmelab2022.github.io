@@ -52,6 +52,17 @@ function rpSolve(Pa, f){
   return {pts, Rmax:Rm/R0, tEnd};
 }
 
+/* ★ 이 핵(R₀=3 µm)이 R_max/R₀ = 2 에 닿는 음압 — f = 2.0~8.0 MHz, 0.5 간격.
+   위 RP 솔버를 이분법으로 풀어 미리 구한 값입니다(rp32c.js).
+   MI 로 환산하면 0.442(2 MHz) ~ 1.684(8 MHz) 로 **주파수마다 다릅니다**.
+   MI 0.7 이 문턱과 맞는 것은 3 MHz 부근뿐이며, 그것이 R₀ = 3 µm 를 고른 이유입니다.
+   MI 가 주파수와 무관한 문턱이 되려면 각 f 에서 가장 터지기 쉬운 핵을 가정해야 합니다(30장). */
+const PTH=[0.625,0.886,1.199,1.564,1.841,2.095,2.383,2.704,3.055,3.437,3.849,4.291,4.763];
+const pThresh = f => {
+  const u=Math.min(12, Math.max(0, (f-2)/0.5)), i=Math.floor(u), fr=u-i;
+  return i>=12 ? PTH[12] : PTH[i]+(PTH[i+1]-PTH[i])*fr;
+};
+
 const prS=document.getElementById("pr"), frS=document.getElementById("fr");
 let SOL=null, SOLKEY=null;
 const solve=(Pa,f)=>{ const k=`${Pa},${f}`; if(k!==SOLKEY){ SOL=rpSolve(Pa,f); SOLKEY=k; } return SOL; };
@@ -73,6 +84,7 @@ const rt = makeScene("c1", 340, (ctx,W,H,t)=>{
   rg.textContent = inert? "관성 붕괴" : "안정 진동";
   rg.style.color = inert? POS : SIGNAL_DK;
   document.getElementById("rmax").textContent=sol.Rmax.toFixed(2);
+  document.getElementById("pth").textContent=pThresh(f).toFixed(2);
 
   const L=52,R=16,PW=W-L-R;
   const pT=H-52, pB=H-22, pBase=(pT+pB)/2;   /* 압력 띠 */
@@ -110,6 +122,13 @@ const rt = makeScene("c1", 340, (ctx,W,H,t)=>{
   chip(ctx,`R_max/R₀ = ${sol.Rmax.toFixed(2)}`, L+PW-2, T+10, col, 10.5);
   ctx.textAlign="left";
   chip(ctx,`자유 기체 핵 R₀ = 3 µm · Rayleigh–Plesset 직접 해`, L+4, T+10, MUTED, 9, 400);
+  /* 이 주파수에서 2R₀ 에 닿는 음압과 그 MI — MI 0.7 이 문턱이 아님을 드러냅니다. */
+  {
+    const pt=pThresh(f), mt=pt/Math.sqrt(f);
+    ctx.textAlign="right";
+    chip(ctx,`이 핵의 문턱 P\u1D63 = ${pt.toFixed(2)} MPa (MI ${mt.toFixed(2)})`, L+PW-2, T+34, AMBER_DK, 9.5);
+    ctx.textAlign="left";
+  }
 
   /* 압력 띠 */
   const pAmp=(pB-pT)/2-2;
@@ -191,7 +210,13 @@ const res = makeScene("c2", 300, (ctx,W,H)=>{
   ctx.beginPath(); ctx.moveTo(X(f),T); ctx.lineTo(X(f),Y(Math.min(R0,rMax))); ctx.stroke(); ctx.setLineDash([]);
   if(R0<=rMax){
     ctx.fillStyle=inBand?SIGNAL_DK:MUTED; ctx.beginPath(); ctx.arc(X(f),Y(R0),5,0,7); ctx.fill();
-    ctx.textAlign="center"; chip(ctx,`${f.toFixed(1)}MHz → ${R0.toFixed(2)}µm`, X(f), Y(R0)-11, inBand?SIGNAL_DK:MUTED, 10);
+    /* ◆ 중앙 정렬 고정이라 슬라이더 양 끝(0.5·10 MHz)에서 칩이 캔버스를 넘었습니다
+       (폭 946 에서 좌 −6 · 우 986). x 를 가둡니다. */
+    const t=`${f.toFixed(1)}MHz → ${R0.toFixed(2)}µm`;
+    ctx.font=`700 ${(10*FS).toFixed(1)}px ${MONO}`;
+    const cwd=ctx.measureText(t).width+10;
+    ctx.textAlign="center";
+    chip(ctx, t, Math.min(Math.max(X(f), cwd/2+2), W-cwd/2-2), Y(R0)-11, inBand?SIGNAL_DK:MUTED, 10);
   }
   ctx.textAlign="left";
 });

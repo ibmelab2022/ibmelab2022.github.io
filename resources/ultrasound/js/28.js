@@ -12,32 +12,59 @@ function bartColor(vsigned, scale){
   while(v> scale){ v-=2*scale; aliased=true; }
   while(v<-scale){ v+=2*scale; aliased=true; }
   const mag=Math.min(1,Math.abs(v)/scale);
+  /* ◆ 예전 램프는 mag=0 에서 rgb(179,90,60)·rgb(27,120,160) 이라 벽돌색·청록색이었고,
+     본문의 "빨강→검정→파랑" 과 아래 "90° → 검정" 칩과 어긋났습니다.
+     실제 BART 맵처럼 0 = 검정 → 브랜드색(--pos/--neg) → 밝은 끝 으로 2구간 램프를 씁니다. */
   let col;
-  if(v>0) col=`rgb(${179+ (255-179)*mag|0},${18+ (90-18)*(1-mag)|0},${60*(1-mag)|0})`;    /* 빨강 계열 */
-  else    col=`rgb(${27*(1-mag)|0},${79+(120-79)*(1-mag)|0},${160+(255-160)*mag|0})`;      /* 파랑 계열 */
+  if(v>0){
+    if(mag<0.5){ const k=mag/0.5; col=`rgb(${179*k|0},${18*k|0},${60*k|0})`; }
+    else       { const k=(mag-0.5)/0.5; col=`rgb(${179+76*k|0},${18+202*k|0},${60*(1-k)|0})`; }
+  } else {
+    if(mag<0.5){ const k=mag/0.5; col=`rgb(${27*k|0},${79*k|0},${160*k|0})`; }
+    else       { const k=(mag-0.5)/0.5; col=`rgb(${27*(1-k)|0},${79+140*k|0},${160+95*k|0})`; }
+  }
   return {col, aliased, mag, v};
 }
 
 const hero=makeScene("c1", 400, (ctx,W,H,t)=>{
   const pk=+pkS.value, sc=+scS.value;
-  const aliasing=pk>sc;
+  const L=54, R=18, PW=W-L-R, top=44, H0=340;
+  const bx0=L+PW*0.12, bx1=L+PW*0.88, by0=top+22, by1=top+H0-30;
+
+  /* ★ 혈관 기울기와 판정 ★
+     빔이 세로이므로 혈관 접선의 세로 성분 ty 가 곧 |cosθ| 이고,
+     색을 정하는 것은 흐름 속도 pk 가 아니라 축방향 성분 pk·ty 이다.
+
+     ① 예전에는 진폭 계수를 0.32 로 고정해, 창이 좁을수록 혈관이 가팔라졌다
+        (폭 340 → 71.5° · 946 → 42.5°). 같은 슬라이더로도 창 크기마다 색이 달라진다.
+        최대 기울기를 45° 로 정규화한다(좁은·넓은 극단에서만 진폭을 가둔다).
+     ② 예전 판정은 aliasing = pk > sc 였는데, 실제로는 pk·ty 가 sc 를 넘어야 접힌다.
+        폭 946 에서 ty_max = 0.707 이므로 pk > 1.41·sc 라야 접혔고,
+        그 사이 구간(전 조합의 21%)에서 "접힘" 이라 표시하면서 그림은 멀쩡했다.
+        벽 필터도 같은 이유로 pk 가 아니라 pk·ty 로 판정해야 한다. */
+  const AMP = Math.max(0.18, Math.min(0.40, (bx1-bx0)/((by1-by0)*Math.PI*2.1)));
+  const dy0 = (by1-by0)*AMP*(Math.PI*2.1)/(bx1-bx0);      /* u=0 에서의 기울기 = 최대 */
+  const TYMAX = dy0/Math.hypot(1,dy0);                    /* |cosθ| 의 최댓값 */
+  const vAx = pk*TYMAX;                                   /* 화면에 실제로 나타나는 최대 축방향 속도 */
+  const aliasing = vAx > sc;
+  const passWall = vAx > WALL;
+
   document.getElementById("pkv").textContent=pk.toFixed(2);
   document.getElementById("scv").textContent=sc.toFixed(2);
+  document.getElementById("vav").textContent=vAx.toFixed(2);
   const wf=document.getElementById("wfv");
-  wf.textContent = pk>WALL? "혈류 통과 ✓" : "느려서 잘림";
-  wf.style.color = pk>WALL? SIGNAL_DK : POS;
+  wf.textContent = passWall? "혈류 통과 ✓" : "느려서 잘림";
+  wf.style.color = passWall? SIGNAL_DK : POS;
   const al=document.getElementById("alv"), cs=document.getElementById("cstat");
   al.textContent = aliasing? "접힘 (색 반전) ✗" : "정상 ✓";
   al.style.color = aliasing? POS : SIGNAL_DK;
-  cs.textContent = aliasing? `최대속도 ${pk.toFixed(2)} > 스케일 ${sc.toFixed(2)} — 접힘`
-                           : `BART · 스케일 ±${sc.toFixed(2)} m/s`;
+  cs.textContent = aliasing
+    ? `축방향 최대 ${vAx.toFixed(2)} > 스케일 ${sc.toFixed(2)} — 접힘`
+    : `축방향 최대 ${vAx.toFixed(2)} ≤ 스케일 ${sc.toFixed(2)} · BART`;
   cs.style.color = aliasing? POS : AMBER_DK;
 
-  const L=54, R=18, PW=W-L-R, top=44, H0=340;
   /* B모드 배경 (스페클 느낌 옅게) */
   ctx.fillStyle="#e9edf1"; ctx.fillRect(L,top,PW,H0);
-  /* 컬러 박스 */
-  const bx0=L+PW*0.12, bx1=L+PW*0.88, by0=top+22, by1=top+H0-30;
   ctx.strokeStyle=AMBER_DK; ctx.lineWidth=1.6; ctx.setLineDash([6,4]);
   ctx.strokeRect(bx0,by0,bx1-bx0,by1-by0); ctx.setLineDash([]);
   chip(ctx,"컬러 박스", bx0+4, by0-6, AMBER_DK, 9.5);
@@ -45,9 +72,9 @@ const hero=makeScene("c1", 400, (ctx,W,H,t)=>{
   /* 휜 혈관 (사인 곡선) — 위치마다 접선 방향이 달라 cosθ 변화.
      빔은 세로(아래 방향) 가정 → cosθ = |혈관 접선의 세로성분| */
   const cx=(x)=> x;
-  const vesselY=(x)=>{ const u=(x-bx0)/(bx1-bx0); return by0+(by1-by0)*(0.5+0.32*Math.sin(u*Math.PI*2.1)); };
+  const vesselY=(x)=>{ const u=(x-bx0)/(bx1-bx0); return by0+(by1-by0)*(0.5+AMP*Math.sin(u*Math.PI*2.1)); };
   const tangent=(x)=>{ const u=(x-bx0)/(bx1-bx0);
-    const dy=(by1-by0)*0.32*Math.cos(u*Math.PI*2.1)*(Math.PI*2.1)/(bx1-bx0);
+    const dy=(by1-by0)*AMP*Math.cos(u*Math.PI*2.1)*(Math.PI*2.1)/(bx1-bx0);
     const len=Math.hypot(1,dy); return {tx:1/len, ty:dy/len}; };
 
   /* 혈관 벽 */
@@ -62,12 +89,12 @@ const hero=makeScene("c1", 400, (ctx,W,H,t)=>{
        다가옴/멀어짐 = 혈류의 빔축 성분 = v*ty (ty>0이면 아래=멀어짐=파랑) */
     const vAxial = pk * ty;                  /* +면 멀어짐 */
     const signedTowardPos = -vAxial;         /* 빨강(+)=다가옴 → 부호 뒤집기 */
-    if(pk<=WALL){ ctx.strokeStyle="rgba(150,158,166,.6)"; }
+    if(!passWall){ ctx.strokeStyle="rgba(150,158,166,.6)"; }
     else { const {col}=bartColor(signedTowardPos, sc); ctx.strokeStyle=col; }
     ctx.lineWidth=12; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+6,vesselY(x+6)); ctx.stroke();
   }
   /* 흐르는 적혈구 점 */
-  if(pk>WALL) for(let i=0;i<14;i++){
+  if(passWall) for(let i=0;i<14;i++){
     const u=((t*pk*0.4)+i/14)%1, x=bx0+u*(bx1-bx0), y=vesselY(x);
     ctx.beginPath(); ctx.arc(x,y,2,0,7); ctx.fillStyle="rgba(255,255,255,.7)"; ctx.fill();
   }
@@ -99,10 +126,14 @@ const hero=makeScene("c1", 400, (ctx,W,H,t)=>{
       ctx.fillStyle=col; ctx.fillRect(cbX,cbY+i,cbW,1);
     }
     ctx.strokeStyle=LINE; ctx.strokeRect(cbX,cbY,cbW,cbH);
+    /* ◆ 좌측 정렬이라 넓은 창에서 라벨이 캔버스를 넘었습니다(W=946 에서 950>946).
+       컬러바 왼쪽에 우측 정렬로 붙입니다. */
+    ctx.textAlign="right";
+    label(ctx,`+${sc.toFixed(1)}`,cbX-4,cbY+9,POS,8.5,600);
+    label(ctx,"다가옴",cbX-4,cbY-2,MUTED,8,400);
+    label(ctx,`−${sc.toFixed(1)}`,cbX-4,cbY+cbH-2,NEG,8.5,600);
+    label(ctx,"0",cbX-4,cbY+cbH/2+3,MUTED,8,400);
     ctx.textAlign="left";
-    label(ctx,`+${sc.toFixed(1)}`,cbX-2,cbY-4,POS,8.5,600);
-    label(ctx,"다가옴",cbX-2,cbY-14,MUTED,8,400);
-    label(ctx,`−${sc.toFixed(1)}`,cbX-2,cbY+cbH+12,NEG,8.5,600);
   }
   if(aliasing) chip(ctx,"빠른 곳이 반대색으로 접힘 (모자이크)", bx0+PW*0.30, by0+14, POS, 9.5);
 },{play:"p1", speed:0.03});
@@ -146,7 +177,18 @@ const frame=makeScene("c2", 300, (ctx,W,H)=>{
   ctx.stroke();
   /* 현재점 */
   ctx.fillStyle=POS; ctx.beginPath(); ctx.arc(Xn(N),Yf(fps),5,0,7); ctx.fill();
-  ctx.textAlign="center"; chip(ctx,`${N}펄스 · ${fps.toFixed(0)} fps`,Xn(N),Yf(fps)-12,POS,9.5); ctx.textAlign="left";
+  /* ◆ 중앙 정렬이라 N=20 에서 칩이 캔버스를 넘었습니다(W=946 에서 965>946). x 를 가둡니다. */
+  ctx.font=`700 ${(9.5*FS).toFixed(1)}px ${MONO}`;
+  const cw2=ctx.measureText(`${N}펄스 · ${fps.toFixed(0)} fps`).width+10;
+  ctx.textAlign="center";
+  chip(ctx,`${N}펄스 · ${fps.toFixed(0)} fps`,
+       Math.min(Math.max(Xn(N),cw2/2+2), W-cw2/2-2), Yf(fps)-12, POS, 9.5);
+  ctx.textAlign="left";
+  /* ◆ 세로축에 숫자가 전혀 없었습니다 — 라인 128 이상에서는 30·15 fps 기준선이 둘 다 범위 밖입니다. */
+  ctx.textAlign="right";
+  label(ctx,`${fpsMax.toFixed(0)}`,L-5,Yf(fpsMax)+4,MUTED,8.5,500);
+  label(ctx,`${fpsMin.toFixed(fpsMin<10?1:0)}`,L-5,Yf(fpsMin)+4,MUTED,8.5,500);
+  ctx.textAlign="left";
   /* 축 */
   for(let n=4;n<=20;n+=4){ ctx.textAlign="center"; label(ctx,`${n}`,Xn(n),sy1+16,MUTED,9,500); ctx.textAlign="left"; }
   label(ctx,"앙상블 길이 (펄스/라인)",L+PW-160,sy1+30,MUTED,9,500);

@@ -3,13 +3,16 @@
      · f_d = 2v cosθ f₀/c  · 5MHz: 미세혈관 1mm/s → 6.5Hz  <  박동 조직 10mm/s → 65Hz
        → 보고 싶은 혈류가 걷어내고 싶은 조직보다 느리다 (주파수로는 못 가름)
      · 벽필터 50Hz 차단 → 7.70 mm/s 이하 혈류 사망
-     · 앙상블 8/12/200/1000 → 주파수 분해능 625/417/25/5 Hz — 8~12 로는 50Hz 벽을 못 세움
+     · 주파수 분해능 = PRF/앙상블.
+       ★ 이 파일은 초고속 파워 도플러를 상정해 PRF = 1 kHz 를 쓴다 → 8/12/200/256 에서 125/83/5/3.9 Hz.
+         본문이 인용하는 625/417 Hz 는 **기존 컬러 도플러의 PRF 5 kHz** 기준이므로 값이 다르다.
+         예전 주석이 5 kHz 를 가정해 코드와 어긋나 있었다 — 본문 §02 에 두 기준을 구분해 적었다.
      · SVD (합성 Casorati 행렬의 실제 계산): 정지 조직 → 조직이 저차 2개, 그 뒤 −56dB 급락
        박동 조직 10mm/s → 여전히 저차 3개 (주파수가 아니라 '상관' 으로 갈리니까)
      · Demené 2015: 쥐 뇌 실데이터에서 앞 49개 특이벡터 제거 · ULM: 앞 40 + 뒤 250        */
 const C = 1540, F0 = 5e6;
 const fdOf = (vmm, thDeg) => 2*(vmm*1e-3)*Math.cos(thDeg*Math.PI/180)*F0/C;   /* Hz */
-const PRF = 1000;
+const PRF = 1000;                       /* 초고속 파워 도플러 상정 (Demené 2015 는 500 Hz 대) */
 
 /* 합성 혈관 트리 — 파워 도플러 영상 예시용 (재귀 분기, 고정 시드) */
 function vesselTree(){
@@ -142,7 +145,7 @@ const two = makeScene("c1", 380, (ctx,W,H)=>{
 
   /* 상단 안내 — 같은 느린-시간 신호를 두 가지로 축약 */
   ctx.textAlign="center";
-  chip(ctx, "같은 느린-시간 신호 → 두 가지로 축약 (각도 θ · 속도 v 를 바꿔 보세요)", W/2, 16, INK, 10.5);
+  chip(ctx, `같은 느린-시간 신호를 두 가지로 축약 · PRF ${PRF/1000} kHz · 나이퀴스트 ${ny} Hz`, W/2, 16, INK, 10.5);
 
   const gap=18, iw2=(W-16-16-gap)/2, ih=H-40-42, iy=40, L=16;
   const cix=L, pix=L+iw2+gap;
@@ -236,7 +239,7 @@ const wall = makeScene("c2", 340, (ctx,W,H)=>{
   [0,100,200,300,400].forEach(f=> label(ctx, `${f}`, X(f), B+14, MUTED, 9, 400));
   chip(ctx,"도플러 주파수 (Hz) →", L+PW/2, B+27, MUTED, 9.5, 400);
   ctx.textAlign="left";
-  chip(ctx, `앙상블 ${NE} → 분해능 ${(PRF/NE).toFixed(0)}Hz · 전이폭 ${fRes.toFixed(0)}Hz`,
+  chip(ctx, `PRF ${PRF} Hz · 앙상블 ${NE} → 분해능 ${(PRF/NE).toFixed(0)}Hz · 전이폭 ${fRes.toFixed(0)}Hz`,
        L+5, T+11, NE<32?POS:SIGNAL_DK, 10);
 });
 cutS.oninput = vtS.oninput = ensS.oninput = wall.redraw;

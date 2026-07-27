@@ -16,8 +16,11 @@ const scan=makeScene("c1", 420, (ctx,W,H)=>{
   st.style.color=SIGNAL_DK;
 
   const NB=9, TGT=[[2,0.28],[5,0.5],[7,0.72]];   /* 표적: [빔 인덱스, 깊이비] */
-  /* 왼쪽: Echo Memory (빔 데이터 — 종류와 무관) */
-  const emX=22, emY=52, emW=140, emH=H-emY-58;
+  /* 왼쪽: Echo Memory (빔 데이터 — 종류와 무관)
+     ◆ emW 를 140 으로 고정했더니 좁은 창에서 오른쪽 기하 영역이 좁아져,
+       섹터가 캔버스를 벗어나고 Echo Memory 상자까지 침범했습니다
+       (W=400 에서 x 범위 [94, 492] — 캔버스 400·상자 끝 162). 폭에 맞춰 줄입니다. */
+  const emX=22, emY=52, emW=Math.min(140, Math.max(84, W*0.24)), emH=H-emY-58;
   ctx.fillStyle="#0b0c0f"; ctx.fillRect(emX,emY,emW,emH); ctx.strokeStyle=INK; ctx.lineWidth=1.8; ctx.strokeRect(emX,emY,emW,emH);
   for(let i=0;i<NB;i++){ const x=emX+10+i*(emW-20)/(NB-1);
     ctx.strokeStyle="rgba(190,200,210,.45)"; ctx.lineWidth=1;
@@ -31,7 +34,11 @@ const scan=makeScene("c1", 420, (ctx,W,H)=>{
   ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(ax+24,ay); ctx.moveTo(ax+24,ay); ctx.lineTo(ax+17,ay-5); ctx.moveTo(ax+24,ay); ctx.lineTo(ax+17,ay+5); ctx.stroke();
 
   /* 오른쪽: 선택 종류의 기하 */
-  const gX0=emX+emW+46, gW=W-gX0-22, cx=gX0+gW/2, py=emY+8, Rmax=emH-24;
+  const gX0=emX+emW+40, gW=W-gX0-22, cx=gX0+gW/2, py=emY+8;
+  /* ◆ 섹터의 가로 반폭 = rOut·sin(halfA) 이므로, 이것이 gW/2 를 넘지 않도록 Rmax 를 가둡니다.
+     컨벡스는 rOut = 1.62·Rmax, 위상은 rOut = Rmax 입니다. */
+  const secK = TT===1 ? 1.62*Math.sin(26*Math.PI/180) : Math.sin(44*Math.PI/180);
+  const Rmax = TT===0 ? emH-24 : Math.min(emH-24, (gW/2)/secK);
   const tgtDot=(x,y)=>{ ctx.fillStyle="#dfe7ee"; ctx.strokeStyle=INK2; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(x,y,4.2,0,7); ctx.fill(); ctx.stroke(); };
   if(TT===0){                                   /* 선형: 나란한 빔, 사각형 */
     const pw=Math.min(gW*0.72, Rmax*0.85), x0=cx-pw/2, bx=i=> x0+i/(NB-1)*pw;
@@ -74,7 +81,13 @@ const post=makeScene("c2", 300, (ctx,W,H)=>{
   document.getElementById("gmv").textContent=gm.toFixed(1);
   document.getElementById("smv").textContent=sm;
   const st=document.getElementById("pstat");
-  st.textContent = `감마 ${gm.toFixed(1)} · 평활 ${sm} — ${sm>=3?"매끄러움(경계 뭉툭)":gm<1?"밝은 쪽 강조":gm>1.6?"어두운 쪽 눌러 대비↑":"기본"}`;
+  /* ◆ v = v^gm 이므로 gm<1 은 어두운 쪽 계조가 넓어지는 것입니다(예전 문구 "밝은 쪽 강조" 는 방향이 반대).
+     문턱도 본문의 γ=1 기준에 맞춰 1.6 → 1.05 로 좁혔습니다. */
+  st.textContent = `감마 ${gm.toFixed(1)} · 평활 ${sm} — ${
+      sm>=3      ? "매끄러움(경계 뭉툭)"
+    : gm<0.95    ? "어두운 쪽 계조↑ (약한 에코 드러남)"
+    : gm>1.05    ? "어두운 쪽 눌러 대비↑"
+                 : "기본"}`;
   st.style.color=SIGNAL_DK;
   const spk=(bx,by)=>{ let h=(bx*73856093)^(by*19349663); h=Math.imul(h^(h>>>13),1274126177); return ((h>>>0)%1000)/1000; };
   const L=20,R=20,PW=W-L-R, top=34, bh=H-70, bs=4;
@@ -93,6 +106,6 @@ const post=makeScene("c2", 300, (ctx,W,H)=>{
   ctx.textAlign="center";
   chip(ctx,"원본 (검파·압축 직후)",L+hw/2,top-10,MUTED,10,600);
   chip(ctx,"후처리 (감마·평활)",L+hw+28+hw/2,top-10,SIGNAL_DK,10,700);
-  chip(ctx,"스페클은 잡음이 아니라 조직의 지문 — 평활은 절충",L+PW/2,top+bh+18,MUTED,9.5);
+  chip(ctx,"스페클은 잡음이 아니라 조직의 간섭 무늬 — 평활은 절충",L+PW/2,top+bh+18,MUTED,9.5);
 });
 gmS.oninput = smS.oninput = post.redraw;

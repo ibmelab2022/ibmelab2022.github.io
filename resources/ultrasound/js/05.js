@@ -38,15 +38,26 @@ const hero = makeScene("c1", 340, (ctx,W,H,t)=>{
   const st=(c2/c1)*Math.sin(ti), TIR=st>=1;
   const tt=TIR?null:Math.asin(st);
   const tc=c2>c1?Math.asin(c1/c2):null;
-  const R = TIR ? 1 : (Z2*Math.cos(ti)-Z1*Math.cos(tt))/(Z2*Math.cos(ti)+Z1*Math.cos(tt));
-  const T = 1+R;
+  /* 반사계수. 전반사에서는 cosθₜ = i·√(st²−1) 이므로 R 이 복소수가 됩니다.
+     |R| = 1 이지만 위상이 0 이 아니므로, 입사측 정상파 마디 위치가 각도에 따라 이동합니다.
+     임계각에서는 R = +1 로 투과 영역과 연속입니다. */
+  let Rre, Rim;
+  if(TIR){
+    const q = Z1*Math.sqrt(st*st-1), b = Z2*Math.cos(ti);
+    const den = b*b + q*q;
+    Rre = (b*b - q*q)/den;  Rim = -2*b*q/den;
+  } else {
+    Rre = (Z2*Math.cos(ti)-Z1*Math.cos(tt))/(Z2*Math.cos(ti)+Z1*Math.cos(tt));  Rim = 0;
+  }
+  const Rmag = Math.hypot(Rre,Rim);
+  const Tre = 1+Rre, Tim = Rim;
 
   document.getElementById("angv").textContent=angS.value+"°";
   document.getElementById("tiv").textContent=angS.value;
   document.getElementById("ttv").textContent=TIR?"없음":(tt*180/Math.PI).toFixed(1);
   document.getElementById("tcv").textContent=tc?(tc*180/Math.PI).toFixed(1):"없음";
   document.getElementById("lrv").textContent=(c2/c1).toFixed(2);
-  document.getElementById("rrv").textContent=Math.abs(R).toFixed(3);
+  document.getElementById("rrv").textContent=Rmag.toFixed(3);
   const st2=document.getElementById("tir");
   st2.textContent = TIR?"전반사 · TOTAL INTERNAL REFLECTION"
                       :(tc?`임계각 ${(tc*180/Math.PI).toFixed(1)}°`:"임계각 없음 (느려짐)");
@@ -59,13 +70,16 @@ const hero = makeScene("c1", 340, (ctx,W,H,t)=>{
   ctx.drawImage(F1.frame(W,H, OM*t, `${preS.value},${angS.value}`, (x,y)=>{
     if(x<=xi){
       const p1=K1*(x*dx+y*dy), p2=K1*((2*xi-x)*dx+y*dy);
-      return [ 0.6*(Math.sin(p1)+R*Math.sin(p2)), 0.6*(Math.cos(p1)+R*Math.cos(p2)) ];
+      const s2=Math.sin(p2), c2p=Math.cos(p2);
+      return [ 0.6*(Math.sin(p1) + Rre*s2 + Rim*c2p),
+               0.6*(Math.cos(p1) + Rre*c2p - Rim*s2) ];
     }
     /* 투과: 경계면에서 위상이 이어지도록 맞춤 */
     const base = K1*Math.sin(ti)*y + K1*xi*dx;
-    if(TIR){ const a=0.6*T*Math.exp(-ev*(x-xi)); return [a*Math.sin(base), a*Math.cos(base)]; }
+    if(TIR){ const a=0.6*Math.exp(-ev*(x-xi)), sb=Math.sin(base), cb=Math.cos(base);
+             return [a*(Tre*sb + Tim*cb), a*(Tre*cb - Tim*sb)]; }
     const ph = K2*Math.cos(tt)*(x-xi) + base;
-    return [ 0.6*T*Math.sin(ph), 0.6*T*Math.cos(ph) ];
+    return [ 0.6*Tre*Math.sin(ph), 0.6*Tre*Math.cos(ph) ];
   }),0,0,W,H);
 
   ctx.strokeStyle=AMBER; ctx.lineWidth=3;
@@ -75,22 +89,30 @@ const hero = makeScene("c1", 340, (ctx,W,H,t)=>{
   chip(ctx,"법선 NORMAL",8,cy-6,MUTED,9,400);
 
   const len=Math.min(190,W*0.24);
-  ray(ctx, xi-len*dx, cy-len*dy, xi, cy, INK, 3);
-  chip(ctx,"입사 INCIDENT", xi-len*dx-4, cy-len*dy-10, INK, 11);
+  /* 레이 길이를 각도에 따라 줄여 캔버스 위·아래로 삐져나가지 않게 합니다.
+     스침각(θ→90°)에서는 sin θ 가 1 에 가까워 세로로 가장 많이 뻗습니다. */
+  const fit = th => Math.min(len, (H/2-42)/Math.max(Math.abs(Math.sin(th)),0.02));
+  const li = fit(ti);
+  ray(ctx, xi-li*dx, cy-li*dy, xi, cy, INK, 3);
+  chip(ctx,"입사 INCIDENT", xi-li*dx-4, cy-li*dy-10, INK, 11);
   if(!TIR){
-    const tx=xi+len*Math.cos(tt), ty=cy+len*Math.sin(tt);   /* +y = 아래. 입사와 같은 쪽으로 진행 */
+    const lt=fit(tt);
+    const tx=xi+lt*Math.cos(tt), ty=cy+lt*Math.sin(tt);   /* +y = 아래. 입사와 같은 쪽으로 진행 */
     ray(ctx, xi, cy, tx, ty, AMBER, 3);
-    chip(ctx,`투과 θₜ=${(tt*180/Math.PI).toFixed(1)}°`, tx-30, Math.min(ty+22,H-8), AMBER_DK, 11);
+    chip(ctx,`투과 θₜ=${(tt*180/Math.PI).toFixed(1)}°`, tx-30, Math.min(ty+22,H-10), AMBER_DK, 11);
     ctx.strokeStyle=AMBER; ctx.lineWidth=1.4;
     ctx.beginPath(); ctx.arc(xi,cy,44,0,tt); ctx.stroke();   /* 투과각도 법선 아래쪽 */
+    /* θₜ 칩은 호 위에 얹습니다 (예전엔 고정 위치라 각도가 크면 호에서 벗어났습니다). */
+    chip(ctx,"θₜ", xi+50*Math.cos(tt*0.55)+6, cy+50*Math.sin(tt*0.55)+10, AMBER_DK, 11);
   } else {
+    /* 전반사에서는 θₜ 가 없으므로 칩을 그리지 않습니다 —
+       예전에는 tt=null 이 0 으로 처리되어 이 배너와 정확히 겹쳤습니다. */
     ctx.fillStyle=AMBER; ctx.fillRect(xi+12,cy-14,206,28);
     label(ctx,"전반사 · 소멸파만 남음",xi+21,cy+4,CARD,11);
   }
   ctx.strokeStyle=INK; ctx.lineWidth=1.4;
   ctx.beginPath(); ctx.arc(xi,cy,56,Math.PI,Math.PI+ti); ctx.stroke();
   chip(ctx,"θᵢ",xi-72,cy-24*Math.sin(ti/2)-3,INK,11);
-  chip(ctx,"θₜ",xi+56,cy+26*Math.sin(tt||0)/2+14,AMBER_DK,11);
 
   chip(ctx,`${A.ko}  c₁=${c1}  λ₁`,8,20,INK,11.5);
   chip(ctx,`${B.ko}  c₂=${c2}  λ₂ = λ₁ × ${(c2/c1).toFixed(2)}`,xi+10,20,INK,11.5);

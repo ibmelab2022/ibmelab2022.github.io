@@ -43,7 +43,8 @@ const hero = makeScene("c1", 360, (ctx,W,H,t)=>{
 
   /* 소자 위치. 기계식이면 곡면 위에, 전자식이면 평면 위에. */
   const M = mech ? 40 : N;   /* 기계식 = 오목면을 점 음원으로 근사.
-                                40개면 음원 간격 < λ/2 라 충분합니다 (34개가 하한). */
+                                개구 250 px · λ 15 px 이므로 간격 < λ/2 가 되려면 35개 이상.
+                                40개면 간격 6.41 px < 7.5 px 로 충분하다. */
   const el=[];
   for(let i=0;i<M;i++){
     const yy = cy - AP/2 + AP*(M>1? i/(M-1):0.5);
@@ -95,15 +96,17 @@ const hero = makeScene("c1", 360, (ctx,W,H,t)=>{
   ctx.moveTo(x0-22,cy-AP/2); ctx.lineTo(x0-14,cy-AP/2);
   ctx.moveTo(x0-22,cy+AP/2); ctx.lineTo(x0-14,cy+AP/2); ctx.stroke();
   chip(ctx, mech?"오목면 (초점 고정)":`배열 ${N} 소자 · F# = ${F.toFixed(1)}`, 10, 20, INK, 11.5);
-  if(!mech && N<10) chip(ctx,"소자가 적어 파면이 계단처럼 부서집니다", 10, H-14, POS, 10.5);
+  if(!mech && N<10) chip(ctx,"소자가 적어 파면이 계단처럼 부서진다", 10, H-14, POS, 10.5);
   else chip(ctx, `초점 깊이 = ${F.toFixed(1)} × 개구`, 10, H-14, MUTED, 10.5, 400);
 }, {play:"play", speed:0.030, tStill:3});
 howS.onchange = fnS.oninput = neS.oninput = hero.redraw;
 
 /* ── F# 트레이드오프 ── */
 const f2S=document.getElementById("f2"), frS=document.getElementById("fr");
-const bw  = (lam,F)=> 1.02*lam*F;        /* −6dB 빔 폭 (원형 개구) */
-const dof = (lam,F)=> 7.1*lam*F*F;       /* −6dB 초점 영역 길이 */
+/* 두 계수 모두 원형 개구의 펄스에코(왕복) −6 dB 값입니다.
+   편도 −6 dB 로 정의하면 각각 1.41, 9.7 이 됩니다. */
+const bw  = (lam,F)=> 1.02*lam*F;        /* 왕복 −6dB 빔 폭 */
+const dof = (lam,F)=> 7.1*lam*F*F;       /* 왕복 −6dB 초점 영역 길이 */
 
 const tw = makeScene("c2", 330, (ctx,W,H)=>{
   const F=+f2S.value, f=+frS.value;

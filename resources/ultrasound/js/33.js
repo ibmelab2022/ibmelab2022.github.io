@@ -141,14 +141,16 @@ const dash = makeScene("c1", 420, (ctx,W,H)=>{
   track(scB+30, MI, 2.2,
     [[0,0.3,"rgba(23,192,201,.12)"],[0.3,0.7,"rgba(23,192,201,.26)"],[0.7,1.9,"rgba(240,165,0,.22)"],[1.9,2.2,"rgba(179,18,60,.24)"]],
     [[0.3,SIGNAL_DK,"조영 0.3"],[0.7,AMBER_DK,"공동화 0.7"],[1.9,POS,"FDA 1.9"]], "MI", miCol);
-  track(scB+76, TI, 7,
-    [[0,1,"rgba(23,192,201,.12)"],[1,6,"rgba(240,165,0,.18)"],[6,7,"rgba(179,18,60,.24)"]],
+  /* ◆ vmax 를 7 로 두면 도플러 최대(출력 100%·10 MHz → TI 8.0)에서 마커가 오른쪽 끝에 붙어
+     슬라이더를 움직여도 움직이지 않았습니다(전 조합의 0.5%). 도달 가능한 최댓값에 맞춥니다. */
+  track(scB+76, TI, 8,
+    [[0,1,"rgba(23,192,201,.12)"],[1,6,"rgba(240,165,0,.18)"],[6,8,"rgba(179,18,60,.24)"]],
     [[1,AMBER_DK,"1"],[6,POS,"FDA 6"]], "TIS", tiCol);
 
   ctx.textAlign="left";
   chip(ctx, "▶ "+adv, L, scB+120, advCol, 11);
   ctx.fillStyle=MUTED; ctx.font=`400 ${(10*FS).toFixed(1)}px ${MONO}`;
-  ctx.fillText("표시값 = 표면값 × 감쇠보정 0.3 dB/cm/MHz (실제 조직 아닌 규격 가정 · 7장)", L, scB+146);
+  ctx.fillText("표시값 = 표면값 × 감쇠보정 0.3 dB/cm/MHz (실제 조직 아닌 규격 가정 · 7·30장)", L, scB+146);
   ctx.fillText("지수가 1.0 을 넘을 수 있는 기기만 실시간 표시 의무 (ODS)", L, scB+164);
 });
 modeBtn.onclick=()=>{ doppler=!doppler; modeBtn.textContent=doppler?"도플러":"B-모드"; modeBtn.classList.toggle("on",doppler); dash.redraw(); };

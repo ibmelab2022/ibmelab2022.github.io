@@ -39,10 +39,16 @@ const dist = makeScene("c1", 430, (ctx,W,H)=>{
   document.getElementById("rsig").textContent = (z/zs).toFixed(2);
   document.getElementById("rh1").textContent = amp[0].toFixed(3);
   document.getElementById("rh2").textContent = amp[1].toFixed(3);
-  const q = (P0/1e6)*amp[1] / Math.pow(P0/1e6, 2);
-  document.getElementById("rq").textContent = q.toFixed(3) + " (≈일정)";
+  /* ◆ 예전 판독은 (2차)/(P₀²) 이고 "(≈일정)" 을 붙였는데,
+     σ 가 커지면 0.178 → 0.118 로 34% 변해 일정하지 않았습니다.
+     또 rh1·rh2 는 P₀ 로 정규화된 비율이라, 본문이 말하는 "음압 반 → 1/4" 은
+     그 비율이 아니라 **절대 진폭**(= P₀ × 비율)에서만 성립합니다(§7-1 #14).
+     그 절대 진폭을 직접 보여 줍니다. */
+  const p2abs = (P0/1e6)*amp[1];                       /* MPa */
+  document.getElementById("rq").textContent = p2abs.toFixed(3);
   const st = document.getElementById("fstat");
-  st.textContent = z/zs>=1 ? "충격 형성 — Fubini 해의 끝" : `σ = ${(z/zs).toFixed(2)} · 2차가 ${(amp[1]*100).toFixed(1)}% 까지 자람`;
+  st.textContent = z/zs>=1 ? "충격 형성 — Fubini 해의 끝"
+    : `σ = ${(z/zs).toFixed(2)} · 2차가 기본파의 ${(amp[1]*100).toFixed(1)}% · 절대 ${p2abs.toFixed(2)} MPa`;
   st.style.color = z/zs>=1 ? POS : SIGNAL_DK;
 
   /* 고대역 필터 — 1.5 f₀ 아래를 자름 (실제 장비의 대역통과 근사) */
@@ -105,7 +111,7 @@ const dist = makeScene("c1", 430, (ctx,W,H)=>{
   fillWave(ctx, W, hbase, hpts);
   ctx.textAlign="left";
   chip(ctx, "③ 필터 후 — 조직이 만든 2f₀ 만 남았다 · 이것으로 영상을 만든다", L0, hT-8, POS, 10.5);
-  chip(ctx, `주파수가 2배 → 파장 절반 · 진폭은 원래의 ${(amp[1]*100).toFixed(1)}% (세로 확대해 그림)`,
+  chip(ctx, `주파수 2배 · 파장 절반 · 진폭은 기본파의 ${(amp[1]*100).toFixed(1)}% = ${p2abs.toFixed(2)} MPa (세로 확대해 그림)`,
        L0+4, hB-6, MUTED, 9, 400);
   ctx.textAlign="right";
   chip(ctx, `β = ${BETA.toFixed(1)} · 충격 거리 ${(zs*1000).toFixed(1)} mm`, W-14, 22, AMBER_DK, 10);

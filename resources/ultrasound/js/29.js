@@ -10,7 +10,11 @@
 const ampS=document.getElementById("amp"), prfS=document.getElementById("prf"), ncS=document.getElementById("nc");
 const F0 = 3;                              /* MHz 고정 — 주파수 축은 30·31장에서 */
 const WIN = 1.0;                           /* 화면 가로 = 1 ms 실시간 창 */
-const LO = -2, HI = 3;                     /* 로그 눈금 10^-2 ~ 10^3 W/cm² */
+/* 로그 눈금 10^-2.4 ~ 10^3 W/cm².
+   ◆ 하한이 10^-2 이던 때는 최소 조건(출력 0.30·PRF 1 kHz·1사이클, I_SPTA = 10.8 mW/cm²)에서
+     I_SPTA 선이 x 축과 1.8 px 까지 붙어 축과 구분되지 않았습니다. 하한만 조금 내립니다.
+     (눈금 표시는 정수 자릿수만 하므로 −2 까지 그대로 나옵니다.) */
+const LO = -2.4, HI = 3;
 
 const tsc = makeScene("c1", 330, (ctx,W,H)=>{
   const amp=+ampS.value, prf=+prfS.value, nc=+ncS.value;
@@ -43,7 +47,7 @@ const tsc = makeScene("c1", 330, (ctx,W,H)=>{
 
   /* 로그 눈금 */
   ctx.textAlign="right";
-  for(let d=LO; d<=HI; d++){
+  for(let d=Math.ceil(LO); d<=HI; d++){
     const y=Y(Math.pow(10,d));
     ctx.strokeStyle = d===0 ? "rgba(217,224,231,.9)" : "rgba(238,243,247,.9)";
     ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(L,y); ctx.lineTo(L+PW,y); ctx.stroke();
@@ -78,7 +82,17 @@ const tsc = makeScene("c1", 330, (ctx,W,H)=>{
   const x0=X(0.012), x1=X(0.012+PRTms);
   ctx.beginPath(); ctx.moveTo(x0,B+13); ctx.lineTo(x1,B+13);
   ctx.moveTo(x0,B+9); ctx.lineTo(x0,B+17); ctx.moveTo(x1,B+9); ctx.lineTo(x1,B+17); ctx.stroke();
-  ctx.textAlign="left"; chip(ctx,`1/PRF = ${(PRTms*1000).toFixed(0)} µs`, x1+7, B+17, MUTED, 9, 400);
+  /* ◆ 예전에는 항상 자 오른쪽(x1+7)에 좌측 정렬로 붙여, PRF 가 낮으면 자가 창 끝까지 뻗어
+     칩이 캔버스를 크게 넘었습니다(prf=1·폭 946 에서 우측 1041 > 946).
+     자리가 모자라면 자 안쪽에 우측 정렬로 붙입니다. */
+  {
+    const t=`1/PRF = ${(PRTms*1000).toFixed(0)} µs`;
+    ctx.font=`400 ${(9*FS).toFixed(1)}px ${MONO}`;
+    const tw=ctx.measureText(t).width+10;
+    const fits = x1+7+tw <= L+PW;
+    ctx.textAlign = fits ? "left" : "right";
+    chip(ctx, t, fits ? x1+7 : Math.min(x1-6, L+PW-2), B+17, MUTED, 9, 400);
+  }
   ctx.textAlign="right"; label(ctx,"1 ms 창", L+PW, B+30, MUTED, 9, 400);
   ctx.textAlign="right"; chip(ctx,`3 MHz · ${nc.toFixed(1)} 사이클 · 펄스 ${(pulseMs*1000).toFixed(2)} µs`, W-8, T+9, INK, 10);
   ctx.textAlign="left";
@@ -93,7 +107,10 @@ const tsc = makeScene("c1", 330, (ctx,W,H)=>{
   /* FDA 720 mW/cm² — 고정 기준선 */
   ctx.strokeStyle=POS; ctx.lineWidth=1.6; ctx.setLineDash([7,4]);
   ctx.beginPath(); ctx.moveTo(L,Y(0.72)); ctx.lineTo(L+PW,Y(0.72)); ctx.stroke(); ctx.setLineDash([]);
-  ctx.textAlign="right"; chip(ctx,"FDA I_SPTA.3 한계 720 mW/cm²", L+PW-2, Y(0.72)+14, POS, 9.5);
+  /* ◆ 예전에는 우측 정렬(L+PW-2)이라 I_SPTA 값 칩과 x 가 겹쳐,
+     I_SPTA 가 720 근처일 때 두 칩이 세로로 포개졌습니다(Δy 15 < 칩높이 18).
+     세 지표 칩이 쓰지 않는 가운데 왼쪽으로 옮깁니다. */
+  ctx.textAlign="center"; chip(ctx,"FDA I_SPTA.3 한계 720 mW/cm²", L+PW*0.33, Y(0.72)+14, POS, 9.5);
 
   line(ISPTP, POS,      "I_SPTP 순간피크",  `${ISPTP.toFixed(0)} W/cm²`, [6,3]);
   line(ISPPA, AMBER_DK, "I_SPPA 펄스평균",  `${ISPPA.toFixed(0)} W/cm²`, [6,3]);
@@ -110,7 +127,11 @@ const tsc = makeScene("c1", 330, (ctx,W,H)=>{
 });
 ampS.oninput = prfS.oninput = ncS.oninput = tsc.redraw;
 
-/* ── c2 : 공간 빔 분포 — 파워 보존, SA는 그대로 SP만 치솟음 ── */
+/* ── c2 : 공간 빔 분포 — 파워 보존, 고정 창 평균은 그대로 SP만 치솟음 ──
+   ★ 여기 점선은 "총 파워 ÷ 표시창 6 mm" 이지 공식 정의의 I_SA 가 아닙니다.
+     I_SA 는 총 파워를 빔 단면적으로 나눈 값이라 집속하면 면적도 함께 줄어,
+     가우시안·−6 dB 기준으로 SP/I_SA = 1.33 으로 거의 일정합니다.
+     이 그림이 보여 주려는 것은 "집속은 파워를 늘리지 않고 좁은 곳에 몰아넣는다" 입니다. */
 const fnS=document.getElementById("fn");
 
 const ssc = makeScene("c2", 300, (ctx,W,H)=>{
@@ -118,7 +139,7 @@ const ssc = makeScene("c2", 300, (ctx,W,H)=>{
   const P0=100, Xmm=6, SQ2PI=Math.sqrt(2*Math.PI);
   const sigma = 0.35*F;                   /* mm — 빔 폭 ∝ F# (13장) */
   const SP = P0/(sigma*SQ2PI);            /* 피크 ∝ 1/폭 */
-  const SA = P0/Xmm;                      /* 표시창 평균 = 파워/폭 → F# 무관(파워 보존!) */
+  const SA = P0/Xmm;                      /* 고정 창(6 mm) 평균 = 총파워/창폭 → F# 무관(파워 보존) */
   const ratio = SP/SA;
 
   document.getElementById("fnv").textContent=F.toFixed(1);
@@ -126,7 +147,7 @@ const ssc = makeScene("c2", 300, (ctx,W,H)=>{
   document.getElementById("rsa").textContent=SA.toFixed(1);
   document.getElementById("rspa").textContent=ratio.toFixed(2);
   const st=document.getElementById("sstat");
-  st.textContent = `총 파워 고정 → SA ${SA.toFixed(1)} 그대로, SP만 ${SP.toFixed(0)}로`;
+  st.textContent = `총 파워 고정 → 6 mm 창 평균 ${SA.toFixed(1)} 그대로, 피크만 ${SP.toFixed(0)} 로`;
   st.style.color = AMBER_DK;
 
   const L=52,R=16,PW=W-L-R, T=16,B=H-30, PH=B-T;
@@ -158,10 +179,10 @@ const ssc = makeScene("c2", 300, (ctx,W,H)=>{
   /* SA 평균선 */
   ctx.strokeStyle=SIGNAL_DK; ctx.lineWidth=2.2; ctx.setLineDash([6,4]);
   ctx.beginPath(); ctx.moveTo(L, yI(SA)); ctx.lineTo(L+PW, yI(SA)); ctx.stroke(); ctx.setLineDash([]);
-  ctx.textAlign="left"; chip(ctx,`SA 공간평균 ${SA.toFixed(1)} (파워 보존 → 고정)`, L+6, yI(SA)-6, SIGNAL_DK, 10);
+  ctx.textAlign="left"; chip(ctx,`총 파워 ÷ 6 mm = ${SA.toFixed(1)} (집속해도 고정)`, L+6, yI(SA)-6, SIGNAL_DK, 10);
 
   /* SP/SA */
-  ctx.textAlign="right"; chip(ctx,`SP/SA = ${ratio.toFixed(2)}×`, L+PW-2, T+10, AMBER_DK, 11);
+  ctx.textAlign="right"; chip(ctx,`피크 ÷ 창평균 = ${ratio.toFixed(2)}×`, L+PW-2, T+10, AMBER_DK, 11);
   ctx.textAlign="left";
 });
 fnS.oninput = ssc.redraw;

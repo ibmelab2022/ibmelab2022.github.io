@@ -43,10 +43,15 @@ const hero=makeScene("c1", 380, (ctx,W,H,t)=>{
   document.getElementById("vc").textContent=vc.toFixed(3);
   document.getElementById("rat").textContent=(2*Math.abs(vc)/CS).toExponential(1);
   const de=document.getElementById("dir");
-  de.textContent = Math.abs(vc)<1e-6? "정지(수직)" : vc>0? "다가옴 ▲" : "멀어짐 ▼";
+  de.textContent = Math.abs(vc)<1e-6 ? (v<1e-9? "정지 (v=0)" : "정지 (수직)") : vc>0? "다가옴 ▲" : "멀어짐 ▼";
   de.style.color = Math.abs(vc)<1e-6? MUTED : vc>0? POS : NEG;
   const st=document.getElementById("dstat");
-  st.textContent = Math.abs(vc)<1e-6? "θ=90° — cosθ=0, 편이 없음"
+  /* ◆ 편이가 0 인 이유는 두 가지입니다 — 속도가 0 이거나 cosθ 가 0 이거나.
+     예전에는 둘 다 "θ=90°" 로 표시해 v=0·θ=45° 에서도 각도 탓으로 보였습니다. */
+  const quiet = Math.abs(vc)<1e-6;
+  const why = v<1e-9 ? "v = 0 — 움직임이 없어 편이 없음"
+                     : "θ = 90° — cosθ = 0, 편이 없음";
+  st.textContent = quiet ? why
     : `f_d = ${Math.round(fd).toLocaleString()} Hz — ${vc>0?"파면 촘촘 · 주파수 상승":"파면 성글게 · 주파수 하강"}`;
   st.style.color = Math.abs(vc)<1e-6? MUTED : (vc>0?POS:NEG);
 
@@ -164,7 +169,9 @@ const hero=makeScene("c1", 380, (ctx,W,H,t)=>{
   ctx.textAlign="right";
   chip(ctx, Math.abs(vc)<1e-6? "편이 없음" : (vc>0? "에코 파면 간격 ↓ 압축" : "에코 파면 간격 ↑ 팽창"),
        W-8, 22, Math.abs(vc)<1e-6? MUTED : (vc>0?POS:NEG), 10);
-  chip(ctx, "파면 간격은 보이도록 과장 — 실제 편이는 0.05% 남짓", W-8, 40, MUTED, 9, 500);
+  /* ◆ 예전에는 "0.05% 남짓" 으로 고정해 v=1·θ=0(0.130%) 에서 2.6배 어긋났습니다. 실측값을 씁니다. */
+  chip(ctx, `파면 간격은 보이도록 과장 — 실제 편이는 ${(2*Math.abs(vc)/CS*100).toFixed(3)}%`,
+       W-8, 40, MUTED, 9, 500);
   ctx.textAlign="left";
 }, {play:"p1", speed:0.05, tStill:14.0});
 velS.oninput = angS.oninput = f0S.oninput = hero.redraw;

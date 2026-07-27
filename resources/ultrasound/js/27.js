@@ -1,5 +1,7 @@
 /* ═══ 27 펄스파 도플러 · 애니메이션 (v3 — 맥동 혈류 · 45° · 스펙트로그램) ═══
-   검증: verify25_28.py [27] · v_max·D_max = c²/8f0 · f_d > PRF/2 → 앨리어싱
+   검증: verify25_28.py [27] · v_max·D_max = c²/(8 f0 cosθ) · f_d > PRF/2 → 앨리어싱
+   ★ 곱에 cosθ 가 남습니다. 이 파일은 θ=45° 로 계산하므로 c²/8f0 보다 1.414배 큽니다
+     (PRF 8k·f0 5MHz: 9.625 cm × 87.1 cm/s = 838.5 vs c²/8f0 = 592.9 cm²/s).
 
    v3 에서 바뀐 것 ★
    ① 혈관을 빔축과 45° 로 — 도플러 각이 v_max 와 편이에 함께 들어갑니다
@@ -111,7 +113,9 @@ const hero=makeScene("c1", 420, (ctx,W,H,t)=>{
     if(X(dmax) < L+PW-70) chip(ctx,"PRF 가 높아 여기는 못 봄", X(dmax)+8, yT+hT-10, POS, 9, 500);
   }
   ctx.textAlign="right";
-  chip(ctx,`v_max × D_max = c²/8f₀ (PRF 와 무관)`, W-8, yT-8, INK2, 9.5);
+  /* ◆ 예전 배지는 c²/8f₀ 였는데, 이 애니메이션은 θ=45° 로 계산하므로 1.414배 어긋났습니다. */
+  chip(ctx,`v_max × D_max = c²/(8f₀cosθ) = ${(dmax*vmax).toFixed(0)} cm²/s (PRF 와 무관)`,
+       W-8, yT-8, INK2, 9.5);
   ctx.textAlign="left";
   /* 깊이 눈금 */
   const yR=yT+hT+34;

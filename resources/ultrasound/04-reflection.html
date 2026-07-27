@@ -18,8 +18,10 @@
   <div class="wrap hero-t">
     <div class="eyebrow">Ultrasound Basics · 04</div>
     <h1>초음파 반사<span class="sub">Ultrasound Reflection</span></h1>
-    <p class="lede">반사파의 파면은 <strong>경계면 너머에 있는 가짜 음원</strong>에서 나온 파동과 정확히 똑같은 모양입니다.
-      이 하나만 이해하면 반사 기하학은 전부 따라옵니다.</p>
+    <p class="lede">반사파<span class="en">(reflected wave)</span>의 파면<span class="en">(wavefront)</span>은
+      경계면 너머에 놓인 가상의 음원에서 발생한 파동과 동일한 형태를 가진다.
+      이 가상의 음원을 <strong>거울상 음원<span class="en">(image source)</span></strong>이라 하며,
+      반사와 관련된 기하학적 성질은 모두 이 하나의 개념으로부터 유도된다.</p>
   </div>
 </header>
 
@@ -28,25 +30,32 @@
   <div class="sechead"><div class="secnum">01</div>
     <h2>반사의 두 조건<span class="sub">Two conditions for reflection</span></h2></div>
   <ul>
-    <li><strong>면이 커야 합니다</strong> <span class="en">big surface</span> · 경계면이 <strong>파장보다 훨씬 커야</strong> 반사라고 부를 수 있습니다.
-      면이 λ 정도이거나 그보다 작으면 반사가 아니라 <strong>산란</strong>이 됩니다 — 사방으로 흩어지죠.
-      5 MHz에서 λ ≈ <span class="num">0.31 mm</span>이니, 그보다 훨씬 큰 구조만 이 장의 이야기에 해당합니다.
-      <span class="en">→ Ultrasound Scattering</span></li>
-    <li><strong>임피던스가 달라야 합니다</strong> <span class="en">impedance mismatch</span> ·
-      양쪽 Z가 같으면 반사는 <strong>0</strong>입니다. 그 경계면은 초음파에게 존재하지 않습니다.</li>
+    <li><strong>경계면이 파장에 비해 충분히 커야 한다</strong> · 경계면의 크기가 <strong>파장보다 훨씬 크고</strong>
+      표면의 거칠기가 파장보다 작아야 <span class="t">정반사</span><span class="en">(specular reflection)</span>가
+      성립한다. 경계면의 크기가 파장 정도이거나 그보다 작으면 에너지가 여러 방향으로 흩어지는
+      <strong>산란<span class="en">(scattering)</span></strong>이 된다.
+      <span class="num">5 MHz</span>에서 파장은 약 <span class="num">0.31 mm</span>이므로,
+      이보다 충분히 큰 구조가 이 장의 대상이다(6장).</li>
+    <li><strong>양쪽 매질의 음향 임피던스가 달라야 한다</strong> · 경계면 양쪽의 Z가 같으면 반사계수는
+      <strong>0</strong>이 되어 반사가 발생하지 않는다. 이 경우 해당 경계면은 초음파 영상에 나타나지 않는다.</li>
   </ul>
   <div class="eq"><span>R =</span><span class="frac"><span>Z₂ − Z₁</span><span>Z₂ + Z₁</span></span>
     <span style="margin-left:22px">Z₁ = Z₂ &nbsp;→&nbsp; R = 0</span></div>
-  <p>두 조건은 <strong>둘 다</strong> 필요합니다. 아무리 임피던스 차가 커도 면이 작으면 산란이고,
-    아무리 면이 커도 임피던스가 같으면 아무 일도 일어나지 않습니다.</p>
+  <p>여기서 R은 <strong>음압 진폭의 반사계수</strong>이며, 반사되는 <strong>에너지의 비율은 R²</strong>이다.
+    3장에서 인용한 반사율(연부조직↔뼈 <span class="num">42.8%</span>, 연부조직↔공기 <span class="num">99.9%</span>)은
+    모두 R²로 계산한 값이므로 두 양을 혼동하지 않아야 한다.
+    또한 R은 부호를 가지며, <span class="num">Z₂ &lt; Z₁</span>이면 R이 음수가 되어 반사파의 위상이 반전된다.
+    두 조건은 <strong>동시에</strong> 만족되어야 한다. 임피던스 차가 크더라도 경계면이 작으면 산란이 되고,
+    경계면이 크더라도 임피던스가 같으면 반사는 일어나지 않는다.</p>
 </div></section>
 
 <!-- ── 02 ── -->
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">02</div>
     <h2>파면의 모양<span class="sub">Wavefront pattern — the mirror image source</span></h2></div>
-  <p>점에서 나온 구면파가 평면에 부딪히면, 되돌아오는 파면은 <strong>복잡한 무언가가 아닙니다.</strong>
-    그냥 <strong>경계면 반대편에 거울처럼 비친 가짜 음원</strong>에서 나온 구면파와 <strong>완전히 같은 모양</strong>입니다.</p>
+  <p>점 음원<span class="en">(point source)</span>에서 발생한 구면파<span class="en">(spherical wave)</span>가
+    평면 경계에 입사하면, 반사되어 되돌아오는 파면 역시 구면을 이룬다.
+    이때 구면의 <strong>곡률 중심은 실제 음원이 아니라, 경계면에 대해 실제 음원과 대칭인 위치</strong>에 놓인다.</p>
   <div class="panel">
     <div class="plabel"><span><b>인터랙티브</b> · 점 음원의 구면파 반사 · 거울상 음원</span><span id="hstate">재생 중</span></div>
     <canvas id="c1" height="360"></canvas>
@@ -61,23 +70,33 @@
           <button class="go" id="play">일시정지</button></div>
       </div>
       <p class="cap"><b style="color:var(--pos)">■</b> 압축 &nbsp;<b style="color:var(--neg)">■</b> 희박 &nbsp;·&nbsp;
-        경계면을 기울여 보세요. <b>거울상 음원</b>이 따라 움직이고, 반사파는 <strong>언제나 그 지점을 중심으로 한 원</strong>입니다.</p>
+        경계면을 기울이면 <b>거울상 음원</b>의 위치가 함께 이동하며,
+        반사파는 <strong>언제나 그 지점을 중심으로 하는 동심원</strong>을 이룬다.</p>
     </div>
   </div>
-  <div class="key"><div class="kh">거울상 음원 · virtual source</div>
-    <p>실제 음원 S 에서 경계면에 <strong>수직으로</strong> 선을 긋고, 같은 거리만큼 반대편으로 넘어간 곳이 S′ 입니다.
-      반사파는 <strong>S′ 를 중심으로 하는 동심원</strong>이 됩니다. 거울 속의 내 모습이 거울 뒤 같은 거리에 있는 것과 똑같습니다.</p></div>
-  <p>이 방법을 <span class="t">거울상법</span> <span class="en">method of images</span>이라 부릅니다.
-    편리한 근사가 아니라 <strong>정확한 해</strong>입니다. 경계면 위의 모든 점은 S 와 S′ 로부터 <strong>거리가 같으므로</strong>,
-    두 파동이 그곳에서 항상 같은 위상으로 만납니다 — 그래서 경계 조건이 저절로 만족됩니다.</p>
+  <div class="key"><div class="kh">거울상 음원 · image source</div>
+    <p>실제 음원 S 에서 경계면에 <strong>수선을 내리고</strong>, 수선의 발을 지나 같은 거리만큼
+      반대편으로 연장한 점이 S′ 이다. 반사파는 <strong>S′ 를 중심으로 하는 동심원</strong>을 이룬다.
+      평면거울에 맺힌 상이 거울 뒤 같은 거리에 위치하는 것과 동일한 기하이다.</p></div>
+  <p>이 방법을 <span class="t">거울상법</span><span class="en">(method of images)</span>이라 한다.
+    경계면 위의 모든 점은 S 와 S′ 로부터 <strong>거리가 같으므로</strong> 두 파동이 언제나
+    <strong>같은 경로 지연으로 도달하며</strong>, 그 결과 경계 조건이 경계면 전체에서 동시에 만족된다.
+    이때 <strong>S′ 의 부호는 경계 조건이 결정한다.</strong>
+    위 애니메이션과 같이 <span class="num">Z₂ ≫ Z₁</span>인 강체에 가까운 경계에서는 S′ 가 같은 부호를 가져
+    두 파동이 같은 위상으로 겹치고 경계면에서 음압이 최대가 된다.
+    반대로 조직에서 공기로 향하는 <span class="num">Z₂ ≪ Z₁</span>인 경우에는 S′ 의 부호가 반대가 되어
+    두 파동이 상쇄되고 경계면에서 음압이 거의 0이 된다.
+    거울상법은 <strong>반사파의 파면 기하에 대해서는 근사가 아닌 정확한 결과</strong>를 주며,
+    진폭까지 정확하게 기술하려면 <span class="num">|R| = 1</span>인 완전 반사 경계여야 한다.</p>
 </div></section>
 
 <!-- ── 03 ── -->
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">03</div>
     <h2>평면파와 각도<span class="sub">Plane wave · angle in = angle out</span></h2></div>
-  <p>음원이 아주 멀면 파면은 평평해집니다 — <span class="t">평면파</span> <span class="en">plane wave</span>.
-    이때 반사는 <strong>거울 그 자체</strong>가 됩니다.</p>
+  <p>음원이 충분히 멀리 있으면 파면의 곡률이 작아져 평면에 가까워지며, 이를
+    <span class="t">평면파</span><span class="en">(plane wave)</span>라 한다.
+    평면파가 평면 경계에 입사하는 경우, 반사는 평면거울에서의 반사와 동일한 기하로 기술된다.</p>
   <div class="panel">
     <div class="plabel"><span><b>인터랙티브</b> · 평면파의 반사 · θᵣ = θᵢ</span><span id="hstate2">재생 중</span></div>
     <canvas id="c2" height="340"></canvas>
@@ -95,12 +114,17 @@
       </div>
     </div>
   </div>
-  <p><strong>반사각은 언제나 입사각과 같습니다</strong> <span class="num">θᵣ = θᵢ</span>.
-    거울상법으로 보면 당연합니다 — 무한히 먼 거울상 음원에서 오는 평면파일 뿐이니까요.</p>
-  <div class="key"><div class="kh">그래서 구조가 사라집니다</div>
-    <p>큰 매끈한 면 — <span class="t">정반사체</span> <span class="en">specular reflector</span>, 횡격막·혈관벽·바늘 — 는 거울입니다.
-      거울은 <strong>정면으로 봐야만</strong> 내게 되돌려 줍니다. 각도가 붙으면 에코는 <strong>반대편으로 날아가</strong> 탐촉자에 도달하지 않습니다.
-      구조가 없어진 게 아니라 <strong>에코가 다른 데로 간 것</strong>입니다 — 게인을 올려도 소용없고, <strong>프로브 각도를 바꿔야</strong> 합니다.</p></div>
+  <p><strong>반사각은 입사각과 항상 같다</strong>(<span class="num">θᵣ = θᵢ</span>).
+    거울상법의 관점에서 반사파는 무한히 멀리 있는 거울상 음원에서 오는 평면파에 해당하므로,
+    이 관계는 별도의 가정 없이 기하로부터 얻어진다.
+    두 각은 모두 <strong>경계면의 법선<span class="en">(normal)</span></strong>을 기준으로 측정한다.</p>
+  <div class="key"><div class="kh">정반사체가 보이지 않는 이유</div>
+    <p>횡격막, 혈관벽, 천자침과 같이 크고 매끈한 경계면은
+      <span class="t">정반사체</span><span class="en">(specular reflector)</span>로 거동한다.
+      정반사체는 빔이 <strong>거의 수직으로 입사할 때에만</strong> 에코를 탐촉자로 되돌려 보낸다.
+      입사각이 커지면 반사파는 <span class="num">θᵣ = θᵢ</span>를 따라 반대 방향으로 진행하여 탐촉자에 도달하지 않는다.
+      이 경우 구조 자체가 사라진 것이 아니라 <strong>에코가 다른 방향으로 전파된 것</strong>이므로,
+      게인<span class="en">(gain)</span>을 높여도 해결되지 않으며 <strong>탐촉자의 각도를 조정해야 한다.</strong></p></div>
 </div></section>
 
 <!-- ── 정리 ── -->
@@ -108,12 +132,12 @@
   <div class="sum">
     <div class="kh">한 장 정리 · Summary</div>
     <ul>
-      <li><b>반사 조건 두 개</b> · 면이 λ보다 훨씬 클 것 + 양쪽 Z가 다를 것</li>
+      <li><b>반사 조건 두 개</b> · 면이 λ보다 훨씬 크고 <b>매끈할 것</b> + 양쪽 Z가 다를 것</li>
       <li><b>면이 λ 이하면 반사가 아니라 산란</b>이다</li>
-      <li><b>Z가 같으면 R = 0</b> — 경계면이 있어도 안 보인다</li>
-      <li><b>반사파 = 거울상 음원 S′ 에서 나온 파동</b> · 정확한 해다 <span class="en">method of images</span></li>
+      <li><b>R = (Z₂−Z₁)/(Z₂+Z₁)는 진폭 반사계수</b> · 에너지 반사율은 <b>R²</b>, Z가 같으면 0</li>
+      <li><b>반사파 = 거울상 음원 S′ 에서 나온 파동</b> · 거울상법<span class="en">(method of images)</span>은 파면 기하에 대해 정확</li>
       <li><b>경계면의 모든 점은 S와 S′ 에서 등거리</b> — 그래서 경계 조건이 저절로 맞는다</li>
-      <li><b>평면파는 θᵣ = θᵢ</b> · 정반사체는 <b>수직일 때만</b> 보인다</li>
+      <li><b>평면파는 θᵣ = θᵢ</b>(법선 기준) · 정반사체는 <b>거의 수직일 때만</b> 보인다</li>
     </ul>
   </div>
 </div></section>

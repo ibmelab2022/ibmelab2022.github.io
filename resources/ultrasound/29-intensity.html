@@ -18,31 +18,43 @@
   <div class="wrap hero-t">
     <div class="eyebrow">Safety · 29</div>
     <h1>강도<span class="sub">Ultrasound Intensity</span></h1>
-    <p class="lede">강도는 <strong>단위 면적당 파워</strong>입니다. 그런데 초음파는 <strong>짧게 쏘고 길게 듣기</strong> 때문에(15장),
-      <strong>언제·어디서 재느냐에 따라 같은 빔의 강도가 500배까지 갈립니다.</strong>
-      안전 한계가 왜 하필 <strong>평균값</strong>에 걸리는지가 여기서 정해집니다.</p>
+    <p class="lede">강도는 <strong>단위 면적당 파워</strong>이다. 그런데 초음파는 <strong>짧게 송신하고 길게 수신</strong>하므로(15장),
+      같은 빔이라도 <strong>언제 어디서 재느냐에 따라 강도값이 1000배 넘게 갈린다.</strong>
+      안전 한계가 왜 하필 <strong>평균값</strong>에 걸리는지가 여기서 정해진다.</p>
   </div>
 </header>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">01</div>
     <h2>강도의 정의<span class="sub">Intensity from pressure</span></h2></div>
-  <p>강도는 파동이 <strong>단위 면적을 지나며 나르는 파워</strong>입니다. 평면파에서는 <strong>음압 진폭의 제곱</strong>으로 정해집니다.</p>
+  <p>강도<span class="en">(intensity)</span>는 파동이 <strong>단위 면적을 지나며 나르는 파워</strong>이며,
+    평면파에서는 <strong>음압 진폭의 제곱</strong>으로 정해진다.</p>
   <div class="eq"><span>I =</span><span class="frac"><span>P</span><span>A</span></span>
     <span style="margin-left:22px">=</span><span class="frac"><span>p²</span><span>2ρc</span></span></div>
   <div class="eqcap">p = 음압 진폭 · ρc = 음향 임피던스 Z · <strong>강도는 압력의 제곱</strong>에 비례</div>
-  <div class="key"><div class="kh">2장 회수 — 강도는 f²에 비례 (f⁴이 아님)</div>
-    <p>변위 진폭이 <span class="num">ξ₀</span>일 때 <span class="num">I = ½ρc·ω²ξ₀² ∝ f²ξ₀²</span> 입니다.
-      주파수를 2배로 하면 강도는 <strong>정확히 4배</strong>. 원문의 <strong>f⁴은 틀렸고</strong>(그건 레일리 산란),
-      진폭 고정 시 강도는 <strong>f²</strong>로 커집니다.</p></div>
+  <div class="key"><div class="kh">2장 회수 — 강도는 f²에 비례 (f⁴이 아니다)</div>
+    <p>변위 진폭이 <span class="num">ξ₀</span> 일 때 <span class="num">I = ½ρc·ω²ξ₀² ∝ f²ξ₀²</span> 이다.
+      주파수를 2배로 하면 강도는 <strong>정확히 4배</strong>가 된다.
+      강도를 <strong>f⁴</strong>에 비례한다고 적은 자료가 있는데 그것은 <strong>레일리 산란의 세기</strong>이며(6장),
+      진폭이 고정된 평면파의 강도는 <strong>f²</strong>로 커진다.</p></div>
 </div></section>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">02</div>
     <h2>공간: 피크와 평균<span class="sub">Spatial peak vs average</span></h2></div>
-  <p>빔은 <strong>초점에서 세고 가장자리로 갈수록 약합니다</strong>(12·13장). 그래서 강도는 <strong>한 값이 아니라 분포</strong>입니다.
-    빔 안에서 가장 센 점이 <span class="t">공간 피크</span> <span class="en">spatial peak, SP</span>,
-    빔 단면 전체의 평균이 <span class="t">공간 평균</span> <span class="en">spatial average, SA</span>입니다.</p>
+  <p>빔은 <strong>초점에서 세고 가장자리로 갈수록 약하다</strong>(12·13장). 그래서 강도는 <strong>한 값이 아니라 분포</strong>이며,
+    빔 안에서 가장 센 점의 값을 <span class="t">공간 피크</span><span class="en">(spatial peak, SP)</span>,
+    <strong>어떤 면적에 걸쳐 평균낸 값</strong>을 <span class="t">공간 평균</span><span class="en">(spatial average, SA)</span>이라 한다.</p>
+  <div class="key warn"><div class="kh">SA 는 "어느 면적으로 나눈 값인가"를 밝혀야 한다</div>
+    <p>공식 정의의 <span class="num">I_SA</span> 는 총 파워를 <strong>빔 단면적</strong>으로 나눈 값이다.
+      그런데 집속하면 파워가 보존되는 동시에 <strong>빔 단면적도 함께 줄어들므로</strong>,
+      이 정의로는 <strong>SP/SA 가 집속과 거의 무관하게 일정하다</strong>
+      (가우시안 빔·−6 dB 폭 기준으로 <span class="num">1.33</span>).</p>
+    <p style="margin-top:10px">아래 애니메이션이 보여 주는 것은 다른 기준이다.
+      <strong>조직의 같은 6 mm 폭을 고정해 놓고</strong> 그 안의 평균을 보면,
+      총 파워가 보존되므로 <strong>평균은 그대로인데 피크만 치솟는다.</strong>
+      집속이 하는 일은 파워를 늘리는 것이 아니라 <strong>좁은 곳에 몰아넣는 것</strong>임을 드러내는 그림이다.
+      "SP/SA 가 몇 배"라고 인용할 때는 <strong>어느 면적으로 나눈 값인지</strong> 반드시 함께 밝혀야 한다.</p></div>
   <div class="panel">
     <div class="plabel"><span><b>인터랙티브</b> · 빔은 균일하지 않다 · 공간</span><span id="sstat">—</span></div>
     <canvas id="c2" height="300"></canvas>
@@ -53,11 +65,14 @@
       </div>
       <div class="readout">
         <div class="ro"><span class="k">공간피크 SP</span><span class="v" id="rsp" style="color:var(--pos)">—</span><span class="u">상대</span></div>
-        <div class="ro"><span class="k">공간평균 SA</span><span class="v" id="rsa" style="color:var(--signal-deep)">—</span><span class="u">상대</span></div>
-        <div class="ro"><span class="k">SP / SA</span><span class="v" id="rspa" style="color:var(--amber-deep)">—</span><span class="u">배</span></div>
+        <div class="ro"><span class="k">6 mm 창 평균</span><span class="v" id="rsa" style="color:var(--signal-deep)">—</span><span class="u">상대</span></div>
+        <div class="ro"><span class="k">피크 ÷ 창평균</span><span class="v" id="rspa" style="color:var(--amber-deep)">—</span><span class="u">배</span></div>
       </div>
-      <p class="cap"><b>강하게 집속할수록</b>(F 넘버 ↓) 피크는 치솟지만 <b>총 파워는 그대로</b>라
-        <b style="color:var(--amber-deep)">SP/SA 비</b>가 커집니다. "강도"라고 말할 때 <b>어느 값인지</b>를 반드시 붙여야 하는 이유입니다.</p>
+      <p class="cap"><b>강하게 집속할수록</b>(F 넘버 ↓) 피크는 치솟지만 <b>총 파워는 변하지 않으므로</b>
+        조직의 같은 <b>6 mm 폭에 대한 평균</b>은 그대로이고, 그래서
+        <b style="color:var(--amber-deep)">피크 ÷ 창평균</b> 비만 커진다.
+        집속은 파워를 늘리는 것이 아니라 <b>좁은 곳에 몰아넣는 것</b>이다.
+        "강도"라고 말할 때 <b>어디서, 어느 면적으로</b> 잰 값인지 반드시 붙여야 하는 이유이다.</p>
     </div>
   </div>
 </div></section>
@@ -65,15 +80,21 @@
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">03</div>
     <h2>시간: 세 가지 평균<span class="sub">Temporal peak, pulse, average</span></h2></div>
-  <p>공간 피크 한 점을 정하고 나면, 이번엔 <strong>시간</strong>이 문제입니다. 펄스가 지나가는 순간과 침묵하는 순간의 강도가 전혀 다르니까요.</p>
+  <p>공간 피크 한 점을 정하고 나면 이번에는 <strong>시간</strong>이 문제가 된다.
+    펄스가 지나가는 순간과 침묵하는 순간의 강도가 전혀 다르기 때문이다.</p>
   <ul>
-    <li><span class="t">시간 피크</span> <span class="en">temporal peak, TP</span> · 펄스 안에서 가장 센 <strong>순간</strong>의 강도.</li>
-    <li><span class="t">펄스 평균</span> <span class="en">pulse average, PA</span> · 펄스가 켜져 있는 <strong>동안만</strong> 평균낸 값.</li>
-    <li><span class="t">시간 평균</span> <span class="en">temporal average, TA</span> · <strong>침묵 시간까지 포함</strong>해 전 주기로 평균낸 값.</li>
+    <li><span class="t">시간 피크</span><span class="en">(temporal peak, TP)</span> ·
+      펄스 안에서 가장 센 <strong>순간</strong>의 강도.</li>
+    <li><span class="t">펄스 평균</span><span class="en">(pulse average, PA)</span> ·
+      펄스가 켜져 있는 <strong>동안만</strong> 평균낸 값.</li>
+    <li><span class="t">시간 평균</span><span class="en">(temporal average, TA)</span> ·
+      <strong>침묵 시간까지 포함</strong>해 전 주기로 평균낸 값.</li>
   </ul>
+  <p>공간과 시간의 기준을 하나씩 골라 붙이면 <span class="num">I_SPTA</span>(공간 피크·시간 평균)처럼
+    네 글자 약어가 된다. 안전 규정이 쓰는 값이 바로 이 조합이다.</p>
   <div class="eq"><span>I<sub>SPTA</sub> = I<sub>SPPA</sub> ×</span><span class="frac"><span>펄스 길이</span><span>펄스 주기</span></span>
     <span style="margin-left:18px">= I<sub>SPPA</sub> × 듀티비</span></div>
-  <div class="eqcap">15장 회수 — 듀티비가 <strong>0.2%</strong>면 시간평균은 펄스평균의 <strong>1/500</strong></div>
+  <div class="eqcap">15장 회수 — 듀티비가 <strong>0.2%</strong>이면 시간평균은 펄스평균의 <strong>1/500</strong>이 된다</div>
   <div class="panel">
     <div class="plabel"><span><b>인터랙티브</b> · 하나의 빔, 세 개의 강도 · 시간</span><span id="tstat">—</span></div>
     <canvas id="c1" height="330"></canvas>
@@ -93,31 +114,39 @@
         <div class="ro"><span class="k">I<sub>SPTA</sub> 시간평균</span><span class="v" id="ispta" style="color:var(--signal-deep)">—</span><span class="u">mW/cm²</span></div>
         <div class="ro"><span class="k">720 한계 대비</span><span class="v" id="vlim" style="font-size:14px">—</span></div>
       </div>
-      <p class="cap"><b>세로축은 로그</b>입니다 — 세 지표가 1000배씩 차이 나서 선형축이면 I<sub>SPTA</sub>가 바닥에 붙어 안 보입니다.
-        가로축은 <b>1 ms 실시간 창</b>이라 <b>PRF를 올리면 펄스 개수가 늘어납니다</b>
-        (펄스 자체는 실제로 1픽셀보다 얇아 최소 폭으로 그렸습니다).<br>
-        <b style="color:var(--signal-deep)">I<sub>SPPA</sub>와 I<sub>SPTA</sub> 사이의 세로 간격이 곧 듀티비</b>입니다.
-        <b>PRF나 사이클을 줄이면</b> 간격이 벌어지며 I<sub>SPTA</sub>가 <b style="color:var(--pos)">FDA 720 선</b> 아래로 내려가고,
-        <b>출력을 올리면</b> 세 선이 함께 올라갑니다. 같은 빔인데 <b>재는 방식만 바꿔도</b> 이렇게 달라집니다.</p>
+      <p class="cap"><b>세로축은 로그</b>이다 — 세 지표가 1000배씩 차이 나므로 선형축이면 I<sub>SPTA</sub>가 바닥에 붙어 보이지 않는다.
+        가로축은 <b>1 ms 실시간 창</b>이므로 <b>PRF 를 올리면 펄스 개수가 늘어난다</b>
+        (펄스 자체는 실제로 1픽셀보다 얇아 최소 폭으로 그렸다).<br>
+        <b style="color:var(--signal-deep)">I<sub>SPPA</sub>와 I<sub>SPTA</sub> 사이의 세로 간격이 곧 듀티비</b>이다.
+        <b>PRF 나 사이클을 줄이면</b> 간격이 벌어지며 I<sub>SPTA</sub>가 <b style="color:var(--pos)">FDA 720 선</b> 아래로 내려가고,
+        <b>출력을 올리면</b> 세 선이 함께 올라간다.<br>
+        기본값(출력 1.00 · PRF 3 kHz · 2사이클)이 듀티비 <b>0.2%</b>, I<sub>SPTA</sub> <b>정확히 720 mW/cm²</b> 로
+        FDA 한계에 맞춰져 있다. 슬라이더를 끝까지 밀면 듀티비 <b>2.5%</b>, I<sub>SPTA</sub> <b>9,000 mW/cm²</b> 로
+        한계의 <b>12.5배</b>까지 올라간다 — 진단 장비가 실제로 낼 수 있는 값이 아니라
+        <b>지표들이 어떻게 함께 움직이는지</b>를 보기 위한 범위이다.</p>
     </div>
   </div>
   <div class="key"><div class="kh">크기순은 항상 정해져 있다</div>
-    <p><span class="num">I_SPTP &gt; I_SPPA &gt; I_SPTA</span> — 순간피크가 가장 크고, 침묵을 포함한 시간평균이 가장 작습니다.
-      진단 초음파의 듀티비는 <strong>1% 미만</strong>이라, 화면 위 빔의 순간피크는 <strong>수백 W/cm²</strong>인데
-      시간평균은 <strong>1 W/cm² 미만</strong>으로 떨어집니다.</p></div>
+    <p><span class="num">I_SPTP &gt; I_SPPA &gt; I_SPTA</span> — 순간 피크가 가장 크고
+      침묵을 포함한 시간 평균이 가장 작다. 이 순서는 정의상 언제나 성립한다.</p>
+    <p style="margin-top:10px">B-모드의 듀티비는 대개 <strong>0.1~1%</strong> 이고 도플러 모드에서는 몇 %까지 올라간다.
+      듀티비가 0.2% 인 경우를 보면 순간 피크가 <strong>수백 W/cm²</strong> 인데
+      시간 평균은 <strong>1 W/cm² 남짓</strong>으로, <strong>세 자릿수</strong>가 줄어든다.
+      안전 한계가 시간 평균에 걸리는 이유가 이 차이에 있다.</p></div>
 </div></section>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">04</div>
     <h2>왜 두 값을 다 봐야 하나<span class="sub">Two risks, two measures</span></h2></div>
-  <p>여기서 안전의 큰 그림이 갈립니다. <strong>발열은 평균 파워가, 공동화는 순간 피크가</strong> 결정하기 때문입니다.</p>
+  <p>여기서 안전의 큰 그림이 갈린다. <strong>발열은 평균 파워가, 공동화는 순간 피크가</strong> 결정하기 때문이다.</p>
   <div class="key"><div class="kh">평균은 열, 피크는 기계적 효과</div>
-    <p>조직이 데워지는 것은 <strong>시간평균 강도</strong>에 비례합니다. 그래서 FDA의 열 관련 한계
-      <span class="num">I_SPTA.3 ≤ 720 mW/cm²</span>는 <strong>시간평균</strong>에 걸립니다(→31·33장).
-      반면 기포를 터뜨리는 <strong>공동화</strong>는 <strong>순간 음압</strong>이 결정하므로, 시간평균이 아무리 작아도
-      순간피크가 크면 위험합니다(→30·32장).</p></div>
-  <p>그래서 초음파 안전은 <strong>하나의 숫자로 요약되지 않습니다.</strong> 열을 보는 지수(<strong>TI</strong>)와
-    기계적 효과를 보는 지수(<strong>MI</strong>)가 <strong>따로</strong> 필요합니다. 다음 네 장이 그 두 축을 하나씩 세웁니다.</p>
+    <p>조직이 데워지는 정도는 <strong>시간 평균 강도</strong>에 비례한다. 그래서 FDA 의 열 관련 한계
+      <span class="num">I_SPTA.3 ≤ 720 mW/cm²</span> 는 <strong>시간 평균</strong>에 걸린다(31·33장).
+      반면 기포를 터뜨리는 <strong>공동화</strong>는 <strong>순간 음압</strong>이 결정하므로,
+      시간 평균이 아무리 작아도 순간 피크가 크면 위험하다(30·32장).
+      아래 첨자 <span class="num">.3</span> 은 조직 감쇠를 보정했다는 표시이며 33장에서 다룬다.</p></div>
+  <p>그래서 초음파 안전은 <strong>하나의 숫자로 요약되지 않는다.</strong> 열을 보는 지수(<strong>TI</strong>)와
+    기계적 효과를 보는 지수(<strong>MI</strong>)가 <strong>따로</strong> 필요하다. 다음 네 장이 그 두 축을 하나씩 세운다.</p>
 </div></section>
 
 <section><div class="wrap">
@@ -125,10 +154,11 @@
     <div class="kh">한 장 정리 · Summary</div>
     <ul>
       <li><b>강도 = 파워/면적 = p²/2ρc</b> · 압력의 <b>제곱</b>에 비례</li>
-      <li><b>강도 ∝ f²ξ₀²</b> · 진폭 고정 시 f 2배면 4배 (f⁴ 아님 — 2장)</li>
-      <li><b>공간피크 SP / 공간평균 SA</b> · 빔은 균일하지 않다 → 어디서 재는지 붙여야</li>
+      <li><b>강도 ∝ f²ξ₀²</b> · 진폭 고정 시 f 2배면 4배 (f⁴ 은 레일리 산란 — 2·6장)</li>
+      <li><b>공간피크 SP / 공간평균 SA</b> · <b>어느 면적으로 나눈 값인지</b> 밝혀야 한다 (빔 단면 기준이면 SP/SA 는 거의 일정)</li>
+      <li><b>집속은 파워를 늘리지 않는다</b> · 같은 조직 폭의 평균은 그대로, 피크만 치솟는다</li>
       <li><b>시간: I_SPTP &gt; I_SPPA &gt; I_SPTA</b> · <b>I_SPTA = I_SPPA × 듀티비</b></li>
-      <li><b>듀티비 0.2%면 시간평균은 펄스평균의 1/500</b> · 순간 수백 W/cm² → 평균 &lt;1 W/cm²</li>
+      <li><b>듀티비 0.2%면 시간평균은 펄스평균의 1/500</b> · 순간 수백 W/cm² → 평균 1 W/cm² 남짓</li>
       <li><b>평균은 열(TI), 피크는 공동화(MI)</b> · 그래서 안전 지수가 둘이다</li>
     </ul>
   </div>

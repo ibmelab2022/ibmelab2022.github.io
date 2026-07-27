@@ -18,41 +18,60 @@
   <div class="wrap hero-t">
     <div class="eyebrow">Back-End Processing · 23</div>
     <h1>검파와 압축<span class="sub">Detection &amp; Log Compression</span></h1>
-    <p class="lede">ADC 가 넘긴 숫자를 FPGA 가 받습니다. 채널을 합쳐 주사선을 만드는 <strong>DAS 빔포밍</strong>(12·13장)이
-      첫 디지털 작업이고, 그 결과는 아직 <strong>반송파가 실린 RF</strong>입니다. 여기서 <strong>포락선만 벗겨내고</strong>(검파),
-      <strong>100 dB 를 화면이 낼 수 있는 계조로 눌러야</strong>(압축) 비로소 영상이 됩니다.</p>
+    <p class="lede">ADC 가 넘긴 숫자를 FPGA 가 받는다. 채널을 합쳐 주사선을 만드는 <strong>DAS 빔포밍</strong>(12·13장)이
+      첫 디지털 작업이며, 그 결과는 아직 <strong>반송파가 실린 RF</strong> 신호이다.
+      여기서 <strong>포락선만 벗겨내고</strong>(검파) <strong>진폭 범위 100 dB 를 화면의 계조로 눌러야</strong>(압축)
+      비로소 영상이 된다.</p>
   </div>
 </header>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">01</div>
     <h2>먼저 DAS — 채널을 주사선으로<span class="sub">Beamforming, the first digital op</span></h2></div>
-  <p>ADC 는 <strong>소자 채널마다</strong> 숫자열을 내놓습니다. 이것들에 <strong>깊이별 지연을 주고 더하면</strong>
-    한 방향의 <span class="t">주사선</span> 하나가 됩니다 — <span class="t">지연-합</span> <span class="en">delay-and-sum</span>,
-    수신 빔포밍(12·13장). 아날로그에서 못 하고 <strong>디지털에서 하는 이유</strong>가 이것입니다: 깊이마다 지연을 바꾸는
-    <strong>동적 집속</strong>은 숫자라야 가능하니까요.</p>
-  <p><strong>어디에 DAS 를 거나?</strong> 예전에는 <strong>RF 표본에 직접</strong> 지연-합을 했는데, 반송파 때문에
-    <strong>표본보다 훨씬 미세한 지연</strong>이 필요해 고배율 보간이 들었습니다. <strong>요즘 장비는</strong> 흔히
-    <strong>먼저 IQ 로 내리고(다음 절) decimation 한 뒤 그 IQ 에 DAS 를 겁니다</strong> — 기저대역에선 지연이
-    <strong>정수-표본 이동(거친) + 위상회전 e<sup>−j2πf₀τ</sup>(미세)</strong>로 갈라져, <strong>RF 보간 없이 정밀</strong>하면서
-    <strong>데이터율은 ~10배 낮습니다</strong>. 순서가 검파보다 앞서기도, 뒤서기도 하는 셈이죠. 이 장은 그렇게 얻은
-    <strong>주사선 하나</strong>를 영상 밝기로 바꾸는 단계입니다.</p>
+  <p>ADC 는 <strong>소자 채널마다</strong> 숫자열을 내놓는다. 이들에 <strong>깊이별 지연을 주고 더하면</strong>
+    한 방향의 <span class="t">주사선</span> 하나가 얻어지는데, 이것이
+    <span class="t">지연-합</span><span class="en">(delay-and-sum, DAS)</span> 수신 빔포밍이다(12·13장).
+    이 작업을 아날로그가 아니라 디지털에서 하는 이유는, 깊이마다 지연을 바꾸는
+    <strong>동적 집속</strong>이 숫자로만 가능하기 때문이다.</p>
+  <p><strong>DAS 를 어느 신호에 거는가.</strong> 예전에는 <strong>RF 표본에 직접</strong> 지연-합을 했는데,
+    반송파 때문에 <strong>표본 간격보다 훨씬 미세한 지연</strong>이 필요해 고배율 보간이 들었다.
+    요즘 장비는 흔히 <strong>먼저 IQ 로 내리고(다음 절) decimation 한 뒤 그 IQ 에 DAS 를 건다.</strong>
+    기저대역에서는 지연이 <strong>정수-표본 이동(거친 부분)과 위상회전 e<sup>−j2πf₀τ</sup>(미세한 부분)</strong>으로 갈라지므로,
+    <strong>RF 보간 없이도 정밀</strong>하면서 <strong>표본율은 약 10배 낮아진다.</strong></p>
+  <div class="key"><div class="kh">그래도 검파는 DAS 뒤에 온다</div>
+    <p>여기서 <strong>IQ 변환과 포락선 검파를 구별해야 한다.</strong>
+      <strong>IQ 변환</strong>은 위상을 그대로 지닌 복소신호를 만들 뿐이므로 <strong>DAS 앞에 놓을 수 있다.</strong>
+      그러나 <strong>포락선을 취하는 연산</strong> √(I²+Q²) 은 <strong>위상을 버린다.</strong>
+      위상을 버리면 채널을 <strong>코히런트하게 더할 수 없어 집속 자체가 성립하지 않으므로</strong>,
+      <span class="t">포락선 검파</span>는 <strong>언제나 DAS 뒤</strong>에 온다(19장).
+      IQ 변환이 앞으로 오는 것과 검파가 뒤에 오는 것은 서로 다른 이야기이다.</p></div>
+  <p>이 장은 그렇게 얻은 <strong>주사선 하나</strong>를 영상 밝기로 바꾸는 단계를 다룬다.</p>
 </div></section>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">02</div>
     <h2>검파 — 반송파를 벗긴다<span class="sub">Envelope detection</span></h2></div>
-  <p>빔포밍 결과는 <span class="num">~5 MHz</span> 반송파가 진동하는 <span class="t">RF</span> 신호입니다(스펙트럼은 <strong>±f₀</strong> 양쪽 대칭).
-    화면에 필요한 건 <strong>진폭(포락선)</strong>뿐이라 반송파를 벗깁니다. 해석신호를 만드는 길이 둘입니다.<br>
-    <span class="t">IQ 복조</span> <span class="en">quadrature demodulation</span> = <strong>하향혼합 → LPF → decimation</strong>.
-    RF 에 <strong>e<sup>−j2πf₀t</sup></strong>(=cos·sin)를 곱하면 스펙트럼이 <strong>f₀ 만큼 내려가</strong> 신호 대역이 <strong>0 Hz</strong>로,
-    엉뚱한 상(像)은 <strong>−2f₀</strong>로 갑니다. <strong>LPF 가 −2f₀ 상을 지우면</strong> 기저대역 복소신호 <strong>I + jQ</strong>만 남죠
-    (포락선 = √(I²+Q²)). 이제 <strong>대역이 좁으니 표본을 훨씬 성기게</strong> 다시 뽑아도 됩니다 — <span class="t">decimation</span>,
-    <strong>데이터율 ~10배 감소</strong>. 이 IQ 는 <strong>도플러(위상)와 DAS</strong>에도 그대로 쓰입니다. 대신 <strong>f₀ 를 알아야</strong> 합니다.<br>
-    <span class="t">힐베르트 변환</span> <span class="en">Hilbert transform</span> — <strong>90° 위상천이</strong>로 짝 x_H 를 만들어 x + j·x_H 를 구성하면,
-    스펙트럼에서 <strong>음의 주파수(−f₀)만 지워지고</strong> <strong>+f₀ 는 그대로</strong> 남습니다(한쪽 스펙트럼 = <span class="en">analytic signal</span>).
-    <strong>f₀ 를 몰라도</strong> 되고 <strong>반송파가 유지</strong>돼(통과대역) decimation 은 그 자체로는 안 합니다.
-    <strong>결과 포락선은 둘이 같습니다</strong> — 무엇이 편한가의 선택입니다.</p>
+  <p>빔포밍 결과는 <span class="num">~5 MHz</span> 반송파가 진동하는 <span class="t">RF</span> 신호이며,
+    스펙트럼은 <strong>±f₀ 양쪽에 대칭</strong>으로 놓인다. 화면에 필요한 것은 <strong>진폭, 즉 포락선</strong>뿐이므로
+    반송파를 벗긴다. 이때 쓰는 <span class="t">해석신호</span><span class="en">(analytic signal)</span>를 만드는 길이 두 가지 있다.</p>
+  <ul>
+    <li><span class="t">IQ 복조</span><span class="en">(quadrature demodulation)</span> ·
+      <strong>하향혼합 → LPF → decimation</strong> 의 순서로 진행한다.
+      RF 에 <strong>e<sup>−j2πf₀t</sup></strong> 를 곱하면 스펙트럼이 <strong>f₀ 만큼 내려가</strong>
+      신호 대역이 <strong>0 Hz</strong> 로 오고 원치 않는 상은 <strong>−2f₀</strong> 로 밀려난다.
+      <strong>LPF 가 −2f₀ 의 상을 지우면</strong> 기저대역 복소신호 <strong>I + jQ</strong> 만 남고,
+      포락선은 √(I²+Q²) 로 얻는다. 대역이 좁아졌으므로 <strong>표본을 훨씬 성기게 다시 뽑을 수 있는데</strong>
+      이것이 <span class="t">decimation</span> 이다. 이 IQ 는 <strong>도플러의 위상 정보와 DAS</strong> 에도 그대로 쓰인다.
+      다만 하향혼합에 <strong>f₀ 값을 알아야</strong> 한다.</li>
+    <li><span class="t">힐베르트 변환</span><span class="en">(Hilbert transform)</span> ·
+      <strong>90° 위상천이</strong>로 짝 신호 x_H 를 만들어 x + j·x_H 를 구성하면
+      스펙트럼에서 <strong>음의 주파수(−f₀)만 지워지고 +f₀ 는 그대로</strong> 남는다(한쪽 스펙트럼).
+      <strong>f₀ 를 몰라도 되고</strong> <strong>반송파가 유지</strong>되므로(통과대역) 그 자체로는 decimation 을 하지 않는다.</li>
+  </ul>
+  <p><strong>두 방식이 내놓는 포락선은 같다.</strong> 무엇이 구현에 편한가의 선택이며,
+    IQ 는 데이터량과 도플러에서, 힐베르트는 f₀ 를 몰라도 된다는 점에서 유리하다.</p>
+  <p class="cap">※ 표본율은 약 10배 낮아지지만 IQ 는 <strong>복소수라 한 표본에 두 값</strong>이 들어가므로,
+    저장·전송해야 하는 값의 개수로 세면 감소폭은 그 절반인 <strong>약 5배</strong>이다.</p>
 </div></section>
 
 <div class="wrap">
@@ -66,9 +85,11 @@
       <div class="readout">
         <div class="ro"><span class="k">지금 방식</span><span class="v" id="mname" style="color:var(--signal-deep)">—</span><span class="u"></span></div>
       </div>
-      <p class="cap"><b>위 = 시간 파형</b>, <b>아래 = 주파수 스펙트럼</b>. <b>IQ</b>면 하향혼합이 신호를 <b>0 Hz(기저대역)</b>로 내리고(−2f₀ 상은 LPF 가 제거),
-        대역이 좁아져 <b>decimation(성긴 표본)</b> 가능 — I·Q 는 반송파 없는 저주파. <b>Hilbert</b>면 <b>−f₀ 만 지우고 +f₀ 는 유지</b>(한쪽 스펙트럼),
-        x·x_H 에 반송파가 남습니다. <b>포락선(앰버)은 둘이 똑같죠.</b></p>
+      <p class="cap"><b>위 = 시간 파형</b> · <b>아래 = 주파수 스펙트럼</b>.
+        <b>IQ</b> 에서는 하향혼합이 신호를 <b>0 Hz, 즉 기저대역</b>으로 내리고 −2f₀ 의 상은 LPF 가 제거하며,
+        대역이 좁아져 <b>decimation</b> 이 가능해진다 — I·Q 는 반송파가 없는 저주파 신호이다.
+        <b>Hilbert</b> 에서는 <b>−f₀ 만 지우고 +f₀ 는 유지</b>되므로 x 와 x_H 에 반송파가 남는다.
+        <b>포락선(앰버)은 두 방식에서 동일하다.</b></p>
     </div>
   </div>
 </div>
@@ -76,11 +97,26 @@
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">03</div>
     <h2>로그 압축 — 100 dB 를 계조로<span class="sub">Log compression</span></h2></div>
-  <p>검파된 에코의 세기는 <strong>강한 경계와 약한 조직 사이에 100 dB</strong>(10만 배)나 됩니다. 화면은
-    <strong>256 계조</strong>뿐이라 그대로는 못 담습니다. 그래서 <strong>로그로 눌러</strong>(gray ∝ log 진폭)
-    넓은 범위를 계조에 매핑합니다 — 로그라야 <strong>약한 것과 강한 것을 동시에</strong> 보여줄 수 있습니다.
-    표시할 <span class="t">동적범위</span> 창을 <strong>좁히면 대비가 오르고</strong>(약한 에코 잘림),
-    <strong>넓히면 미세 계조가 다 보이지만 흐릿</strong>해집니다 — 장비의 <span class="en">dynamic range</span> 손잡이입니다.</p>
+  <p>검파된 포락선의 <strong>진폭</strong>은 <strong>강한 경계와 약한 조직 사이에 100 dB</strong>,
+    즉 <strong>10만 배</strong>에 이른다. 반면 화면이 낼 수 있는 것은 <strong>256 계조</strong>뿐이므로
+    그대로는 담을 수 없다. 그래서 <strong>로그로 눌러</strong>(gray ∝ log 진폭) 넓은 범위를 계조에 대응시킨다.
+    로그여야 <strong>약한 것과 강한 것을 한 화면에</strong> 동시에 보여줄 수 있다.
+    표시할 <span class="t">동적범위</span><span class="en">(dynamic range)</span> 창을
+    <strong>좁히면 대비가 오르고</strong> 약한 에코는 잘리며,
+    <strong>넓히면 미세 계조가 다 보이지만 전체가 흐릿</strong>해진다. 장비의 동적범위 손잡이가 이것이다.</p>
+  <div class="key"><div class="kh">100 dB 는 어디서 왔는가 — 22장 ADC 와의 관계</div>
+    <p>22장에서 ADC 는 <strong>12~14비트로 74~86 dB</strong> 를 담는다고 했다.
+      그런데 여기서는 <strong>100 dB</strong> 를 압축한다. 모순이 아니다 —
+      <strong>DAS 가 채널을 코히런트하게 더하면서 동적범위를 넓혀 주기 때문</strong>이다.
+      신호는 채널 수 N 배로 커지지만 채널마다 무상관인 잡음은 √N 배로만 커지므로
+      <span class="num">20 log N/√N</span> 만큼 이득이 생긴다.
+      19장의 <strong>채널 64개</strong>라면 <span class="num">18 dB</span> 이고,
+      14비트 ADC 의 <span class="num">86 dB</span> 에 더하면
+      <strong><span class="num">104 dB</span></strong> 로 100 dB 급이 된다.</p>
+    <p style="margin-top:10px">여기의 <strong>256 계조는 표시 단계</strong>의 것으로 8비트에 해당하며,
+      <strong>ADC 의 12~14비트와는 다른 층</strong>이다.
+      ADC 는 <strong>들어오는 신호</strong>를 몇 단계로 나누는가이고, 계조는 <strong>사람이 볼 화면</strong>을
+      몇 단계로 낼 수 있는가이다. 그 사이를 잇는 것이 로그 압축이다.</p></div>
 </div></section>
 
 <div class="wrap">
@@ -92,9 +128,10 @@
         <div class="ctrl"><label for="dr">표시 동적범위 · <span class="num" id="drv">60</span> dB</label>
           <input type="range" id="dr" min="30" max="90" value="60" step="5"></div>
       </div>
-      <p class="cap">왼쪽 = 실제 B-모드 영상(경계·조직·저에코 병변·낭종·심부), 오른쪽 = 압축 곡선과 각 구조의 회색.
-        창을 <b>좁히면</b>(예: 40 dB) <b>병변·낭종이 검게 잘려</b> 경계가 또렷해지고, <b>넓히면</b>(예: 80 dB) 미세 계조까지
-        보이지만 <b>전체가 회색으로 흐릿</b>해집니다 — 같은 데이터, 다른 <span class="en">dynamic range</span> 손잡이입니다.</p>
+      <p class="cap">왼쪽 = B-모드 영상(경계·조직·저에코 병변·낭종·심부) · 오른쪽 = 압축 곡선과 각 구조가 받는 회색값.
+        창을 <b>좁히면</b>(예: 40 dB) <b>병변과 낭종이 검게 잘려</b> 경계가 또렷해지고,
+        <b>넓히면</b>(예: 80 dB) 미세 계조까지 보이지만 <b>전체가 회색으로 흐릿</b>해진다.
+        같은 데이터에 <b>창만 다르게 씌운 것</b>이다.</p>
     </div>
   </div>
 </div>
@@ -105,10 +142,12 @@
     <ul>
       <li><b>DAS</b> · 채널에 지연-합 → 주사선 하나(12·13장) · 요즘은 <b>decimated IQ 에 DAS</b>(정수표본+위상회전 e<sup>−j2πf₀τ</sup>)</li>
       <li><b>빔포밍 결과 = RF</b> · 스펙트럼 ±f₀ 대칭 — 화면엔 진폭(포락선)만 필요</li>
-      <li><b>IQ 복조 = 하향혼합+LPF+decimation</b> · ×e<sup>−j2πf₀t</sup> → 0 Hz · LPF 가 −2f₀ 제거 · 대역 좁아 ↓fs(~10배)</li>
-      <li><b>Hilbert = 해석신호</b> · −f₀ 만 제거, +f₀(반송파) 유지 = 한쪽 스펙트럼 · f₀ 불필요 · decimation 은 안 함</li>
-      <li><b>같은 포락선, 다른 편의</b> · IQ=저데이터율·도플러 친화 / Hilbert=f₀ 불필요·구현 단순</li>
-      <li><b>100 dB → 256 계조</b> · 로그 압축(gray ∝ log 진폭)이라야 약·강 동시 표시</li>
+      <li><b>IQ 변환은 DAS 앞도 가능, 포락선 검파는 언제나 DAS 뒤</b> · |·| 이 위상을 버려 코히런트 합이 깨지므로</li>
+      <li><b>IQ 복조 = 하향혼합+LPF+decimation</b> · ×e<sup>−j2πf₀t</sup> → 0 Hz · LPF 가 −2f₀ 제거 · <b>표본율 ~10배↓</b>(복소라 값 개수는 ~5배↓)</li>
+      <li><b>Hilbert = 해석신호</b> · −f₀ 만 제거, +f₀(반송파) 유지 · f₀ 불필요·구현 단순 · decimation 은 안 함</li>
+      <li><b>두 방식의 포락선은 같다</b> · IQ 는 데이터량·도플러에서, Hilbert 는 f₀ 를 몰라도 되는 점에서 유리</li>
+      <li><b>진폭 100 dB(10만 배) → 256 계조</b> · 로그 압축(gray ∝ log 진폭)이라야 약·강 동시 표시</li>
+      <li><b>100 dB 의 출처</b> · ADC 86 dB + DAS 64채널 이득 18 dB ≈ 104 dB (22장) · 256 계조는 <b>표시 8비트</b>로 다른 층</li>
       <li><b>동적범위 창</b> · 좁히면 대비↑(약한 에코 잘림), 넓히면 계조↑(흐릿)</li>
       <li><b>주사선 하나 완성</b> · 다음은 이 선들을 모아 영상으로 (24장 주사 변환)</li>
     </ul>

@@ -1,14 +1,16 @@
 /* ═══ A9 음향방사력과 전단파 탄성영상 · 애니메이션 ═══
    검증: /home/claude/work/a89.js
-     · 종파 c = √(K/ρ) · K=2.5GPa, ρ=1060 → 1536 m/s  (02장)
+     · 종파 c = √(K/ρ) · K=2.5GPa, ρ=1060 → 1536 m/s  (2장)
      · 전단파 c_s = √(µ/ρ) · E ≈ 3µ (비압축성)
        정상 간 E5 → 1.25 · F4 경변 E20 → 2.51 · 악성 E60 → 4.34 · 유방암 E100 → 5.61 m/s
      · K 는 조직간 4.1% 차이 → 종파 대비 거의 없음 · µ 는 20배 → 전단파 4.5배 (347%)
-     · 종파 : 전단파 = 1229 : 1 (같은 매질에서 세 자릿수)
+     · 종파 : 전단파 — E 에 따라 변한다. 정상 간(E5) 1218 : 1 · 경변 611 : 1 · 유방암 276 : 1
+       (readout 은 cl = C_LONG·(1+0.01·tanh((E−30)/40)) 을 쓰므로 순수 1536/1.254 = 1225 와 조금 다르다)
      · F = 2αI/c = q/c  (31장의 q = 2αI 와 같은 흡수)
        5MHz α=28.8 Np/m · ARFI 1000 W/cm² → q 576 MW/m³ · F 374 kN/m³
-     · 2cm 통과: 정상 간 16.0ms · 경변 7.7ms · 종양 3.6ms
-       10 표본 추적에 필요한 fps: 625 / 1300 / 2800 → 평면파(A1) 필수
+     · 2cm 통과: 정상 간(E5) 15.9ms · 경변(E20) 8.0ms · 유방암(E100) 3.6ms
+       10 표본 추적에 필요한 fps: 630 / 1250 / 2800 → 평면파(A1) 필수
+       ★ 예전 주석의 "경변 7.7ms" 는 반올림 오류(실제 7.97) — 본문은 8.0 으로 적었다.
      · Supersonic: 푸시 10 m/s ÷ c_s 1.25 = Mach 8.0 → 원뿔 반각 7.2° (Bercoff 2004)      */
 const RHO_E = 1060;
 const K_BULK = 2.5e9;
@@ -158,9 +160,16 @@ const cmp2 = makeScene("c2", 340, (ctx,W,H)=>{
   ctx.textAlign="left";
   chip(ctx, `종파 c = √(K/ρ) — 거의 평평 (K 는 다 "물")`, L+4, Y(C_LONG)-8, NEG, 10);
   chip(ctx, `전단파 c_s = √(µ/ρ) — 4.5배 오름`, L+4, Y(csOf(50))+16, POS, 10);
+  /* ◆ 중앙 정렬 고정이라 E 를 끝(100 kPa)으로 밀면 두 칩이 캔버스를 넘었습니다
+     (폭 946 에서 우측 961·959 > 946). x 를 가둡니다. */
   ctx.textAlign="center";
-  chip(ctx, `${cl.toFixed(0)} m/s`, X(E), Y(cl)-11, NEG, 10);
-  chip(ctx, `${cs.toFixed(2)} m/s`, X(E), Y(cs)+18, POS, 10);
+  {
+    const clampX = (t,size,x)=>{ ctx.font=`700 ${(size*FS).toFixed(1)}px ${MONO}`;
+      const w=ctx.measureText(t).width+10; return Math.min(Math.max(x,w/2+2), W-w/2-2); };
+    const t1=`${cl.toFixed(0)} m/s`, t2=`${cs.toFixed(2)} m/s`;
+    chip(ctx, t1, clampX(t1,10,X(E)), Y(cl)-11, NEG, 10);
+    chip(ctx, t2, clampX(t2,10,X(E)), Y(cs)+18, POS, 10);
+  }
   /* 조직 눈금 */
   [[5,"정상 간"],[20,"경변"],[60,"악성"],[100,"유방암"]].forEach(([e,n])=>{
     ctx.strokeStyle="rgba(240,165,0,.4)"; ctx.setLineDash([3,4]); ctx.lineWidth=1;

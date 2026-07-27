@@ -1,6 +1,6 @@
 /* ═══ 19 시스템과 펄서 · 애니메이션 ═══  검증: verify19.py */
 
-/* ── c1 : 전체 신호 사슬 지도 — 한 소자, 송신 kV·수신 µV 여정 (아날로그│디지털 경계) ── */
+/* ── c1 : 전체 신호 사슬 지도 — 한 소자, 송신 ±95 V·수신 µV 여정 (아날로그│디지털 경계) ── */
 const s1=document.getElementById("s1");
 const chain=makeScene("c1", 440, (ctx,W,H,t)=>{
   const pad=14, LTY=78, LBY=252, bh=48;
@@ -51,7 +51,7 @@ const chain=makeScene("c1", 440, (ctx,W,H,t)=>{
   const a=WP[seg], b=WP[(seg+1)%NSEG];
   const px=a.x+(b.x-a.x)*loc, py=a.y+(b.y-a.y)*loc, cur=a;
 
-  if(s1){ if(seg<=5){s1.textContent="송신 경로 — kV 급으로 민다";s1.style.color=POS;}
+  if(s1){ if(seg<=5){s1.textContent="송신 경로 — 수십~수백 V 로 민다";s1.style.color=POS;}
     else if(seg===6){s1.textContent="반사 — 백만 배 작아진다";s1.style.color=MUTED;}
     else{s1.textContent="수신 경로 — µV 를 되살린다";s1.style.color=SIGNAL_DK;} }
 
@@ -296,7 +296,8 @@ const rc=makeScene("c3", 452, (ctx,W,H,t)=>{
 },{play:"pR", speed:0.02, tStill:5.4});
 twS.oninput=rc.redraw;
 
-/* ── c4 : 양극성 H-브리지 (사이클 수만 조절, 주파수 고정 5MHz) ── */
+/* ── c4 : 양극성 푸시풀 (±HV·스위치 2개. 사이클 수만 조절, 주파수 고정 5MHz)
+   ※ H-브리지는 단일 전원에 스위치 4개를 쓰는 별개 구성입니다 — 본문 §03 참조. ── */
 const cycS=document.getElementById("cyc");
 const hb=makeScene("c4", 452, (ctx,W,H,t)=>{
   FS = 1.22 * Math.min(1, W/480);       /* 회로는 반폭이라도 글자 크게 (폭 스케일 완화) */
@@ -385,11 +386,11 @@ const hb=makeScene("c4", 452, (ctx,W,H,t)=>{
 },{play:"pH", speed:0.02, tStill:5.4});
 cycS.oninput=hb.redraw;
 
-/* ── c5 : HV MUX — 소자 수 > 시스템 채널 → 활성 조리개만 연결 ── */
+/* ── c5 : HV MUX — 소자 수 > 시스템 채널 → 활성 개구만 연결 ── */
 const apS=document.getElementById("ap");
 const mux=makeScene("c5", 290, (ctx,W,H)=>{
   const NE=128, NCH=64;
-  const apPct=+apS.value, apStart=Math.round(apPct/100*(NE-NCH));
+  const apPct=+apS.value, apStart=Math.round(apPct/100*(NE-NCH));   /* 활성 개구 시작 소자 */
   document.getElementById("apv").textContent=apStart+"–"+(apStart+NCH-1);
   document.getElementById("rne").textContent=NE;
   document.getElementById("rnch").textContent=NCH;
@@ -401,12 +402,12 @@ const mux=makeScene("c5", 290, (ctx,W,H)=>{
   /* 배열 소자 */
   for(let i=0;i<NE;i++){ const on=i>=apStart && i<apStart+NCH;
     ctx.fillStyle=on?AMBER:"rgba(150,160,170,.45)"; ctx.fillRect(eX(i)-eW*0.35, eY, eW*0.7, 14); }
-  /* 활성 조리개 테두리 */
+  /* 활성 개구 테두리 */
   ctx.strokeStyle=AMBER_DK; ctx.lineWidth=1.6; ctx.strokeRect(eX(apStart)-eW*0.5, eY-3, eW*NCH, 20);
   /* MUX 블록 */
   ctx.fillStyle="rgba(23,192,201,.10)"; ctx.strokeStyle=SIGNAL_DK; ctx.lineWidth=1.6;
   ctx.fillRect(L, mY0, PW, mY1-mY0); ctx.strokeRect(L, mY0, PW, mY1-mY0);
-  ctx.textAlign="center"; label(ctx,"HV MUX — 활성 조리개를 채널로 라우팅", L+PW/2, (mY0+mY1)/2+4, SIGNAL_DK, 11, 700);
+  ctx.textAlign="center"; label(ctx,"HV MUX — 활성 개구를 채널로 라우팅", L+PW/2, (mY0+mY1)/2+4, SIGNAL_DK, 11, 700);
   ctx.textAlign="left";
   /* 시스템 채널 */
   for(let i=0;i<NCH;i++){ ctx.fillStyle=SIGNAL_DK; ctx.fillRect(cX(i)-cW*0.32, cY, cW*0.64, 12); }
@@ -420,8 +421,8 @@ const mux=makeScene("c5", 290, (ctx,W,H)=>{
   /* 라벨 */
   ctx.textAlign="left";
   chip(ctx,`배열 소자 ${NE}개`,L,eY-10,INK,10,600);
-  chip(ctx,`활성 조리개 ${NCH}개 (지금 연결)`,eX(apStart),eY-26,AMBER_DK,9.5);
+  chip(ctx,`활성 개구 ${NCH}개 (지금 연결)`,eX(apStart),eY-26,AMBER_DK,9.5);
   chip(ctx,`시스템 채널 ${NCH}개 (송수신 전자회로)`,L,cY+26,SIGNAL_DK,10,600);
-  chip(ctx,"빔이 옆으로 가면 조리개가 미끄러지고 MUX 가 다시 연결",L,cY+42,MUTED,9.5);
+  chip(ctx,"빔이 옆으로 가면 활성 개구가 미끄러지고 MUX 가 다시 연결",L,cY+42,MUTED,9.5);
 });
 apS.oninput=mux.redraw;

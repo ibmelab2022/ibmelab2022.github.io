@@ -38,8 +38,8 @@ const hero = makeScene("c1", 380, (ctx,W,H)=>{
 
   const st=document.getElementById("qstat");
   if(sens>0.8 && Q<8){ st.textContent="넓은 대역 + 높은 감도 — 좋은 영상용 설계"; st.style.color=SIGNAL_DK; }
-  else if(sens<0.15){ st.textContent="후면재가 에너지를 다 먹었습니다 — 감도 붕괴"; st.style.color=POS; }
-  else if(Q>15){ st.textContent="좁은 대역 — 펄스가 길어 분해능이 나쁩니다"; st.style.color=AMBER_DK; }
+  else if(sens<0.15){ st.textContent="후면재가 에너지를 대부분 흡수 — 감도 붕괴"; st.style.color=POS; }
+  else if(Q>15){ st.textContent="좁은 대역 — 펄스가 길어 분해능이 나쁘다"; st.style.color=AMBER_DK; }
   else { st.textContent=`Q = ${Q.toFixed(2)} · 감도 ${(sens*100).toFixed(0)}%`; st.style.color=MUTED; }
 
   const T=44, B=H-52;

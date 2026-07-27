@@ -1,7 +1,9 @@
 /* ═══ A8 정량 초음파 영상 · 애니메이션 ═══
    검증: /home/claude/work/a89.js
-     · 지연 오차 = (D²/8z)(1/c − 1/c₀) · 5MHz·D=20·z=40 → 45°(λ/8) 허용 = ±49 m/s = ±3.2%
-       지방 1450 (−5.8%) → 50.4ns → 위상 90.7° → 초점 붕괴 (05장 '안 보이는데 빔은 휨')
+     · 지연 오차 = (D²/8z)(1/c − 1/c₀) · 5MHz·D=20·z=40 → 45°(λ/8) 허용 = 1494~1589 m/s
+       ★ 지연이 1/c 에 선형이라 **위아래가 비대칭**이다: −46 m/s(−3.0%) ~ +49 m/s(+3.2%).
+         판정 문턱은 45°(허용) · 90°(흐려짐) 이므로 물 1480(59°)·근육 1590(−46°)은 "붕괴" 가 아니라 "흐려짐".
+       지방 1450 (−5.8%) → 50.4ns → 위상 90.7° → 초점 붕괴 (5장 '경계면은 안 보이는데 빔은 휨')
      · 지방 30% → c ≈ 1520 m/s (간 1550 · 지방 1450 선형 혼합)
      · BSC 기울기 (가우시안 형상인자 exp(−0.827(ka)²)): a=25µm 에서 ka 0.20 → 3.93 · ka 1.02 → 2.19
      · 감쇠 보정 필수: 3cm·5MHz 왕복 15dB · 3cm·8MHz 24dB — 안 하면 기울기가 통째로 틀어짐        */
@@ -77,9 +79,23 @@ const sos = makeScene("c1", 380, (ctx,W,H)=>{
   /* 실제 c · 가정 c₀ */
   ctx.strokeStyle=AMBER; ctx.lineWidth=1.8; ctx.setLineDash([4,3]);
   ctx.beginPath(); ctx.moveTo(X(c),T); ctx.lineTo(X(c),B); ctx.stroke(); ctx.setLineDash([]);
-  ctx.textAlign="center"; chip(ctx, `실제 c = ${c}`, X(c), T+11, AMBER_DK, 10);
+  /* ◆ 중앙 정렬 고정이라 슬라이더 양 끝(1400·1700)에서 칩이 캔버스를 넘었습니다
+     (폭 946 에서 실제c칩 970>946 · 가정c₀칩 좌 −27·우 1013). x 를 가둡니다. */
+  const clampX = (t, size, x) => {
+    ctx.font=`700 ${(size*FS).toFixed(1)}px ${MONO}`;
+    const w = ctx.measureText(t).width+10;
+    return Math.min(Math.max(x, w/2+2), W-w/2-2);
+  };
+  ctx.textAlign="center";
+  {
+    const t=`실제 c = ${c}`;
+    chip(ctx, t, clampX(t,10,X(c)), T+11, AMBER_DK, 10);
+  }
   ctx.fillStyle=POS; ctx.beginPath(); ctx.arc(X(c0), Y(co), 5.5, 0, 7); ctx.fill();
-  chip(ctx, `가정 c₀ = ${c0} → 결맞음 ${(co*100).toFixed(0)}%`, X(c0), Y(co)-11, POS, 10);
+  {
+    const t=`가정 c₀ = ${c0} → 결맞음 ${(co*100).toFixed(0)}%`;
+    chip(ctx, t, clampX(t,10,X(c0)), Y(co)-11, POS, 10);
+  }
   [1450,1540,1590].forEach(cc=> label(ctx, `${cc}`, X(cc), B+14, MUTED, 9, 400));
   chip(ctx,"가정 음속 c₀ (m/s) →", L+PW/2, B+27, MUTED, 9.5, 400);
   ctx.textAlign="left";
@@ -138,8 +154,9 @@ const bsc = makeScene("c2", 360, (ctx,W,H)=>{
   rb.textContent = `기울기 ${uslope.toFixed(2)} (${(uslope-slope).toFixed(2)})`;
   rb.style.color = Math.abs(uslope-slope)>0.5 ? POS : AMBER_DK;
   const st=document.getElementById("bstat");
-  st.textContent = ka6<0.5 ? `ka ${ka6.toFixed(2)} — 레일리 영역 (기울기 ≈ 4, 06장)`
-                           : `ka ${ka6.toFixed(2)} — 기울기가 ${slope.toFixed(2)} 로 꺾임`;
+  st.textContent = ka6<0.5 ? `ka ${ka6.toFixed(2)} — 레일리 영역 (기울기 ≈ 4, 6장)`
+                           : (slope<0 ? `ka ${ka6.toFixed(2)} — 기울기 ${slope.toFixed(2)} · 가우시안 모델 범위 밖`
+                                      : `ka ${ka6.toFixed(2)} — 기울기가 ${slope.toFixed(2)} 로 꺾임`);
   st.style.color = ka6<0.5 ? SIGNAL_DK : AMBER_DK;
 
   const L=56, R=16, PW=W-L-R, T=18, B=H-34, PH=B-T;
@@ -162,7 +179,7 @@ const bsc = makeScene("c2", 360, (ctx,W,H)=>{
   for(let f=FMIN; f<=FMAX; f+=0.05){ const px=X(f), py=Y(10*Math.log10(Math.pow(f,4)/ref));
     (f===FMIN)?ctx.moveTo(px,py):ctx.lineTo(px,py); }
   ctx.stroke(); ctx.setLineDash([]);
-  ctx.textAlign="right"; chip(ctx,"레일리 f⁴ (06장)", L+PW-3, Y(10*Math.log10(Math.pow(11,4)/ref))-6, MUTED, 9);
+  ctx.textAlign="right"; chip(ctx,"레일리 f⁴ (6장)", L+PW-3, Y(10*Math.log10(Math.pow(11,4)/ref))-6, MUTED, 9);
   /* 참 BSC */
   ctx.strokeStyle=SIGNAL_DK; ctx.lineWidth=2.6; ctx.beginPath();
   for(let f=FMIN; f<=FMAX; f+=0.05){ const px=X(f), py=Y(10*Math.log10(bscOf(f,a)/ref));

@@ -18,9 +18,9 @@
   <div class="wrap hero-t">
     <div class="eyebrow">Flow Detection · 26</div>
     <h1>연속파 도플러<span class="sub">Continuous Wave Doppler</span></h1>
-    <p class="lede">가장 단순한 도플러입니다 — <strong>쉬지 않고 쏘고, 쉬지 않고 듣습니다.</strong>
-      15장의 "쏘고 입 다물고 듣기"를 <strong>정면으로 어깁니다.</strong> 그 대가로 얻는 것과
-      잃는 것이 이 장의 전부입니다.</p>
+    <p class="lede">가장 단순한 도플러 방식이다 — <strong>쉬지 않고 송신하고, 쉬지 않고 수신한다.</strong>
+      15장의 "송신하고 멈추고 수신한다"를 <strong>정면으로 어기는 구성</strong>이며,
+      그 대가로 무엇을 얻고 무엇을 잃는지가 이 장의 내용이다.</p>
   </div>
 </header>
 
@@ -45,42 +45,51 @@
         <div class="ro"><span class="k">깊이 분해능</span><span class="v" style="color:var(--pos);font-size:16px">없음</span><span class="u"></span></div>
         <div class="ro"><span class="k">스펙트럼</span><span class="v" id="spec" style="font-size:14px">—</span></div>
       </div>
-      <p class="cap">위 소자는 <b>계속 송신</b>(빨강), 아래 소자는 <b>계속 수신</b>(청록). 둘의 빔이
-        <b style="color:var(--amber-deep)">겹치는 영역</b> 안의 <b>모든</b> 혈류가 동시에 잡힙니다.<br>
-        두 혈관 속도를 다르게 해 보세요 — 스펙트럼에 <b>두 봉우리가 겹쳐</b> 나타납니다.
-        어느 것이 <b>어느 깊이</b>인지 CW 는 <b>구별하지 못합니다.</b> 대신 아무리 빨라도 <b>접히지 않습니다.</b></p>
+      <p class="cap">왼쪽 소자는 <b>계속 송신</b>하고(빨강) 오른쪽 소자는 <b>계속 수신</b>한다(청록).
+        두 빔이 <b style="color:var(--amber-deep)">겹치는 영역</b>, 즉
+        <b>샘플볼륨</b><span class="en">(sample volume)</span> 안의 <b>모든</b> 혈류가 동시에 잡힌다.<br>
+        두 혈관 속도를 다르게 하면 스펙트럼에 <b>두 봉우리가 겹쳐</b> 나타나는데,
+        어느 것이 <b>어느 깊이</b>에서 온 것인지 CW 는 <b>구별하지 못한다.</b>
+        그 대신 아무리 빨라도 <b>접히지 않는다.</b> 두 속도를 같게 맞추면 두 봉우리가 하나로 합쳐진다.</p>
     </div>
   </div>
-  <p>펄스-에코는 <strong>한 소자</strong>가 번갈아 쏘고 들었습니다. CW 는 동시에 해야 하므로
-    <strong>송신용·수신용 소자를 따로</strong> 둡니다. 그래서 CW 탐촉자는 21장의 송수신 전환이
-    필요 없습니다 — 애초에 전선이 갈라져 있으니까요. 10장의 설계 논리도 여기서 갈립니다:
-    <strong>순수 CW 프로브는 대역폭이 필요 없어</strong> 후면재를 가볍게 하고
-    <strong>감도(공진)를 극대화</strong>합니다.</p>
+  <p><span class="t">연속파 도플러</span><span class="en">(continuous wave Doppler, CW)</span>가
+    펄스-에코와 갈라지는 지점은 소자 구성이다. 펄스-에코 방식은 <strong>한 소자</strong>가 번갈아 송신하고 수신했다. CW 는 두 동작을 동시에 해야 하므로
+    <strong>송신용 소자와 수신용 소자를 따로</strong> 둔다. 그래서 CW 탐촉자에는
+    <strong>20장의 송수신 스위치가 필요 없다</strong> — 애초에 전선이 갈라져 있기 때문이다.
+    10장의 설계 논리도 여기서 갈린다. <strong>순수 CW 프로브는 넓은 대역폭이 필요 없으므로</strong>
+    후면재를 가볍게 해 Q 를 높이고 <strong>공진에서의 감도를 극대화</strong>한다.</p>
 </div></section>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">02</div>
     <h2>얻은 것: 속도 무제한<span class="sub">No Nyquist limit</span></h2></div>
-  <p>CW 는 신호를 <strong>연속으로</strong> 봅니다 — 표본 사이 간격이 없습니다. 27장에서 볼
-    <strong>나이퀴스트 한계가 없다</strong>는 뜻입니다. 심장 판막을 지나는 <span class="num">5 m/s</span>
-    제트도, 협착 후 고속류도 <strong>접힘 없이</strong> 그대로 잽니다. 고속 혈류 측정에서는
-    CW 가 여전히 최선입니다.</p>
-  <div class="key"><div class="kh">CW 가 듣는 소리 — 06장이 다시</div>
-    <p>겹침 영역 안 <strong>수많은 적혈구</strong>가 저마다 조금씩 다른 속도로 움직입니다(혈관 중심은 빠르고
-      벽 근처는 느린 포물선 분포). 그 모든 v cosθ 가 <strong>동시에</strong> 편이를 만들어
-      스펙트럼은 <strong>봉우리가 아니라 띠</strong>가 됩니다 — 이것이 도플러 <strong>스펙트럼</strong>입니다.
-      혈류의 속도 <strong>분포</strong>를 통째로 듣는 셈입니다.</p></div>
+  <p>CW 는 신호를 <strong>연속으로</strong> 받으므로 표본 사이의 간격이 없다.
+    다음 장에서 다룰 <strong>나이퀴스트 한계가 존재하지 않는다</strong>는 뜻이다(27장).
+    심장 판막을 지나는 <span class="num">5 m/s</span> 제트도, 협착 뒤의 고속류도
+    <strong>접힘 없이</strong> 그대로 측정된다. 5 MHz·θ=0 에서 5 m/s 는
+    <span class="num">32.5 kHz</span> 의 편이에 해당하며, 위 애니메이션이 보여 주는 범위
+    (최대 1.2 m/s = <span class="num">7.8 kHz</span>)보다 네 배 이상 높다.
+    고속 혈류 측정에서는 CW 가 여전히 최선이다.</p>
+  <div class="key"><div class="kh">CW 가 듣는 소리 — 6장이 다시</div>
+    <p>겹침 영역 안의 <strong>수많은 적혈구</strong>가 저마다 조금씩 다른 속도로 움직인다.
+      혈관 중심은 빠르고 벽 근처는 느린 포물선 분포이기 때문이다.
+      그 모든 v cos θ 가 <strong>동시에</strong> 편이를 만들므로,
+      한 혈관만 있어도 스펙트럼은 <strong>선이 아니라 폭을 가진 봉우리</strong>가 된다 —
+      이것이 도플러 <span class="t">스펙트럼</span><span class="en">(Doppler spectrum)</span>이며, 혈류의 속도 <strong>분포</strong>를 통째로 듣는 것이다.
+      혈관이 둘이면 그 봉우리 둘이 겹쳐 나타난다(6장).</p></div>
 </div></section>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">03</div>
     <h2>잃은 것: 거리<span class="sub">No range</span></h2></div>
-  <p>15장의 핵심은 <strong>돌아온 시각이 곧 깊이</strong>였습니다. 그런데 CW 는 <strong>언제 쐈는지</strong>가
-    없습니다 — 계속 쏘니까요. 시각 기준점이 없으니 <strong>깊이를 알 수 없습니다.</strong>
-    겹침 영역 어디서 온 편이든 <strong>구별 없이 합쳐집니다.</strong></p>
-  <p>이것이 다음 장의 동기입니다. <strong>깊이를 되찾으려면 다시 펄스로 쏘아야 합니다</strong> —
-    그러면 15장의 PRF 세계로 돌아가고, <strong>나이퀴스트 한계</strong>가 따라옵니다.
-    CW 가 버린 거리와, PW 가 치를 대가는 <strong>같은 동전의 양면</strong>입니다. <span class="en">→ 27장</span></p>
+  <p>15장의 핵심은 <strong>돌아온 시각이 곧 깊이</strong>라는 것이었다. 그런데 CW 에는
+    <strong>언제 송신했는지</strong>가 없다 — 계속 송신하기 때문이다.
+    시각의 기준점이 없으므로 <strong>깊이를 알 수 없고</strong>,
+    겹침 영역의 어디에서 온 편이든 <strong>구별 없이 합쳐진다.</strong></p>
+  <p>이것이 다음 장의 동기이다. <strong>깊이를 되찾으려면 다시 펄스로 송신해야 하고</strong>,
+    그러면 15장의 PRF 세계로 돌아가면서 <strong>나이퀴스트 한계</strong>가 따라온다.
+    CW 가 버린 거리와 PW 가 치를 대가는 <strong>같은 맞교환의 양면</strong>이다(27장).</p>
 </div></section>
 
 <section><div class="wrap">
@@ -88,12 +97,12 @@
     <div class="kh">한 장 정리 · Summary</div>
     <ul>
       <li><b>연속 송신 + 연속 수신</b> · 15장의 펄스-에코를 정면으로 어긴다</li>
-      <li><b>소자가 둘</b> · 송신용·수신용 분리 → T/R 스위치(21장) 불필요</li>
-      <li><b>CW 프로브는 대역 불필요</b> · 후면재 가볍게 = 감도 우선 (10장)</li>
-      <li><b>얻은 것: 속도 무제한</b> · 나이퀴스트 없음 → 고속 제트(5 m/s)도 접힘 없이</li>
+      <li><b>소자가 둘</b> · 송신용·수신용 분리 → <b>T/R 스위치(20장) 불필요</b></li>
+      <li><b>CW 프로브는 넓은 대역 불필요</b> · 후면재 가볍게 → Q↑ = 감도 우선 (10장)</li>
+      <li><b>얻은 것: 속도 무제한</b> · 나이퀴스트 없음 → 5 m/s 제트(5 MHz 에서 32.5 kHz)도 접힘 없이</li>
       <li><b>잃은 것: 거리</b> · 송신 시각 기준 없음 → 겹침 영역 전체가 뭉뚱그려짐</li>
-      <li><b>스펙트럼 = 속도 분포</b> · 수많은 적혈구의 v cosθ 가 만드는 띠 (06장)</li>
-      <li><b>거리 되찾기 = 펄스 = 나이퀴스트</b> · CW의 손실과 PW의 대가는 동전의 양면 → 27장</li>
+      <li><b>스펙트럼 = 속도 분포</b> · 한 혈관만으로도 <b>선이 아니라 폭 있는 봉우리</b> (6장)</li>
+      <li><b>거리 되찾기 = 펄스 = 나이퀴스트</b> · CW 의 손실과 PW 의 대가는 같은 맞교환의 양면 (27장)</li>
     </ul>
   </div>
 </div></section>

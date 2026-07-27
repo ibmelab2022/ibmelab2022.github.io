@@ -18,19 +18,20 @@
   <div class="wrap hero-t">
     <div class="eyebrow">Ultrasound Transducer · 11</div>
     <h1>배열 탐촉자<span class="sub">Array Transducer</span></h1>
-    <p class="lede">소자 하나를 여러 개로 <strong>쪼개는 순간</strong>, 빔을 전자적으로 <strong>집속하고 조향</strong>할 수 있게 됩니다.
-      배열의 종류는 결국 <strong>어떤 창으로 무엇을 볼 것인가</strong>가 정합니다.</p>
+    <p class="lede">하나의 소자를 여러 개로 분할하는 순간, 빔을 전자적으로 <strong>집속하고 조향</strong>할 수 있게 된다.
+      배열<span class="en">(array)</span>의 종류를 결정하는 것은 결국
+      <strong>어떤 음향창을 통해 무엇을 관찰할 것인가</strong>이다.</p>
   </div>
 </header>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">01</div>
     <h2>선형 · 위상 · 볼록<span class="sub">Linear · phased · curved</span></h2></div>
-  <p>세 배열 모두 <strong>소자가 한 줄로 늘어선 것</strong>은 같습니다. 소자는 직사각형이고,
-    배열 방향(측방향) 폭과 <span class="t">고도 방향</span> <span class="en">elevation</span> 높이를 갖습니다.
-    이웃한 두 소자의 중심 간격이 <span class="t">피치</span> <span class="en">pitch</span>,
-    사이의 틈이 <span class="t">커프</span> <span class="en">kerf</span>입니다.
-    커프는 소자를 잘라내는 <strong>블레이드 두께</strong>에 좌우되어 보통 <span class="num">50 µm</span> 안팎입니다.</p>
+  <p>세 배열 모두 <strong>소자가 한 줄로 배열된 구조</strong>라는 점은 같다. 소자는 직사각형이며,
+    배열 방향(측방향)의 폭과 <span class="t">고도 방향</span><span class="en">(elevation)</span>의 높이를 갖는다.
+    이웃한 두 소자의 중심 간격을 <span class="t">피치</span><span class="en">(pitch)</span>,
+    소자 사이의 틈을 <span class="t">커프</span><span class="en">(kerf)</span>라 한다.
+    커프는 소자를 절단하는 <strong>블레이드 두께</strong>에 좌우되어 통상 <span class="num">50 µm</span> 내외이다.</p>
   <div class="panel">
     <div class="plabel"><span><b>인터랙티브</b> · 배열 종류와 스캔 형상</span><span id="shape">—</span></div>
     <canvas id="c1" height="340"></canvas>
@@ -54,7 +55,7 @@
       </div>
       <p class="cap"><b style="color:var(--signal)">■</b> 지금 켜진 소자 &nbsp;·&nbsp;
         <b style="color:var(--muted)">■</b> 꺼진 소자 &nbsp;·&nbsp; 옅은 영역 = 스캔되는 범위.<br>
-        <b>선형은 개구가 미끄러지고</b>(직사각 스캔), <b>위상은 전 소자가 함께 빔을 흔듭니다</b>(부채꼴 스캔).</p>
+        <b>선형 배열은 개구가 순차적으로 이동하고</b>(직사각 스캔), <b>위상 배열은 전 소자가 함께 빔을 조향한다</b>(부채꼴 스캔).</p>
     </div>
   </div>
   <div class="tw"><table class="props">
@@ -69,43 +70,44 @@
       <td class="n">전 소자</td><td>축 위 한 줄</td><td><b>최고의 집속</b> · 기계 스캔 필요</td></tr>
   </table></div>
   <div class="key"><div class="kh">피치가 왜 하필 λ 와 λ/2 인가</div>
-    <p>규칙처럼 외울 일이 아닙니다. <span class="t">격자엽</span> <span class="en">grating lobe</span> 조건에서
-      <strong>그대로 나옵니다.</strong> 이웃 소자의 신호가 <strong>정확히 한 파장 어긋나</strong> 엉뚱한 방향에서
-      다시 보강간섭하면, 그쪽에 가짜 빔이 생깁니다:</p>
+    <p>이 조건은 암기할 규칙이 아니라 <span class="t">격자엽</span><span class="en">(grating lobe)</span> 조건에서
+      <strong>그대로 유도된다.</strong> 이웃 소자의 신호가 <strong>정확히 한 파장만큼 어긋나</strong>
+      의도하지 않은 방향에서 다시 보강간섭하면, 그 방향에 가짜 빔이 형성된다.</p>
     <div class="eq" style="margin:14px 0 10px;font-size:17px;background:transparent;border:none;padding:6px 0">
       <span>sin θg = sin θs ± λ / 피치</span></div>
-    <p><strong>sin θg 가 1을 넘으면</strong> 그 방향은 존재할 수 없어 격자엽이 <strong>사라집니다.</strong> 그래서:</p>
+    <p><strong>sin θg 의 크기가 1을 넘으면</strong> 그런 방향은 존재할 수 없으므로 격자엽이 <strong>나타나지 않는다.</strong></p>
     <ul style="margin-top:8px">
-      <li><strong>조향 안 함 (θs = 0)</strong> → 피치 &lt; <span class="num">λ</span> 이면 안전 → <strong>선형 배열</strong></li>
-      <li><strong>±90°까지 조향 (θs = 90°)</strong> → 피치 &lt; <span class="num">λ/2</span> 여야 안전 → <strong>위상 배열</strong></li>
+      <li><strong>조향하지 않는 경우 (θs = 0)</strong> → 피치 &lt; <span class="num">λ</span> 이면 안전 → <strong>선형 배열</strong></li>
+      <li><strong>±90°까지 조향하는 경우 (θs = 90°)</strong> → 피치 &lt; <span class="num">λ/2</span> 여야 안전 → <strong>위상 배열</strong></li>
     </ul>
-    <p style="margin-top:10px">조향할수록 피치를 좁혀야 합니다. 5 MHz 위상 배열이면 피치 <span class="num">154 µm</span>,
-      커프 50 µm 를 빼면 소자 폭은 <strong><span class="num">104 µm</span></strong> — 머리카락 두께입니다.
-      <strong>위상 배열이 비싼 이유</strong>가 여기에 있습니다.</p></div>
+    <p style="margin-top:10px">조향 범위를 넓힐수록 피치를 좁혀야 한다. 5 MHz 위상 배열의 피치는 <span class="num">154 µm</span>이고,
+      커프 50 µm 를 빼면 소자 폭은 <strong><span class="num">104 µm</span></strong> 로 머리카락 굵기 수준이 된다.
+      <strong>위상 배열의 제작 단가가 높은 이유</strong>가 여기에 있다.</p></div>
 </div></section>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">02</div>
     <h2>환형 · 원형 · 1.5D<span class="sub">Annular, circular, and the elevation problem</span></h2></div>
-  <p><span class="t">환형 배열</span> <span class="en">annular array</span>은 <strong>동심원 고리</strong>들로 이루어지고
-    가운데만 원판입니다. 전 소자가 함께 지연을 걸어 집속하는데, <strong>축대칭이라 기하학적으로 가장 좋은 빔</strong>이 나오고
-    <strong>초점 깊이를 전자적으로 바꿀 수 있습니다.</strong> 대개 <strong>고리마다 면적을 같게</strong> 만드는데,
-    면적이 같아야 <strong>전기 임피던스가 같아져</strong> 회로를 동일하게 쓸 수 있기 때문입니다.
-    단점은 조향이 안 되어 <strong>기계적으로 움직여야</strong> 한다는 것입니다.</p>
-  <p><span class="t">원형 배열</span> <span class="en">circular array</span>은 소자들이 원을 이루며 한쪽을 바라봅니다.</p>
+  <p><span class="t">환형 배열</span><span class="en">(annular array)</span>은 <strong>동심원 고리</strong>들로 구성되며
+    중심부만 원판이다. 전 소자에 함께 지연을 주어 집속하는데, <strong>축대칭 구조여서 기하학적으로 가장 우수한 빔</strong>이 형성되고
+    <strong>초점 깊이를 전자적으로 조절할 수 있다.</strong> 통상 <strong>고리마다 면적을 같게</strong> 설계하는데,
+    면적이 같아야 <strong>전기 임피던스가 같아져</strong> 동일한 회로를 사용할 수 있기 때문이다.
+    다만 조향이 불가능하여 <strong>기계적으로 움직여야</strong> 한다는 제약이 있다.</p>
+  <p><span class="t">원형 배열</span><span class="en">(circular array)</span>은 소자들이 원형 경계 안에 배치되어
+    모두 같은 방향을 향하는 구조이다.</p>
   <h3>고도 방향이라는 사각지대 <span class="en">the elevation problem</span></h3>
-  <p>선형이든 위상이든, <strong>고도 방향에는 소자가 하나뿐입니다.</strong> 측방향은 지연으로 초점을 마음대로 바꾸는데,
-    <strong>고도 방향은 렌즈로 고정한 초점 하나</strong>뿐입니다. 그 결과 <strong>슬라이스 두께가 깊이에 따라 제멋대로</strong>가 됩니다.</p>
-  <p>해법은 고도 방향으로도 <strong>쪼개는 것</strong>입니다. 가운데(주 소자)를 크게 두고 바깥으로 몇 조각을 더 두는데,
-    조각 수와 크기에 따라 <span class="t">1.25D · 1.5D · 1.75D</span>라고 부릅니다.
-    <strong>완전한 해결은 아니고 부분적인 개선</strong>입니다 — 진짜 해법은 다음 절입니다.</p>
+  <p>선형이든 위상이든 <strong>고도 방향으로는 소자가 하나뿐이다.</strong> 측방향은 지연으로 초점을 자유롭게 바꿀 수 있지만,
+    <strong>고도 방향은 음향 렌즈로 고정된 초점 하나</strong>만 갖는다. 그 결과 <strong>슬라이스 두께가 깊이에 따라 크게 달라진다.</strong></p>
+  <p>해법은 고도 방향으로도 소자를 <strong>분할하는 것</strong>이다. 중앙의 주 소자를 크게 두고 바깥쪽에 몇 조각을 추가하며,
+    조각 수와 크기에 따라 <span class="t">1.25D · 1.5D · 1.75D</span>로 구분한다.
+    다만 <strong>완전한 해결이 아니라 부분적 개선</strong>이며, 근본적인 해법은 다음 절에서 다룬다.</p>
 </div></section>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">03</div>
     <h2>2D 배열과 채널의 벽<span class="sub">2D matrix array · the channel wall</span></h2></div>
-  <p>소자를 <strong>M × N 격자</strong>로 깔면 모든 방향으로 조향할 수 있습니다. <strong>부피를 통째로 스캔</strong>해서
-    3D 영상을 만들 수 있죠. 고도 방향 문제도 자동으로 사라집니다. 그런데 <strong>대가가 가혹합니다.</strong></p>
+  <p>소자를 <strong>M × N 격자</strong>로 배치하면 모든 방향으로 조향할 수 있고, <strong>부피 전체를 스캔</strong>하여
+    3D 영상을 얻을 수 있다. 고도 방향 문제도 자동으로 해소된다. 그러나 <strong>치러야 할 대가가 매우 크다.</strong></p>
   <div class="panel">
     <div class="plabel"><span><b>인터랙티브</b> · 두 배열의 <b>구조</b>가 어떻게 다른가</span><span id="rcstat">—</span></div>
     <div class="duo">
@@ -131,44 +133,44 @@
         <div class="ro"><span class="k">감소</span><span class="v" id="red">—</span><span class="u">배</span></div>
         <div class="ro"><span class="k">개구 (5 MHz, λ/2)</span><span class="v" id="apw">—</span><span class="u">mm</span></div>
       </div>
-      <p class="cap"><b style="color:var(--amber-deep)">두 패널이 같은 소자를 같은 순서로 짚습니다.</b> 하는 일은 똑같은데
-        <b>배선만 다릅니다</b> — 거기에 주목해 주세요.<br>
-        <b>왼쪽</b> — 소자 하나를 부르려면 <b>그 소자 전용 배선 1가닥</b>. 그래서 전부 <b>M × N</b> 가닥이 필요합니다.<br>
+      <p class="cap"><b style="color:var(--amber-deep)">두 패널은 같은 소자를 같은 순서로 지정한다.</b>
+        수행하는 일은 동일하고 <b>배선 방식만 다르다.</b><br>
+        <b>왼쪽</b> — 소자 하나를 지정하려면 <b>그 소자 전용 배선 1가닥</b>이 필요하므로 전체 <b>M × N</b> 가닥이 든다.<br>
         <b>오른쪽</b> — 같은 소자를 <b style="color:var(--signal-deep)">뒷면의 행 1가닥</b> +
-        <b style="color:var(--pos)">앞면의 열 1가닥</b>, <b>딱 2가닥</b>으로 부릅니다. 전부 합쳐 <b>M + N</b> 가닥.<br>
-        <b>RCA 는 소자가 적은 게 아닙니다</b> — 같은 압전판을 <b>양면에서 직교하는 띠로 나눠 부르는 것</b>이고,
-        <b style="color:var(--amber-deep)">두 띠가 겹치는 자리</b>가 소자 역할을 합니다.
-        (실제 영상에서는 한 소자씩이 아니라 <b>행으로 쏘고 열로 동시에 받습니다.</b> 위 그림은 <b>배선 비교</b>를 위한 것입니다.)</p>
+        <b style="color:var(--pos)">앞면의 열 1가닥</b>, <b>단 2가닥</b>으로 지정한다. 전체는 <b>M + N</b> 가닥이다.<br>
+        <b>RCA 는 소자 수가 적은 것이 아니다.</b> 같은 압전판을 <b>양면에서 직교하는 띠로 나누어 지정</b>하는 방식이며,
+        <b style="color:var(--amber-deep)">두 띠가 겹치는 자리</b>가 소자 역할을 한다.
+        (실제 영상에서는 한 소자씩이 아니라 <b>행으로 송신하고 열로 동시에 수신한다.</b> 위 그림은 <b>배선 비교</b>를 위한 것이다.)</p>
     </div>
   </div>
 
-  <p><strong><span class="num">64 × 64</span> 면 소자가 <span class="num">4,096</span>개</strong>입니다.
-    전부 따로 배선하려면 채널이 <strong>4천 개</strong> — 케이블은 팔뚝만 해지고 시스템 값은 폭발합니다.
-    영상 성능이 아니라 <strong>배선이 벽</strong>인 것입니다.</p>
+  <p><strong><span class="num">64 × 64</span> 배열이면 소자가 <span class="num">4,096</span>개</strong>이다.
+    모두 개별 배선하려면 채널도 <strong>4천 개</strong>가 되어 케이블이 감당할 수 없이 굵어지고 시스템 비용이 급증한다.
+    한계를 만드는 것은 영상 성능이 아니라 <strong>배선</strong>이다.</p>
 
   <h3>해법 세 가지</h3>
   <ul>
-    <li><strong>희소 배열</strong> <span class="en">sparse array</span> · 소자를 <strong>듬성듬성</strong> 골라 씁니다.
-      배선은 줄지만 쓰지 않은 소자만큼 <strong>감도를 잃고 사이드로브가 올라갑니다.</strong></li>
-    <li><strong>탐촉자 안에 ASIC</strong> <span class="en">micro-beamforming</span> ·
-      손잡이 안에 칩을 넣어 <strong>소구역별로 먼저 빔포밍</strong>하고, 그 결과만 케이블로 보냅니다.
-      상용 3D 탐촉자가 실제로 쓰는 방식입니다. 대신 <strong>탐촉자가 뜨거워지고</strong> 비쌉니다.</li>
-    <li><strong>Row-Column 배열</strong> <span class="en">RCA</span> · 아래에서 따로 봅니다.</li>
+    <li><strong>희소 배열</strong><span class="en">(sparse array)</span> · 소자를 <strong>듬성듬성</strong> 선택해 사용한다.
+      배선은 줄지만 사용하지 않은 소자만큼 <strong>감도가 떨어지고 사이드로브가 상승한다.</strong></li>
+    <li><strong>탐촉자 내부 ASIC</strong><span class="en">(micro-beamforming)</span> ·
+      손잡이 안에 칩을 넣어 <strong>소구역별로 1차 빔포밍</strong>을 수행하고, 그 결과만 케이블로 전송한다.
+      상용 3D 탐촉자가 실제로 채택하는 방식이지만, <strong>탐촉자의 발열</strong>과 비용이 늘어난다.</li>
+    <li><strong>Row-Column 배열</strong><span class="en">(RCA)</span> · 아래에서 별도로 다룬다.</li>
   </ul>
 
   <h3>Row-Column 배열 <span class="en">row-column addressed array</span></h3>
-  <p>발상이 단순합니다. <strong>소자 하나하나를 따로 부르지 말고, 행 전체와 열 전체만 부르자.</strong>
-    소자는 개구를 가로지르는 <strong>긴 띠</strong>가 되고, 배선은 <strong>행 M개 + 열 N개</strong>로 끝납니다.</p>
+  <p>발상은 단순하다. <strong>소자를 하나씩 지정하는 대신 행 전체와 열 전체만 지정하는 것이다.</strong>
+    소자는 개구를 가로지르는 <strong>긴 띠</strong>가 되고, 배선은 <strong>행 M개 + 열 N개</strong>로 끝난다.</p>
   <div class="eq"><span>M × N</span><span style="color:var(--muted)">→</span><span>M + N</span>
     <span style="margin-left:22px;font-size:.8em;color:var(--muted)">N×N 이면 정확히</span>
     <span class="frac"><span>N</span><span>2</span></span><span style="font-size:.8em;color:var(--muted)">배 감소</span></div>
-  <p>보내기는 <strong>행</strong>으로, 받기는 <strong>열</strong>로 합니다. 행은 한 방향으로 집속하고
-    열은 <strong>그와 수직한 방향</strong>으로 집속하므로, 두 집속이 <strong>곱해져</strong> 3차원 한 점이 정해집니다.
-    위 그림에서 <strong>Row-Column</strong> 버튼을 눌러 보세요.</p>
-  <div class="key warn"><div class="kh">공짜는 아닙니다</div>
-    <p>띠 소자가 개구 전체를 가로지르므로 <strong>양 끝에서 가장자리파</strong> <span class="en">edge wave</span>가 생겨
-      아티팩트를 만듭니다. 또 스캔할 수 있는 부피가 <strong>개구가 덮는 사각기둥</strong>으로 제한되어,
-      완전 행렬처럼 넓게 조향하기 어렵습니다. <strong>채널을 N/2 배 아낀 대가</strong>입니다.</p></div>
+  <p>송신은 <strong>행</strong>으로, 수신은 <strong>열</strong>로 수행한다. 행은 한 방향으로 집속하고
+    열은 <strong>그와 수직한 방향</strong>으로 집속하므로, 두 집속이 <strong>곱해져</strong> 3차원 공간의 한 점이 결정된다.
+    위 오른쪽 패널이 이 배선 구조를 보여 준다.</p>
+  <div class="key warn"><div class="kh">대가 없이 얻어지지는 않는다</div>
+    <p>띠 소자가 개구 전체를 가로지르므로 <strong>양 끝에서 가장자리파</strong><span class="en">(edge wave)</span>가 발생하여
+      아티팩트를 만든다. 또한 스캔 가능한 부피가 <strong>개구가 덮는 사각기둥</strong>으로 제한되어,
+      완전 행렬처럼 넓은 각도로 조향하기 어렵다. <strong>채널을 N/2 배 절약한 대가</strong>이다.</p></div>
 </div></section>
 
 <section><div class="wrap">
@@ -176,7 +178,7 @@
     <div class="kh">한 장 정리 · Summary</div>
     <ul>
       <li><b>피치 = 소자 중심 간격 · 커프 = 틈</b> (블레이드 두께, ≈50 µm)</li>
-      <li><b>피치 조건은 격자엽 식에서 나온다</b> · sin θg = λ/피치 − sin θs</li>
+      <li><b>피치 조건은 격자엽 식에서 나온다</b> · sin θg = sin θs ± λ/피치</li>
       <li><b>선형 = 피치 &lt; λ, 일부 개구, 직사각 스캔</b> · 창이 넓을 때</li>
       <li><b>위상 = 피치 &lt; λ/2, 전 소자, 부채꼴</b> · 갈비뼈 사이 같은 좁은 창</li>
       <li><b>환형 = 최고의 집속</b>, 초점 깊이 전자 조절 · 면적 같게 = 임피던스 같게</li>

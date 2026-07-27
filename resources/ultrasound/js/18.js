@@ -2,7 +2,9 @@
    합성 B-Mode 위에 아티팩트를 하나씩 얹습니다.
    기본 구조: 횡격막(평면) · 낭종(액체) · 결석 · 공기방울 · 점 표적 */
 const ON = [false,false,false,false,false,false];
-const NAMES = ["잔향","거울상","음향 음영","후방 증강","사이드로브","혜성꼬리"];
+/* [5] 는 공기방울에 붙는 아티팩트이므로 링다운(ring-down)입니다.
+   혜성꼬리(comet-tail)는 고체 내부의 잔향이 원인이라 별개입니다 — 본문 §02 참조. */
+const NAMES = ["잔향","거울상","음향 음영","후방 증강","사이드로브","링다운"];
 ON.forEach((_,i)=>{
   const b=document.getElementById("t"+i);
   b.onclick=()=>{ ON[i]=!ON[i]; b.classList.toggle("on",ON[i]); scene.redraw(); };
@@ -69,7 +71,7 @@ const scene = makeScene("c1", 440, (ctx,W,H)=>{
         v += (0.34/n)*Math.exp(-(d*d)/(2*0.011**2));
       }
     }
-    if(ON[5] && Math.abs(x-BUB.x)<BUB.r*1.6 && y>BUB.y)               /* 혜성꼬리 */
+    if(ON[5] && Math.abs(x-BUB.x)<BUB.r*1.6 && y>BUB.y)               /* 링다운 (공기 공명) */
       v += 0.9*Math.exp(-((y-BUB.y)/0.34));
     return Math.min(1.2, v);
   }
@@ -98,7 +100,7 @@ const scene = makeScene("c1", 440, (ctx,W,H)=>{
   if(ON[2]) mark(X(STONE.x), Y(0.78), "음영", POS);
   if(ON[3]) mark(X(CYST.x), Y(0.84), "후방 증강", POS);
   if(ON[4]) mark(X(PT.x)+66, Y(PT.y)+30, "날개 = 사이드로브", POS);
-  if(ON[5]) mark(X(BUB.x), Y(0.62), "혜성꼬리", POS);
+  if(ON[5]) mark(X(BUB.x), Y(0.62), "링다운", POS);
   if(ON[1]){
     ctx.strokeStyle="rgba(179,18,60,.55)"; ctx.lineWidth=1.4; ctx.setLineDash([4,3]);
     ctx.beginPath(); ctx.moveTo(X(PT.x), Y(PT.y)); ctx.lineTo(X(PT.x), Y(2*DIA-PT.y)); ctx.stroke();

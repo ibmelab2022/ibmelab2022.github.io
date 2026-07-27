@@ -18,8 +18,10 @@
   <div class="wrap hero-t">
     <div class="eyebrow">Ultrasound Basics · 05</div>
     <h1>초음파 굴절<span class="sub">Ultrasound Refraction</span></h1>
-    <p class="lede">반사는 <strong>임피던스</strong>가 결정했습니다. 굴절은 <strong>음속</strong>이 결정합니다.
-      같은 경계면에서 일어나지만, <strong>서로 다른 물성이 지배하는 별개의 현상</strong>입니다.</p>
+    <p class="lede">반사<span class="en">(reflection)</span>는 음향 임피던스의 차이에 의해 결정되는 반면,
+      굴절<span class="en">(refraction)</span>은 <strong>음속의 차이</strong>에 의해 결정된다.
+      두 현상은 동일한 경계면에서 함께 일어나지만,
+      <strong>서로 다른 물성이 지배하는 별개의 현상</strong>이므로 구분하여 이해해야 한다.</p>
   </div>
 </header>
 
@@ -27,13 +29,17 @@
   <div class="sechead"><div class="secnum">01</div>
     <h2>굴절의 두 조건<span class="sub">Two conditions for refraction</span></h2></div>
   <ul>
-    <li><strong>면이 커야 합니다</strong> <span class="en">big surface</span> · 반사와 똑같은 조건입니다.
-      경계면이 <strong>파장보다 훨씬 커야</strong> 합니다. 작으면 굴절이 아니라 산란입니다.</li>
-    <li><strong>음속이 달라야 합니다</strong> <span class="en">velocity mismatch</span> ·
-      c₁ = c₂ 이면 굴절은 <strong>0</strong>입니다. 빔은 그대로 직진합니다.</li>
+    <li><strong>경계면이 파장에 비해 충분히 커야 한다</strong> · 4장의 반사 조건과 동일하다.
+      경계면의 크기가 <strong>파장보다 훨씬 크고</strong> 표면의 거칠기가 파장보다 작아야 하며,
+      그렇지 않으면 굴절이 아니라 산란이 된다.</li>
+    <li><strong>양쪽 매질의 음속이 달라야 한다</strong> · <span class="num">c₁ = c₂</span>이면 굴절은
+      <strong>0</strong>이고 빔은 방향을 바꾸지 않고 직진한다.
+      임피던스가 아무리 크게 달라도 음속이 같으면 빔은 휘지 않는다.</li>
   </ul>
-  <div class="key"><div class="kh">04장과의 차이 · 여기가 핵심입니다</div>
-    <p><strong>반사는 Z, 굴절은 c 가 결정합니다.</strong> Z = ρc 이므로 이 둘은 <strong>따로 놉니다.</strong></p></div>
+  <div class="key"><div class="kh">4장과의 차이 — 이 장의 핵심</div>
+    <p><strong>반사는 Z가, 굴절은 c가 결정한다.</strong>
+      <span class="num">Z = ρc</span>이므로 밀도 ρ가 두 값을 이어 주지만,
+      ρ와 c가 서로 독립적으로 변할 수 있기 때문에 <strong>Z가 같아도 c는 다를 수 있고 그 반대도 가능하다.</strong></p></div>
   <div class="tw"><table class="props">
     <tr><th>경우</th><th>반사</th><th>굴절</th><th>영상에서는</th></tr>
     <tr><td class="m">Z 다름 · c 같음</td><td class="n"><b>있음</b></td><td class="n">없음</td>
@@ -43,9 +49,15 @@
     <tr><td class="m">둘 다 다름</td><td class="n"><b>있음</b></td><td class="n"><b>있음</b></td>
       <td>대부분의 실제 조직 경계</td></tr>
   </table></div>
-  <p>두 번째 줄이 무섭습니다. ρ와 c가 서로 보상해서 Z가 같아지면 <strong>R = 0</strong>이라 경계면이 화면에 전혀 안 나타납니다.
-    그런데 c는 다르니 <strong>빔은 조용히 휘어</strong> 있습니다. 장비는 빔이 직진했다고 믿고 깊이를 계산하므로,
-    구조물이 <strong>엉뚱한 자리에</strong> 그려집니다.</p>
+  <p>두 번째 경우가 임상적으로 가장 위험하다. ρ와 c가 서로 보상하여 Z가 같아지면
+    <strong>R = 0</strong>이 되어 경계면이 영상에 전혀 나타나지 않는다.
+    그러나 c가 다르므로 <strong>빔은 실제로 휘어져 진행한다.</strong>
+    장비는 빔이 직진했다고 전제하고 반향의 도달 시간을 깊이로 환산하므로,
+    구조물이 <strong>실제와 다른 위치에</strong> 표시된다.</p>
+  <p class="cap">※ 위 표의 구분은 <strong>수직 입사</strong>를 기준으로 한 것이다.
+    경사 입사에서 반사계수는 <span class="num">R = (Z₂cosθᵢ − Z₁cosθₜ)/(Z₂cosθᵢ + Z₁cosθₜ)</span>로
+    각도에도 의존하므로, Z가 같더라도 입사각이 커지면 약한 반사가 나타난다.
+    특히 <span class="num">c₂ &gt; c₁</span>인 경우에는 임계각을 넘는 순간 Z가 같아도 전반사가 일어난다.</p>
 </div></section>
 
 <section><div class="wrap">
@@ -56,10 +68,14 @@
     <span style="margin-left:24px">θc = arcsin(c₁/c₂)</span></div>
   <div class="eqcap">왼쪽: 스넬의 법칙 · 오른쪽: 임계각 (c₂ > c₁ 일 때만 존재)</div>
   <ul>
-    <li><strong>c₂ &gt; c₁ (빨라짐)</strong> · 법선에서 <strong>멀어지게</strong> 꺾입니다. 어느 각도부터는
-      투과파가 존재할 수 없게 되어 <span class="t">전반사</span> <span class="en">total internal reflection</span>가 됩니다.
-      연부조직→뼈의 임계각은 <strong><span class="num">22.2°</span></strong>에 불과합니다.</li>
-    <li><strong>c₂ &lt; c₁ (느려짐)</strong> · 법선 <strong>쪽으로</strong> 꺾입니다. 임계각이 없어 <strong>어떤 각도에서도 투과</strong>합니다.</li>
+    <li><strong>c₂ &gt; c₁ (빨라지는 경우)</strong> · 투과파는 법선에서 <strong>멀어지는 방향</strong>으로 꺾인다.
+      입사각이 커지면 <span class="num">sin θₜ = (c₂/c₁) sin θᵢ</span>가 1을 넘게 되어 투과파가 존재할 수 없으며,
+      이 각도 이상에서는 <span class="t">전반사</span><span class="en">(total internal reflection)</span>가 일어난다.
+      연부조직에서 뼈로 입사하는 경우 임계각은 <strong><span class="num">22.2°</span></strong>에 불과하다.
+      전반사에서 반사계수의 <strong>크기는 1이지만 위상은 입사각에 따라 변하므로</strong>,
+      입사측에 생기는 정상파의 마디 위치가 각도와 함께 이동한다.</li>
+    <li><strong>c₂ &lt; c₁ (느려지는 경우)</strong> · 투과파는 법선 <strong>쪽으로</strong> 꺾인다.
+      이 경우 임계각이 존재하지 않으므로 <strong>모든 입사각에서 투과파가 존재한다.</strong></li>
   </ul>
   <div class="panel">
     <div class="plabel"><span><b>인터랙티브</b> · 평면파의 굴절 · 스넬의 법칙</span><span id="tir">—</span></div>
@@ -85,37 +101,54 @@
         <div class="ro"><span class="k">파장 λ₂/λ₁</span><span class="v" id="lrv">—</span></div>
         <div class="ro"><span class="k">반사 |R|</span><span class="v" id="rrv">—</span></div>
       </div>
-      <p class="cap">경계면 너머에서 <b>파장이 달라지는 것</b>을 보세요. 파면이 <b>경계면 위에서는 반드시 이어져야</b> 하므로,
-        파장이 바뀌면 진행 방향도 꺾일 수밖에 없습니다. 이것이 굴절의 전부입니다.</p>
+      <p class="cap">경계면 너머에서 <b>파장이 달라진다</b>는 점에 주목한다. 파면은 <b>경계면 위에서 반드시 연속이어야</b> 하므로,
+        파장이 바뀌면 진행 방향도 그에 맞추어 꺾일 수밖에 없다. 이것이 굴절이 일어나는 이유이다.</p>
     </div>
   </div>
-  <p>왜 이런 법칙이 나오는가 — 위 애니메이션의 이유가 전부입니다. <strong>파면은 경계면에서 끊어질 수 없습니다.</strong>
-    경계면을 따라 잰 파면 간격이 양쪽에서 같아야 하는데, 파장이 c에 비례해 바뀌므로 각도가 그만큼 꺾여야 합니다.</p>
+  <p>스넬의 법칙이 성립하는 이유는 <strong>파면이 경계면에서 끊어질 수 없다</strong>는 조건 하나에서 나온다.
+    경계면을 따라 측정한 파면 사이의 간격은 양쪽 매질에서 같아야 하므로
+    <span class="num">λ₁/sin θᵢ = λ₂/sin θₜ</span>가 성립한다.
+    주파수는 경계면을 지나도 변하지 않고 <span class="num">λ = c/f</span>이므로,
+    이 조건은 곧 <span class="num">sin θᵢ/c₁ = sin θₜ/c₂</span>가 된다.</p>
 </div></section>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">03</div>
     <h2>구면파의 굴절<span class="sub">Spherical wave · Huygens construction</span></h2></div>
-  <p>점 음원에서 나온 구면파가 경계를 지날 때도 스넬의 법칙은 똑같이 성립합니다.
-    <strong>경계면 위의 모든 점이 새로운 2차 음원</strong>이 되고 —
-    <span class="t">하위헌스 원리</span> <span class="en">Huygens' principle</span> —
-    이 2차 파동들의 <strong>포락선</strong>이 굴절된 파면입니다.</p>
-  <p><strong>빠른 매질(뼈)</strong>에서는 겉보기 음원이 경계에 가까워져 파면이 <strong>더 굽고</strong>,
-    <strong>느린 매질(지방)</strong>에서는 음원이 멀어져 <strong>평평해집니다</strong> —
-    물속 동전이 얕아 보이는 것과 같은 겉보기 위치 효과입니다. 04장의 거울상법처럼 이것도 편법이 아니라
-    <strong>파동이 실제로 하는 일</strong>입니다.</p>
+  <p>점 음원에서 발생한 구면파가 경계면을 지날 때에도 스넬의 법칙은 그대로 성립한다.
+    <strong>경계면 위의 모든 점이 새로운 2차 음원<span class="en">(secondary source)</span>이 되며</strong> —
+    이를 <span class="t">하위헌스 원리</span><span class="en">(Huygens' principle)</span>라 한다 —
+    이 2차 파동들의 <strong>포락선<span class="en">(envelope)</span></strong>이 굴절된 파면을 이룬다.</p>
+  <p>이때 투과된 파면의 곡률 중심은 실제 음원의 위치에서 벗어나며, 그 <strong>겉보기 거리는
+    <span class="num">c₁/c₂</span>배</strong>가 된다.
+    <strong>빠른 매질로 들어가는 경우</strong>(연부조직→뼈, <span class="num">c₁/c₂ = 0.38</span>)에는
+    겉보기 음원이 경계면에 가까워져 파면이 <strong>더 굽고</strong>,
+    <strong>느린 매질로 들어가는 경우</strong>(근육→지방, <span class="num">c₁/c₂ = 1.10</span>)에는
+    겉보기 음원이 멀어져 파면이 <strong>평평해진다.</strong>
+    물속의 동전이 실제보다 얕아 보이는 것도 빛이 물에서 공기로 빠져나오며 빨라지기 때문에 생기는 같은 효과이다.</p>
+  <p>다만 <span class="num">c₁/c₂</span>배라는 관계는 <strong>경계면에 거의 수직으로 지나는 광선에만 성립하는 근축 근사이다.</strong>
+    입사각이 커지면 광선마다 겉보기 음원의 위치가 달라져 하나의 점으로 모이지 않는다.
+    연부조직→뼈의 경우 겉보기 거리는 축 근처에서 <span class="num">0.38</span>배이지만
+    입사각 <span class="num">20°</span>에서는 <span class="num">0.17</span>배까지 이동한다.
+    즉 <strong>투과 파면은 더 이상 완전한 구면이 아니며</strong>, 이 변형이
+    <span class="t">수차</span><span class="en">(aberration)</span>이다.
+    4장의 거울상법이 평면 경계에서 파면의 기하를 정확히 기술하는 것과 달리, 굴절에서의 겉보기 음원은
+    <strong>근축 영역에 한정된 기술</strong>이다.
+    지방과 근육처럼 음속 차이가 작은 조직 사이에서는 이 근사가 잘 성립하지만, 음속 차이가 커질수록 수차가 급격히 증가하며,
+    이것이 실제 초음파 영상에서 집속을 저해하는 주요 원인 가운데 하나이다.</p>
 </div></section>
 
 <section><div class="wrap">
   <div class="sum">
     <div class="kh">한 장 정리 · Summary</div>
     <ul>
-      <li><b>굴절 조건 두 개</b> · 면이 λ보다 훨씬 클 것 + 양쪽 <b>c</b>가 다를 것</li>
-      <li><b>반사 ← Z 차이 · 굴절 ← c 차이</b> · Z = ρc 이므로 둘은 따로 논다</li>
-      <li><b>Z 같고 c 다르면</b> — 안 보이는데 빔은 휜다. 가장 위험한 경우</li>
+      <li><b>굴절 조건 두 개</b> · 면이 λ보다 훨씬 크고 매끈할 것 + 양쪽 <b>c</b>가 다를 것</li>
+      <li><b>반사 ← Z 차이 · 굴절 ← c 차이</b> · ρ와 c가 독립이므로 둘은 따로 논다</li>
+      <li><b>Z 같고 c 다르면</b> — 수직 입사에서는 안 보이는데 빔은 휜다. 가장 위험한 경우</li>
       <li><b>sin θᵢ / c₁ = sin θₜ / c₂</b> · 파면이 경계면에서 끊어질 수 없기 때문</li>
-      <li><b>빨라지면</b> 법선에서 멀어지고 <b>임계각</b>이 생긴다 (조직→뼈 <b>22.2°</b>)</li>
-      <li><b>느려지면</b> 법선 쪽으로 꺾이고 임계각이 없다 — 항상 투과</li>
+      <li><b>빨라지면</b> 법선에서 멀어지고 <b>임계각</b>이 생긴다 (조직→뼈 <b>22.2°</b>) ·
+        <b>느려지면</b> 법선 쪽으로 꺾이고 임계각이 없다</li>
+      <li><b>겉보기 음원 거리 = c₁/c₂ 배</b> · 단 근축 근사 — 각도가 커지면 <b>수차</b>가 생긴다</li>
     </ul>
   </div>
 </div></section>

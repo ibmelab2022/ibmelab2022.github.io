@@ -73,7 +73,7 @@ const hero = makeScene("c1", 360, (ctx,W,H,t)=>{
   ctx.beginPath(); ctx.moveTo(x0,ly); ctx.lineTo(x0+LAM1,ly);
   ctx.moveTo(x0,ly-5); ctx.lineTo(x0,ly+5); ctx.moveTo(x0+LAM1,ly-5); ctx.lineTo(x0+LAM1,ly+5); ctx.stroke();
   chip(ctx,"λ", x0+LAM1/2-4, ly-8, INK, 11);
-  chip(ctx,"← 이 길이와 개구를 견줍니다", x0+LAM1+10, ly+4, MUTED, 9.5, 400);
+  chip(ctx,"← 이 길이와 개구를 견준다", x0+LAM1+10, ly+4, MUTED, 9.5, 400);
   /* 확산각 */
   if(s<=1 && DL>=1.5){
     const th=Math.asin(s), L=Math.min(W-x0-10, 300);

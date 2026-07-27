@@ -8,13 +8,20 @@ const samp=makeScene("c1", 340, (ctx,W,H)=>{
   FS*=1.16;
   const k=Math.round(f/fs), fa=Math.abs(f-k*fs);        /* 겉보기 주파수 */
   const alias=fs<2*f;
+  /* ◆ fs = 2f 는 나이퀴스트 조건의 경계입니다. 이때 표본이 매번 같은 위상(여기서는 0)에
+     떨어져 주파수는 경계에 걸려도 진폭·위상을 복원할 수 없습니다.
+     예전에는 fs<2f 만 에일리어싱으로 보아 이 지점을 "정상 — 원래 주파수 복원"으로 표시했습니다.
+     정리의 조건은 fs > 2·f_max (강부등호)입니다. */
+  const edge = !alias && Math.abs(fs-2*f) < 1e-9;
   document.getElementById("sfv").textContent=f.toFixed(1);
   document.getElementById("fsv").textContent=fs.toFixed(0);
   document.getElementById("rny").textContent=(fs/2).toFixed(1);
   document.getElementById("rfa").textContent=fa.toFixed(2);
   const st=document.getElementById("sstat");
-  st.textContent = alias ? `에일리어싱 — ${f}MHz 가 ${fa.toFixed(1)}MHz 로 접혀 보임` : "정상 — 원래 주파수 복원";
-  st.style.color = alias ? POS : SIGNAL_DK;
+  st.textContent = alias ? `에일리어싱 — ${f}MHz 가 ${fa.toFixed(1)}MHz 로 접혀 보임`
+                 : edge  ? `경계 fs = 2f — 표본이 모두 0, 진폭·위상 복원 불가`
+                         : "정상 — 원래 주파수 복원";
+  st.style.color = alias ? POS : (edge ? AMBER_DK : SIGNAL_DK);
 
   const L=20, R=20, PW=W-L-R, Tw=1.4;                   /* µs 창 */
   const mid=H/2-6, amp=H*0.30;
@@ -34,7 +41,8 @@ const samp=makeScene("c1", 340, (ctx,W,H)=>{
     ctx.beginPath(); ctx.arc(X(t),Yv(v),3.5,0,7); ctx.fill(); }
   ctx.textAlign="left";
   chip(ctx,"원신호 f",L+4,24,MUTED,10);
-  chip(ctx,alias?"복원 — 엉뚱한 저주파":"복원 — 원래대로",L+4,H-14,alias?POS:SIGNAL_DK,10);
+  chip(ctx, alias ? "복원 — 엉뚱한 저주파" : (edge ? "복원 불가 — 표본이 모두 0" : "복원 — 원래대로"),
+       L+4,H-14, alias?POS:(edge?AMBER_DK:SIGNAL_DK), 10);
   chip(ctx,"표본 (fs 마다)",L+PW-118,24,INK,10);
   label(ctx,"시간 (µs) →",L+PW-88,H-14,MUTED,9,400);
 });

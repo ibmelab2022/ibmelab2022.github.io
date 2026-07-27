@@ -32,6 +32,21 @@ const det=makeScene("c1", 328, (ctx,W,H)=>{
   st.style.color = SIGNAL_DK;
 
   const L=22,R=22,PW=W-L-R;
+  /* ◆ 칩 x 를 고정 픽셀로 두어 좁은 창에서 캔버스를 넘거나 서로 겹쳤습니다
+     (W=340 에서 "x_H = 90°" 가 우측 356 > 340 · W=400 에서 "Q" 와 "|·| = 포락선" 겹침).
+     폭에 비례한 위치로 바꾸고, 겹치면 뒤 칩을 아래 줄로 내립니다. */
+  const cX=(frac)=> L + PW*frac;
+  function chipRow(items){          /* [{t,x,col,size}] — x 오름차순 가정 */
+    let prevEnd=-1e9, row=0;
+    items.forEach(it=>{
+      ctx.font=`700 ${(it.size*FS).toFixed(1)}px ${MONO}`;
+      const w=ctx.measureText(it.t).width+10;
+      let x=Math.min(it.x, L+PW-w);
+      if(x < prevEnd+4){ row=1-row; } else row=0;
+      chip(ctx, it.t, x, 24+row*15, it.col, it.size);
+      if(row===0) prevEnd=x+w; else prevEnd=Math.max(prevEnd, 0);
+    });
+  }
   /* === 시간 영역 (위) === */
   const tMid=84, tAmp=46, Yr=v=>tMid-v*tAmp;
   ctx.textAlign="left"; chip(ctx,"시간 영역",L,24,INK,12,700);
@@ -44,9 +59,9 @@ const det=makeScene("c1", 328, (ctx,W,H)=>{
     ctx.strokeStyle="rgba(27,79,160,.7)"; ctx.lineWidth=1.2; ctx.beginPath();
     for(let px=0;px<=PW;px++){ const t=px/PW, v=env23(t)*Math.sin(2*Math.PI*f0*t); px?ctx.lineTo(L+px,Yr(v)):ctx.moveTo(L+px,Yr(v)); } ctx.stroke();
     drawEnv(1); drawEnv(-1);
-    chip(ctx,"x = RF (반송파 유지)",L+120,24,SIGNAL_DK,11);
-    chip(ctx,"x_H = 90°",L+300,24,NEG,11);
-    chip(ctx,"|·| = 포락선",L+PW-108,24,AMBER_DK,11);
+    chipRow([{t:"x = RF (반송파 유지)",x:cX(0.20),col:SIGNAL_DK,size:11},
+             {t:"x_H = 90°",x:cX(0.58),col:NEG,size:11},
+             {t:"|·| = 포락선",x:cX(0.78),col:AMBER_DK,size:11}]);
   } else {
     const phi=t=>2*Math.PI*1.2*t;
     ctx.strokeStyle="rgba(90,106,125,.3)"; ctx.lineWidth=1; ctx.beginPath();
@@ -56,9 +71,9 @@ const det=makeScene("c1", 328, (ctx,W,H)=>{
     ctx.strokeStyle=NEG; ctx.lineWidth=2; ctx.beginPath();
     for(let px=0;px<=PW;px++){ const t=px/PW, v=env23(t)*Math.sin(phi(t)); px?ctx.lineTo(L+px,Yr(v)):ctx.moveTo(L+px,Yr(v)); } ctx.stroke();
     drawEnv(1); drawEnv(-1);
-    chip(ctx,"I (기저대역)",L+118,24,SIGNAL_DK,11);
-    chip(ctx,"Q",L+262,24,NEG,11);
-    chip(ctx,"|·| = 포락선",L+PW-108,24,AMBER_DK,11);
+    chipRow([{t:"I (기저대역)",x:cX(0.20),col:SIGNAL_DK,size:11},
+             {t:"Q",x:cX(0.52),col:NEG,size:11},
+             {t:"|·| = 포락선",x:cX(0.72),col:AMBER_DK,size:11}]);
     chip(ctx,"회색 = 원 RF",L+2,tMid+tAmp+6,MUTED,10);
   }
 

@@ -18,22 +18,27 @@
   <div class="wrap hero-t">
     <div class="eyebrow">Ultrasound Basics · 03</div>
     <h1>매질의 음향 특성<span class="sub">Medium Acoustic Property</span></h1>
-    <p class="lede">초음파에게 매질은 <strong>세 개의 숫자</strong>입니다 — 음속 <span class="num">c</span>,
-      감쇠 <span class="num">α</span>, 임피던스 <span class="num">Z</span>.
-      이 셋이 <strong>얼마나 깊이 볼 수 있고, 무엇이 보이는지</strong>를 전부 결정합니다.</p>
+    <p class="lede">초음파의 관점에서 매질<span class="en">(medium)</span>은
+      <strong>세 개의 물성값</strong>으로 기술된다 — 음속 <span class="num">c</span>,
+      감쇠계수 <span class="num">α</span>, 음향 임피던스 <span class="num">Z</span>.
+      이 세 값이 <strong>영상화 가능한 깊이와 경계면에서 얻어지는 신호의 크기</strong>를 결정하므로,
+      매질의 음향 특성을 파악하는 것은 곧 그 조직을 어떻게 볼 수 있는지를 파악하는 것과 같다.</p>
   </div>
 </header>
 
 <!-- ── 01 ── -->
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">01</div>
-    <h2>세 개의 숫자<span class="sub">c · α · Z</span></h2></div>
+    <h2>세 개의 물성값<span class="sub">c · α · Z</span></h2></div>
   <ul>
-    <li><span class="t">음속</span> <span class="en">speed, c</span> · 파장을 정하고, 장비가 <strong>깊이를 계산하는 근거</strong>가 됩니다.</li>
-    <li><span class="t">감쇠</span> <span class="en">attenuation, α</span> · <strong>얼마나 깊이 볼 수 있는지</strong>를 정합니다.
-      연부조직에서는 주파수에 거의 비례합니다 — 단위가 <span class="num">dB/cm/MHz</span>인 이유입니다.</li>
-    <li><span class="t">음향 임피던스</span> <span class="en">impedance, Z = ρc</span> · 경계면에서 <strong>얼마나 반사되는지</strong>를 정합니다.
-      <span class="en">→ Ultrasound Reflection</span></li>
+    <li><span class="t">음속</span><span class="en">(speed of sound, c)</span> · 파장을 결정하며, 장비가
+      반향의 도달 시간으로부터 <strong>깊이를 계산하는 근거</strong>가 된다.</li>
+    <li><span class="t">감쇠계수</span><span class="en">(attenuation coefficient, α)</span> ·
+      <strong>영상화 가능한 깊이</strong>를 결정한다. 연부조직에서는 감쇠가 주파수에 거의 비례하므로
+      단위가 <span class="num">dB/cm/MHz</span>이다. 반면 물과 같은 순수 액체에서는 주파수의 제곱에 비례하여
+      단위가 <span class="num">dB/cm/MHz²</span>가 되므로, 두 값을 직접 비교할 수 없다는 점에 주의해야 한다.</li>
+    <li><span class="t">음향 임피던스</span><span class="en">(acoustic impedance, Z = ρc)</span> ·
+      경계면에서 <strong>반사되는 에너지의 비율</strong>을 결정한다(4장).</li>
   </ul>
   <div class="tw">
   <table class="props">
@@ -60,8 +65,8 @@
     </tr>
   </table>
   </div>
-  <p class="cap" style="margin-bottom:8px">※ 조직 물성은 개체·온도·주파수에 따라 편차가 있습니다.
-    연부조직 감쇠는 0.3~1.0, 뼈는 10~30 dB/cm/MHz 범위로 보고됩니다.</p>
+  <p class="cap" style="margin-bottom:8px">※ 조직의 음향 물성은 개체·온도·측정 주파수에 따라 편차가 있다.
+    연부조직 감쇠는 0.3~1.0, 뼈는 10~30 dB/cm/MHz 범위로 보고된다.</p>
 </div></section>
 
 <!-- ── 02 ── -->
@@ -77,29 +82,49 @@
         <div class="ctrl" style="flex:2"><label for="frq">주파수 f · <span class="num" id="frqv">5.0</span> MHz</label>
           <input type="range" id="frq" min="1" max="15" value="5" step="0.5"></div>
       </div>
-      <p class="cap">세 매질에 <b>똑같은 빔</b>을 쏩니다. 막대가 흐려지는 것이 에코가 죽어가는 것입니다.
-        <b style="color:var(--amber-deep)">│</b> 표시는 <b>60 dB 소멸 지점</b> — 실질적인 관찰 한계입니다.</p>
+      <p class="cap">세 매질에 <b>동일한 빔</b>을 입사시킨 경우이며, 막대가 흐려지는 정도가 에코 진폭의 감소를 나타낸다.
+        <b style="color:var(--amber-deep)">│</b> 표시는 <b>왕복 감쇠가 60 dB에 이르는 지점</b>으로,
+        실질적인 관찰 한계에 해당한다.</p>
     </div>
   </div>
-  <p><strong>공기</strong> — 흔히 감쇠 때문에 못 쓴다고 하지만, 실은 <strong>거기까지 가지도 못합니다.</strong>
-    연부조직과 공기의 Z 차이가 너무 커서 경계면에서 <span class="num">99.9%</span>가 되튕깁니다.
-    공기로 들어가는 에너지는 <span class="num">0.1%</span>뿐입니다. <strong>감쇠를 논하기 전에 이미 끝난 것</strong>입니다.
-    젤을 바르는 이유, 그리고 폐와 장관 가스가 초음파의 금지구역인 이유가 이것입니다.</p>
+  <p><strong>공기</strong> — 공기를 사용할 수 없는 이유를 감쇠로 설명하는 경우가 많으나,
+    실제로는 <strong>초음파가 공기 내부로 거의 진입하지 못하는 것이 근본 원인이다.</strong>
+    연부조직과 공기의 음향 임피던스 차이가 지나치게 커서 경계면에서 입사 에너지의
+    <span class="num">99.9%</span>가 반사되고, 공기로 투과되는 에너지는 <span class="num">0.1%</span>에 불과하다.
+    <strong>공기 내부의 감쇠를 논하기 이전에 이미 신호가 전달되지 않는 것이다.</strong>
+    탐촉자와 피부 사이에 젤을 도포하여 공기층을 제거하는 이유, 그리고 폐와 장관 내 가스가
+    초음파 검사의 금지 구역이 되는 이유가 모두 여기에 있다.</p>
 
-  <p><strong>물</strong> — 감쇠가 연부조직의 <strong>수백 분의 1</strong>입니다. 위 애니메이션에서 물 막대가 거의 안 흐려지는 게 보이실 겁니다.
-    그래서 물은 <strong>기준 매질</strong>이 됩니다 — 수조 측정, 젤, 그리고 음향현미경의 결합 매질이 전부 물입니다.</p>
+  <p><strong>물</strong> — 물은 감쇠가 매우 작아 <strong>기준 매질</strong>로 사용된다.
+    다만 물의 감쇠는 주파수의 제곱에, 연부조직의 감쇠는 주파수에 비례하므로 두 값의 비는 주파수에 따라 달라진다.
+    <span class="num">5 MHz</span>에서 물은 <span class="num">0.055 dB/cm</span>,
+    연부조직은 <span class="num">2.5 dB/cm</span>로 약 <strong>1/45</strong>이며,
+    <span class="num">1 MHz</span>에서는 약 1/227, <span class="num">15 MHz</span>에서는 약 1/15로
+    <strong>주파수가 높아질수록 격차가 줄어든다.</strong>
+    위 애니메이션에서도 낮은 주파수에서는 물 막대가 거의 흐려지지 않지만, 주파수를 높이면 물에서도 감쇠가 뚜렷해진다.
+    수조 측정, 젤, 음향현미경<span class="en">(acoustic microscopy)</span>의 결합 매질이 모두 물을 기반으로 하는 것은
+    이러한 특성 때문이다.</p>
 
-  <p><strong>연부조직</strong> — <span class="num">c = 1540 m/s</span>는 <strong>장비가 깊이를 계산할 때 쓰는 바로 그 값</strong>입니다.
-    감쇠는 대략 <span class="num">0.5 dB/cm/MHz</span>. 주파수에 비례하므로 <strong>f를 올리면 분해능은 좋아지지만 얕아집니다</strong> —
-    초음파의 근본적인 맞교환입니다. <span class="en">→ Ultrasound Attenuation</span></p>
+  <p><strong>연부조직</strong> — <span class="num">c = 1540 m/s</span>는
+    <strong>장비가 깊이를 환산할 때 전제하는 바로 그 값이다.</strong>
+    감쇠는 대략 <span class="num">0.5 dB/cm/MHz</span>이며 주파수에 비례한다.
+    파장은 주파수에 반비례하고 감쇠는 주파수에 비례하므로,
+    <strong>주파수를 높이면 분해능은 향상되지만 도달 가능한 깊이는 감소한다.</strong>
+    이는 초음파 영상에서 피할 수 없는 근본적인 맞교환이다(7장).</p>
 
-  <p><strong>뼈</strong> — 음속이 <strong>2.6배</strong> 빠르고 감쇠는 <strong>40배</strong>입니다.
-    표면에서 <span class="num">42.8%</span>가 반사되고, 통과한 것도 몇 mm 안에 사라집니다.
-    그래서 뼈 뒤에는 <span class="t">음향 음영</span> <span class="en">acoustic shadowing</span>이 생기고, 성인 두개골 경유 영상이 그토록 어렵습니다.</p>
+  <p><strong>뼈</strong> — 음속이 연부조직의 <strong>2.6배</strong>이고 감쇠계수는 <strong>40배</strong>이다.
+    연부조직과의 경계면에서 입사 에너지의 <span class="num">42.8%</span>가 반사되며,
+    투과한 성분도 <span class="num">5 MHz</span> 기준 왕복 <span class="num">3 mm</span> 부근에서
+    60 dB 이상 감쇠하여 사실상 소멸한다.
+    그 결과 뼈 뒤쪽에는 <span class="t">음향 음영</span><span class="en">(acoustic shadowing)</span>이 형성되며,
+    성인 두개골을 경유하는 영상화가 특히 어려운 것도 이 때문이다.</p>
 
   <div class="key"><div class="kh">Key</div>
-    <p><strong>물과 연부조직은 Z가 거의 같습니다</strong> (1.48 vs 1.63). 그래서 물은 조직을 볼 때 <strong>투명한 창</strong>이 됩니다 —
-      방광이나 낭종 너머가 잘 보이는 이유이고, 젤이 작동하는 이유입니다. 반면 공기와 뼈는 양쪽 극단으로 멀리 떨어져 <strong>벽</strong>이 됩니다.</p></div>
+    <p><strong>물과 연부조직은 음향 임피던스가 거의 같다</strong>(1.48 대 1.63 MRayl).
+      두 매질의 경계면에서 반사되는 에너지는 <span class="num">0.24%</span>에 불과하므로,
+      물은 조직을 관찰할 때 <strong>투명한 창</strong>으로 작용한다.
+      방광이나 낭종 너머의 구조가 잘 보이는 이유이자, 젤이 결합 매질로 기능하는 이유이다.
+      반면 공기와 뼈는 임피던스가 양쪽 극단으로 벗어나 있어 <strong>음향적인 벽</strong>이 된다.</p></div>
 </div></section>
 
 <!-- ── 정리 ── -->
@@ -107,12 +132,12 @@
   <div class="sum">
     <div class="kh">한 장 정리 · Summary</div>
     <ul>
-      <li><b>매질 = c, α, Z 세 숫자</b> · 각각 깊이 계산 / 관찰 한계 / 반사량을 정한다</li>
+      <li><b>매질 = c, α, Z 세 물성값</b> · 각각 깊이 환산 / 관찰 한계 / 반사량을 결정한다</li>
       <li><b>공기</b> · Z ≈ 0 → 99.9% 반사. <b>감쇠가 아니라 Z가 문제</b></li>
-      <li><b>물</b> · 감쇠 거의 없음 + Z가 조직과 비슷 → <b>투명한 창</b></li>
+      <li><b>물</b> · 감쇠 최소(<b>α ∝ f²</b>) + Z가 조직과 비슷 → <b>투명한 창</b></li>
       <li><b>연부조직</b> · c = 1540 m/s (장비의 가정값), α ≈ 0.5 dB/cm/MHz</li>
       <li><b>뼈</b> · c 2.6배, α 40배 → 표면만 밝고 <b>뒤는 음영</b></li>
-      <li><b>α ∝ f</b> · 주파수를 올리면 분해능↑ 침투↓ — 피할 수 없는 맞교환</li>
+      <li><b>연부조직은 α ∝ f</b> · 주파수를 올리면 분해능↑ 침투↓ — 피할 수 없는 맞교환</li>
     </ul>
   </div>
 </div></section>

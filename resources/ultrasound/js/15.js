@@ -4,10 +4,11 @@
      펄스 깊이 d_p(τ)=c·τ · 에코 탄생 τ=d/c · 에코 깊이 d_e(τ)=2d−c·τ · 도착 τ=2d/c
    v2 에서 바뀐 것:
    ① 펄스·에코를 막대 대신 파형(압축 빨강/희박 파랑)으로 그림
-   ② 표적을 지날 때마다 진폭이 한 단계씩 줆(×T=0.82) — 반사가 떼어간 몫
+   ② 표적을 지날 때마다 진폭이 한 단계씩 줆(×T=0.82) — 반사가 떼어간 몫 + 표적에서의 국소 감쇠.
+      시인성을 위해 과장한 값이며, REFL=0.30 과 엄밀히 짝을 이루는 수치는 아니다.
    ③ 감쇠 exp(−µd) 를 왕복 내내 적용 — A-라인 막대 높이가 이 원장을 그대로 따름
-   ★ 화면용 µ=0.03/cm(≈0.26 dB/cm)는 실제(5MHz, 2.5 dB/cm)의 약 1/10.
-     실제 값이면 깊은 에코는 화면에서 보이지도 않습니다 — 그걸 살리는 게 22장 TGC. */
+   ★ 화면용 µ=0.03/cm(≈0.26 dB/cm)는 실제(5MHz, 편도 2.5 dB/cm)의 약 1/10.
+     실제 값이면 깊은 에코는 화면에서 보이지도 않는다 — 그걸 살리는 것이 21장 TGC. */
 
 const C = 154000;               /* cm/s */
 const DMAX_CM = 24;
@@ -16,6 +17,26 @@ const F0 = 5, NCYC = 2;
 const SCREEN_PRP = 4.0;
 const MU = 0.03, TRANS = 0.82, REFL = 0.30;   /* 화면용 감쇠·투과·반사 */
 const prfS = document.getElementById("prf");
+
+/* ── 라벨 겹침 방지 (§7-1 #13) ──
+   같은 y 에 라벨이 여러 개 몰리면 x 가 겹치는 것만 위로 밀어 올립니다.
+   chip() 과 같은 폰트로 폭을 재야 판정이 맞습니다. */
+function chipW(ctx, txt, size){
+  const f = ctx.font;
+  ctx.font = `700 ${(size*FS).toFixed(1)}px ${MONO}`;
+  const w = ctx.measureText(txt).width + 10;
+  ctx.font = f;
+  return w;
+}
+function destack(items, dy){          /* items: {x0,x1,y} — y 를 제자리에서 조정 */
+  const done = [];
+  items.forEach(it=>{
+    let y = it.y, guard = 0;
+    while(guard++ < 14 && done.some(q => Math.abs(q.y-y) < dy-1 && q.x1 > it.x0 && it.x1 > q.x0)) y -= dy;
+    it.y = y; done.push({x0:it.x0, x1:it.x1, y});
+  });
+  return items;
+}
 
 /* 진폭 원장: a↔b 구간을 지나는 동안의 감쇠 × (사이에 낀 표적들의 투과) */
 function attn(a, b){
@@ -109,13 +130,19 @@ const hero = makeScene("c1", 400, (ctx,W,H,t)=>{
     ray(ctx, X(dp)+10, mid-40, X(dp)+34, mid-40, POS, 1.8);
     chip(ctx, `펄스 ${Math.round(pulseA*100)}%`, X(dp)+8, mid-46, POS, 9.5);
   }
-  echoes.forEach(e=>{
-    if(e.de < 1.2 || e.de > DMAX_CM) return;
-    const old = e.k > 0;
-    ray(ctx, X(e.de)-10, mid+40, X(e.de)-32, mid+40, old?AMBER:SIGNAL_DK, 1.6);
-    chip(ctx, old?`이전 펄스 에코 ${e.d}cm`:`에코 ${e.d}cm · ${Math.round(e.A*100)}%`,
-         X(e.de)-32, mid+56, old?AMBER_DK:SIGNAL_DK, 9.5);
-  });
+  {
+    const items = echoes.filter(e => e.de >= 1.2 && e.de <= DMAX_CM).map(e=>{
+      const old = e.k > 0;
+      const txt = old ? `이전 펄스 에코 ${e.d}cm` : `에코 ${e.d}cm · ${Math.round(e.A*100)}%`;
+      const x = X(e.de)-32, w = chipW(ctx, txt, 9.5);
+      return {e, old, txt, x, x0:x, x1:x+w, y:mid+56};
+    });
+    destack(items, 14);
+    items.forEach(it=>{
+      ray(ctx, X(it.e.de)-10, mid+40, X(it.e.de)-32, mid+40, it.old?AMBER:SIGNAL_DK, 1.6);
+      chip(ctx, it.txt, it.x, it.y, it.old?AMBER_DK:SIGNAL_DK, 9.5);
+    });
+  }
   /* 최대 무모호 깊이 */
   if(dmax < DMAX_CM){
     ctx.strokeStyle=AMBER; ctx.lineWidth=2.5;
@@ -130,19 +157,25 @@ const hero = makeScene("c1", 400, (ctx,W,H,t)=>{
   const base = yA+hA-14;
   ctx.strokeStyle=LINE; ctx.lineWidth=1;
   ctx.beginPath(); ctx.moveTo(L,base); ctx.lineTo(L+PW,base); ctx.stroke();
-  TARGETS.forEach(d=>{
-    const arr = 2*d/C;
-    const app = (arr % prp) * C/2;
-    const wrapped = arr >= prp;
-    const shown = (arr % prp) <= tau;
-    if(!shown) return;
-    const hgt = (hA-30) * (0.10 + 0.90*ARR[d]/ARRMAX);
-    ctx.strokeStyle = wrapped ? POS : SIGNAL_DK; ctx.lineWidth=3;
-    ctx.beginPath(); ctx.moveTo(X(app), base); ctx.lineTo(X(app), base-hgt); ctx.stroke();
+  {
+    const items = TARGETS.filter(d => ((2*d/C) % prp) <= tau).map(d=>{
+      const arr = 2*d/C, app = (arr % prp)*C/2, wrapped = arr >= prp;
+      const hgt = (hA-30) * (0.10 + 0.90*ARR[d]/ARRMAX);
+      const txt = wrapped ? `${d}cm 인데 여기에` : `${d}cm`;
+      const w = chipW(ctx, txt, 9.5);
+      /* 라벨이 좌우로 삐져나가지 않게 중심을 가둡니다. */
+      const cx = Math.min(Math.max(X(app), w/2+2), W-w/2-2);
+      return {d, app, wrapped, hgt, txt, cx, x0:cx-w/2, x1:cx+w/2, y:base-hgt-8};
+    });
+    destack(items, 15);
     ctx.textAlign="center";
-    chip(ctx, wrapped?`${d}cm 인데 여기에`:`${d}cm`, X(app), base-hgt-8, wrapped?POS:SIGNAL_DK, 9.5);
+    items.forEach(it=>{
+      ctx.strokeStyle = it.wrapped ? POS : SIGNAL_DK; ctx.lineWidth=3;
+      ctx.beginPath(); ctx.moveTo(X(it.app), base); ctx.lineTo(X(it.app), base-it.hgt); ctx.stroke();
+      chip(ctx, it.txt, it.cx, it.y, it.wrapped?POS:SIGNAL_DK, 9.5);
+    });
     ctx.textAlign="left";
-  });
+  }
   const cur = C*tau/2;
   if(cur < DMAX_CM){
     ctx.strokeStyle="rgba(43,61,80,.45)"; ctx.lineWidth=1.6; ctx.setLineDash([3,3]);

@@ -15,7 +15,9 @@ const hero=makeScene("c1", 400, (ctx,W,H,t)=>{
   document.getElementById("vhv").textContent=vh.toFixed(1);
   document.getElementById("vlv").textContent=vl.toFixed(1);
   const sp=document.getElementById("spec");
-  sp.textContent=`두 봉우리 ${(fdl/1000).toFixed(1)}·${(fdh/1000).toFixed(1)} kHz`;
+  sp.textContent = Math.abs(fdh-fdl) < 300
+    ? `한 봉우리로 겹침 ${(fdl/1000).toFixed(1)} kHz`
+    : `두 봉우리 ${(fdl/1000).toFixed(1)}·${(fdh/1000).toFixed(1)} kHz`;
   sp.style.color=SIGNAL_DK;
   const cs=document.getElementById("cstat");
   cs.textContent="겹침 영역의 모든 혈류가 동시에 — 깊이 구별 없음";
@@ -41,8 +43,12 @@ const hero=makeScene("c1", 400, (ctx,W,H,t)=>{
     ctx.lineTo(tipx+half*0.5, depth); ctx.lineTo(tipx-half*0.5, depth);
     ctx.closePath(); ctx.fill(); ctx.restore();
   }
-  beam(apexTx, crossX, POS);
-  beam(apexRx, crossX, SIGNAL_DK);
+  /* ◆ 예전에는 두 빔의 tipx 를 crossX 로 두어 중심선이 depth(=250) 에서야 만났습니다.
+     그런데 샘플볼륨 다이아몬드는 crossY(=182) 에 그려져, 빔이 아직 만나지 않은 곳에
+     겹침 영역을 표시하고 있었습니다. crossY 에서 교차하도록 tipx 를 연장합니다. */
+  const ext=(depth-crossY)/(crossY-skinY);
+  beam(apexTx, crossX+(crossX-txX)*ext, POS);
+  beam(apexRx, crossX-(rxX-crossX)*ext, SIGNAL_DK);
 
   /* 겹침 마름모 (샘플볼륨) — 두 빔 교차부 근사 */
   const svCy=crossY, svH=[30,46,64][ov], svW=[34,50,68][ov];
@@ -97,11 +103,20 @@ const hero=makeScene("c1", 400, (ctx,W,H,t)=>{
   ctx.lineTo(sx1,base); ctx.lineTo(sx0,base); ctx.closePath();
   ctx.fillStyle="rgba(23,192,201,.14)"; ctx.fill();
   /* 봉우리 라벨 */
-  [[fdl,"얕은",POS],[fdh,"깊은",NEG]].forEach(([fd,nm,col])=>{
-    if(fd<FMAX){ ctx.strokeStyle=col; ctx.setLineDash([2,3]); ctx.lineWidth=1;
-      ctx.beginPath(); ctx.moveTo(Xf(fd),sy0+4); ctx.lineTo(Xf(fd),base); ctx.stroke(); ctx.setLineDash([]);
-      ctx.textAlign="center"; chip(ctx,nm,Xf(fd),sy0+16,col,9); ctx.textAlign="left"; }
-  });
+  /* ◆ 두 속도가 같으면 두 라벨이 같은 x·y 에 겹쳤습니다 (슬라이더 step 0.1 에서 13/169 조합).
+     40 px 보다 가까우면 하나로 합쳐 표시합니다. */
+  const near = Math.abs(Xf(fdh)-Xf(fdl)) < 40;
+  if(near && fdl<FMAX){
+    ctx.strokeStyle=AMBER_DK; ctx.setLineDash([2,3]); ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(Xf(fdl),sy0+4); ctx.lineTo(Xf(fdl),base); ctx.stroke(); ctx.setLineDash([]);
+    ctx.textAlign="center"; chip(ctx,"얕은·깊은 겹침",Xf(fdl),sy0+16,AMBER_DK,9); ctx.textAlign="left";
+  } else {
+    [[fdl,"얕은",POS],[fdh,"깊은",NEG]].forEach(([fd,nm,col])=>{
+      if(fd<FMAX){ ctx.strokeStyle=col; ctx.setLineDash([2,3]); ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(Xf(fd),sy0+4); ctx.lineTo(Xf(fd),base); ctx.stroke(); ctx.setLineDash([]);
+        ctx.textAlign="center"; chip(ctx,nm,Xf(fd),sy0+16,col,9); ctx.textAlign="left"; }
+    });
+  }
   chip(ctx,"스펙트럼 — 겹쳐서 나옴 · 깊이 정보 없음", sx0+6, base-4, MUTED, 9, 500);
   for(let f=0;f<=8000;f+=2000){
     ctx.textAlign="center"; label(ctx,`${f/1000}k`,Xf(f),sy1+13,MUTED,8.5,400); ctx.textAlign="left";

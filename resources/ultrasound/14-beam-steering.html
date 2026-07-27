@@ -18,22 +18,27 @@
   <div class="wrap hero-t">
     <div class="eyebrow">Beamforming · 14</div>
     <h1>빔 조향<span class="sub">Beam Steering</span></h1>
-    <p class="lede">집속이 <strong>오목한 파면</strong>을 만드는 일이었다면, 조향은 <strong>기울어진 파면</strong>을 만드는 일입니다.
-      지연을 <strong>비스듬한 사다리꼴로</strong> 주면 빔이 그쪽을 봅니다. 탐촉자는 <strong>움직이지 않습니다.</strong></p>
+    <p class="lede">집속이 <strong>오목한 파면</strong>을 만드는 일이었다면,
+      조향<span class="en">(steering)</span>은 <strong>기울어진 파면</strong>을 만드는 일이다.
+      소자별 지연을 <strong>위치에 비례하도록</strong> 주면 빔이 그 방향을 향한다.
+      이 과정에서 <strong>탐촉자는 전혀 움직이지 않는다.</strong></p>
   </div>
 </header>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">01</div>
-    <h2>원리는 한 줄입니다<span class="sub">A linear delay ramp</span></h2></div>
-  <p>배열 소자들이 <strong>동시에</strong> 쏘면 파면이 표면과 나란하고 빔은 <strong>수직</strong>으로 나갑니다.
-    한쪽 끝부터 <strong>차례로 조금씩 늦게</strong> 쏘면 파면이 <strong>기울고</strong>, 빔은 그 수직 방향을 봅니다.</p>
+    <h2>원리 — 선형 지연 사다리<span class="sub">A linear delay ramp</span></h2></div>
+  <p>배열의 소자들이 <strong>동시에</strong> 구동되면 파면이 탐촉자 표면과 나란해지고 빔은 표면에 <strong>수직</strong>으로 진행한다.
+    한쪽 끝부터 <strong>차례로 조금씩 늦게</strong> 구동하면 파면이 <strong>기울어지고</strong>,
+    빔은 기울어진 파면에 수직인 방향으로 진행한다.</p>
   <div class="eq"><span>τⱼ =</span><span class="frac"><span>xⱼ sin θs</span><span>c</span></span></div>
   <div class="eqcap">xⱼ = 소자의 위치 · θs = 원하는 조향각 · c = 음속</div>
-  <p>위치에 <strong>비례</strong>하는 지연 — 그래서 <strong>사다리꼴</strong>입니다. 집속의 곡선 지연(13장)과 더하면
-    <strong>조향과 집속을 동시에</strong> 할 수 있습니다. 실제 장비는 늘 둘을 겹쳐서 씁니다.</p>
+  <p>지연이 소자 위치에 <strong>비례</strong>하므로 지연 프로파일이 <strong>직선 사다리 모양</strong>이 된다.
+    여기에 집속의 곡선형 지연(13장)을 더하면 <strong>조향과 집속을 동시에</strong> 수행할 수 있다.
+    부채꼴 스캔을 하는 위상 배열은 두 지연을 늘 겹쳐서 사용하지만,
+    조향하지 않는 선형 배열은 집속 지연만 쓰고 평면파 송신에서는 두 지연을 모두 생략하기도 한다.</p>
   <div class="panel">
-    <div class="plabel"><span><b>인터랙티브</b> · 지연(time delay)이 빔을 돌립니다</span><span id="gstat">—</span></div>
+    <div class="plabel"><span><b>인터랙티브</b> · 지연(time delay)과 빔 방향</span><span id="gstat">—</span></div>
     <canvas id="c1" height="380"></canvas>
     <div class="pbody">
       <div class="ctrls">
@@ -44,21 +49,23 @@
         <div class="ctrl" style="max-width:120px;min-width:108px"><label for="play">재생</label>
           <button class="go" id="play">일시정지</button></div>
       </div>
-      <p class="cap"><b>조향각을 돌려보세요.</b> 왼쪽의 <b style="color:var(--pos)">time delay(지연 프로파일)</b>가 기울고,
-        파면이 그만큼 기울고, 빔이 따라 돕니다.<br>
-        <b>이제 피치를 0.5λ 위로 올려보세요.</b> 엉뚱한 방향에 <b style="color:var(--amber-deep)">가짜 빔</b>이 돋아납니다 — <b>격자엽</b>입니다.</p>
+      <p class="cap"><b>조향각을 바꾸면</b> 왼쪽의 <b style="color:var(--pos)">time delay(지연 프로파일)</b>가 기울고,
+        파면이 그만큼 기울며, 빔도 함께 회전한다.<br>
+        <b>피치를 0.5λ 위로 올리면</b> 의도하지 않은 방향에 <b style="color:var(--amber-deep)">가짜 빔</b>이 나타나는데,
+        이것이 <b>격자엽</b>이다.</p>
     </div>
   </div>
-  <div class="key"><div class="kh">이것이 부채꼴 스캔입니다</div>
-    <p>θs 를 <strong>한 발씩 바꿔가며</strong> 쏘고 받기를 반복하면 부채꼴 영역이 채워집니다.
-      갈비뼈 사이의 <strong>좁은 창</strong>으로 심장 전체를 보는 방법이 이것입니다 — 탐촉자는 가만히 있고
-      <strong>빔만 전자적으로 흔드는 것</strong>입니다. <span class="en">→ 11장 위상 배열</span></p></div>
+  <div class="key"><div class="kh">부채꼴 스캔의 원리</div>
+    <p>θs 를 <strong>한 발마다 조금씩 바꾸며</strong> 송수신을 반복하면 부채꼴 영역이 채워지는데,
+      이것이 <span class="t">부채꼴 스캔</span><span class="en">(sector scan)</span>이다.
+      갈비뼈 사이의 <strong>좁은 음향창</strong>으로 심장 전체를 관찰할 수 있는 것도 이 방식 덕분이다.
+      탐촉자는 고정된 상태에서 <strong>빔만 전자적으로 회전한다</strong>(11장).</p></div>
 </div></section>
 
 <section><div class="wrap">
   <div class="sechead"><div class="secnum">02</div>
     <h2>조향의 대가<span class="sub">What steering costs</span></h2></div>
-  <p>공짜가 아닙니다. 각도를 줄수록 <strong>세 가지가 동시에 나빠집니다.</strong></p>
+  <p>조향에는 대가가 따른다. 조향각을 키울수록 <strong>세 가지 성능이 동시에 나빠진다.</strong></p>
   <div class="panel">
     <div class="plabel"><span><b>인터랙티브</b> · 빔 패턴 · 주엽 · 사이드로브 · 격자엽</span><span id="pstat">—</span></div>
     <canvas id="c2" height="360"></canvas>
@@ -79,14 +86,14 @@
       </div>
       <p class="cap"><b style="color:var(--muted)">━</b> 소자 지향성(포락선) &nbsp;·&nbsp;
         <b style="color:var(--pos)">━</b> 최종 빔 패턴 = 배열 인자 × 소자 지향성<br>
-        <b>피치를 올리면</b> 격자엽이 시야 안으로 들어옵니다. <b>소자 폭을 넓히면</b> 포락선이 좁아져
-        격자엽을 눌러주지만, 대신 <b>큰 각도에서 주엽 자체가 죽습니다.</b></p>
+        <b>피치를 올리면</b> 격자엽이 시야 안으로 들어온다. <b>소자 폭을 넓히면</b> 포락선이 좁아져
+        격자엽을 억제하지만, 그 대신 <b>큰 조향각에서는 주엽 자체가 약해진다.</b></p>
     </div>
   </div>
 
-  <h3>① 유효 개구가 줄어듭니다</h3>
-  <p>비스듬히 보면 개구가 <strong>짧아 보입니다</strong> — 정확히 <span class="num">D cos θs</span>.
-    F#이 그만큼 올라가니 <strong>빔 폭은 1/cos θs 배</strong>로 넓어집니다.</p>
+  <h3>① 유효 개구의 감소</h3>
+  <p>조향 방향에서 보면 개구가 <strong>짧아 보이며</strong>, 그 길이는 정확히 <span class="num">D cos θs</span>이다.
+    개구가 줄어든 만큼 F#이 올라가므로 <strong>빔 폭은 1/cos θs 배</strong>로 넓어진다(13장).</p>
   <div class="tw"><table class="props">
     <tr><th>조향각</th><th>유효 개구</th><th>빔 폭</th><th></th></tr>
     <tr class="hi"><td class="m">0°</td><td class="n">100%</td><td class="n">1.00배</td><td>기준</td></tr>
@@ -95,29 +102,31 @@
     <tr><td class="m">60°</td><td class="n">50.0%</td><td class="n"><b>2.00배</b></td><td>빔이 두 배로 뭉개짐</td></tr>
   </table></div>
 
-  <h3>② 격자엽이 시야로 들어옵니다</h3>
+  <h3>② 격자엽의 시야 진입</h3>
   <div class="eq" style="font-size:17px"><span>sin θg = sin θs ± λ / 피치</span></div>
-  <p>11장에서 본 식입니다. 조향하지 않으면(θs=0) 격자엽은 <strong>±λ/피치</strong> 에 있어 피치 &lt; λ 면 밖으로 밀려납니다.
-    그런데 <strong>조향하면 격자엽도 함께 끌려옵니다</strong> — 그것도 <strong>주엽의 반대편</strong>으로.
-    +45° 로 돌리면 격자엽은 <strong>−17°</strong> 쪽에 나타납니다(피치 1λ 기준). 피치가 <span class="num">λ/2</span> 이하면
-    <strong>±90° 어디로 돌려도 안전</strong>합니다.</p>
+  <p>11장에서 유도한 식이다. 조향하지 않으면(θs = 0) 격자엽은 <strong>±λ/피치</strong> 에 놓이므로
+    피치가 λ보다 작으면 시야 밖으로 밀려난다. 그런데 <strong>조향하면 격자엽도 함께 끌려 들어온다.</strong>
+    피치가 λ 이하인 정상적인 배열에서는 λ/피치 ≥ 1 ≥ sin θs 이므로, 격자엽은 항상 <strong>주엽의 반대편</strong>에 나타난다.
+    예를 들어 피치 1λ 인 배열을 +45°로 조향하면 격자엽은 <strong>−17°</strong> 방향에 생긴다.
+    피치가 <span class="num">λ/2</span> 보다 작으면 <strong>±90° 어느 각도로 조향해도 격자엽이 나타나지 않는다.</strong></p>
 
-  <h3>③ 소자 자신이 그쪽을 안 봅니다</h3>
-  <p>소자 하나도 <strong>자기 지향성</strong>이 있습니다. 폭이 <span class="num">w</span> 인 소자는
-    <span class="num">sin θ = λ/w</span> 에서 <strong>널</strong>이 생깁니다.</p>
+  <h3>③ 소자 지향성의 한계</h3>
+  <p>소자 하나도 고유한 <span class="t">소자 지향성</span><span class="en">(element directivity)</span>을 갖는다.
+    폭이 <span class="num">w</span> 인 소자의 방사 패턴은 <span class="num">sin θ = λ/w</span> 에서 첫 <strong>널</strong>을 갖는다.</p>
   <ul>
-    <li>소자 폭 <span class="num">λ/2</span> → 널이 <strong>없습니다.</strong> 90°에서도 <strong>64%</strong>나 방사합니다.</li>
-    <li>소자 폭 <span class="num">λ</span> → 널이 <strong>정확히 90°</strong>. 옆으로는 아예 못 봅니다.</li>
-    <li>소자 폭 <span class="num">2λ</span> → 널이 <strong>30°</strong>. 조향은 사실상 불가능합니다.</li>
+    <li>소자 폭 <span class="num">λ/2</span> → 널이 <strong>존재하지 않는다.</strong> 90°에서도 <strong>64%</strong>를 방사한다.</li>
+    <li>소자 폭 <span class="num">λ</span> → 널이 <strong>정확히 90°</strong>에 놓여 측방으로는 방사하지 못한다.</li>
+    <li>소자 폭 <span class="num">2λ</span> → 널이 <strong>30°</strong>로 앞당겨져 조향이 사실상 불가능하다.</li>
   </ul>
-  <div class="key"><div class="kh">λ/2 가 두 일을 동시에 합니다</div>
-    <p>위상 배열의 피치가 <span class="num">λ/2</span> 인 이유가 <strong>하나가 아니라 둘</strong>입니다.</p>
-    <p style="margin-top:10px"><strong>(a) 격자엽이 안 생깁니다</strong> — 90°까지 돌려도 안전.<br>
-      <strong>(b) 소자가 작아서 넓게 방사합니다</strong> — 피치가 λ/2 면 소자 폭은 그보다도 작으니
-      지향성 널이 없습니다.</p>
-    <p style="margin-top:10px">두 조건이 <strong>같은 숫자에서 만나는 것은 우연이 아닙니다.</strong>
-      둘 다 <strong>"소자 간격 · 소자 크기를 λ 대비 얼마나 작게 하느냐"</strong>는 하나의 질문이기 때문입니다.
-      그리고 이것이 <strong>위상 배열이 비싼 이유</strong>입니다 — 5 MHz 면 소자 폭이 <span class="num">104 µm</span>입니다.</p></div>
+  <div class="key"><div class="kh">λ/2 가 두 문제를 한 번에 푼다</div>
+    <p>위상 배열의 피치를 <span class="num">λ/2</span> 로 잡는 이유는 <strong>하나가 아니라 둘</strong>이다.</p>
+    <p style="margin-top:10px"><strong>(a) 격자엽이 생기지 않는다</strong> — 90°까지 조향해도 안전하다.<br>
+      <strong>(b) 소자가 작아 넓은 각도로 방사한다</strong> — 피치가 λ/2 이면 소자 폭은 그보다 작으므로
+      지향성 널이 존재하지 않는다.</p>
+    <p style="margin-top:10px">두 조건이 <strong>같은 값에서 만나는 것은 우연이 아니다.</strong>
+      둘 다 <strong>소자 간격과 소자 크기를 파장 대비 얼마나 작게 하는가</strong>라는 하나의 질문이기 때문이다.
+      동시에 이것이 <strong>위상 배열의 제작 단가가 높은 이유</strong>이기도 하다 —
+      5 MHz 에서 소자 폭은 <span class="num">104 µm</span>에 불과하다(11장).</p></div>
 </div></section>
 
 <section><div class="wrap">
@@ -125,11 +134,11 @@
     <div class="kh">한 장 정리 · Summary</div>
     <ul>
       <li><b>τⱼ = xⱼ sin θs / c</b> · 위치에 비례하는 <b>사다리꼴 지연</b> → 파면이 기운다</li>
-      <li><b>집속(곡선) + 조향(사다리)</b> 은 그냥 더하면 된다 — 실제 장비는 늘 겹쳐 쓴다</li>
-      <li><b>부채꼴 스캔</b> = θs 를 바꿔가며 반복 · 탐촉자는 가만히 있다</li>
+      <li><b>집속(곡선) + 조향(사다리)</b> 은 그냥 더하면 된다 — 위상 배열은 늘 겹쳐 쓴다</li>
+      <li><b>부채꼴 스캔</b> = θs 를 바꿔가며 반복 · 탐촉자는 고정되어 있다</li>
       <li><b>유효 개구 = D cos θs</b> → 빔 폭 <b>1/cos θs</b> 배 (45°에서 1.41배)</li>
-      <li><b>sin θg = λ/피치 − sin θs</b> · 조향하면 격자엽이 시야로 들어온다</li>
-      <li><b>소자 지향성 널: sin θ = λ/w</b> · 소자가 크면 옆을 못 본다</li>
+      <li><b>sin θg = sin θs ± λ/피치</b> · 조향하면 격자엽이 <b>주엽 반대편</b>으로 끌려 들어온다</li>
+      <li><b>소자 지향성 널: sin θ = λ/w</b> · 소자가 크면 측방을 보지 못한다</li>
       <li><b>λ/2 피치는 격자엽과 소자 지향성을 한 번에 해결</b> — 우연이 아니다</li>
     </ul>
   </div>

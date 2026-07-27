@@ -129,8 +129,12 @@ const pat = makeScene("c2", 360, (ctx,W,H)=>{
   document.getElementById("bw").textContent=(1/c).toFixed(2);
   document.getElementById("ed").textContent=(EF(ths)*100).toFixed(0);
   const ps=document.getElementById("pstat");
-  ps.textContent = gls.length ? `격자엽이 ${gls.map(v=>(Math.asin(v)*180/Math.PI).toFixed(0)+"°").join(", ")} 에 있습니다 — 주엽 반대편`
-                              : "피치가 충분히 작아 격자엽 없음";
+  /* '주엽 반대편' 은 피치 ≤ λ 일 때만 성립합니다 (λ/p ≥ 1 ≥ sinθs).
+     피치 1.3λ · 조향 70° 같은 조합에서는 격자엽이 주엽과 같은 쪽에 생깁니다. */
+  const opp = gls.length>0 && gls.every(v => v*Math.sin(ths) <= 0);
+  ps.textContent = gls.length
+    ? `격자엽 ${gls.map(v=>(Math.asin(v)*180/Math.PI).toFixed(0)+"°").join(", ")}${opp?" — 주엽 반대편":""}`
+    : "피치가 충분히 작아 격자엽 없음";
   ps.style.color = gls.length ? POS : SIGNAL_DK;
 
   const L=52,R=18,T=30,B=H-40,PW=W-L-R,PH=B-T;

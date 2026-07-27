@@ -58,7 +58,12 @@ const tgc=makeScene("c1", 440, (ctx,W,H)=>{
   ctx.textAlign="right"; label(ctx,"(= 시간축)",rawX-8,bot+16,MUTED,8.5,400); ctx.textAlign="left";
 
   /* 중앙: TGC pot 뱅크 (깊이별 이득 슬라이더 = 이득 곡선) */
-  const mL=rawX+SW+34, mR=corrX-34, mW=mR-mL, maxG=90;
+  const mL=rawX+SW+34, mR=corrX-34, mW=mR-mL;
+  /* ◆ 눈금 상한을 실제 최대 이득에 맞춥니다. 90 dB 로 고정했을 때는 slope>5 dB/cm 에서
+     pot 손잡이가 오른쪽 끝에 여러 개 겹쳐 쌓이고, "18 cm 이득" readout(최대 180 dB)과
+     눈금(0~90)이 어긋났습니다. 30 dB 배수로 올리고, 120 dB 를 넘으면 눈금 간격을 60 dB 로 벌립니다. */
+  const maxG = Math.max(30, Math.ceil(slope*DMX/30)*30);
+  const gStep = maxG>120 ? 60 : 30;
   ctx.textAlign="center"; chip(ctx,"TGC 이득 — 깊이별 손잡이",(mL+mR)/2,top-10,AMBER_DK,11,700);
   const GX=g=> mL + Math.min(g,maxG)/maxG*mW;
   ctx.strokeStyle="rgba(240,165,0,.85)"; ctx.lineWidth=2.2;
@@ -72,7 +77,8 @@ const tgc=makeScene("c1", 440, (ctx,W,H)=>{
     ctx.fillStyle=AMBER_DK; ctx.beginPath(); ctx.arc(GX(g),y,5.5,0,7); ctx.fill();
     ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(GX(g),y,2,0,7); ctx.fill();
   }
-  ctx.textAlign="center"; [0,30,60,90].forEach(g=>label(ctx,g+" dB",GX(g),bot+16,MUTED,8.5,500));
+  ctx.textAlign="center";
+  for(let g=0; g<=maxG; g+=gStep) label(ctx,g+" dB",GX(g),bot+16,MUTED,8.5,500);
   ctx.textAlign="left"; label(ctx,"이득 G(d) = 기울기 × 깊이",mL,top+DH+32,MUTED,9.5,500);
 });
 tgS.oninput = fzS.oninput = tgc.redraw;

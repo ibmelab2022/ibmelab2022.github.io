@@ -269,6 +269,9 @@ const msS = document.getElementById("ms");
 const DAP = 20, PITCH = 0.2;                 /* 개구 20mm · 소자 간격 0.2mm → 소자 100개 */
 const NE = Math.round(DAP/PITCH);
 const STA_LOSS = 20*Math.log10(1/Math.sqrt(NE));   /* −20 dB */
+/* A3 32사이클 첩의 SNR 이득 — 짧은 펄스(2사이클) 대비 **에너지비 16배** = +12.0 dB.
+   10log₁₀TB(=11.5)는 첩 자신의 압축 전후 기준이라 다른 값입니다(A3 §01). */
+const CHIRP_DB = 10*Math.log10(16);
 const ZF2 = 40, ZV = 3;                      /* 평가 깊이 · 가상 음원 후퇴 거리 */
 const sinc = x => Math.abs(x)<1e-12 ? 1 : Math.sin(x)/x;
 
@@ -326,13 +329,18 @@ const vs = makeScene("c3", 360, (ctx,W,H)=>{
   const px = cx;
   ctx.fillStyle="rgba(23,192,201,.55)"; ctx.fillRect(px-ww/2, ay, ww, 11);
   ctx.strokeStyle=SIGNAL_DK; ctx.lineWidth=1.6; ctx.strokeRect(px-ww/2, ay, ww, 11);
-  /* 가상 음원 (배열 뒤) · y 하한을 둬서 위 라벨이 캔버스 밖으로 잘리지 않게 */
-  const vy = Math.max(ay - ZV*sc*2.2, 48), ret = ay - vy;
+  /* 가상 음원 (배열 뒤 ZV mm)
+     ◆ 예전에는 ret = ZV·sc·2.2 에 하한 48 을 걸어, 화면상 후퇴 거리가 실제 기하와 달랐습니다.
+       그 결과 표시 각도(실제 기하로 계산)와 그려진 호가 어긋나
+       첫 호의 반폭이 부개구 폭의 69~213% 로 벌어졌습니다(폭 340~946 검사).
+       실제 축척(ZV·sc)으로 두면 화면 각도 atan((ww/2)/ret) 가 실제 각도와 정확히 같아집니다. */
+  const ret = ZV*sc, vy = ay - ret;
   ctx.fillStyle=SIGNAL_DK; ctx.beginPath(); ctx.arc(px, vy, 5, 0, 7); ctx.fill();
-  const th = Math.atan((M*PITCH/2)/ZV);
+  const th = Math.atan((M*PITCH/2)/ZV);          /* = atan((ww/2)/ret) — 축척이 같으므로 일치 */
+  const R1 = Math.hypot(ww/2, ret);              /* 첫 호가 부개구 양 끝을 정확히 지나도록 */
   for(let r=1;r<=4;r++){
     ctx.strokeStyle=`rgba(23,192,201,${(0.5-r*0.09).toFixed(2)})`; ctx.lineWidth=1.6;
-    ctx.beginPath(); ctx.arc(px, vy, ret + (r-1)*28, Math.PI/2-th, Math.PI/2+th); ctx.stroke();
+    ctx.beginPath(); ctx.arc(px, vy, R1 + (r-1)*28, Math.PI/2-th, Math.PI/2+th); ctx.stroke();
   }
   ctx.textAlign="center";
   chip(ctx, `가상 음원 하나 · 개구 반각 ±${theta.toFixed(0)}°`, px, vy-11, SIGNAL_DK, 10);
@@ -354,7 +362,8 @@ const vs = makeScene("c3", 360, (ctx,W,H)=>{
 
   /* ── 아래: SNR 수지 막대 ── */
   const bT=228, bL=64, bW=W-bL-20, bH=17;
-  const DBMIN=-24, DBMAX=+30;         /* M=64 에서 A3첩 막대 상단 +28 → 축 안에 들어오도록 확대 */
+  /* M=100 에서 A3 막대 상단 = −20 + 40 + 11.5 = 31.5 → 축 안에 들어오도록 확대 */
+  const DBMIN=-24, DBMAX=+34;
   const XD = db => bL + (db-DBMIN)/(DBMAX-DBMIN)*bW;
   ctx.fillStyle="rgba(238,243,247,.85)"; ctx.fillRect(bL, bT, bW, bH*3+16);
   ctx.strokeStyle=LINE; ctx.lineWidth=1; ctx.strokeRect(bL, bT, bW, bH*3+16);
@@ -370,11 +379,11 @@ const vs = makeScene("c3", 360, (ctx,W,H)=>{
   };
   row(0, 0, STA_LOSS, "rgba(179,18,60,.55)", "STA");
   row(1, STA_LOSS, STA_LOSS+gain, "rgba(23,192,201,.60)", "가상음원");
-  row(2, STA_LOSS+gain, STA_LOSS+gain+12.0, "rgba(240,165,0,.45)", "A3 첩");
+  row(2, STA_LOSS+gain, STA_LOSS+gain+CHIRP_DB, "rgba(240,165,0,.45)", "A3 첩");
   ctx.textAlign="left";
   chip(ctx, `${STA_LOSS.toFixed(0)} dB`, XD(STA_LOSS)+4, bT+6+bH-8, POS, 9);
   chip(ctx, `+${gain.toFixed(1)} dB`, XD(STA_LOSS)+4, bT+6+2*bH-8, SIGNAL_DK, 9);
-  chip(ctx, `+12.0 dB (→A3)`, XD(STA_LOSS+gain)+4, bT+6+3*bH-8, AMBER_DK, 9);
+  chip(ctx, `+${CHIRP_DB.toFixed(1)} dB (→A3)`, XD(STA_LOSS+gain)+4, bT+6+3*bH-8, AMBER_DK, 9);
   /* 순 SNR 마커 */
   ctx.fillStyle = net>=-1?SIGNAL_DK:(net>-10?AMBER_DK:POS);
   ctx.beginPath(); ctx.moveTo(XD(net), bT+bH*3+16); ctx.lineTo(XD(net)-6, bT+bH*3+27);

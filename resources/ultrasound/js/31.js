@@ -11,10 +11,18 @@ function heatColor(v){                 /* v: 0(차가움)~1+(뜨거움) */
 let boneOn=true;
 const pwS=document.getElementById("pw"), frS=document.getElementById("fr"), boneBtn=document.getElementById("bone");
 
+/* ◆ 색 정규화. 예전에는 ΔT/2.6 을 그대로 넘겨, heatColor 의 상한 1.15 를
+   뼈 쪽이 기본값(ΔT 3.6°C)부터 넘어섰습니다 — 전 조합의 42.9% 에서 색이 포화해
+   슬라이더를 올려도 뼈 밴드가 변하지 않았습니다(§7-1 #12).
+   슬라이더 최대(출력 1·12 MHz → 뼈 8.64°C)가 상한에 딱 닿도록 압축 매핑을 씁니다. */
+const DT_MAX = 1*12/5*3.6;
+const heatV = dT => Math.pow(Math.max(0,dT)/DT_MAX, 0.45)*1.15;
+
 const heat = makeScene("c1", 330, (ctx,W,H)=>{
   const P=+pwS.value, f=+frS.value;
   const dTs=P*f/5.0;                    /* 연부조직 ΔT (모델): P=1,f=5 → 1.0°C */
-  const dTb=dTs*3.6;                    /* 뼈 표면 ΔT (모델): 흡수 집중 */
+  const dTb=dTs*3.6;                    /* 뼈 표면 ΔT (모델): 흡수가 얇은 층에 집중.
+                                           흡수계수 비(40배)가 아니라 실측 TIB/TIS(2~5배)에 맞춘 값 */
   document.getElementById("pwv").textContent=P.toFixed(2);
   document.getElementById("frv").textContent=f.toFixed(1);
   document.getElementById("qrel").textContent=(P*f/5).toFixed(2);
@@ -38,17 +46,17 @@ const heat = makeScene("c1", 330, (ctx,W,H)=>{
     if(!boneOn || cm<boneCm){
       /* 연부조직: 초점 부근서 최대, 위아래로 감소 */
       const prof=Math.exp(-Math.pow((cm-focusCm)/2.4,2));
-      v=dTs/2.6*prof;                    /* 상대 스케일 */
+      v=heatV(dTs*prof);
     } else {
       /* 뼈 내부: 표면서 뜨겁고 감소 */
-      v=dTb/2.6*Math.exp(-(cm-boneCm)/1.2);
+      v=heatV(dTb*Math.exp(-(cm-boneCm)/1.2));
     }
     ctx.fillStyle=heatColor(v);
     ctx.fillRect(beamL, y, beamR-beamL, 2.2);
   }
   /* 뼈 표면 열점 강조 밴드 */
   if(boneOn){
-    ctx.fillStyle=heatColor(dTb/2.6);
+    ctx.fillStyle=heatColor(heatV(dTb));
     ctx.fillRect(beamL-6, boneY-1, beamR-beamL+12, 9);
     ctx.strokeStyle=POS; ctx.lineWidth=1.4; ctx.strokeRect(beamL-6, boneY-1, beamR-beamL+12, 9);
     /* 뼈 층 */
@@ -82,7 +90,11 @@ const tiS=document.getElementById("ti");
 
 const bnd = makeScene("c2", 300, (ctx,W,H)=>{
   const TI=+tiS.value, dT=TI;
-  const tAllow = dT<=1.5 ? Infinity : 4*Math.pow(4, 4-dT);   /* 분 */
+  /* ◆ 예전 식은 4·4^(4−ΔT) = 4^(5−ΔT) 라 ΔT=4 에서 4분이 나왔는데,
+     본문·요약이 인용하는 태아 기준은 "+4°C 가 5분" 입니다(§7-1 #8).
+     기준점을 5분에 맞춥니다 — "1°C 마다 1/4" 규칙은 그대로입니다. */
+  const T_REF=5;                                             /* ΔT=4°C 에서 허용 5분 */
+  const tAllow = dT<=1.5 ? Infinity : T_REF*Math.pow(4, 4-dT);
   document.getElementById("tiv").textContent=TI.toFixed(1);
   document.getElementById("rdt").textContent=dT.toFixed(1);
   const rt=document.getElementById("rtime");
@@ -99,7 +111,8 @@ const bnd = makeScene("c2", 300, (ctx,W,H)=>{
   const tmin=0.25, tmax=256, lt=Math.log(tmin), lT=Math.log(tmax);
   const X=t=> L + (Math.log(t)-lt)/(lT-lt)*PW;
   const Y=d=> B - d/dMax*PH;
-  const dTh=t=> Math.max(1.5, Math.min(dMax, 4 - Math.log(t/4)/Math.log(4)));
+  /* 위 tAllow 의 역함수 — 둘이 어긋나면 곡선과 판정이 따로 놉니다. */
+  const dTh=t=> Math.max(1.5, Math.min(dMax, 4 - Math.log(t/T_REF)/Math.log(4)));
 
   /* 위험 영역 채움 (경계 위) */
   const haz=new Path2D(); haz.moveTo(L,T);

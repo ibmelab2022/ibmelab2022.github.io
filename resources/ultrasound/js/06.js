@@ -39,10 +39,12 @@ const sc = makeScene("c1", 360, (ctx,W,H,t)=>{
   for(let i=0;i<N;i++) pts.push(cy - d/2 + (N>1 ? d*i/(N-1) : 0));
 
   const mEl=document.getElementById("mode");
+  /* 문턱값은 본문과 맞춥니다 — d≈λ 에서도 주엽이 ~50° 로 넓어 아직 '거울'이 아니고,
+     d ≫ λ (3λ 에서 주엽 17°) 가 되어야 정반사에 가깝습니다. */
   mEl.textContent = dLam<0.35 ? "구면 산란 · 모든 방향으로 균일"
-                  : dLam<1.1  ? "전이 영역 · 앞뒤로 몰리기 시작"
-                              : "거울 반사 · 방향이 생김";
-  mEl.style.color = dLam<0.35 ? NEG : dLam<1.1 ? MUTED : POS;
+                  : dLam<3    ? "전이 영역 · 앞뒤로 몰리기 시작"
+                              : "거울 반사에 접근 · 방향성 뚜렷";
+  mEl.style.color = dLam<0.35 ? NEG : dLam<3 ? MUTED : POS;
 
   ctx.imageSmoothingEnabled=true;
   ctx.drawImage(F.frame(W,H, OM*t, `${szS.value},${srcS.value}`, (x,y)=>{
@@ -87,6 +89,6 @@ const sc = makeScene("c1", 360, (ctx,W,H,t)=>{
   ctx.beginPath(); ctx.moveTo(10,yL); ctx.lineTo(10+LAM,yL);
   ctx.moveTo(10,yL-5); ctx.lineTo(10,yL+5); ctx.moveTo(10+LAM,yL-5); ctx.lineTo(10+LAM,yL+5); ctx.stroke();
   chip(ctx,"λ",10+LAM/2-3,yL-9,INK,11);
-  chip(ctx,"←  이 길이가 기준입니다",10+LAM+10,yL+4,MUTED,9.5,400);
+  chip(ctx,"←  이 길이가 기준",10+LAM+10,yL+4,MUTED,9.5,400);
 }, {play:"play", speed:0.034, tStill:3});
 szS.oninput = srcS.onchange = sc.redraw;

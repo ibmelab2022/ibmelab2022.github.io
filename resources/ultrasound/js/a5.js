@@ -68,13 +68,24 @@ const pi = makeScene("c1", 404, (ctx,W,H)=>{
   const r3y=topY+2*(rowH+rowGap), r3b=r3y+rowH/2;
   panel(r3y);
   const comb = s => isPI ? (echoA(s)+echoB(s)) : (echoA(s)-echoB(s));
-  let cmax=1e-6; for(let px=0;px<=LW;px++){ cmax=Math.max(cmax, Math.abs(comb(sOf(px/LW)))); }
-  const csc=(rowH*0.40)/cmax, zoom=csc/e2sc, cpts=[];
+  let cmax=0; for(let px=0;px<=LW;px++){ cmax=Math.max(cmax, Math.abs(comb(sOf(px/LW)))); }
+  /* ◆ 예전에는 cmax 하한이 1e-6 이라, 비선형을 0 으로 내리면(슬라이더 최솟값)
+     확대 배율이 ×1,320,000 까지 치솟고 AM 에서는 ×Infinity 가 찍혔습니다(§7-1 #13).
+     잔류가 사실상 0 이면 확대하지 않고 "완전 상쇄" 로 알립니다. */
+  const ZOOM_MAX = 200;
+  const nil = cmax < 1e-4;
+  const csc = nil ? 0 : Math.min((rowH*0.40)/cmax, e2sc*ZOOM_MAX);
+  const zoom = nil ? 0 : csc/e2sc;
+  const cpts=[];
   for(let px=0;px<=LW;px++){ const s=sOf(px/LW); cpts.push([LX+px, r3b-comb(s)*csc]); }
   fillWave(ctx, W, r3b, cpts);
   ctx.textAlign="left"; chip(ctx, isPI?"③ 합 = r(+p)+r(−p)":"③ 차 = r(p)−2·r(½p)", LX+4, r3y-8, POS, 10.5);
-  ctx.textAlign="right"; chip(ctx, `선형 0 · ×${zoom.toFixed(0)} 확대`, LX+LW-4, r3y-8, MUTED, 9.5, 400);
-  ctx.textAlign="center"; chip(ctx, isPI?"짝수 2f₀ 만 남음":"짝수 2f₀ + 홀수 f₀ 남음", LX+LW/2, r3y+rowH-7, isPI?SIGNAL_DK:AMBER_DK, 10);
+  ctx.textAlign="right";
+  chip(ctx, nil ? "비선형 0 — 완전 상쇄" : `선형 0 · ×${zoom.toFixed(0)} 확대`,
+       LX+LW-4, r3y-8, nil?SIGNAL_DK:MUTED, 9.5, nil?700:400);
+  ctx.textAlign="center";
+  chip(ctx, nil ? "남는 것이 없다" : (isPI?"짝수 2f₀ 만 남음":"짝수 2f₀ + 홀수 f₀ 남음"),
+       LX+LW/2, r3y+rowH-7, nil?MUTED:(isPI?SIGNAL_DK:AMBER_DK), 10);
 
   /* ── 오른쪽: 스펙트럼 (푸리에 정확값) ── */
   const mx = Math.max(1, ...before, ...after);
@@ -119,9 +130,11 @@ const mot = makeScene("c2", 330, (ctx,W,H)=>{
   st.style.color = resDb < -30 ? SIGNAL_DK : POS;
 
   const L=56, R=16, PW=W-L-R, T=18, B=H-34, PH=B-T;
-  const VMAX=60, DBMIN=-60;
+  /* ◆ 상단을 0 dB 로 두면 느린 PRF·빠른 조직(전 조합의 3.7%)에서 잔류가 최대 +6 dB 까지 올라가
+     곡선과 현재점이 축 위쪽에 눌려 붙었습니다. 2|sin| 의 최댓값 2(=+6 dB)까지 담습니다. */
+  const VMAX=60, DBMIN=-60, DBMAX=6;
   const X = vv => L + vv/VMAX*PW;
-  const Y = db => T + Math.max(0,Math.min(1, db/DBMIN))*PH;   /* 0dB 위, −60 아래 */
+  const Y = db => T + Math.max(0,Math.min(1, (DBMAX-db)/(DBMAX-DBMIN)))*PH;
   ctx.textAlign="right";
   for(let d=0; d>=DBMIN; d-=10){
     ctx.strokeStyle = d===0?"rgba(217,224,231,.9)":"rgba(238,243,247,.9)"; ctx.lineWidth=1;
@@ -156,8 +169,13 @@ const mot = makeScene("c2", 330, (ctx,W,H)=>{
   if(resDb > DBMIN){
     ctx.fillStyle=resDb<-30?SIGNAL_DK:POS;
     ctx.beginPath(); ctx.arc(X(v), Y(resDb), 5, 0, 7); ctx.fill();
+    /* ◆ 중앙 정렬 고정이라 슬라이더 양 끝에서 칩이 캔버스를 넘었습니다
+       (폭 946·v=60 에서 우측 987 · v=0 에서 좌측 −1). x 를 가둡니다. */
+    const ct=`${v.toFixed(1)} mm/s → ${resDb.toFixed(0)} dB`;
+    ctx.font=`700 ${(10*FS).toFixed(1)}px ${MONO}`;
+    const cwd=ctx.measureText(ct).width+10;
     ctx.textAlign="center";
-    chip(ctx, `${v.toFixed(1)} mm/s → ${resDb.toFixed(0)} dB`, X(v), Y(resDb)-11, resDb<-30?SIGNAL_DK:POS, 10);
+    chip(ctx, ct, Math.min(Math.max(X(v), cwd/2+2), W-cwd/2-2), Y(resDb)-11, resDb<-30?SIGNAL_DK:POS, 10);
     ctx.textAlign="left";
   }
   ctx.textAlign="center";

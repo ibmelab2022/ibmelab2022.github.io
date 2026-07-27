@@ -126,5 +126,5 @@ makeScene("c2", 330, (ctx,W,H,t)=>{
 
   ray(ctx,W-108,H-14,W-72,H-14,INK,1.6);
   label(ctx,"파동 WAVE →",W-66,H-11,INK,9.5);
-  label(ctx,"두 파동 모두 파장 λ 와 주파수가 같습니다 — 다른 것은 입자의 진동 방향뿐입니다.",8,H-11,MUTED,9.5,400);
+  label(ctx,"두 파동 모두 파장 λ 와 주파수가 같다 — 다른 것은 입자의 진동 방향뿐이다.",8,H-11,MUTED,9.5,400);
 }, {play:"play2", state:"hstate2", speed:0.018, tStill:1.4});
