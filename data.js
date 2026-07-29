@@ -364,22 +364,6 @@ recruit: {
        note     : 맨 아래 점선 밑 보충 설명. 필요 없으면 줄째 지우세요.
    ───────────────────── */
     {
-      category: "스캐닝 스테이지 · Scanning Stages",
-      name:     "PI XYZ(T) Gantry Stage",
-      ko:       "갠트리 스캐닝 스테이지",
-      image:    "resources/equipment/GantryStage.jpeg",
-      specs:    ["Travel range: X,Y(200 mm), Z(100 mm), T(360 deg)","Res.: X,Y(0.08 um), Z(0.05 um)","Accuracy: X,Y(3 um), Z(2 um), T(0.01 deg)", "Velocity: X,Y(300 mm/s), Z(40 mm/s), T(20 deg/s)"],
-      // note:  "",
-    },
-    {
-      category: "스캐닝 스테이지 · Scanning Stages",
-      name:     "OptoSigma XYZ(T) Motorized Stage (SHOT-304GS+OSMS26-100(3))",
-      ko:       "모터라이즈드 스테이지",
-      image:    "resources/equipment/MotorizedStage.png",
-      specs:    ["Travel range: X,Y,Z(100 mm)","Res.: X,Y,Z(2 um)","Accuracy: X,Y,Z(3 um)", "Velocity: X,Y,Z(40 mm/s)"],
-      // note:  "",
-    },
-    {
       category: "계측 · 구동 장비 · Instruments",
       name:     "UTEX Pulser Receiver (UT340)",
       ko:       "펄서 / 리시버",
@@ -401,6 +385,22 @@ recruit: {
       ko:       "고속 데이터 수집(DAQ) 보드",
       image:    "resources/equipment/daqboard_cse123g2.png",
       specs:    ["Sampling Rate: Up to 6GS/s(1CH)/3GS/s(2CH)","Resolution: 12-bit ADC, 1.75GHz","Memory: 4GB On-board Memory","Interface: PCIe Gen3 x8, Up to 6GB/s Data Streaming"],
+      // note:  "",
+    },    
+     {
+      category: "스캐닝 스테이지 · Scanning Stages",
+      name:     "PI XYZ(T) Gantry Stage",
+      ko:       "갠트리 스캐닝 스테이지",
+      image:    "resources/equipment/GantryStage.jpeg",
+      specs:    ["Travel range: X,Y(200 mm), Z(100 mm), T(360 deg)","Res.: X,Y(0.08 um), Z(0.05 um)","Accuracy: X,Y(3 um), Z(2 um), T(0.01 deg)", "Velocity: X,Y(300 mm/s), Z(40 mm/s), T(20 deg/s)"],
+      // note:  "",
+    },
+    {
+      category: "스캐닝 스테이지 · Scanning Stages",
+      name:     "OptoSigma XYZ(T) Motorized Stage (SHOT-304GS+OSMS26-100(3))",
+      ko:       "모터라이즈드 스테이지",
+      image:    "resources/equipment/MotorizedStage.png",
+      specs:    ["Travel range: X,Y,Z(100 mm)","Res.: X,Y,Z(2 um)","Accuracy: X,Y,Z(3 um)", "Velocity: X,Y,Z(40 mm/s)"],
       // note:  "",
     },
     {
