@@ -408,7 +408,7 @@ recruit: {
       name:     "Workstation(#1)",
       ko:       "워크스테이션",
       image:    "",
-      specs:    ["CPU: Intel(R) Xeon(R) Silver 4120R","GPU: NVIDIA GeForce RTX4090","RAM: 128GB DDR4"],
+      specs:    ["CPU: Intel(R) Xeon(R) Silver 4210R","GPU: NVIDIA GeForce RTX4090","RAM: 64GB DDR4"],
       // note:  "",
     },
     {
