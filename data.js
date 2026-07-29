@@ -401,7 +401,7 @@ recruit: {
       name:     "DG 47 MHz (#2)",
       ko:       "고주파 단일소자 트랜스듀서",
       image:    "resources/equipment/DG_50MHz_2.jpeg",
-      specs:    ["C.F: 47.2 MHz","BW: ~80%", "A.S: 2.5 mm","Focus: 4.75 mm"]],
+      specs:    ["C.F: 47.2 MHz","BW: ~80%", "A.S: 2.5 mm","Focus: 4.75 mm"],
       // note:  "",
     },
     {
@@ -409,7 +409,7 @@ recruit: {
       name:     "Olympus 50 MHz (V390-SU/RM)",
       ko:       "고주파 단일소자 트랜스듀서",
       image:    "resources/equipment/Olym_50MHz.jpeg",
-      specs:    ["C.F: 50 MHz","BW: ~60%", "A.S: 6 mm", "Focal: 13 mm","Delay: 19.5 us"],,
+      specs:    ["C.F: 50 MHz","BW: ~60%", "A.S: 6 mm", "Focal: 13 mm","Delay: 19.5 us"],
       // note:  "",
     },
     {
