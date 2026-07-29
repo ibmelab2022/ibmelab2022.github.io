@@ -387,6 +387,13 @@ recruit: {
       specs:    ["Sampling Rate: Up to 6 GS/s (1 Ch), 3 GS/s (2 Ch)","Resolution: 12-bit ADC, 1.75 GHz","Memory: 4 GB On-board Memory","Interface: PCIe Gen3 x8, Up to 6 GB/s Data Streaming"],
       // note:  "",
     },    
+    {
+      category: "계측 · 구동 장비 · Instruments",
+      name:     "Opal Kelly FPGA board (XEM8310-AU25P)",
+      ko:       "FPGA 보드",
+      image:    "resources/equipment/xem8310-au25.png",
+      specs:    ["FPGA: AMD Artix UltraScale+ XCAU25P","Resources: 308K Logic Cells, 1,200 DSP Slices","Memory: 2 GB DDR4, 32 MB QSPI Flash","Interface: USB 3.0, 12× GTY (16.375 Gbps)","Dimensions: 100 × 70 mm"],      // note:  "",
+    },
      {
       category: "스캐닝 스테이지 · Scanning Stages",
       name:     "PI XYZ(T) Gantry Stage",
@@ -397,7 +404,7 @@ recruit: {
     },
     {
       category: "스캐닝 스테이지 · Scanning Stages",
-      name:     "OptoSigma XYZ(T) Motorized Stage (SHOT-304GS+OSMS26-100 (3ea))",
+      name:     "OptoSigma XYZ(T) Motorized Stage (SHOT-304GS + OSMS26-100 (3ea))",
       ko:       "모터라이즈드 스테이지",
       image:    "resources/equipment/MotorizedStage.png",
       specs:    ["Travel range: X,Y,Z (100 mm)","Res.: X,Y,Z (2 um)","Accuracy: X,Y,Z (3 um)", "Velocity: X,Y,Z (40 mm/s)"],
