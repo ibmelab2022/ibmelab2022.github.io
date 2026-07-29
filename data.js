@@ -369,7 +369,7 @@ recruit: {
       name:     "Olympus 2.25 MHz (V304-SU)",
       ko:       "단일소자 트랜스듀서",
       image:    "resources/equipment/Oly_2.25MHz.jpeg",
-      specs:    ["C.F: 2.25 MHz","BW: over 60%", "A.S: 25.4 mm", "Flat type"],
+      specs:    ["C.F: 2.25 MHz","BW: ~60%", "A.S: 25.4 mm", "Flat type"],
       // note:  "",
     },
     {
@@ -377,7 +377,7 @@ recruit: {
       name:     "Olympus 5 MHz (V309-SU)",
       ko:       "단일소자 트랜스듀서",
       image:    "resources/equipment/Olym_5MHz.jpeg",
-      specs:    ["C.F: 5 MHz","BW: over 60%", "A.S: 12.7 mm", "Flat type"],
+      specs:    ["C.F: 5 MHz","BW: ~60%", "A.S: 12.7 mm", "Flat type"],
       // note:  "",
     },
     {
@@ -385,7 +385,7 @@ recruit: {
       name:     "Ring-type 30 MHz",
       ko:       "링 트랜스듀서",
       image:    "resources/equipment/SKKU_Ring30MHz.jpeg",
-      specs:    ["C.F: 30 MHz","BW: over 60%", "Focus type"],
+      specs:    ["C.F: 30 MHz","BW: ~60%", "Focus type"],
       // note:  "",
     },
     {
