@@ -368,7 +368,7 @@ recruit: {
       name:     "UTEX Pulser Receiver (UT340)",
       ko:       "펄서 / 리시버",
       image:    "resources/equipment/Utex_UT340.jpeg",
-      specs:    ["Output Voltage(max): 250 V","Pulse Width(min): 2 ns", "PRF(max): 20 kHz","Gain(max): 63 dB", "Freq. Range: 1-150 MHz"],
+      specs:    ["Output Voltage (max): 250 V","Pulse Width (min): 2 ns", "PRF (max): 20 kHz","Gain (max): 63 dB", "Freq. Range: 1 - 150 MHz"],
       // note:  "",
     },
     {
@@ -376,7 +376,7 @@ recruit: {
       name:     "Precision Acoustics Needle Hydrophone set (NH0200)",
       ko:       "하이드로폰 세트",
       image:    "resources/equipment/PA_needlehydrophone.jpeg",
-      specs:    ["Diameter: 0.2 mm","Freq. Range: 0.1-40 MHz"],
+      specs:    ["Diameter: 0.2 mm","Freq. Range: 0.1 - 40 MHz"],
       // note:  "",
     },
     {
@@ -384,7 +384,7 @@ recruit: {
       name:     "GaGe Data Acquisition Board (CSE123G2)",
       ko:       "고속 데이터 수집(DAQ) 보드",
       image:    "resources/equipment/daqboard_cse123g2.png",
-      specs:    ["Sampling Rate: Up to 6GS/s(1CH)/3GS/s(2CH)","Resolution: 12-bit ADC, 1.75GHz","Memory: 4GB On-board Memory","Interface: PCIe Gen3 x8, Up to 6GB/s Data Streaming"],
+      specs:    ["Sampling Rate: Up to 6 GS/s (1 Ch), 3 GS/s (2 Ch)","Resolution: 12-bit ADC, 1.75 GHz","Memory: 4 GB On-board Memory","Interface: PCIe Gen3 x8, Up to 6 GB/s Data Streaming"],
       // note:  "",
     },    
      {
@@ -392,15 +392,15 @@ recruit: {
       name:     "PI XYZ(T) Gantry Stage",
       ko:       "갠트리 스캐닝 스테이지",
       image:    "resources/equipment/GantryStage.jpeg",
-      specs:    ["Travel range: X,Y(200 mm), Z(100 mm), T(360 deg)","Res.: X,Y(0.08 um), Z(0.05 um)","Accuracy: X,Y(3 um), Z(2 um), T(0.01 deg)", "Velocity: X,Y(300 mm/s), Z(40 mm/s), T(20 deg/s)"],
+      specs:    ["Travel range: X,Y (200 mm), Z (100 mm), T (360 deg)","Res.: X,Y (80 nm), Z (50 nm)","Accuracy: X,Y (3 um), Z (2 um), T (0.01 deg)", "Velocity: X,Y (300 mm/s), Z (40 mm/s), T (20 deg/s)"],
       // note:  "",
     },
     {
       category: "스캐닝 스테이지 · Scanning Stages",
-      name:     "OptoSigma XYZ(T) Motorized Stage (SHOT-304GS+OSMS26-100(3))",
+      name:     "OptoSigma XYZ(T) Motorized Stage (SHOT-304GS+OSMS26-100 (3ea))",
       ko:       "모터라이즈드 스테이지",
       image:    "resources/equipment/MotorizedStage.png",
-      specs:    ["Travel range: X,Y,Z(100 mm)","Res.: X,Y,Z(2 um)","Accuracy: X,Y,Z(3 um)", "Velocity: X,Y,Z(40 mm/s)"],
+      specs:    ["Travel range: X,Y,Z (100 mm)","Res.: X,Y,Z (2 um)","Accuracy: X,Y,Z (3 um)", "Velocity: X,Y,Z (40 mm/s)"],
       // note:  "",
     },
     {
@@ -408,7 +408,7 @@ recruit: {
       name:     "Workstation(#1)",
       ko:       "워크스테이션",
       image:    "",
-      specs:    ["CPU: Intel(R) Xeon(R) Silver 4210R","GPU: NVIDIA GeForce RTX4090","RAM: 64GB DDR4"],
+      specs:    ["CPU: Intel(R) Xeon(R) Silver 4210R","GPU: NVIDIA GeForce RTX4090","RAM: 64 GB DDR4"],
       // note:  "",
     },
     {
@@ -416,7 +416,7 @@ recruit: {
       name:     "Workstation(#2)",
       ko:       "워크스테이션",
       image:    "",
-      specs:    ["CPU: Intel(R) Xeon(R) Silver 4314","GPU: NVIDIA RTX A5000(VRAM 24GB)","RAM: 128GB DDR4"],
+      specs:    ["CPU: Intel(R) Xeon(R) Silver 4314","GPU: NVIDIA RTX A5000 (VRAM 24 GB)","RAM: 128 GB DDR4"],
       // note:  "",
     },
     {
@@ -424,7 +424,7 @@ recruit: {
       name:     "Workstation(#3)",
       ko:       "워크스테이션",
       image:    "",
-      specs:    ["CPU: Intel(R) Xeon(R) Gold 5416S","GPU: NVIDIA RTX A6000(VRAM 48GB)","RAM: 256GB DDR5"],
+      specs:    ["CPU: Intel(R) Xeon(R) Gold 5416S","GPU: NVIDIA RTX A6000 (VRAM 48 GB)","RAM: 256 GB DDR5"],
       // note:  "",
     },
     {
@@ -432,7 +432,7 @@ recruit: {
       name:     "Asus Ascent GX10",
       ko:       "워크스테이션",
       image:    "",
-      specs:    ["CPU: ARM v9.2-A CPU (GB10)","GPU: NVIDIA Blackwell GPU(GB10)","RAM: 128GB LPDDR5x"],
+      specs:    ["CPU: ARM v9.2-A CPU (GB10)","GPU: NVIDIA Blackwell GPU (GB10)","RAM: 128 GB LPDDR5x"],
       // note:  "",
     },
     {
@@ -440,7 +440,7 @@ recruit: {
       name:     "Olympus 2.25 MHz (V304-SU)",
       ko:       "단일소자 트랜스듀서",
       image:    "resources/equipment/Oly_2.25MHz.jpeg",
-      specs:    ["C.F: 2.18 MHz","BW: 1.46 MHz(~67%)", "A.S: 25.4 mm", "Flat type"],
+      specs:    ["C.F: 2.18 MHz","BW: 1.46 MHz (~67%)", "Flat type", "A.S: 25.4 mm"],
       // note:  "",
     },
     {
@@ -448,7 +448,7 @@ recruit: {
       name:     "Olympus 5 MHz (V309-SU)",
       ko:       "단일소자 트랜스듀서",
       image:    "resources/equipment/Olym_5MHz.jpeg",
-      specs:    ["C.F: 5 MHz","BW: ~60%", "A.S: 12.7 mm", "Flat type"],
+      specs:    ["C.F: 5 MHz","BW: ~60%", "Flat type", "A.S: 12.7 mm"],
       // note:  "",
     },
     {
@@ -456,7 +456,7 @@ recruit: {
       name:     "Ring-type 30 MHz",
       ko:       "링 트랜스듀서",
       image:    "resources/equipment/SKKU_Ring30MHz.jpeg",
-      specs:    ["C.F: 29 MHz","BW: 18 MHz(~62%)", "Focus type"],
+      specs:    ["C.F: 29 MHz","BW: 18 MHz (~62%)", "Focus: 19 mm", "A.S.: 7.6 mm (Inner), 10 mm (Outer)"],
       // note:  "",
     },
     {
@@ -464,7 +464,7 @@ recruit: {
       name:     "DG 36 MHz(#1)",
       ko:       "고주파 단일소자 트랜스듀서",
       image:    "resources/equipment/DG_50MHz.jpeg",
-      specs:    ["C.F: 36 MHz","BW: 31 MHz(~86%)", "A.S: 6 mm","Focus: 10 mm"],
+      specs:    ["C.F: 36 MHz","BW: 31 MHz (~86%)", "Focus: 10 mm","A.S: 6 mm"],
       // note:  "",
     },
     {
@@ -472,7 +472,7 @@ recruit: {
       name:     "DG 47 MHz (#2)",
       ko:       "고주파 단일소자 트랜스듀서",
       image:    "resources/equipment/DG_50MHz_2.jpeg",
-      specs:    ["C.F: 47.2 MHz","BW: 38 MHz(~80%)", "A.S: 2.5 mm","Focus: 4.75 mm"],
+      specs:    ["C.F: 47.2 MHz","BW: 38 MHz (~80%)", "Focus: 4.75 mm","A.S: 2.5 mm"],
       // note:  "",
     },
     {
@@ -480,7 +480,7 @@ recruit: {
       name:     "Olympus 50 MHz (V390-SU/RM)",
       ko:       "고주파 단일소자 트랜스듀서",
       image:    "resources/equipment/Olym_50MHz.jpeg",
-      specs:    ["C.F: 44.52 MHz","BW: 31.15 MHz(~70%)", "A.S: 6.38 mm", "Focus: 12.73 mm","Delay: 19.5 us"],
+      specs:    ["C.F: 44.52 MHz","BW: 31.15 MHz(~70%)", "Focus: 12.73 mm","A.S: 6.38 mm", "Delay: 19.5 us"],
       // note:  "",
     },
     {
@@ -488,7 +488,7 @@ recruit: {
       name:     "BYK 110 MHz (TB-0201)",
       ko:       "고주파 단일소자 트랜스듀서",
       image:    "resources/equipment/BYK110MHz.jpeg",
-      specs:    ["C.F: 113.2 MHz","BW: 68.02 MHz(~60%)", "A.S: 2.7 mm", "Focus: 8 mm","Delay: 4.25 us"],
+      specs:    ["C.F: 113.2 MHz","BW: 68.02 MHz(~60%)", "Focus: 8 mm","A.S: 2.7 mm", "Delay: 4.25 us"],
       // note:  "",
     },
   ],
