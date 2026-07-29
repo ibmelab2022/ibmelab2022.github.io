@@ -425,7 +425,7 @@ recruit: {
       name:     "PI XYZT Gantry Stage",
       ko:       "갠트리 스캐닝 스테이지",
       image:    "resources/equipment/GantryStage.jpeg",
-      specs:    ["Travel range: X, Y (200 mm), Z (100 mm), T (360 degree)","Accuracy: X,Y (3 um), Z (2 um), T (0.01 d)", "Velocity: X,Y (300mm/s), Z (40mm/s), T (20 d/s)],
+      specs:    ["Travel range: X, Y (200 mm), Z (100 mm), T (360 degree)","Accuracy: X,Y (3 um), Z (2 um), T (0.01 d)", "Velocity: X,Y (300mm/s), Z (40mm/s), T (20 d/s)"],
       // note:  "",
     },
     {
