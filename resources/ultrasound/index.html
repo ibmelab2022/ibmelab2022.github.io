@@ -8,12 +8,24 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
+<style>
+  /* 좌측 상단 IBME LAB → 연구실 홈페이지로 이동 */
+  .brow a.home{display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+  .brow a.home svg{width:13px;height:13px;flex:none;color:var(--signal-deep);
+    transform:translateY(-.5px);transition:color .15s}
+  .brow a.home b{transition:color .15s}
+  .brow a.home:hover b,
+  .brow a.home:hover svg{color:var(--signal-deep)}
+  .brow a.home:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:4px}
+</style>
 </head>
 <body>
 
 <header>
   <div class="wrap"><div class="brow">
-    <span><b>IBME LAB</b> · 강남대학교 전자반도체공학부</span><span>본문 33장 · 부록 10장</span>
+    <span><a class="home" href="../../" title="IBME Lab 홈페이지로 이동"><svg viewBox="0 0 16 16" fill="none"
+        stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"
+        aria-hidden="true"><path d="M2.1 6.5 8 1.9l5.9 4.6V14H2.1z"/><path d="M6.3 14V9.5h3.4V14"/></svg><b>IBME LAB</b></a> · 강남대학교 전자반도체공학부</span><span>본문 33장 · 부록 10장</span>
   </div></div>
   <div class="wrap hero-t">
     <div class="eyebrow">강의노트 · Lecture Notes</div>
