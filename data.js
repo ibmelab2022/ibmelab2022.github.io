@@ -172,7 +172,7 @@ recruit: {
       video:       "images/research/ulm_mouse_brain.mp4",
       poster:      "images/research/ulm_mouse_brain.jpg",
       mediaTitle:  "ULM imaging of mouse brain",
-      mediaCredit: "IBME Lab",
+      mediaCredit: "J. Kim et al., IEEE–TUFFC, 2022",
     },
     {
       tag:      "SCANNING ACOUSTIC MICROSCOPY (SAM) & UBM",
@@ -350,7 +350,108 @@ recruit: {
   ],
 
   equipment: [
+  /* ───── 장비 카드 ─────
+     한 대당 아래 { } 한 덩어리입니다. 순서대로 화면에 나옵니다.
 
+       category : 분류 소제목. 같은 값끼리 자동으로 묶입니다.
+                  (지우면 소제목 없이 한 덩어리로 표시)
+       name     : 장비 이름 (카드 제목)
+       ko       : 이름 아래 회색 한 줄 설명
+       image    : 사진 경로
+       specs    : 스펙 목록. "..." 를 콤마로 나열하면 점 목록이 됩니다.
+                  예)  specs: ["중심주파수 50 MHz", "초점거리 12.7 mm", "직경 6 mm"],
+                  비워 두면(  specs: [],  ) 스펙 줄 없이 사진과 이름만 나옵니다.
+       note     : 맨 아래 점선 밑 보충 설명. 필요 없으면 줄째 지우세요.
+   ───────────────────── */
+
+    {
+      category: "초음파 트랜스듀서 · Ultrasound Transducers",
+      name:     "Olympus 2.25 MHz",
+      ko:       "단일소자 트랜스듀서",
+      image:    "resources/equipment/Oly_2.25MHz.jpeg",
+      specs:    [],
+      // note:  "",
+    },
+    {
+      category: "초음파 트랜스듀서 · Ultrasound Transducers",
+      name:     "Olympus 5 MHz",
+      ko:       "단일소자 트랜스듀서",
+      image:    "resources/equipment/Olym_5MHz.jpeg",
+      specs:    [],
+      // note:  "",
+    },
+    {
+      category: "초음파 트랜스듀서 · Ultrasound Transducers",
+      name:     "SKKU Ring 30 MHz",
+      ko:       "링 트랜스듀서",
+      image:    "resources/equipment/SKKU_Ring30MHz.jpeg",
+      specs:    [],
+      // note:  "",
+    },
+    {
+      category: "초음파 트랜스듀서 · Ultrasound Transducers",
+      name:     "DG 50 MHz",
+      ko:       "단일소자 트랜스듀서",
+      image:    "resources/equipment/DG_50MHz.jpeg",
+      specs:    [],
+      // note:  "",
+    },
+    {
+      category: "초음파 트랜스듀서 · Ultrasound Transducers",
+      name:     "DG 50 MHz (#2)",
+      ko:       "단일소자 트랜스듀서",
+      image:    "resources/equipment/DG_50MHz_2.jpeg",
+      specs:    [],
+      // note:  "",
+    },
+    {
+      category: "초음파 트랜스듀서 · Ultrasound Transducers",
+      name:     "Olympus 50 MHz",
+      ko:       "단일소자 트랜스듀서",
+      image:    "resources/equipment/Olym_50MHz.jpeg",
+      specs:    [],
+      // note:  "",
+    },
+    {
+      category: "초음파 트랜스듀서 · Ultrasound Transducers",
+      name:     "BYK 110 MHz",
+      ko:       "고주파 단일소자 트랜스듀서",
+      image:    "resources/equipment/BYK110MHz.jpeg",
+      specs:    [],
+      // note:  "",
+    },
+    {
+      category: "스캐닝 스테이지 · Scanning Stages",
+      name:     "Gantry Stage",
+      ko:       "갠트리 스캐닝 스테이지",
+      image:    "resources/equipment/GantryStage.jpeg",
+      specs:    [],
+      // note:  "",
+    },
+    {
+      category: "스캐닝 스테이지 · Scanning Stages",
+      name:     "Motorized Stage",
+      ko:       "모터라이즈드 스테이지",
+      image:    "resources/equipment/MotorizedStage.jpeg",
+      specs:    [],
+      // note:  "",
+    },
+    {
+      category: "계측 · 구동 장비 · Instruments",
+      name:     "UTEX UT340",
+      ko:       "펄서 / 리시버",
+      image:    "resources/equipment/Utex_UT340.jpeg",
+      specs:    [],
+      // note:  "",
+    },
+    {
+      category: "계측 · 구동 장비 · Instruments",
+      name:     "Needle Hydrophone",
+      ko:       "니들 하이드로폰",
+      image:    "resources/equipment/PA_needlehydrophone.jpeg",
+      specs:    [],
+      // note:  "",
+    },
   ],
 
   /* ───────── ⑫ Lab Q&A (자주 묻는 질문) ─────────

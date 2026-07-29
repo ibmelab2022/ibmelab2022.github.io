@@ -431,7 +431,18 @@ main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 .res-card p{font-size:14.5px;color:#2b3d50;max-width:780px}
 .res-card .go{color:var(--signal-deep);font-weight:600;white-space:nowrap}
 
-.equip-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.equip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.equip-cat{margin-top:34px}
+.equip-cat:first-child{margin-top:0}
+.equip-cat > h4{
+  font-size:14px;font-weight:700;color:#2b3d50;margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;
+}
+.equip-cat > h4 .n{
+  font-family:"Spline Sans Mono",monospace;font-size:11px;font-weight:500;
+  color:var(--signal-deep);background:var(--signal-soft);padding:2px 8px;border-radius:999px;
+}
+.equip-cat > h4::after{content:"";flex:1;height:1px;background:var(--line)}
 .equip{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:.2s}
 .equip:hover{border-color:var(--signal);box-shadow:0 12px 26px -22px rgba(11,22,34,.4)}
 .equip .eq-img{aspect-ratio:4/3;background:var(--signal-soft);display:grid;place-items:center;overflow:hidden}
@@ -439,11 +450,11 @@ main{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 .equip .eq-noimg{
   font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.14em;color:var(--signal-deep);
 }
-.equip .eq-body{padding:22px 24px 24px}
-.equip h4{font-size:16.5px;font-weight:700;line-height:1.35}
+.equip .eq-body{padding:18px 20px 20px}
+.equip .eq-body h4{font-size:15.5px;font-weight:700;line-height:1.35}
 .equip .eq-ko{font-size:13px;color:var(--muted);margin-top:4px}
 .equip .eq-specs{margin-top:15px;display:flex;flex-direction:column;gap:8px}
-.equip .eq-specs div{display:flex;gap:10px;font-size:13.5px;color:#2b3d50;line-height:1.5}
+.equip .eq-specs div{display:flex;gap:9px;font-size:12.8px;color:#2b3d50;line-height:1.5}
 .equip .eq-specs div::before{
   content:"";width:6px;height:6px;border-radius:2px;background:var(--signal);flex:none;margin-top:7px;
 }
@@ -546,6 +557,7 @@ footer{background:var(--ink);color:#c4d2df;margin-top:70px}
   .rcard .rfig img,.rcard .rfig video{max-height:320px}
   .teach-grid{grid-template-columns:1fr}
   .equip-grid{grid-template-columns:1fr}
+  .equip-cat{margin-top:28px}
   .foot-inner{grid-template-columns:1fr;gap:28px}
   .cv-block li,.prof-contact{text-align:left}
 }
@@ -999,8 +1011,7 @@ $('#aboutHeading').textContent = SITE.about.heading;
 
   // 연구장비 — data.js 의 equipment (비어 있으면 섹션째 숨김)
   const EQ = SITE.equipment || [];
-  if(EQ.length){
-    $('#equipGrid').innerHTML = EQ.map(e=>`
+  const card = e=>`
       <div class="equip">
         <div class="eq-img">${e.image
           ? `<img src="${esc(e.image)}" alt="${esc(e.name)}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=&quot;eq-noimg&quot;>IBME · EQUIPMENT</div>'">`
@@ -1011,6 +1022,22 @@ $('#aboutHeading').textContent = SITE.about.heading;
           ${(e.specs&&e.specs.length)?`<div class="eq-specs">${e.specs.map(x=>`<div>${esc(x)}</div>`).join('')}</div>`:''}
           ${e.note?`<div class="eq-note">${rich(e.note)}</div>`:''}
         </div>
+      </div>`;
+  if(EQ.length){
+    // category 가 있으면 분류별로 묶어서 표시 (없으면 한 덩어리)
+    const cats=[];
+    EQ.forEach(e=>{
+      const k=(e.category||'').trim();
+      let g=cats.find(c=>c.k===k);
+      if(!g){ g={k, items:[]}; cats.push(g); }
+      g.items.push(e);
+    });
+    const box=$('#equipGrid');
+    box.className='';
+    box.innerHTML = cats.map(g=>`
+      <div class="equip-cat">
+        ${g.k?`<h4>${esc(g.k)}<span class="n">${g.items.length}</span></h4>`:''}
+        <div class="equip-grid">${g.items.map(card).join('')}</div>
       </div>`).join('');
   } else { $('#equipBlock').remove(); }
 })();
