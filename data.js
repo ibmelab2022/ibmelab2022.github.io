@@ -368,7 +368,7 @@ recruit: {
       name:     "PI XYZ(T) Gantry Stage",
       ko:       "갠트리 스캐닝 스테이지",
       image:    "resources/equipment/GantryStage.jpeg",
-      specs:    ["Travel range: X,Y(200mm), Z(100mm), T(360degree)","Res.: X,Y(0.08um), Z(0.05um), T(20d/s)","Accuracy: X,Y(3um), Z(2um), T(0.01d)", "Velocity: X,Y(300mm/s), Z(40mm/s), T(20d/s)"],
+      specs:    ["Travel range: X,Y(200 mm), Z(100 mm), T(360 deg)","Res.: X,Y(0.08 um), Z(0.05 um)","Accuracy: X,Y(3 um), Z(2 um), T(0.01 deg)", "Velocity: X,Y(300 mm/s), Z(40 mm/s), T(20 deg/s)"],
       // note:  "",
     },
     {
@@ -376,7 +376,7 @@ recruit: {
       name:     "OptoSigma XYZ(T) Motorized Stage (SHOT-304GS+OSMS26-100(3))",
       ko:       "모터라이즈드 스테이지",
       image:    "resources/equipment/MotorizedStage.png",
-      specs:    ["Travel range: X,Y,Z(100mm),"Res.: X,Y,Z(2um)","Accuracy: X,Y,Z(3um)", "Velocity: X,Y,Z(40mm/s)"],
+      specs:    ["Travel range: X,Y,Z(100 mm)","Res.: X,Y,Z(2 um)","Accuracy: X,Y,Z(3 um)", "Velocity: X,Y,Z(40 mm/s)"],
       // note:  "",
     },
     {
@@ -384,7 +384,7 @@ recruit: {
       name:     "UTEX Pulser Receiver (UT340)",
       ko:       "펄서 / 리시버",
       image:    "resources/equipment/Utex_UT340.jpeg",
-      specs:    ["Output Voltage(max): 250V","Pulse Width(min): 2 ns", "PRF(max): 20 kHz","Gain(max): 63dB", "Freq. Range: 1-150 MHz"],
+      specs:    ["Output Voltage(max): 250 V","Pulse Width(min): 2 ns", "PRF(max): 20 kHz","Gain(max): 63 dB", "Freq. Range: 1-150 MHz"],
       // note:  "",
     },
     {
@@ -440,7 +440,7 @@ recruit: {
       name:     "Olympus 2.25 MHz (V304-SU)",
       ko:       "단일소자 트랜스듀서",
       image:    "resources/equipment/Oly_2.25MHz.jpeg",
-      specs:    ["C.F: 2.25 MHz","BW: ~60%", "A.S: 25.4 mm", "Flat type"],
+      specs:    ["C.F: 2.18 MHz","BW: 1.46 MHz(~67%)", "A.S: 25.4 mm", "Flat type"],
       // note:  "",
     },
     {
@@ -456,7 +456,7 @@ recruit: {
       name:     "Ring-type 30 MHz",
       ko:       "링 트랜스듀서",
       image:    "resources/equipment/SKKU_Ring30MHz.jpeg",
-      specs:    ["C.F: 30 MHz","BW: ~60%", "Focus type"],
+      specs:    ["C.F: 29 MHz","BW: 18 MHz(~62%)", "Focus type"],
       // note:  "",
     },
     {
@@ -464,7 +464,7 @@ recruit: {
       name:     "DG 36 MHz(#1)",
       ko:       "고주파 단일소자 트랜스듀서",
       image:    "resources/equipment/DG_50MHz.jpeg",
-      specs:    ["C.F: 36 MHz","BW: ~84%", "A.S: 6 mm","Focus: 10 mm"],
+      specs:    ["C.F: 36 MHz","BW: 31 MHz(~86%)", "A.S: 6 mm","Focus: 10 mm"],
       // note:  "",
     },
     {
@@ -472,7 +472,7 @@ recruit: {
       name:     "DG 47 MHz (#2)",
       ko:       "고주파 단일소자 트랜스듀서",
       image:    "resources/equipment/DG_50MHz_2.jpeg",
-      specs:    ["C.F: 47.2 MHz","BW: ~80%", "A.S: 2.5 mm","Focus: 4.75 mm"],
+      specs:    ["C.F: 47.2 MHz","BW: 38 MHz(~80%)", "A.S: 2.5 mm","Focus: 4.75 mm"],
       // note:  "",
     },
     {
@@ -480,7 +480,7 @@ recruit: {
       name:     "Olympus 50 MHz (V390-SU/RM)",
       ko:       "고주파 단일소자 트랜스듀서",
       image:    "resources/equipment/Olym_50MHz.jpeg",
-      specs:    ["C.F: 50 MHz","BW: ~60%", "A.S: 6 mm", "Focal: 13 mm","Delay: 19.5 us"],
+      specs:    ["C.F: 44.52 MHz","BW: 31.15 MHz(~70%)", "A.S: 6.38 mm", "Focus: 12.73 mm","Delay: 19.5 us"],
       // note:  "",
     },
     {
@@ -488,7 +488,7 @@ recruit: {
       name:     "BYK 110 MHz (TB-0201)",
       ko:       "고주파 단일소자 트랜스듀서",
       image:    "resources/equipment/BYK110MHz.jpeg",
-      specs:    ["C.F: 110 MHz","BW: ~60%", "A.S: 2.4 mm", "Focus: 8 mm","Delay: 4.25 us"],
+      specs:    ["C.F: 113.2 MHz","BW: 68.02 MHz(~60%)", "A.S: 2.7 mm", "Focus: 8 mm","Delay: 4.25 us"],
       // note:  "",
     },
   ],
