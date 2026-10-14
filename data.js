@@ -545,6 +545,18 @@ qnaIntro: `연구실 생활과 대학원 진학을 고민하는 학생들이 자
      · **굵게** 별표 2개로 감싸면 굵게 표시됩니다. */
   news: [
      {
+      date: "2026.10.04 – 2026.10.08",
+      text: `USA, NC, Raleigh 에서 개최된 International Ultrasound Symposium (IUS2026)에 참여하여 연구 발표를 진행하였습니다.
+      
+[Poster] "A Spatially Weighted FISTA Approach for 3D Computational Ultrasound Imaging" — 문성빈, 김지훈
+[Poster] "Memory-Efficient IQ-Domain Volumentric Refocusing for Scanning Acoustic Microscopy — 송덕미, 이승엽, 황재윤 김지훈`,
+      images: [
+         "images/News/20261005_1.jpeg",
+         "images/News/20261005_2.jpeg",
+         "images/News/20261005_3.jpeg",
+      ],
+    },
+     {
       date: "2026.07.08 – 2026.07.10",
       text: `강원도 평창군 모나용평리조트에서 개최된 2026년도 대한전기학회 하계학술대회에 참여하여 연구 발표를 진행하였습니다.
       
