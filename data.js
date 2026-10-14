@@ -549,7 +549,7 @@ qnaIntro: `연구실 생활과 대학원 진학을 고민하는 학생들이 자
       text: `USA, NC, Raleigh 에서 개최된 International Ultrasound Symposium (IUS2026)에 참여하여 연구 발표를 진행하였습니다.
       
 [Poster] "A Spatially Weighted FISTA Approach for 3D Computational Ultrasound Imaging" — 문성빈, 김지훈
-[Poster] "Memory-Efficient IQ-Domain Volumentric Refocusing for Scanning Acoustic Microscopy — 송덕미, 이승엽, 황재윤 김지훈`,
+[Poster] "Memory-Efficient IQ-Domain Volumentric Refocusing for Scanning Acoustic Microscopy — 송덕미, 이승엽, 황재윤, 김지훈`,
       images: [
          "images/News/20261005_1.jpg",
          "images/News/20261005_2.jpg",
