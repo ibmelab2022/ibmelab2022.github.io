@@ -551,9 +551,9 @@ qnaIntro: `연구실 생활과 대학원 진학을 고민하는 학생들이 자
 [Poster] "A Spatially Weighted FISTA Approach for 3D Computational Ultrasound Imaging" — 문성빈, 김지훈
 [Poster] "Memory-Efficient IQ-Domain Volumentric Refocusing for Scanning Acoustic Microscopy — 송덕미, 이승엽, 황재윤 김지훈`,
       images: [
-         "images/News/20261005_1.jpeg",
-         "images/News/20261005_2.jpeg",
-         "images/News/20261005_3.jpeg",
+         "images/News/20261005_1.jpg",
+         "images/News/20261005_2.jpg",
+         "images/News/20261005_3.jpg",
       ],
     },
      {
