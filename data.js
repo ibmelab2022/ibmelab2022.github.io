@@ -130,6 +130,12 @@ recruit: {
       email: "sdhboseok123@gmail.com",
       photo: "images/Members/seo_donghun.png",
     },
+   {
+      name:  "김은호 (Eunho Kim)",
+      role:  "Undergraduate Student",
+      email: "vincet050708@gmail.com",
+      photo: "images/Members/kim_eunho.jpeg",
+    },
     // ↑ 위 { … }, 를 복사해서 멤버를 계속 추가하세요.
   ],
 
@@ -544,6 +550,11 @@ qnaIntro: `연구실 생활과 대학원 진학을 고민하는 학생들이 자
      · 사진이 없으면  images: []  로 두세요.
      · **굵게** 별표 2개로 감싸면 굵게 표시됩니다. */
   news: [
+     {
+      date: "2026.10.14",
+      text: `김은호 학생이 학부연구생으로서 IBME 연구실에 참여한 것을 환영합니다!`,
+      images: ["images/Members/kim_eunho.jpeg"],
+    },
      {
       date: "2026.10.04 – 2026.10.08",
       text: `USA, NC, Raleigh 에서 개최된 International Ultrasound Symposium (IUS2026)에 참여하여 연구 발표를 진행하였습니다.
