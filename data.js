@@ -110,7 +110,7 @@ recruit: {
       name:  "서정배 (Jungbae Seo)",
       role:  "Graduate Student (M.S. course)",
       email: "dreamhigh61109@gmail.com",
-      photo: "images/Members/seo_jungbae.png",
+      photo: "images/Members/seo_jungbae.jpg",
     },
     {
       name:  "이서용 (SeoYong Lee)",
@@ -122,7 +122,7 @@ recruit: {
       name:  "이근영 (Geunyoung Lee)",
       role:  "Undergraduate Student",
       email: "qjvdls@kangnam.ac.kr",
-      photo: "images/Members/lee_geunyoung.png",
+      photo: "images/Members/lee_geunyoung.jpg",
     },
     {
       name:  "서동훈 (Dong Hun Seo)",
@@ -397,7 +397,7 @@ recruit: {
       category: "계측 · 구동 장비 · Instruments",
       name:     "Opal Kelly FPGA board (XEM8310-AU25P)",
       ko:       "FPGA 보드",
-      image:    "resources/equipment/xem8310-au25.png",
+      image:    "resources/equipment/xem8310-au25.jpg",
       specs:    ["FPGA: AMD Artix UltraScale+ XCAU25P","Resources: 308K Logic Cells, 1,200 DSP Slices","Memory: 2 GB DDR4, 32 MB QSPI Flash","Interface: USB 3.0, 12× GTY (16.375 Gbps)","Dimensions: 100 × 70 mm"],      // note:  "",
     },
      {
@@ -412,7 +412,7 @@ recruit: {
       category: "스캐닝 스테이지 · Scanning Stages",
       name:     "OptoSigma XYZ(T) Motorized Stage (SHOT-304GS + OSMS26-100 (3ea))",
       ko:       "모터라이즈드 스테이지",
-      image:    "resources/equipment/MotorizedStage.png",
+      image:    "resources/equipment/MotorizedStage.jpg",
       specs:    ["Travel range: X,Y,Z (100 mm)","Res.: X,Y,Z (2 um)","Accuracy: X,Y,Z (3 um)", "Velocity: X,Y,Z (40 mm/s)"],
       // note:  "",
     },
@@ -586,7 +586,7 @@ qnaIntro: `연구실 생활과 대학원 진학을 고민하는 학생들이 자
 [Poster] "코디드 마스크 및 확산 기반 RF 재구성을 통한 단일 샷 3차원 초음파 영상화 연구" — 조원빈, 문성빈, 김지훈
 [Poster] "고속 고해상도 음향현미경 영상을 위한 스캐닝 방법 최적화 연구" — 서정배, 조원빈, 김지훈`,
       images: [
-         "images/News/20260709_3.png",
+         "images/News/20260709_3.jpg",
          "images/News/20260709_1.jpeg",
          "images/News/20260709_2.jpeg",
       ],
@@ -649,7 +649,7 @@ Kim, S., Noh, S., Jeong, S., Kim, C., Lee, H.†, Kim, J.†, (2026). Enhancing 
 [Poster] "Computation Ultrasound Imaging with a Single-element Transducer and Coded Mask" — 문성빈, 조원빈, 최호진, 김지훈
 [Poster] "Performance Evaluation of Advanced Beamforming Algorithms for 3D Scanning Acoustic Microscopy" — 송덕미, 최호진, 김지훈`,
       images: [
-        "images/News/20251022.png",
+        "images/News/20251022.jpg",
       ],
     },
     {
@@ -692,7 +692,7 @@ Kim, S., Noh, S., Jeong, S., Kim, C., Lee, H.†, Kim, J.†, (2026). Enhancing 
 [Poster] "Improving Spatial Resolution Beyond the Focal Zone in Ultrasound Biomicroscopy via 3D VSSA-CFW and Real-ESRGAN" — 송덕미, 조원빈, 이문환, 황재윤, 김지훈
 [Poster] "Performance Benchmarking of Compressed Sensing based Localization Technique for Ultrasound Localization Microscopy" — 문성빈, 최호진, 김지훈`,
       images: [
-        "images/News/20250508.png",
+        "images/News/20250508.jpg",
       ],
     },
     {
@@ -798,7 +798,7 @@ Kim, S.H., Lee, K., Lee, S.W., Chang, J.H., Hwang, J.Y., Kim, J. (2023). "Compar
       text: `최현수 석사과정(1년차)이 IEEE IUS 2023 (Montreal, Canada)에 참가하였습니다. IEEE 주관으로 개최된 이번 학술대회에서는 초음파 분야의 학문과 기술 발전을 위하여 1,209편의 논문 발표와 초청 강연 등 다양한 프로그램이 진행되었습니다.`,
       images: [
         "images/News/20230903_1.png",
-        "images/News/20230903_2.png",
+        "images/News/20230903_2.jpg",
       ],
     },
     {
