@@ -551,6 +551,18 @@ qnaIntro: `연구실 생활과 대학원 진학을 고민하는 학생들이 자
      · **굵게** 별표 2개로 감싸면 굵게 표시됩니다. */
   news: [
      {
+      date: "2026.11.04 – 2026.11.07",
+      text: `대구 EXCO에서 개최된 The 13th IFMBE Asian Pacific Conference on Medical and Biological Engineering (APCMBE 2026) 및 2026년도 대한의용생체공학회 추계학술대회에 참여하여 연구 발표를 진행하였습니다.
+
+[Poster] "System-Matrix-Driven Coded Mask Optimization for Single-Element 3D Computational Ultrasound Imaging" — 문성빈, 김지훈
+[Poster] "Lissajous-Based Rapid Acquisition for Scanning Acoustic Microscopy" — 서정배, 김지훈`,
+      images: [
+         "images/News/20261105_01.jpeg",
+         "images/News/20261105_02.jpeg",
+         "images/News/20261105_03.jpeg",
+      ],
+    },
+     {
       date: "2026.10.14",
       text: `김은호 학생이 학부연구생으로서 IBME 연구실에 참여한 것을 환영합니다!`,
       images: ["images/Members/kim_eunho.jpeg"],
